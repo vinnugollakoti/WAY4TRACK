@@ -1,6 +1,6 @@
 .ais-container {
   font-family: "Arial", sans-serif;
-  background-color: #ffffff;
+  background-color: #ffffff; /* White background */
 }
 
 .header {
@@ -18,8 +18,34 @@
 .company-name {
   font-weight: bold;
   font-size: 22px;
-  color: #007f3f; 
+  color: #007f3f; /* Dark Green */
   margin-right: auto;
+}
+
+.login-buttons button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.green {
+  background-color: #28a745; /* Bootstrap green */
+}
+
+.purple {
+  background-color: #006400; /* Dark green */
+}
+
+.yellow {
+  background-color: #66bb6a; /* Light green */
+}
+
+.red {
+  background-color: #388e3c; /* Another shade of green */
 }
 
 .main-section {
@@ -65,7 +91,7 @@
 .main-title {
   font-size: 36px;
   font-weight: bold;
-  color: #2e7d32;
+  color: #2e7d32; /* Green title */
   margin-bottom: 20px;
 }
 
@@ -229,6 +255,7 @@
   margin-bottom: 5px;
 }
 
+/* Section 5: Why Choose Us */
 .why-choose-us-section {
   background: #edf7ed;
   padding: 60px 40px;
@@ -278,6 +305,7 @@
   line-height: 1.5;
 }
 
+/* Section 6: Our Solutions */
 .our-solutions-section {
   background: #ffffff;
   padding: 60px 40px;
@@ -337,7 +365,7 @@
 
 .ais-title {
   font-size: 32px;
-  color: #2e7d32;
+  color: #2e7d32; /* Dark green */
   font-weight: bold;
   margin-bottom: 16px;
 }
@@ -404,6 +432,7 @@
   width: 100%;
 }
 
+/* Responsive Styles */
 @media (max-width: 1024px) {
   .main-section,
   .mining-section,

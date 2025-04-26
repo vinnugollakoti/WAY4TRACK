@@ -1,6 +1,6 @@
 .tracker-container {
-  background-color: #ffffff; 
-  color: #0f5132; 
+  background-color: #ffffff; /* Light green background */
+  color: #0f5132; /* Deep green text */
   font-family: sans-serif;
 }
 
@@ -12,7 +12,7 @@
 .title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #14532d; 
+  color: #14532d; /* Slightly deeper green */
 }
 
 .subtitle {

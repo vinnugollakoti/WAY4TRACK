@@ -4,7 +4,7 @@ import "./ProductTheme2.css";
 const ProductTheme2 = () => {
   const features = [
     {
-      icon: "/images/live_location_tracking.png",
+      icon: "/images/live_location_tracking.png", // Replace with actual paths to your icons
       title: "Live Location Tracking",
       description: "Real-time tracking with GEO fencing.",
     },
@@ -27,10 +27,32 @@ const ProductTheme2 = () => {
   return (
     <div>
       <div className="ais-container">
+        {/* <header className="header">
+        <img src="/logo-way4track.png" alt="Way4Track Logo" className="logo" />
+        <span className="company-name">SHARON TELEMATICS PVT. LTD</span>
+        <div className="login-buttons">
+          <button className="green">Blogs</button>
+          <button className="purple">Way4Track Pro</button>
+          <button className="green">Way4Track Login</button>
+          <button className="yellow">Way4Track Prime Login</button>
+          <button className="red">Way4Track Prime Login 1</button>
+        </div>
+      </header> */}
+
         {/* Section 1: Government Approved Mining Device */}
         <div className="main-section">
           <div className="left-panel">
             <p className="auth-text">AUTHORISED BY</p>
+            {/* <img
+            src="/andhra-logo.png"
+            alt="Andhra Pradesh Logo"
+            className="ap-logo"
+          />
+          <p className="govt-text">
+            DEPARTMENT OF MINES AND GEOLOGY
+            <br />
+            GOVT. OF ANDHRA PRADESH
+          </p> */}
             <img
               src="/images/ap_mining.png"
               alt="Mining Truck"
@@ -220,6 +242,7 @@ const ProductTheme2 = () => {
         </section>
 
         <div className="bg-white py-12 px-6 max-w-7xl mx-auto">
+          {/* Features Section */}
           <div className="ais-features">
             {features.map((feature, index) => (
               <div className="ais-feature-item" key={index}>

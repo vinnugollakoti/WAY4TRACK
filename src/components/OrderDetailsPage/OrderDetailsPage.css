@@ -1,0 +1,96 @@
+.order-details-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #2d3748;
+}
+
+.order-details-grid {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* Left: Items */
+.order-left {
+  flex: 2;
+  min-width: 300px;
+}
+
+.order-item {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.order-item p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Right: Shipping + Summary */
+.order-right {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.order-section {
+  background-color: #edf2f7;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+.order-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #1a202c;
+}
+
+.order-section p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #4a5568;
+}
+
+.summary .place-order {
+  margin-top: 1.5rem;
+  background-color: #388e3c;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.summary .place-order:hover {
+  background-color: #0f766e;
+}
+
+@media screen and (max-width: 768px) {
+  .order-details-grid {
+    flex-direction: column;
+  }
+}

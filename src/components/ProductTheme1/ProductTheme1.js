@@ -55,6 +55,7 @@ const ProductTheme1 = () => {
 
   return (
     <div className="tracker-container">
+      {/* Header Section */}
       <div className="header-section">
         <h1 className="title">Bike GPS Tracker</h1>
         <p className="subtitle">
@@ -63,6 +64,7 @@ const ProductTheme1 = () => {
         </p>
       </div>
 
+      {/* Image Section */}
       <div className="image-section">
         <div className="image-wrapper">
           <img
@@ -70,14 +72,21 @@ const ProductTheme1 = () => {
             alt="Map Tracking"
             className="map-image"
           />
+          {/* <img
+            src="/your-path-to-phone-image.png"
+            alt="Phone View"
+            className="phone-image"
+          /> */}
         </div>
       </div>
 
+      {/* Features Section */}
       <div className="features-section">
         <h2 className="features-heading">
           Advanced Consumer Vehicle Tracking Platform
         </h2>
         <div className="features-grid">
+          {/* Maintenance Reminder */}
           <div className="feature-card">
             <div className="feature-icon">🛠️</div>
             <h3 className="feature-title">Maintenance Reminder</h3>
@@ -87,6 +96,7 @@ const ProductTheme1 = () => {
             </p>
           </div>
 
+          {/* Route Playback */}
           <div className="feature-card">
             <div className="feature-icon">🧭</div>
             <h3 className="feature-title">Route Playback</h3>
@@ -96,6 +106,7 @@ const ProductTheme1 = () => {
             </p>
           </div>
 
+          {/* Geofence */}
           <div className="feature-card">
             <div className="feature-icon">📍</div>
             <h3 className="feature-title">Geofence</h3>
@@ -194,6 +205,35 @@ const ProductTheme1 = () => {
             ))}
           </div>
         </div>
+
+        {/* <div className="what-we-do">
+          <h5>— WHAT WE DO? —</h5>
+          <p>
+            The crucial idea of the way4track vehicle tracking system is to
+            ensure the safety of all its customers. The GPS tracking app for the
+            bike has to be installed by the individual who will track and
+            monitor the concerned person's location.
+          </p>
+        </div> */}
+
+        {/* <div className="info-boxes">
+          <div className="info-box orange">
+            <h4>Connectivity</h4>
+            <p>
+              Tracking all the employees or positioning the 2-wheelers was never
+              so easy. Track all your employees having two wheelers or your son
+              who drives a two wheeler with GPS trackers.
+            </p>
+          </div>
+          <div className="info-box blue">
+            <h4>Battery</h4>
+            <p>
+              Without any extra installation charges, this device is installed
+              to the battery of the bike. This GPS tracking device has power
+              back up for extra hours after being unplugged from the battery.
+            </p>
+          </div>
+        </div> */}
       </div>
 
       <img
