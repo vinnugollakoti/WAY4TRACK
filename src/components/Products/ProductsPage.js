@@ -109,7 +109,7 @@
 // }
 
 import React, { useState, useEffect } from "react";
-import ApiService from "../Services/ApiServices";
+import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { Link } from "react-router-dom";
 import "./ProductsPage.css";
 
@@ -205,11 +205,11 @@ function ProductsPage() {
   const fetchAllProducts = async () => {
     try {
       const response = await ApiService.post(
-        "/products/getAllproductDetails"
-        // {
-        //   companyCode: initialAuthState.companyCode,
-        //   unitCode: initialAuthState.unitCode,
-        // }
+        "/website-product/getWebsiteproductDetails",
+        {
+          companyCode: initialAuthState.companyCode,
+          unitCode: initialAuthState.unitCode,
+        }
       );
       console.log(response.data, "Data");
 
