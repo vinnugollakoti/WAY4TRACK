@@ -1,18 +1,25 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import "./Login.css";
 
 function LoginPage() {
+  const navigate=useNavigate()
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="login-container">
       <div className="login-box">
         <div className="logo-section">
-          <div className="logo-circle">W</div>
+          {/* <div className="logo-circle">W</div>
           <h1 className="logo-title">WAY4TRACK</h1>
-          <p className="logo-subtitle">Track Anywhere</p>
+          <p className="logo-subtitle">Track Anywhere</p> */}
+          <img
+            src="/images/logo-square.png"
+            alt="logo-square"
+            className="logo-square"
+          />
         </div>
 
         <div className="input-group">
@@ -44,6 +51,12 @@ function LoginPage() {
         <div className="forgot-password">
           <a href="#">Forgot Password?</a>
         </div>
+        <p className="already-registered">
+          Don't have an account?{" "}
+          <span className="login-link" onClick={() => navigate("/register-client")}>
+            Register
+          </span>
+        </p>
       </div>
     </div>
   );
