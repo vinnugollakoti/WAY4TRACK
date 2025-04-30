@@ -108,8 +108,9 @@
 //   );
 // }
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
+import { CartContext } from "../../contexts/CartContext";
 import { Link } from "react-router-dom";
 import "./ProductsPage.css";
 
@@ -198,6 +199,7 @@ const dummyProducts = [
 ];
 
 function ProductsPage() {
+  const { addToCart, updateQuantity, cartItems } = useContext(CartContext);
   const [products, setProducts] = useState(dummyProducts);
   const [filters, setFilters] = useState({ type: "", price: "" });
   const [allProducts, setAllProducts] = useState([]);
@@ -211,8 +213,6 @@ function ProductsPage() {
           unitCode: initialAuthState.unitCode,
         }
       );
-      console.log(response.data, "Data");
-
       setAllProducts(response.data || []);
     } catch (err) {
       console.error("Failed to fetch data:", err);
@@ -236,35 +236,62 @@ function ProductsPage() {
     }
 
     if (filters.price === "low") {
-      filtered = filtered.filter((p) => p.price < 5000);
+      filtered = filtered.filter((p) => p.cost < 5000);
     } else if (filters.price === "mid") {
-      filtered = filtered.filter((p) => p.price >= 5000 && p.price <= 10000);
+      filtered = filtered.filter((p) => p.cost >= 5000 && p.cost <= 10000);
     } else if (filters.price === "high") {
-      filtered = filtered.filter((p) => p.price > 10000);
+      filtered = filtered.filter((p) => p.cost > 10000);
     }
 
     setProducts(filtered);
   };
 
-  const [availabilityFilter, setAvailabilityFilter] = useState(true);
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [sortOrder, setSortOrder] = useState("date-old-new");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredProducts = products.filter((product) =>
     product.productName.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   const productCounts = filteredProducts.reduce((acc, product) => {
     acc[product.productName] = (acc[product.productName] || 0) + 1;
     return acc;
   }, {});
 
-  // Get unique product names
   const uniqueProductNames = Object.keys(productCounts);
+
+  const handleIncrement = (productId) => {
+    const currentItem = cartItems.find((item) => item.id === productId);
+    if (currentItem) {
+      updateQuantity(productId, currentItem.quantity + 1);
+    }
+  };
+
+  const handleDecrement = (productId) => {
+    const currentItem = cartItems.find((item) => item.id === productId);
+    if (currentItem && currentItem.quantity > 1) {
+      updateQuantity(productId, currentItem.quantity - 1);
+    } else {
+      removeProduct(productId);
+    }
+  };
+
+  const removeProduct = (productId) => {
+    updateQuantity(productId, 0); 
+  };
+
+  const handleAddToCart = (product) => {
+    const existingItem = cartItems.find(
+      (item) => item.product_id === product.id
+    );
+    if (!existingItem) {
+      addToCart({ ...product, product_id: product.id, quantity: 1 });
+    }
+  };
 
   return (
     <div className="products-container">
-      <h1 className="products-title">GPS Tracking Devices</h1>
+      <h1 className="products-title">Devices</h1>
 
       <div className="products-sidebar-container">
         <div className="sidebar">
@@ -278,7 +305,7 @@ function ProductsPage() {
                 </div>
                 <div className="count-container">
                   <span className="product-count">
-                    ({productCounts[productName]})
+                    {productCounts[productName]}
                   </span>
                 </div>
               </label>
@@ -302,15 +329,6 @@ function ProductsPage() {
 
         <div>
           <div className="filters-wrapper">
-            {/* <select
-              onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-              className="filter-select"
-            >
-              <option value="">All Types</option>
-              <option value="vehicle">Vehicle</option>
-              <option value="personal">Personal</option>
-            </select> */}
-
             <select
               onChange={(e) =>
                 setFilters({ ...filters, price: e.target.value })
@@ -319,43 +337,72 @@ function ProductsPage() {
             >
               <option value="">Sort By</option>
               <option value="low">Price Low to High</option>
-              <option value="mid">Price High to low</option>
+              <option value="mid">Price High to Low</option>
               <option value="high">A to Z</option>
               <option value="high">Z to A</option>
             </select>
           </div>
 
           <div className="products-grid">
-            {products.map((product) => (
-              <Link
-                to={`/product/${product.id}`}
-                key={product.id}
-                className="product-card product-card-custom"
-              >
-                <div className="product-card-inner">
-                  {/* Image Section */}
-                  <div className="product-image-wrapper">
-                    <img
-                      src={product.productPhoto}
-                      alt={product.deviceName}
-                      className="products-product-image"
-                    />
-                  </div>
+            {filteredProducts.map((product) => {
+              const matchedItem = cartItems.find(
+                (item) => item.product_id === product.id
+              );
+              return (
+                <div
+                  key={product.id}
+                  className="product-card product-card-custom"
+                >
+                  <div className="product-card-inner">
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="product-image-wrapper"
+                    >
+                      <img
+                        src={product.productPhoto}
+                        alt={product.deviceName}
+                        className="products-product-image"
+                      />
+                    </Link>
 
-                  {/* Info Section */}
-                  <div className="product-info">
-                    <h2 className="product-name">{product.deviceName}</h2>
-                    <p className="product-price">₹{product.cost}</p>
-                    <div className="product-buttons">
-                      <button className="btn products-add-cart">
-                        Add to Cart
-                      </button>
-                      <button className="btn products-buy-now">Buy</button>
+                    <div className="product-info">
+                      <h2 className="product-name">{product.deviceName}</h2>
+                      <p className="product-price">₹{product.cost}</p>
+                      <div className="product-buttons">
+                        {matchedItem ? (
+                          <div className="quantity-controls">
+                            <button
+                              className="qty-btn"
+                              onClick={() => handleDecrement(product.id)}
+                            >
+                              -
+                            </button>
+                            <span className="qty-number">
+                              {matchedItem.quantity}
+                            </span>
+                            <button
+                              className="qty-btn"
+                              onClick={() => handleIncrement(product.id)}
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className="button products-add-cart"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            Add Cart
+                          </button>
+                        )}
+
+                        <button className="button products-buy-now">Buy</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

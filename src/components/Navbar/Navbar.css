@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+nav.navbar {
+  height: auto;
+  padding: 0.5rem 1rem;
+  /* padding-left: 80px; */
+}
+
+/* Logo styling */
+.logo-img {
+  /* width: 150px; */
+  text-shadow: 3px 3px 3px rgba(208, 200, 200, 0.58);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* @media (max-width: 768px) {
+  .logo-img {
+    width: 120px;
+  }
+} */
+
+/* Navbar links */
+.nav-content {
+  font-size: 1.2rem;
+  display: flex;
+  gap: 1.2rem;
+  color: #464343;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+.nav-content .nav-link {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+}
+
+.nav-content .nav-link:hover {
+  animation: underliner 0.5s;
+  border-bottom: 2px solid red;
+  color: #00A551 !important;
+}
+
+/* Responsive font size */
+@media (max-width: 768px) {
+  .nav-content {
+    font-size: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .nav-content .nav-link {
+    padding: 8px 0;
+  }
+}
+
+/* Underline animation */
+@keyframes underliner {
+  from {
+    border-bottom: 0px solid red;
+  }
+  to {
+    border-bottom: 2px solid red;
+  }
+}
+
+
+.user-icon {
+  font-size: 1.8rem;
+  color: #464343;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-icon:hover {
+  color: #00A551;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+
+.way4track-text {
+  font-size: 2.8rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #0c743b, #00ff95); /* Two-tone gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* 3D effect */
+  font-family: "bree serif";
+  
+}
+
+.login-dropdown {
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: #333;
+}
+
+.login-dropdown::after {
+  margin-left: 0.5em;
+}
+
+

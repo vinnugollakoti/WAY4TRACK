@@ -11,24 +11,30 @@ import AddressPage from "./components/AddressPage/AddressPage";
 import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
 import RegisterClient from "./components/RegisterClient/RegisterClient";
+import Navbar from "./components/Navbar/Navbar";
+
+import { CartProvider } from "./contexts/CartContext";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<ProductsPage />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/address-page" element={<AddressPage />} />
-        <Route path="/order-details" element={<OrderDetailsPage />} />
-        <Route path="/product-theme-1" element={<ProductTheme1 />} />
-        <Route path="/product-theme-2" element={<ProductTheme2 />} />
-        <Route path="/product-theme-3" element={<ProductTheme3 />} />
-        <Route path="/product-theme-4" element={<ProductTheme4 />} />
-        <Route path="/register-client" element={<RegisterClient />} />
-      </Routes>
-    </Router>
+    <CartProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/address-page" element={<AddressPage />} />
+          <Route path="/order-details" element={<OrderDetailsPage />} />
+          <Route path="/product-theme-1" element={<ProductTheme1 />} />
+          <Route path="/product-theme-2" element={<ProductTheme2 />} />
+          <Route path="/product-theme-3" element={<ProductTheme3 />} />
+          <Route path="/product-theme-4" element={<ProductTheme4 />} />
+          <Route path="/register-client" element={<RegisterClient />} />
+        </Routes>
+      </Router>
+    </CartProvider>
   );
 }
 
