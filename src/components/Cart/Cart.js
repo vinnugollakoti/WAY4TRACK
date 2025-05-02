@@ -6,7 +6,7 @@ import "./Cart.css";
 
 function CartPage() {
   const { cartItems, updateQuantity, getTotal } = useContext(CartContext);
-  console.log(cartItems,"cart")
+  console.log(cartItems, "cart");
 
   const handleQuantityChange = (id, type) => {
     updateQuantity(id, type === "inc" ? 1 : -1);
@@ -29,14 +29,14 @@ function CartPage() {
               <div className="cart-card-inner">
                 <div className="cart-image-wrapper">
                   <img
-                    src={item.image_url}
-                    alt={item.name}
+                    src={item.productPhoto}
+                    alt={item.deviceName}
                     className="cart-image"
                   />
                 </div>
                 <div className="cart-info">
-                  <h2 className="cart-name">{item.name}</h2>
-                  <p className="cart-price">₹{item.price}</p>
+                  <h2 className="cart-name">{item.deviceName}</h2>
+                  <p className="cart-price">₹{item.cost}</p>
                   <div className="quantity-controls">
                     <button
                       className="qty-btn"

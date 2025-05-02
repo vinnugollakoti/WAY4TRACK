@@ -1,59 +1,74 @@
-// src/contexts/CartContext.js
 import React, { createContext, useState, useEffect } from "react";
+import ApiService, {
+  initialAuthState,
+} from "../components/Services/ApiServices";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const [cartItems, setCartItems] = useState([]);
+
+  const companyCode = initialAuthState.companyCode;
+  const unitCode = initialAuthState.unitCode;
+
+  console.log(cartItems,"cart context cart items")
+
+  const fetchCartItems = async () => {
+    try {
+      const response = await ApiService.post("/cart/getCartsByCompanyAndUnit", {
+        companyCode,
+        unitCode,
+      });
+
+      if (response.status) {
+        setCartItems(response.data);
+      } else {
+        console.error("Failed to fetch cart items:", response.message);
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    fetchCartItems();
+  }, [companyCode, unitCode]);
 
-  const addToCart = (item) => {
-    setCartItems((prev) => {
-      const existingItem = prev.find((p) => p.id === item.id);
-      if (existingItem) {
-        return prev.map((p) =>
-          p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
-        );
+  const addToCart = async (item) => {
+    try {
+      const cartData = {
+        ...item,
+        companyCode,
+        unitCode,
+      };
+
+      const response = await ApiService.post(
+        "/cart/handleCreateCart",
+        cartData
+      );
+
+      if (response.status) {
+        alert("Item added to cart");
+        fetchCartItems();
+      } else {
+        console.error("Failed to add item to cart:", response.message);
       }
-      return [...prev, { ...item, quantity: 1 }];
-    });
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  const updateQuantity = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((p) =>
-        p.id === id ? { ...p, quantity: Math.max(1, p.quantity + delta) } : p
-      )
-    );
-  };
-
-  const clearCart = () => setCartItems([]);
-
-  // ✅ Add this function
   const getTotal = () => {
-    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return cartItems.reduce((total, item) => {
+      const itemCost = Number(item.cost) || 0;
+      const itemQuantity = Number(item.quantity) || 1;
+      return total + itemCost * itemQuantity;
+    }, 0);
   };
 
   return (
     <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        getTotal, // ✅ Provide it here
-      }}
+      value={{ cartItems, addToCart, fetchCartItems, getTotal }}
     >
       {children}
     </CartContext.Provider>

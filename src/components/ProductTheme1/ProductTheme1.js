@@ -1,7 +1,8 @@
 import React from "react";
 import "./ProductTheme1.css";
 
-const ProductTheme1 = () => {
+const ProductTheme1 = ({ data }) => {
+  console.log(data, "props data");
   const features = [
     {
       icon: "/images/bike_gps_tracker_connectivity.png",
@@ -55,23 +56,14 @@ const ProductTheme1 = () => {
 
   return (
     <div className="tracker-container">
-      {/* Header Section */}
       <div className="header-section">
-        <h1 className="title">Bike GPS Tracker</h1>
-        <p className="subtitle">
-          WayTrack offers tracking and monitoring services for your personal
-          vehicle. Best GPS tracking device for bikes.
-        </p>
+        <h1 className="title">{data.name}</h1>
+        <p className="subtitle">{data.shortDescription}</p>
       </div>
 
-      {/* Image Section */}
       <div className="image-section">
         <div className="image-wrapper">
-          <img
-            src="/images/bike_gps_tracker.png"
-            alt="Map Tracking"
-            className="map-image"
-          />
+          <img src={data.banner1} alt="Map Tracking" className="map-image" />
           {/* <img
             src="/your-path-to-phone-image.png"
             alt="Phone View"
@@ -82,9 +74,7 @@ const ProductTheme1 = () => {
 
       {/* Features Section */}
       <div className="features-section">
-        <h2 className="features-heading">
-          Advanced Consumer Vehicle Tracking Platform
-        </h2>
+        <h2 className="features-heading">{data.description}</h2>
         <div className="features-grid">
           {/* Maintenance Reminder */}
           <div className="feature-card">
@@ -120,31 +110,23 @@ const ProductTheme1 = () => {
 
       <div className="vehicle-tracking-container">
         <div className="tracking-dashboard-image">
-          <img
-            src="/images/personal_gps_tracking_left_content.png"
-            alt="Vehicle Tracking Dashboard"
-          />
+          <img src={data.banner2} alt="Vehicle Tracking Dashboard" />
         </div>
 
         <div className="alerts-section">
-          <div className="alert-feature">
-            <img
-              src="/images/parking_violation_alerts.png"
-              alt="Parking Violation Alerts"
-            />
-            <h4>Parking Violation Alerts</h4>
-            <p>Get notified when you have parked in prohibited zone</p>
-          </div>
-          <div className="alert-feature">
-            <img src="/images/route_replay.png" alt="Route Replay" />
-            <h4>Route Replay</h4>
-            <p>Review your trips.</p>
-          </div>
-          <div className="alert-feature">
-            <img src="/images/driving_behaviour.png" alt="Theft Alerts" />
-            <h4>Theft Alerts</h4>
-            <p>Instant notifications in the event of a break-in.</p>
-          </div>
+          {data.application
+            .slice(0, data.application.length / 2)
+            .map((item) => (
+              <div className="alert-feature">
+                <img
+                  src="/images/parking_violation_alerts.png"
+                  // src={item.image}
+                  alt={item.name}
+                />
+                <h4>{item.name}</h4>
+                <p>{item.desc}</p>
+              </div>
+            ))}
         </div>
 
         <div className="cta-section">
@@ -160,28 +142,23 @@ const ProductTheme1 = () => {
       <div className="bike-tracker-section">
         <div className="dashboard-image-container">
           <img
-            src="/images/personal_gps_tracking_right_content.png"
+            src={data.banner3}
             alt="GPS Tracking Dashboard"
             className="dashboard-image"
           />
         </div>
 
         <div className="features-row">
-          <div className="feature">
-            <img src="/images/maintenance_remainders.png" alt="Maintenance" />
-            <h4>Maintenance Reminders</h4>
-            <p>Stay on top of maintenance dates</p>
-          </div>
-          <div className="feature">
-            <img src="/images/live_tracking.png" alt="Live Tracking" />
-            <h4>Live-Tracking Screen</h4>
-            <p>24/7 asset monitoring</p>
-          </div>
-          <div className="feature">
-            <img src="/images/driving_behaviour.png" alt="Driving Behaviour" />
-            <h4>Driving Behaviours</h4>
-            <p>Exercise safe and economical driving patterns</p>
-          </div>
+          {data.application.slice(data.application.length / 2).map((item) => (
+            <div className="feature">
+              <img 
+              src="/images/maintenance_remainders.png" 
+              // src={item.image}
+              alt={item.name} />
+              <h4>{item.name}</h4>
+              <p>{item.desc}</p>
+            </div>
+          ))}
           <div className="what-we-do">
             <h5>— WHAT WE DO? —</h5>
             <p>
@@ -192,15 +169,16 @@ const ProductTheme1 = () => {
             </p>
           </div>
           <div className="info-boxes">
-            {features.map((feature, index) => (
+            {data.amenities.map((feature, index) => (
               <div className="info-box orange" key={index}>
                 <img
-                  src={feature.icon}
-                  alt={feature.title}
+                  // src={feature.icon}
+                  src="/images/bike_gps_tracker_connectivity.png"
+                  alt={feature.name}
                   className="feature-icon"
                 />
-                <h4>{feature.title}</h4>
-                <p>{feature.description}</p>
+                <h4>{feature.name}</h4>
+                <p>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -239,6 +217,7 @@ const ProductTheme1 = () => {
       <img
         className="footer-image"
         src="/images/personal_gps_bikebanner_footer.png"
+        // src={data.footerBanner}
       />
     </div>
   );

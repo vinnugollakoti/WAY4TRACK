@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import gsap from "gsap";
 import "./Navbar.css";
 import { Dropdown } from "react-bootstrap";
+import { CartContext } from "../../contexts/CartContext";
 
-const Navbar = () => {
+const Navbar = ({ onCartClick }) => {
+  const { cartItems } = useContext(CartContext);
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   useEffect(() => {
     gsap.from("nav.navbar", {
       x: -2000,
@@ -62,9 +65,34 @@ const Navbar = () => {
             <a className="nav-link" href="/products">
               Products
             </a>
-            <a className="nav-link" href="/cart">
+            <span
+              className="nav-link position-relative"
+              role="button"
+              onClick={onCartClick} // ← trigger sidebar
+              style={{ cursor: "pointer" }}
+            >
               Cart
-            </a>
+              {totalQuantity > 0 && (
+                <span
+                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  {totalQuantity}
+                </span>
+              )}
+            </span>
+
+            {/* <a className="nav-link position-relative" href="/cart" >
+              Cart
+              {totalQuantity > 0 && (
+                <span
+                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  {totalQuantity}
+                </span>
+              )}
+            </a> */}
 
             {/* Login Dropdown Fixed */}
             <Dropdown className="login-link">

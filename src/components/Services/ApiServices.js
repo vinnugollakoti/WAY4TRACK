@@ -1,28 +1,28 @@
 // src/services/ApiService.js
 
-import axios from 'axios';
+import axios from "axios";
 
 export const initialAuthState = {
   userId: 4,
-  userName: 'admin',
-  companyCode: 'WAY4TRACK',
-  unitCode: 'WAY4',
+  userName: "admin",
+  companyCode: "WAY4TRACK",
+  unitCode: "WAY4",
 };
 
 const ApiService = (() => {
   const axiosInstance = axios.create({
     baseURL:
-      process.env.REACT_APP_API_BASE_URL || 'https://sharontelematics.org/api/', // Replace with your API base URL
-    // process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000/api/', // Replace with your API base URL
+      // process.env.REACT_APP_API_BASE_URL || 'https://sharontelematics.org/api/', // Replace with your API base URL
+      process.env.REACT_APP_API_BASE_URL || "http://localhost:3000/api/", // Replace with your API base URL
     timeout: 10000, // Request timeout in milliseconds
   });
 
   // Interceptor for handling requests
   axiosInstance.interceptors.request.use((config) => {
     if (config.data instanceof FormData) {
-      config.headers['Content-Type'] = 'multipart/form-data'; // Set for FormData
+      config.headers["Content-Type"] = "multipart/form-data"; // Set for FormData
     } else {
-      config.headers['Content-Type'] = 'application/json'; // Default
+      config.headers["Content-Type"] = "application/json"; // Default
     }
     return config;
   });
@@ -32,7 +32,7 @@ const ApiService = (() => {
     (response) => response.data,
     (error) => {
       console.error(
-        'API error:',
+        "API error:",
         error.response ? error.response.data : error.message
       );
       return Promise.reject(error.response || error.message);
