@@ -115,50 +115,132 @@ const AddressPopupPage = () => {
 
   return (
     <div className="address-popup-wrapper">
-      <h2 className="address-popup-title">Select a Delivery Address</h2>
-      <div className="address-popup-list">
-        {addresses.map((addr, index) => (
-          <div
-            key={index}
-            className={`address-popup-card ${
-              selectedAddress?.id === addr.id ? "active" : ""
-            }`}
-            onClick={() => handleAddressSelect(addr)}
-          >
-            <p className="address-popup-name">
-              <strong>Name: {addr.name}</strong>
-            </p>
-            <p className="address-popup-line">
-              Address: {addr.city}, {addr.state} - {addr.pin}
-            </p>
-            <p className="address-popup-line">
-              {addr.country} | Phone: {addr.phoneNumber}
-            </p>
-          </div>
-        ))}
-      </div>
-      <div className="address-popup-buttons">
-        <button
-          onClick={() => setShowForm(true)}
-          className="address-popup-add-btn"
-        >
-          + Add New Address
-        </button>
-        <button
-          onClick={handleProceed}
-          className="address-popup-proceed-btn"
-          disabled={!selectedAddress}
-        >
-          Proceed
-        </button>
-      </div>
+      <form className="address-form" onSubmit={handleSubmit}>
+        {/* <input
+        type="email"
+        name="email"
+        placeholder="Email or mobile phone number"
+        value={form.email}
+        onChange={handleChange}
+        required
+      />
+      <label>
+        <input
+          type="checkbox"
+          name="subscribe"
+          checked={form.subscribe}
+          onChange={handleChange}
+        />
+        Email me with news and offers
+      </label> */}
 
-      {showForm && (
-        <form className="address-popup-form" onSubmit={handleSubmit}>
-          {/* Include relevant form inputs with onChange={handleChange} and value={form.field} */}
-          {/* Keep it minimal or expand based on your needs */}
-        </form>
-      )}
+        <h2 className="delivery-title">Delivery</h2>
+
+        <div className="name-fields">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First name"
+            value={form.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last name"
+            value={form.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <input
+          type="text"
+          name="company"
+          placeholder="Company (optional)"
+          value={form.company}
+          onChange={handleChange}
+        />
+        <select name="country" value={form.country} onChange={handleChange}>
+          <option value="India">India</option>
+        </select>
+        <div className="location-fields">
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            value={form.city}
+            onChange={handleChange}
+            required
+          />
+          <select
+            name="state"
+            value={form.state}
+            onChange={handleChange}
+            required
+          >
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            {/* Add more states if needed */}
+          </select>
+          <input
+            type="text"
+            name="pin"
+            placeholder="PIN code"
+            value={form.pin}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <input
+          type="text"
+          name="address"
+          placeholder="Address"
+          value={form.address}
+          onChange={handleChange}
+          required
+        />
+        {/* <input
+        type="text"
+        name="apartment"
+        placeholder="Apartment, suite, etc. (optional)"
+        value={form.apartment}
+        onChange={handleChange}
+      /> */}
+
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone"
+          value={form.phone}
+          onChange={handleChange}
+          required
+        />
+
+        {/* <label>
+        <input
+          type="checkbox"
+          name="saveInfo"
+          checked={form.saveInfo}
+          onChange={handleChange}
+        />
+        Save this information for next time
+      </label> */}
+
+        {/* <div className="shipping-method">
+        <strong>Shipping method</strong>
+        <div className="free-shipping">
+          <span>Thank You for Your Order – Enjoy Free Shipping!</span>
+          <span>
+            <strong>FREE</strong>
+          </span>
+        </div>
+      </div> */}
+
+        <button type="submit" className="checkout">
+          Continue
+        </button>
+      </form>
     </div>
   );
 };
