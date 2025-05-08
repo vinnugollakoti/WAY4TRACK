@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
 
-  console.log(cartItems,"cart context cart items")
+  console.log(cartItems, "cart context cart items");
 
   const fetchCartItems = async () => {
     try {
@@ -35,6 +35,7 @@ export const CartProvider = ({ children }) => {
   }, [companyCode, unitCode]);
 
   const addToCart = async (item) => {
+    console.log(item, "cart data");
     try {
       const cartData = {
         ...item,
@@ -58,17 +59,34 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const removeFromCart = async (id) => {
+    const payload = {
+      id: id,
+    };
+    const response = await ApiService.post(
+      "/cart/deleteCartDetails",
+      payload
+    );
+    if (response.status) {
+      alert("Item deleted Successfully");
+      fetchCartItems();
+    } else {
+      alert("Failed to delete cart item");
+    }
+  };
+
   const getTotal = () => {
     return cartItems.reduce((total, item) => {
-      const itemCost = Number(item.cost) || 0;
-      const itemQuantity = Number(item.quantity) || 1;
-      return total + itemCost * itemQuantity;
+      const itemCost = Number(item.totalAmount) || 0;
+      // const itemQuantity = Number(item.quantity) || 1;
+      // return total + itemCost * itemQuantity;
+      return itemCost
     }, 0);
   };
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, fetchCartItems, getTotal }}
+      value={{ cartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
     >
       {children}
     </CartContext.Provider>

@@ -1,62 +1,97 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaUser, FaLock } from "react-icons/fa";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useNavigate, useLocation } from "react-router-dom";
+import ApiService, { initialAuthState } from "../Services/ApiServices";
+
 import "./Login.css";
 
 function LoginPage() {
-  const navigate=useNavigate()
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
+
+  const companyCode = initialAuthState.companyCode;
+  const unitCode = initialAuthState.unitCode;
+
+  // Redirect path, fallback to '/' if no previous route found
+  const redirectPath = location.state?.from?.pathname || "/"; 
+
+  const handleLogin = async () => {
+    try {
+      const response = await ApiService.post("client/clientLoginDetails", {
+        companyCode,
+        unitCode,
+        phoneNumber: phone,
+      });
+
+      if (response.status) {
+        const { id, clientId, phoneNumber } = response.data;
+
+        localStorage.setItem("client_id", clientId);
+        localStorage.setItem("client_db_id", id);
+        localStorage.setItem("client_phone", phoneNumber);
+
+        console.log(response, "login");
+
+        // Redirect to the previous location or homepage
+        navigate(redirectPath, { replace: true });
+      } else {
+        handleRegister();
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      const response = await ApiService.post("/client/handleClientDetails", {
+        companyCode,
+        unitCode,
+        phoneNumber: phone,
+      });
+
+      if (response.status) {
+        console.log(response, "register");
+
+        // Navigate back to the previous location after successful registration
+        navigate(redirectPath, { replace: true });
+      } else {
+        alert("Error during registration.");
+        console.error("Failed to fetch cart items:", response.message);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
 
   return (
     <div className="login-container">
       <div className="login-box">
         <div className="logo-section">
-          {/* <div className="logo-circle">W</div>
-          <h1 className="logo-title">WAY4TRACK</h1>
-          <p className="logo-subtitle">Track Anywhere</p> */}
-          <img
-            src="/images/logo-square.png"
-            alt="logo-square"
-            className="logo-square"
-          />
+          <img src="/images/logo.png" alt="logo" className="logo-square" />
         </div>
 
+        <h2>Login with Phone</h2>
         <div className="input-group">
-          <FaUser className="input-icon" />
           <input
-            type="text"
-            placeholder="User Name *"
+            type="tel"
             className="login-input"
+            placeholder="Enter phone number"
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              setError(""); // Reset error when typing
+            }}
+            maxLength={10}
           />
         </div>
 
-        <div className="input-group">
-          <FaLock className="input-icon" />
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password *"
-            className="login-input"
-          />
-          <div
-            className="password-toggle"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-          </div>
-        </div>
+        {error && <p className="error-text">{error}</p>}
 
-        <button className="login-btn">Login</button>
-
-        <div className="forgot-password">
-          <a href="#">Forgot Password?</a>
-        </div>
-        <p className="already-registered">
-          Don't have an account?{" "}
-          <span className="login-link" onClick={() => navigate("/register-client")}>
-            Register
-          </span>
-        </p>
+        <button className="login-btn" onClick={handleLogin}>
+          Login
+        </button>
       </div>
     </div>
   );

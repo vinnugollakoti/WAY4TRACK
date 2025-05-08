@@ -1,0 +1,82 @@
+.address-popup-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.address-popup-title {
+  font-size: 2rem;
+  color: #2e7d32;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.address-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.address-popup-card {
+  background-color: #e8f5e9;
+  border: 1px solid #2e7d32;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.address-popup-card.active {
+  background-color: #c8e6c9;
+  box-shadow: 0 6px 18px rgba(0, 128, 0, 0.2);
+}
+
+.address-popup-name {
+  font-size: 18px;
+  color: #1b5e20;
+  margin-bottom: 6px;
+}
+
+.address-popup-line {
+  font-size: 14px;
+  color: #555;
+}
+
+.address-popup-buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.address-popup-add-btn,
+.address-popup-proceed-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.address-popup-add-btn {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.address-popup-add-btn:hover {
+  background-color: #1b5e20;
+}
+
+.address-popup-proceed-btn {
+  background-color: #000;
+  color: #fff;
+}
+
+.address-popup-proceed-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}

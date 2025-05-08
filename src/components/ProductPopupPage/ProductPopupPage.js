@@ -55,6 +55,7 @@ const ProductPopupPage = ({ device }) => {
 
     try {
       await addToCart(cartData);
+      console.log("Sent cart")
     } catch (error) {
       console.error("Failed to add to cart:", error);
     }

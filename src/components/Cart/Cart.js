@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
-import { CartContext } from "../../contexts/CartContext"; // Adjust path as needed
+import { CartContext } from "../../contexts/CartContext";
+import AddressPage from "../AddressPage/AddressPage";
 import "./Cart.css";
 
 function CartPage() {
@@ -15,52 +16,63 @@ function CartPage() {
   return (
     <div className="cart-container">
       <CheckoutSteps currentStep={1} />
-      <h1 className="cart-title">Your Cart</h1>
+      <div className="cart-address-container">
+        <AddressPage />
+        <div>
+          <h1 className="cart-title">Your Cart</h1>
 
-      {cartItems.length === 0 ? (
-        <p className="empty-cart">Your cart is empty.</p>
-      ) : (
-        <div className="cart-grid">
-          <Link to="/" className="back-btn">
-            Continue Shopping
-          </Link>
-          {cartItems.map((item) => (
-            <div key={item.id} className="cart-card">
-              <div className="cart-card-inner">
-                <div className="cart-image-wrapper">
-                  <img
-                    src={item.productPhoto}
-                    alt={item.deviceName}
-                    className="cart-image"
-                  />
-                </div>
-                <div className="cart-info">
-                  <h2 className="cart-name">{item.deviceName}</h2>
-                  <p className="cart-price">₹{item.cost}</p>
-                  <div className="quantity-controls">
-                    <button
-                      className="qty-btn"
-                      onClick={() => handleQuantityChange(item.id, "dec")}
-                    >
-                      -
-                    </button>
-                    <span className="qty-number">{item.quantity}</span>
-                    <button
-                      className="qty-btn"
-                      onClick={() => handleQuantityChange(item.id, "inc")}
-                    >
-                      +
-                    </button>
+          {cartItems.length === 0 ? (
+            <p className="empty-cart">Your cart is empty.</p>
+          ) : (
+            <div className="cart-grid">
+              {/* <Link to="/" className="back-btn">
+                Continue Shopping
+              </Link> */}
+              {cartItems.map((item) => (
+                <div key={item.id} className="cart-card">
+                  <div className="cart-card-inner">
+                    <div className="cart-image-wrapper">
+                      <img
+                        src={item.device.image}
+                        alt={item.device.name}
+                        className="cart-image"
+                      />
+                    </div>
+                    <div className="cart-info">
+                      <h2 className="cart-name">{item.device.name}</h2>
+                      <p>
+                        Accessories:{" "}
+                        {item.isRelay ? "With Relay" : "Without Relay"}
+                      </p>
+                      <p>Subscription: {item.subscription} subscription</p>
+                      <p>Network: {item.network}</p>
+                      <p>Rs. {item.totalAmount}</p>
+                      <div className="quantity-controls">
+                        <button
+                          className="qty-btn"
+                          onClick={() => handleQuantityChange(item.id, "dec")}
+                        >
+                          -
+                        </button>
+                        <span className="qty-number">{item.quantity}</span>
+                        <button
+                          className="qty-btn"
+                          onClick={() => handleQuantityChange(item.id, "inc")}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
+          <div className="cart-summary">
+            <h2>Total: Rs.{getTotal()}/-</h2>
+            <button className="checkout">Proceed to Checkout</button>
+          </div>
         </div>
-      )}
-      <div className="cart-summary">
-        <h2>Total: ₹{getTotal()}</h2>
-        <button className="checkout">Proceed to Checkout</button>
       </div>
     </div>
   );

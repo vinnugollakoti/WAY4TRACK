@@ -14,6 +14,9 @@ import LoginPage from "./components/Login/Login";
 import RegisterClient from "./components/RegisterClient/RegisterClient";
 import Navbar from "./components/Navbar/Navbar";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute/PublicRoute";
+import ProfilePage from "./components/ProfilePage/ProfilePage";
 
 import ApiService, {
   initialAuthState,
@@ -47,7 +50,7 @@ function App() {
   const getThemeComponent = (layoutType) => {
     switch (layoutType) {
       case "theme1":
-        return ProductTheme1;
+        return ProductTheme3;
       case "theme2":
         return ProductTheme2;
       case "theme3":
@@ -68,11 +71,41 @@ function App() {
         <Routes>
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
           <Route path="/address-page" element={<AddressPage />} />
-          <Route path="/order-details" element={<OrderDetailsPage />} />
+          <Route
+            path="/order-details"
+            element={
+              <ProtectedRoute>
+                <OrderDetailsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/register-client" element={<RegisterClient />} />
+          <Route path="/product-theme-2" element={<ProductTheme2 />} />
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
             return (

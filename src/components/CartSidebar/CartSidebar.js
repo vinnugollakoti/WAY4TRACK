@@ -1,12 +1,40 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CartSidebar.css";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import { CartContext } from "../../contexts/CartContext";
 
 const CartSidebar = ({ isOpen, onClose }) => {
-  const { cartItems, updateQuantity, removeFromCart, getTotal } =
+  const navigate = useNavigate();
+  const { cartItems, removeFromCart, getTotal, addToCart } =
     useContext(CartContext);
   console.log(cartItems, "cart items");
+
+  const updateQuantity = async (itemId, change) => {
+    const cartItem = cartItems.find((item) => item.id === itemId);
+    if (!cartItem) return;
+    const updatedQuantity = (cartItem?.quantity || 1) + change;
+
+    if (updatedQuantity < 1) return; // prevent quantity from going below 1
+
+    const updatedCartData = {
+      ...cartItem,
+      id: itemId,
+      quantity: updatedQuantity,
+    };
+
+    try {
+      await addToCart(updatedCartData); // reusing your existing addToCart function
+      console.log(`Updated quantity for item ${itemId}`);
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
+  };
+
+  const goToCart = () => {
+    onClose()
+    navigate("/cart");
+  };
 
   return (
     <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
@@ -17,7 +45,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
       <div className="cart-content">
         <div className="cart-header">
           <h2>Your cart</h2>
-          <div className="progress-bar-container">
+          {/* <div className="progress-bar-container">
             <p>
               <strong>Spend Rs. {getTotal() + 1000}</strong> more to reach{" "}
               <strong>Free Shipping!</strong>
@@ -25,7 +53,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
             <div className="progress-bar-bg">
               <div className="progress-bar-fill" style={{ width: "47%" }}></div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="cart-items-wrapper">
@@ -41,9 +69,12 @@ const CartSidebar = ({ isOpen, onClose }) => {
                   <h6>
                     <strong>{item.device.name}</strong>
                   </h6>
-                  <p>Accessories: {item.description}</p>
-                  <p>Network: {item.description}</p>
-                  <p>Rs. {item.cost}</p>
+                  <p>
+                    Accessories: {item.isRelay ? "With Relay" : "Without Relay"}
+                  </p>
+                  <p>Subscription: {item.subscription} subscription</p>
+                  <p>Network: {item.network}</p>
+                  <p>Rs. {item.totalAmount}</p>
                 </div>
                 <div className="quantity-controls">
                   <button onClick={() => updateQuantity(item.id, -1)}>
@@ -69,7 +100,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
           <p>
             <strong>SUBTOTAL</strong> Rs. {getTotal()}
           </p>
-          <button className="checkout-btn">Check out</button>
+          <button className="checkout-btn" onClick={goToCart}>
+            Check out
+          </button>
         </div>
       </div>
     </div>

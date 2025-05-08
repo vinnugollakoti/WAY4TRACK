@@ -3,10 +3,15 @@ import gsap from "gsap";
 import "./Navbar.css";
 import { Dropdown } from "react-bootstrap";
 import { CartContext } from "../../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Navbar = ({ onCartClick }) => {
   const { cartItems } = useContext(CartContext);
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const isAuthenticated = !!localStorage.getItem("client_id");
+  const navigate = useNavigate();
+
   useEffect(() => {
     gsap.from("nav.navbar", {
       x: -2000,
@@ -22,6 +27,16 @@ const Navbar = ({ onCartClick }) => {
     });
   }, []);
 
+  const handleLogout = () => {
+    // Remove user data from localStorage to log them out
+    localStorage.removeItem("client_id");
+    localStorage.removeItem("client_db_id");
+    localStorage.removeItem("client_phone");
+
+    // Redirect to login page after logging out
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container d-flex justify-content-between align-items-center">
@@ -32,7 +47,6 @@ const Navbar = ({ onCartClick }) => {
             className="img-fluid logo-img"
             style={{ width: "50px", height: "50px" }}
           />
-          {/* <span className="way4track-text ms-2">WAY4TRACK</span> */}
         </a>
         <button
           className="navbar-toggler"
@@ -68,7 +82,7 @@ const Navbar = ({ onCartClick }) => {
             <span
               className="nav-link position-relative"
               role="button"
-              onClick={onCartClick} // ← trigger sidebar
+              onClick={onCartClick}
               style={{ cursor: "pointer" }}
             >
               Cart
@@ -82,34 +96,58 @@ const Navbar = ({ onCartClick }) => {
               )}
             </span>
 
-            {/* <a className="nav-link position-relative" href="/cart" >
-              Cart
-              {totalQuantity > 0 && (
-                <span
-                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                  style={{ fontSize: "0.7rem" }}
+            {/* Conditional Rendering for Login or User Icon */}
+            {isAuthenticated ? (
+              <Dropdown className="login-link">
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-basic"
+                  className="login-dropdown"
+                  style={{ fontFamily: "roboto", cursor: "pointer" }}
                 >
-                  {totalQuantity}
-                </span>
-              )}
-            </a> */}
+                  {/* <img
+                    src="/images/user-icon.png"
+                    alt="User"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                    }}
+                  /> */}
+                  <FaRegUserCircle
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </Dropdown.Toggle>
 
-            {/* Login Dropdown Fixed */}
-            <Dropdown className="login-link">
-              <Dropdown.Toggle
-                variant="light"
-                id="dropdown-basic"
-                className="login-dropdown"
-                style={{ fontFamily: "roboto" }}
-              >
-                Login
-              </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="/my-profile">Profile</Dropdown.Item>
+                  <Dropdown.Item href="/orders">Orders</Dropdown.Item>
+                  <Dropdown.Item href="/payments">Payments</Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              // Show login button if not authenticated
+              <Dropdown className="login-link">
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-basic"
+                  className="login-dropdown"
+                  style={{ fontFamily: "roboto" }}
+                >
+                  Login
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                <Dropdown.Item href="#">Way4Track Prime Login</Dropdown.Item>
-                <Dropdown.Item href="#">Way4Track Login</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#">Way4Track Prime Login</Dropdown.Item>
+                  <Dropdown.Item href="/login">Way4Track Login</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>

@@ -1,32 +1,213 @@
 .address-container {
-  padding: 20px;
   max-width: 600px;
   margin: auto;
+  /* padding: 20px; */
+  font-family: sans-serif;
+}
+
+.delivery-title {
+  font-size: 2rem;
+  font-weight: bold;
+  /* margin-bottom: 1.5rem; */
+  /* text-align: center; */
+  color: #2e7d32;
 }
 
 .address-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
-.address-form input {
+.name-fields,
+.location-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.name-fields input,
+.location-fields input,
+.location-fields select {
+  flex: 1;
+}
+
+input,
+select {
   padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
+  font-size: 14px;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.btn.checkout {
-  background-color: #2a9d8f;
-  color: white;
-  border: none;
+label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shipping-method {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.free-shipping {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f3f3f3;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+.checkout {
   padding: 12px;
-  border-radius: 6px;
-  font-weight: bold;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.btn.checkout:hover {
-  background-color: #21867a;
+/* AddressPage.css */
+
+:root {
+  --green-primary: #2e7d32;
+  --green-light: #e8f5e9;
+  --green-dark: #1b5e20;
+  --text-dark: #1c1c1c;
+  --text-muted: #555;
+  --border-radius: 12px;
+  --transition: 0.3s ease-in-out;
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.saved-addresses {
+  max-width: 650px;
+  /* margin: 40px auto; */
+  /* padding: 24px; */
+  background-color: white;
+  border-radius: var(--border-radius);
+  /* box-shadow: var(--shadow); */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: -100px;
+}
+
+.address-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* .title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--green-primary);
+  margin: 10px auto 0;
+  border-radius: 2px;
+} */
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.address-card {
+  background-color: var(--green-light);
+  border: 1px solid var(--green-primary);
+  border-radius: var(--border-radius);
+  padding: 18px;
+  transition: var(--transition);
+  cursor: pointer;
+  transform: scale(1);
+  box-shadow: var(--shadow);
+}
+
+.address-card:hover {
+  background-color: #c8e6c9;
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px rgba(0, 128, 0, 0.2);
+}
+
+.address-name {
+  font-size: 20px;
+  color: var(--green-dark);
+  margin-bottom: 8px;
+}
+
+.address-line {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.button-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.add-button {
+  background-color: var(--green-primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.add-button:hover {
+  background-color: var(--green-dark);
+  box-shadow: 0 6px 14px rgba(27, 94, 32, 0.4);
+}
+
+.address-card.active {
+  border: 2px solid var(--green-dark);
+  background-color: #a5d6a7;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+  transform: scale(1.03);
+}
+
+.proceed-button {
+  margin-top: 16px;
+  background-color: var(--green-dark);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(27, 94, 32, 0.3);
+  transition: background-color 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 10px;
+}
+
+.proceed-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.proceed-button:hover:not(:disabled) {
+  background-color: #145a1d;
 }
