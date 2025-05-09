@@ -1,0 +1,98 @@
+.contact-hero {
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  background-image: url('https://images.pexels.com/photos/3806753/pexels-photo-3806753.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(11, 37, 69, 0.9) 0%, rgba(11, 37, 69, 0.7) 100%);
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+}
+
+.text-gradient-hero {
+  background: linear-gradient(90deg, #FF7D00, #FFB627);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  max-width: 80%;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.floating-devices {
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+  z-index: 5;
+}
+
+.floating-device {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  position: absolute;
+}
+
+.floating-device:nth-child(1) {
+  right: 50px;
+  bottom: 20px;
+}
+
+.floating-device:nth-child(2) {
+  right: 200px;
+  bottom: 100px;
+}
+
+.floating-device img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 991px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-subtitle {
+    max-width: 100%;
+  }
+  
+  .floating-devices {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-hero {
+    height: 60vh;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}

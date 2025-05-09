@@ -1,0 +1,428 @@
+/* Base styles */
+.promotion-container {
+  font-family: 'Roboto', sans-serif;
+}
+
+.promotion-row {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.img-container {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.img-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation effects */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animation-fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.animation-slide-in {
+  animation: slideIn 0.8s ease forwards;
+}
+
+.btn-animated {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-animated:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-animated::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.btn-animated:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0) translate(-50%, -50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Session 1 styles */
+.way4track-text {
+  font-size: 3rem;
+  font-weight: bold;
+  color: black !important;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: shadowGlow 1.5s ease-in-out infinite alternate;
+  font-family: "Roboto Serif", serif !important;
+}
+
+@keyframes shadowGlow {
+  from {
+    text-shadow: 0 0 5px rgba(0, 165, 81, 0.2);
+  }
+  to {
+    text-shadow: 0 0 15px rgba(0, 165, 81, 0.5);
+  }
+}
+
+.typewriter-container {
+  text-align: center;
+  font-size: 3rem;
+  background-image: linear-gradient(
+    -225deg,
+    #006400 0%,
+    #00A551 29%,
+    #32CD32 67%,
+    #FFD700 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  font-weight: bold;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.short-desc {
+  font-family: "Roboto Serif", serif !important;
+  font-size: 1.25rem;
+  color: #FFA500;
+  padding-top: 30px;
+  line-height: 1.6;
+}
+
+/* Session 2 styles */
+.image-wrapper {
+  overflow: hidden;
+  border-radius: 10px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.zoom-img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.image-wrapper:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.image-wrapper:hover .zoom-img {
+  transform: scale(1.1);
+}
+
+.hover-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
+
+.hover-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: rgba(248, 249, 250, 0.7);
+}
+
+.feature-item {
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.feature-check {
+  color: #00A551;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.feature-description {
+  text-align: justify;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.bg-light-session2 {
+  transition: background-color 0.3s ease;
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  padding: 10px;
+  border-left: 2px solid #00A551;
+  border-radius: 6px;
+}
+
+/* Session 3 styles */
+.session-three {
+  border-radius: 10px;
+  position: relative;
+}
+
+.feature-card {
+  border-left: 3px solid #00A551;
+  background: linear-gradient(to right, #c7ffda 0%, #38f9d7 100%);
+  border-radius: 6px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: rotate(10deg);
+}
+
+.main-image-container {
+  transition: transform 0.5s ease;
+}
+
+.main-image-container:hover {
+  transform: scale(1.02);
+}
+
+/* Session 4 styles */
+.client-section {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.scroll-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 20px 0;
+}
+
+.scroll-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 27s linear infinite alternate;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-card {
+  margin: 0 20px;
+  flex-shrink: 0;
+  width: 140px;
+  height: 120px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.scroll-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.scroll-card img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.scroll-card:hover img {
+  filter: grayscale(0%);
+}
+
+.client-heading {
+  color: #00A551;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.client-subtext {
+  color: #FFA500;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+/* Session 5 & 6 styles */
+.mining-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FFA500;
+  text-align: center;
+  margin-top: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.feature-icon {
+  font-size: 30px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: rotate(15deg);
+}
+
+/* Session 7, 8, 9, 10 styles */
+.session7-list {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.session7-list:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.session7-desc {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.feature-arrow {
+  font-size: 1.2rem;
+  color: #00A551;
+  transition: transform 0.3s ease;
+}
+
+.session7-list:hover .feature-arrow {
+  transform: translateX(3px);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .way4track-text {
+    font-size: 2.5rem;
+  }
+  
+  .typewriter-container {
+    font-size: 2rem;
+  }
+  
+  .short-desc {
+    font-size: 1rem;
+  }
+  
+  .mining-name {
+    font-size: 1.75rem;
+  }
+  
+  .client-heading {
+    font-size: 1.75rem;
+  }
+  
+  .client-subtext {
+    font-size: 1rem;
+  }
+  
+  .scroll-card {
+    width: 120px;
+    height: 100px;
+    margin: 0 15px;
+  }
+  
+  .scroll-card img {
+    max-width: 80px;
+    max-height: 80px;
+  }
+}
+
+@media (max-width: 576px) {
+  .way4track-text {
+    font-size: 2rem;
+  }
+  
+  .typewriter-container {
+    font-size: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 8px;
+  }
+  
+  .feature-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .feature-description {
+    font-size: 0.85rem;
+  }
+}

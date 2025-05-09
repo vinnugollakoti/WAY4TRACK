@@ -17,6 +17,13 @@ import CartSidebar from "./components/CartSidebar/CartSidebar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
+import Footer from "./components/footer/Footer";
+import About from "./components/about/AboutUs"; // Import your About component
+import Contact from "./components/contact/ContactPage";
+import Hero from "./components/careers/Hero";
+// import Homepage from "./components/Home/Homepage";
+import PromotionAPI from "./components/promotion/PromotionAPI";
+
 
 import ApiService, {
   initialAuthState,
@@ -106,6 +113,13 @@ function App() {
           />
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
+          <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/hiring" element={<Hero />} />
+            <Route path="/" element={<PromotionAPI theme="default" />} />
+
+            
+            
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
             return (
@@ -117,6 +131,9 @@ function App() {
             );
           })}
         </Routes>
+
+        {/* Add Footer here */}
+        <Footer />
       </Router>
     </CartProvider>
   );

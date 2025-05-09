@@ -1,0 +1,27 @@
+.footer h5 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer ul li {
+  padding: 4px 0;
+}
+
+.footer ul li a {
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .footer h5 {
+    font-size: 1.1rem;
+  }
+
+  .footer ul li {
+    padding: 2px 0;
+  }
+
+  .footer iframe {
+    height: 100px !important;
+  }
+}

@@ -1,0 +1,10 @@
+
+.product-box:hover {
+  /* background: linear-gradient(135deg, #ffc9a9, #ffc9a9) !important; */
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  color: white;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}

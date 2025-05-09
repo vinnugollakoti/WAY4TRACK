@@ -1,0 +1,106 @@
+.custom-card {
+  border-radius: 16px;
+  background-color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-card:hover {
+  background-color: var(--hover-color);
+  color: #fff;
+}
+
+.custom-card:hover .card-title,
+.custom-card:hover .card-text,
+.custom-card:hover ul,
+.custom-card:hover li,
+.custom-card:hover .arrow-icon {
+  color: #fff;
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover .arrow-icon {
+  transform: translateX(5px);
+}
+
+.product-box {
+  background: linear-gradient(135deg, #ffffff, #f3f3f3);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  min-height: 350px;
+  cursor: pointer;
+}
+
+.product-box:hover {
+  /* background: linear-gradient(135deg, #ffc9a9, #ffc9a9) !important; */
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  color: white;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.product-box:hover h5,
+.product-box:hover p {
+  color: white;
+}
+
+.products-name {
+  font-family: "Roboto Serif", serif !important;
+  font-size: 20px !important;
+  color: black;
+  font-weight: bold !important;
+}
+
+
+.custom-arrow {
+  color: blue;
+  transition: color 0.3s ease;
+}
+
+.custom-arrow:hover {
+  color: white !important;
+}
+
+
+
+
+.image-with-icon {
+  display: flex;
+  align-items: center;
+}
+
+.image-with-icon svg {
+  flex-shrink: 0;
+}
+
+.product-desc {
+  font-family: "Roboto Serif", serif !important;
+  font-size: 16px !important;
+  color: rgba(43, 43, 43, .8);; /* Updated color */
+  /* padding-top: 30px; */
+ 
+}
+
+
+.mySwiper {
+  /* padding-bottom: 40px; */
+  padding-bottom: 50px; /* Add space for the dots */
+}
+
+.swiper-slide {
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.swiper-pagination {
+  bottom: 0 !important;
+  text-align: center;
+}
+
+
+

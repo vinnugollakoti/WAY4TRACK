@@ -64,17 +64,20 @@ const Navbar = ({ onCartClick }) => {
           id="navbarNavAltMarkup"
         >
           <div className="navbar-nav nav-content d-flex align-items-center gap-3">
-            <a className="nav-link active" aria-current="page" href="#">
+            <a className="nav-link active" aria-current="page" href="/">
               Home
             </a>
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/about">
               About
             </a>
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/contact">
               Contact
             </a>
             <a className="nav-link" href="#">
               Blog
+            </a>
+            <a className="nav-link" href="/hiring">
+              Careers
             </a>
             <a className="nav-link" href="/products">
               Products
