@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 import "./ProductPopupPage.css";
 
 const ProductPopupPage = ({ device }) => {
   const { cartItems, addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  console.log(device, "deviceccccc");
 
   const cartItem = cartItems.find((item) => item.device.id === device.id);
 
@@ -23,7 +26,6 @@ const ProductPopupPage = ({ device }) => {
     }
   }, [cartItem]);
 
-  // Price calculation
   const calculateTotalAmount = () => {
     let base = device.amount;
     if (accessory === "With Relay") base += device.relayAmt;
@@ -35,10 +37,30 @@ const ProductPopupPage = ({ device }) => {
     return discounted * quantity;
   };
 
+  const handleBuyItem = () => {
+    const totalAmount = calculateTotalAmount();
+
+    const buyNowData = {
+      deviceId: device.id,
+      name: device.name,
+      image: device.image,
+      quantity: quantity,
+      isRelay: accessory === "With Relay",
+      network: network,
+      subscription: subscription,
+      totalAmount: totalAmount.toString(),
+    };
+
+    localStorage.setItem("buyNowItem", JSON.stringify(buyNowData));
+
+    navigate("/cart");
+  };
+
   // Add to cart
   const handleAddToCart = async () => {
     const totalAmount = calculateTotalAmount();
 
+    localStorage.removeItem("buyNowItem");
     const cartData = {
       deviceId: device.id,
       name: device.name,
@@ -50,12 +72,12 @@ const ProductPopupPage = ({ device }) => {
     };
 
     if (cartItem && cartItem.id) {
-        cartData.id = cartItem.id;
-      }
+      cartData.id = cartItem.id;
+    }
 
     try {
       await addToCart(cartData);
-      console.log("Sent cart")
+      console.log("Sent cart");
     } catch (error) {
       console.error("Failed to add to cart:", error);
     }
@@ -153,7 +175,12 @@ const ProductPopupPage = ({ device }) => {
         >
           Add to cart
         </button>
-        <button className="ProductPopupPage-buy-now-button">Buy it now</button>
+        <button
+          onClick={handleBuyItem}
+          className="ProductPopupPage-buy-now-button"
+        >
+          Buy it now
+        </button>
       </div>
     </div>
   );

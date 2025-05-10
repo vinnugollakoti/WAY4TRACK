@@ -8,8 +8,9 @@ import "./OrderDetailsPage.css";
 
 function OrderDetailsPage() {
   const location = useLocation();
-  const { cartItems, updateQuantity } = useContext(CartContext);
-  const { selectedAddress } = location.state || {};
+  const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
+  const { deliveryAddress, billingAddress, isBuyNow, orderItems } =
+    location.state || {};
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
   const clientId = Number(localStorage.getItem("client_db_id"));
@@ -17,7 +18,24 @@ function OrderDetailsPage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const total = cartItems.reduce(
+  const displayedItems = isBuyNow ? orderItems : cartItems;
+
+  const displayedItemsNormalized = displayedItems.map((item) => {
+    if (isBuyNow) {
+      return {
+        ...item,
+        device: {
+          name: item.name,
+          model: item.model,
+          id: item.deviceId,
+          image: item.image,
+        },
+      };
+    }
+    return item;
+  });
+
+  const total = displayedItems.reduce(
     (sum, item) => sum + Number(item.totalAmount),
     0
   );
@@ -27,7 +45,12 @@ function OrderDetailsPage() {
   };
 
   const createOrderPayload = () => {
-    const orderItems = cartItems.map((item) => ({
+    if (!deliveryAddress || !billingAddress) {
+      // Handle the case where the addresses are missing
+      alert("Please provide both delivery and billing addresses.");
+      return;
+    }
+    const orderItems = displayedItemsNormalized.map((item) => ({
       name: item.device.name,
       qty: item.quantity,
       amount: item.totalAmount,
@@ -38,17 +61,23 @@ function OrderDetailsPage() {
       desc: item.device.model,
     }));
 
+    const orderDate = new Date();
+    const deliveryDate = new Date(orderDate);
+    deliveryDate.setDate(orderDate.getDate() + 4);
+
     return {
       name: "Mahesh",
       totalAmount: total,
       paymentStatus: "pending",
-      orderDate: new Date().toISOString(),
-      deliveryAddress: JSON.stringify(selectedAddress.phoneNumber),
+      orderDate: orderDate.toISOString(),
+      deliveryAddressId: JSON.stringify(deliveryAddress.id),
+      buildingAddressId: JSON.stringify(billingAddress.id),
       subscription: "pending",
       clientId,
       companyCode,
       unitCode,
       orderItems,
+      delivaryDate: deliveryDate.toISOString(),
     };
   };
 
@@ -65,7 +94,14 @@ function OrderDetailsPage() {
 
       if (response.status) {
         console.log("Order placed successfully:", response);
-        navigate("/order-success", { state: { order: response.data } });
+        if (!isBuyNow) {
+          for (const item of displayedItemsNormalized) {
+            await removeFromCart(item.id);
+          }
+        }
+
+        localStorage.removeItem("buyNowItem");
+        navigate("/orders", { state: { order: response.data } });
       } else {
         throw new Error("Failed to place order");
       }
@@ -84,8 +120,8 @@ function OrderDetailsPage() {
       <div className="order-details-grid">
         {/* Left: Order Items */}
         <div className="order-left">
-          {cartItems.length > 0 ? (
-            cartItems.map((item) => (
+          {displayedItemsNormalized.length > 0 ? (
+            displayedItemsNormalized.map((item) => (
               <div key={item.id} className="cart-card">
                 <div className="cart-card-inner">
                   <div className="cart-image-wrapper">
@@ -104,6 +140,7 @@ function OrderDetailsPage() {
                     <p>Subscription: {item.subscription} subscription</p>
                     <p>Network: {item.network}</p>
                     <p>Rs. {item.totalAmount}</p>
+                    {/* {!isBuyNow && ( */}
                     <div className="quantity-controls">
                       <button
                         className="qty-btn"
@@ -119,6 +156,7 @@ function OrderDetailsPage() {
                         +
                       </button>
                     </div>
+                    {/* )} */}
                   </div>
                 </div>
               </div>
@@ -132,14 +170,29 @@ function OrderDetailsPage() {
         <div className="order-right">
           <div className="order-section">
             <h2>Shipping Address</h2>
-            {selectedAddress ? (
+            {deliveryAddress ? (
               <p>
-                {selectedAddress.name}
+                {deliveryAddress.name}
                 <br />
-                {selectedAddress.phoneNumber}
+                {deliveryAddress.phoneNumber}
                 <br />
-                {selectedAddress.city}, {selectedAddress.state},{" "}
-                {selectedAddress.country} - {selectedAddress.pin}
+                {deliveryAddress.city}, {deliveryAddress.state},{" "}
+                {deliveryAddress.country} - {deliveryAddress.pin}
+              </p>
+            ) : (
+              <p>No address provided.</p>
+            )}
+          </div>
+          <div className="order-section">
+            <h2>Billing Address</h2>
+            {billingAddress ? (
+              <p>
+                {billingAddress.name}
+                <br />
+                {billingAddress.phoneNumber}
+                <br />
+                {billingAddress.city}, {billingAddress.state},{" "}
+                {billingAddress.country} - {billingAddress.pin}
               </p>
             ) : (
               <p>No address provided.</p>
@@ -148,7 +201,7 @@ function OrderDetailsPage() {
 
           <div className="order-section summary">
             <h2>Summary</h2>
-            <p>Total Items: {cartItems.length}</p>
+            <p>Total Items: {displayedItems.length}</p>
             <p>Total Price: ₹{total}</p>
             <button
               className="place-order"

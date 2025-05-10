@@ -1,37 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
-import AddressPopupPage from "../AddressPopupPage/AddressPopupPage"
+import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
 
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
-  const users = {
-    name: "Mahesh G",
-    email: "maheshgaddala333@gmail.com",
-    addresses: [
-      {
-        name: "Mahesh G",
-        company: "Company",
-        addressLine1:
-          "Visakhapatnam International Airport Drop Location Airport",
-        addressLine2: "530009 Visakhapatnam Andhra Pradesh",
-        country: "India",
-        phone: "+917995357141",
-        isDefault: true,
-      },
-      {
-        name: "Mahesh G",
-        company: "ABCD",
-        addressLine1: "Ongole Railway station Santhapet",
-        addressLine2: "523001 Ongole Andhra Pradesh",
-        country: "India",
-        phone: "+917995357141",
-        isDefault: false,
-      },
-    ],
-  };
-
   const [user, setUser] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   console.log(user, "users");
@@ -103,9 +77,7 @@ const ProfilePage = () => {
                   >
                     ✕
                   </button>
-                  <AddressPopupPage
-                    onClose={() => setShowPopup(false)} 
-                  />
+                  <AddressPopupPage onClose={() => setShowPopup(false)} />
                 </div>
               </div>
             )}

@@ -23,7 +23,8 @@ import Contact from "./components/contact/ContactPage";
 import Hero from "./components/careers/Hero";
 // import Homepage from "./components/Home/Homepage";
 import PromotionAPI from "./components/promotion/PromotionAPI";
-
+import MyOrders from "./components/MyOrders/MyOrders";
+import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
 
 import ApiService, {
   initialAuthState,
@@ -94,6 +95,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/order-item/:orderId/:deviceId"
+            element={
+              <ProtectedRoute>
+                <OrderItemDetails />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/login"
             element={
@@ -111,15 +121,21 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/hiring" element={<Hero />} />
-            <Route path="/" element={<PromotionAPI theme="default" />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/hiring" element={<Hero />} />
+          <Route path="/" element={<PromotionAPI theme="default" />} />
 
-            
-            
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
             return (
