@@ -14,6 +14,10 @@ function ProductsPage() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [hovered, setHovered] = useState(false);
 
+  useEffect(() => {
+    localStorage.removeItem("buyNowItem");
+  }, []);
+
   const fetchAllProducts = async () => {
     try {
       const response = await ApiService.post(
@@ -214,7 +218,9 @@ function ProductsPage() {
                                 onMouseEnter={() => setHovered(device.id)}
                                 onMouseLeave={() => setHovered(false)}
                               >
-                                {hovered===device.id ? "Update Cart" : "Added"}
+                                {hovered === device.id
+                                  ? "Update Cart"
+                                  : "Added"}
                               </button>
 
                               {/* <button

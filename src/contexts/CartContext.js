@@ -63,15 +63,12 @@ export const CartProvider = ({ children }) => {
     const payload = {
       id: id,
     };
-    const response = await ApiService.post(
-      "/cart/deleteCartDetails",
-      payload
-    );
+    const response = await ApiService.post("/cart/deleteCartDetails", payload);
     if (response.status) {
-      alert("Item deleted Successfully");
+      console.log("Item deleted Successfully");
       fetchCartItems();
     } else {
-      alert("Failed to delete cart item");
+      console.log("Failed to delete cart item");
     }
   };
 
@@ -80,7 +77,7 @@ export const CartProvider = ({ children }) => {
       const itemCost = Number(item.totalAmount) || 0;
       // const itemQuantity = Number(item.quantity) || 1;
       // return total + itemCost * itemQuantity;
-      return itemCost
+      return itemCost;
     }, 0);
   };
 
