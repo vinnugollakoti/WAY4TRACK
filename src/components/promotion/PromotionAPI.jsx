@@ -26,6 +26,7 @@ const PromotionAPI = () => {
   const [promotions, setPromotions] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const normalize = (str) => str?.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -33,7 +34,6 @@ const PromotionAPI = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch promotions
         const promotionPayload = {
           companyCode: "WAY4TRACK",
           unitCode: "WAY4",
@@ -45,8 +45,6 @@ const PromotionAPI = () => {
         );
         const promotionData = promotionResponse?.data || [];
 
-        console.log("All Promotion Data:...", promotionData);
-
         const seen = new Set();
         const uniquePromotions = promotionData.filter((item) => {
           if (!item.id || seen.has(item.id)) return false;
@@ -56,20 +54,17 @@ const PromotionAPI = () => {
 
         setPromotions(uniquePromotions);
 
-        // Fetch products
         const productPayload = {
           companyCode: "WAY4TRACK",
           unitCode: "WAY4",
         };
 
         const productResponse = await ApiService.post(
-          "website-product/getWebsiteProductDetails", 
+          "website-product/getWebsiteProductDetails",
           productPayload
         );
         const productData = productResponse?.data || [];
-        console.log("Product Data:", productData);
 
-        // Convert each homeBanner string to array
         const formattedProducts = productData.map((product) => ({
           ...product,
           homeBanner:
@@ -163,26 +158,22 @@ const PromotionAPI = () => {
     }
   };
 
-  // Custom order: session4 at the end
   const customOrder = [
     "session1",
     "session2",
     "session3",
-    "session5", // Show devices after session5
+    "session5",
     "session6",
     "session7",
     "session8",
     "session9",
     "session10",
-    "session4", // Placed last
+    "session4",
   ];
 
-  // Sort promotions based on customOrder
   const reorderedPromotions = [...promotions].sort((a, b) => {
     const aIndex = customOrder.indexOf(normalize(a.theme));
     const bIndex = customOrder.indexOf(normalize(b.theme));
-
-    // Unmatched themes go to the end
     return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
   });
 
@@ -197,12 +188,14 @@ const PromotionAPI = () => {
     );
   }
 
-  // Collect all home banners from all products
   const allBanners = products.flatMap((product) => product.homeBanner || []);
   const firstProduct = products && products.length > 0 ? products[0] : null;
 
   return (
-    <div className="container-fluid my-4 promotion-container">
+    <div
+      className="container-fluid my-4 promotion-container"
+      style={{ paddingLeft: "0px" }}
+    >
       {/* Banner Section */}
       <div className="row mb-4">
         <div className="col-12">
@@ -210,26 +203,22 @@ const PromotionAPI = () => {
         </div>
       </div>
 
-      {/* Product Icon Section */}
+      {/* Product Icons */}
       <div className="row mb-4">
         <div className="col-12">
           <ProductIconSection product={firstProduct} />
         </div>
       </div>
 
-      {/* Render Promotions with Device Section after Session 5 */}
+      {/* Promotions */}
       {reorderedPromotions.map((promo, index) => {
         const normTheme = normalize(promo.theme);
-        const isAfterSession5 = 
-          customOrder.indexOf(normTheme) === customOrder.indexOf("session5") + 1;
-        
         return (
           <React.Fragment key={promo.id || index}>
             <div className="promotion-row mb-3">
               {renderPromotionByTheme(promo)}
             </div>
 
-            {/* Insert Devices Section after Session 5 */}
             {normTheme === "session5" && firstProduct && (
               <div className="row mb-4">
                 <div className="col-12">
@@ -241,15 +230,60 @@ const PromotionAPI = () => {
         );
       })}
 
-      {/* If no Session 5 exists, still show devices section */}
-      {!reorderedPromotions.some(p => normalize(p.theme) === "session5") && 
-       firstProduct && (
-        <div className="row mb-4">
-          <div className="col-12">
-            <DevicesSection devices={firstProduct.device || []} />
+      {!reorderedPromotions.some((p) => normalize(p.theme) === "session5") &&
+        firstProduct && (
+          <div className="row mb-4">
+            <div className="col-12">
+              <DevicesSection devices={firstProduct.device || []} />
+            </div>
           </div>
+        )}
+
+      {/* WhatsApp Floating Button */}
+      <div>
+        {/* WhatsApp Button */}
+        <div className="whatsapp-button" onClick={() => setIsOpen(!isOpen)}>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+            alt="WhatsApp"
+            style={{ width: "30px", height: "30px" }}
+          />
         </div>
-      )}
+
+        {/* Chat Popup */}
+        {isOpen && (
+          <div className="chat-popup">
+            <div className="chat-header">
+              <img src="./images/logo.png" alt="Chat Icon" />
+              <span>Chat with us</span>
+            </div>
+            <div className="chat-body">
+              <p>
+                Hi 👋
+                <br />
+                How can we help you?
+              </p>
+            </div>
+            <a
+              href="https://wa.me/919999999999"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="chat-footer"
+            >
+              Start Chat
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Green Bar */}
+      <div className="bottom-bar">
+        <div className="marquee">
+          For Free Demo Contact Us -{" "}
+          <strong style={{ color: "#FFD700" }}>703 221 3434</strong> | Way4Track
+          - Track Anything, Anytime, Anywhere
+        </div>
+      </div>
     </div>
   );
 };
