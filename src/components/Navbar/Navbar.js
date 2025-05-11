@@ -73,7 +73,7 @@ const Navbar = ({ onCartClick }) => {
             <a className="nav-link" href="/contact">
               Contact
             </a>
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/bloglist">
               Blog
             </a>
             <a className="nav-link" href="/hiring">

@@ -7,7 +7,7 @@ import CartPage from "./components/Cart/Cart";
 import ProductTheme1 from "./components/ProductTheme1/ProductTheme1";
 import ProductTheme2 from "./components/ProductTheme2/ProductTheme2";
 import ProductTheme3 from "./components/ProductTheme3/ProductTheme3";
-import ProductTheme4 from "./components/ProductTheme4/ProductTheme4";
+// import ProductTheme4 from "./components/ProductTheme4/ProductTheme4";
 import AddressPage from "./components/AddressPage/AddressPage";
 import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
@@ -23,6 +23,18 @@ import Contact from "./components/contact/ContactPage";
 import Hero from "./components/careers/Hero";
 // import Homepage from "./components/Home/Homepage";
 import PromotionAPI from "./components/promotion/PromotionAPI";
+import BlogList from "./components/Blogs/BlogList";
+import BlogDetail from "./components/Blogs/BlogDetail";
+import RelatedBlogs from "./components/Blogs/RelatedBlogs";
+import ProductTheme4 from "./components/ProductTheme4/index";
+import './App.css'
+
+import 'aos/dist/aos.css';
+import AOS from 'aos';
+
+
+
+
 import MyOrders from "./components/MyOrders/MyOrders";
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
 
@@ -69,6 +81,27 @@ function App() {
         return () => <div>Invalid Theme</div>;
     }
   };
+
+
+  // theme 4
+    useEffect(() => {
+    // Initialize AOS animation library
+    AOS.init({
+      duration: 800,
+      once: false,
+      mirror: true
+    });
+
+    // Import Bootstrap JS
+    const bootstrap = document.createElement('script');
+    bootstrap.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js';
+    bootstrap.async = true;
+    document.body.appendChild(bootstrap);
+
+    return () => {
+      document.body.removeChild(bootstrap);
+    };
+  }, []);
 
   return (
     <CartProvider>
@@ -132,9 +165,16 @@ function App() {
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/hiring" element={<Hero />} />
-          <Route path="/" element={<PromotionAPI theme="default" />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/hiring" element={<Hero />} />
+            <Route path="/" element={<PromotionAPI theme="default" />} />
+              <Route path="/bloglist" element={<BlogList />} />
+        <Route path="/blogs" element={<RelatedBlogs />} />
+        <Route path="/blogdetails" element={<BlogDetail />} />
+        <Route path="/category/:category" element={<BlogList />} />
+              <Route path="/theme4" element={<ProductTheme4/>} />
+
+        
 
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
