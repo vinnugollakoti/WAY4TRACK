@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
+import EditProfilePopup from "../EditPorfilePopup/EdtProfilePopup";
+// import EditAddressPopup from "../EditAddressPopup/EditAddressPopup";
 
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
-  const [user, setUser] = useState([]);
-  const [showPopup, setShowPopup] = useState(false);
-  console.log(user, "users");
+  const [user, setUser] = useState({});
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [showAddressPopup, setShowAddressPopup] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [showOptionsIndex, setShowOptionsIndex] = useState(null);
 
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
@@ -20,25 +25,31 @@ const ProfilePage = () => {
 
   const fetchProfile = async () => {
     try {
-      const payload = {
+      const response = await ApiService.post("/client/getClientDetailsById", {
         companyCode,
         unitCode,
         clientId,
-      };
-      const response = await ApiService.post(
-        "/client/getClientDetailsById",
-        payload
-      );
+      });
 
       if (response.status) {
-        const data = response.data;
-        console.log(data, "addressknjfidfh");
-        setUser(data);
-      } else {
-        console.error("Error fetching profile");
+        setUser(response.data);
       }
     } catch (error) {
-      console.error("Error fetching addresses:", error);
+      console.error("Error fetching profile:", error);
+    }
+  };
+
+  const handleDeleteAddress = async (addressId) => {
+    try {
+      const response = await ApiService.post("/client/deleteClientAddress", {
+        companyCode,
+        unitCode,
+        clientId,
+        addressId,
+      });
+      if (response.status) fetchProfile();
+    } catch (error) {
+      console.error("Failed to delete address", error);
     }
   };
 
@@ -49,7 +60,10 @@ const ProfilePage = () => {
       <div className="profilePage__card">
         <div className="profilePage__nameSection">
           <span className="profilePage__name">{user.name}</span>
-          <FaEdit className="profilePage__editIcon" />
+          <FaEdit
+            className="profilePage__editIcon"
+            onClick={() => setShowProfilePopup(true)}
+          />
         </div>
         <div className="profilePage__emailSection">
           <p className="profilePage__emailLabel">Mobile</p>
@@ -57,52 +71,72 @@ const ProfilePage = () => {
         </div>
       </div>
 
+      {showProfilePopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button
+              className="popup-close-btn"
+              onClick={() => setShowProfilePopup(false)}
+            >
+              ✕
+            </button>
+            <EditProfilePopup
+              user={user}
+              onClose={() => setShowProfilePopup(false)}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="profilePage__addressCard">
         <div className="profilePage__addressHeader">
           <h3 className="profilePage__addressTitle">Addresses</h3>
-          <div>
-            <button
-              className="profilePage__addButton"
-              onClick={() => setShowPopup(true)}
-            >
-              + Add
-            </button>
-
-            {showPopup && (
-              <div className="popup-overlay">
-                <div className="popup-content">
-                  <button
-                    className="popup-close-btn"
-                    onClick={() => setShowPopup(false)}
-                  >
-                    ✕
-                  </button>
-                  <AddressPopupPage onClose={() => setShowPopup(false)} />
-                </div>
-              </div>
-            )}
-          </div>
+          <button
+            className="profilePage__addButton"
+            onClick={() => {
+              setSelectedAddress(null);
+              setShowAddressPopup(true);
+            }}
+          >
+            + Add
+          </button>
         </div>
 
         <div className="profilePage__addressBlock__container">
           {user?.customerAddress?.map((addr, index) => (
             <div key={index} className="profilePage__addressBlock">
               <div className="profilePage__addressHeaderBlock">
-                {addr.isDefault ? (
-                  <>
-                    <span className="profilePage__defaultLabel">
-                      Default Address
-                    </span>
-                    <FaEdit className="profilePage__editIcon" />
-                  </>
-                ) : (
-                  <FaEdit className="profilePage__editIcon" />
+                {addr.isDefault && (
+                  <span className="profilePage__defaultLabel">
+                    Default Address
+                  </span>
                 )}
+                <div
+                  className="more-options-container"
+                  onMouseEnter={() => setShowOptionsIndex(index)}
+                  onMouseLeave={() => setShowOptionsIndex(null)}
+                >
+                  <BsThreeDotsVertical className="profilePage__moreIcon" />
+                  {showOptionsIndex === index && (
+                    <div className="address-options-popup">
+                      <button
+                        onClick={() => {
+                          setSelectedAddress(addr);
+                          setShowAddressPopup(true);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteAddress(addr.addressId)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <p className="profilePage__addressLine">{addr.name}</p>
-              {/* <p className="profilePage__addressLine">{addr.company}</p> */}
-              {/* <p className="profilePage__addressLine">{addr.addressLine1}</p> */}
-              {/* <p className="profilePage__addressLine">{addr.addressLine2}</p> */}
               <p className="profilePage__addressLine">{addr.country}</p>
               <p className="profilePage__addressLine">{addr.state}</p>
               <p className="profilePage__addressLine">{addr.city}</p>
@@ -111,6 +145,24 @@ const ProfilePage = () => {
           ))}
         </div>
       </div>
+
+      {showAddressPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <button
+              className="popup-close-btn"
+              onClick={() => setShowAddressPopup(false)}
+            >
+              ✕
+            </button>
+            <AddressPopupPage
+              address={selectedAddress}
+              onClose={() => setShowAddressPopup(false)}
+              onSuccess={fetchProfile}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

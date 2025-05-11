@@ -20,6 +20,11 @@ const OrderItemDetails = () => {
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
 
+  const [showCancelReason, setShowCancelReason] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // const [status, setStatus] = useState(order.status || "Pending");
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -55,9 +60,85 @@ const OrderItemDetails = () => {
     fetchOrders();
   }, [orderId, deviceId]);
 
-  const handleCancel = () => {
-    alert("Cancellation request submitted!");
-    // Implement API call here
+  // const handleCancel = () => {
+  //   alert("Cancellation request submitted!");
+  //   // Implement API call here
+  // };
+
+  const handleCancel = async () => {
+    if (!cancelReason) {
+      alert("Please select a reason for cancellation.");
+      return;
+    }
+
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this item?"
+    );
+    if (!confirmCancel) return;
+
+    try {
+      const payload = {
+        orderId,
+        deviceId,
+        clientId,
+        companyCode,
+        unitCode,
+        reason: cancelReason,
+      };
+
+      const response = await ApiService.post("client/cancelOrderItem", payload);
+
+      if (response.status) {
+        alert("Cancellation request submitted successfully.");
+        window.location.reload();
+      } else {
+        alert("Cancellation failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Cancellation error:", error);
+      alert("An error occurred. Please try again later.");
+    }
+  };
+
+  const handleUpdate = async (actionType, additionalData = {}) => {
+    setIsLoading(true);
+
+    let orderStatus = "";
+    if (actionType === "cancel") {
+      orderStatus = "cancelled";
+    } else if (actionType === "replace") {
+      orderStatus = "replaced";
+    }
+
+    const payload = {
+      companyCode,
+      unitCode,
+      id: orderId,
+      orderStatus,
+      // actionType,
+      // deviceId,
+      // clientId,
+      ...additionalData,
+    };
+
+    try {
+      const response = await ApiService.post(
+        "/order/handleCreateOrder",
+        payload
+      );
+
+      if (response.status) {
+        alert(`Order item ${orderStatus} successfully.`);
+        window.location.reload();
+      } else {
+        alert(`Failed to ${actionType} item.`);
+      }
+    } catch (err) {
+      console.error(`Error during ${actionType}:`, err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReturn = () => {
@@ -140,20 +221,58 @@ const OrderItemDetails = () => {
                   )}`
                 : `Expected delivery: ${formatDate(order.delivaryDate)}`}
             </p>
-            {canCancel && (
-              <button
-                className="OrderItemDetails-actionBtn"
-                onClick={handleCancel}
-              >
-                Cancel Order
-              </button>
+            {canCancel && item.status !== "cancelled" && (
+              <>
+                <button
+                  className="OrderItemDetails-actionBtn"
+                  onClick={() => setShowCancelReason(true)}
+                >
+                  Cancel Order
+                </button>
+
+                {showCancelReason && (
+                  <div className="OrderItemDetails-cancelReasonBox">
+                    <label>
+                      Reason for cancellation:
+                      <select
+                        value={cancelReason}
+                        onChange={(e) => setCancelReason(e.target.value)}
+                      >
+                        <option value="">-- Select a reason --</option>
+                        <option value="Changed my mind">Changed my mind</option>
+                        <option value="Found a better price">
+                          Found a better price
+                        </option>
+                        <option value="Ordered by mistake">
+                          Ordered by mistake
+                        </option>
+                        <option value="Item not required">
+                          Item not required
+                        </option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </label>
+                    <button
+                      className="OrderItemDetails-actionBtn"
+                      onClick={() =>
+                        handleUpdate("cancel", {
+                          reason: cancelReason,
+                        })
+                      }
+                    >
+                      Submit Cancellation
+                    </button>
+                  </div>
+                )}
+              </>
             )}
+
             {canReturn && (
               <button
                 className="OrderItemDetails-actionBtn"
-                onClick={handleReturn}
+                onClick={() => handleUpdate("replace")}
               >
-                Return Item
+                Replace Item
               </button>
             )}
           </div>

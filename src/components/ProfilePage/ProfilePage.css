@@ -220,3 +220,35 @@ body.popup-open {
     font-size: 20px;
   }
 }
+
+.more-options-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.address-options-popup {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.address-options-popup button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.address-options-popup button:hover {
+  background-color: #f2f2f2;
+}
