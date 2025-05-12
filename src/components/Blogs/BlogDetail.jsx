@@ -1,52 +1,79 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import RelatedBlogs from "./RelatedBlogs";
 import ApiService from "../Services/ApiServices";
-
-import { GlobalWorkerOptions } from "pdfjs-dist/build/pdf";
-
-
-
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
-import pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker.entry";
+import "./BlogDetail.css"
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
-
-
+// Set up PDF worker from CDN
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 const BlogDetail = () => {
   const [relatedBlogs, setRelatedBlogs] = useState([]);
-  const [textContent, setTextContent] = useState("");
+  const [numPages, setNumPages] = useState(0);
+  const pdfContainerRef = useRef(null);
   const location = useLocation();
   const blog = location?.state?.blogDetail;
 
-  console.log("rrr", blog);
-
   useEffect(() => {
-    const fetchAndParsePDF = async () => {
-      if (!blog?.pdfFile) return;
+    const renderPDF = async () => {
+      if (!blog?.pdfFile || !pdfContainerRef.current) return;
 
       try {
-        const loadingTask = pdfjsLib.getDocument(blog.pdfFile);
-        const pdf = await loadingTask.promise;
+        let loadingTask;
 
-        let fullText = "";
+        // Handle base64 or URL PDF
+        if (blog.pdfFile.startsWith("data:application/pdf;base64,")) {
+          const base64 = blog.pdfFile.split(",")[1];
+          const binaryString = atob(base64);
+          const len = binaryString.length;
+          const bytes = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          loadingTask = pdfjsLib.getDocument({ data: bytes });
+        } else {
+          const encodedURL = encodeURI(blog.pdfFile);
+          loadingTask = pdfjsLib.getDocument(encodedURL);
+        }
+
+        const pdf = await loadingTask.promise;
+        setNumPages(pdf.numPages);
+        const container = pdfContainerRef.current;
+        container.innerHTML = "";
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
           const page = await pdf.getPage(pageNum);
-          const content = await page.getTextContent();
-          const pageText = content.items.map((item) => item.str).join(" ");
-          fullText += pageText + "\n\n";
-        }
 
-        setTextContent(fullText);
+          // Dynamically scale to container width
+          const containerWidth = container.clientWidth || window.innerWidth;
+          const unscaledViewport = page.getViewport({ scale: 1 });
+          const scale = containerWidth / unscaledViewport.width;
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport,
+          };
+
+          await page.render(renderContext).promise;
+          canvas.style.marginBottom = "1rem";
+          canvas.style.width = "100%";
+          canvas.style.height = "auto";
+          container.appendChild(canvas);
+        }
       } catch (error) {
-        console.error("Error loading PDF: ", error);
+        console.error("Error rendering PDF: ", error);
+        pdfContainerRef.current.innerHTML = "<p>Failed to load PDF.</p>";
       }
     };
 
-    fetchAndParsePDF();
+    renderPDF();
   }, [blog]);
 
   if (!blog) {
@@ -55,7 +82,7 @@ const BlogDetail = () => {
 
   return (
     <div>
-      <Link to="/" className="back-button">
+      <Link to="/" className="back-button" style={{ display: "block", margin: "1rem 1rem" ,padding:"10px 10px",width:"150px",height:"50px",display:"flex",alignItems:"center",justifyContent:"center"}}>
         ← Back to Blogs
       </Link>
 
@@ -68,11 +95,9 @@ const BlogDetail = () => {
         />
       </div>
 
-      <div style={{ whiteSpace: "pre-wrap", padding: "1rem" }}>
-        {textContent ? textContent : <p>Loading PDF content...</p>}
-      </div>
+      <div ref={pdfContainerRef} style={{ padding: "1rem", width: "100%" }} />
 
-      {/* Uncomment if you want related blogs section */}
+      {/* Optional Related Blogs */}
       {/* {relatedBlogs.length > 0 && (
         <>
           <h2 className="related-blogs-title">Related Topics</h2>

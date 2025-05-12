@@ -27,9 +27,9 @@ const ContactInfo = () => {
             <div>
               <h5>Our Location</h5>
               <p className="mb-0">
-                1234 Innovation Drive<br />
-                Suite 500<br />
-                San Francisco, CA 94103
+                 SHARON TELEMATICS PT LTD |WAY4TRACK FUEL MONITORING SYSTEM (GPS TRACKER) VISAKHAPATNAM 21-27, 
+                <br />
+                
               </p>
             </div>
           </Card.Body>
