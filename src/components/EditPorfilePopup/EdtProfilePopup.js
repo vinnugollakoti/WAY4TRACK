@@ -11,32 +11,66 @@ const EditProfilePopup = ({ user, onClose }) => {
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
 
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     setLoading(true);
+
+  //     const payload = {
+  //       companyCode,
+  //       unitCode,
+  //       clientId,
+  //       name,
+  //       phoneNumber,
+  //     };
+
+  //     try {
+  //       const response = await ApiService.post(
+  //         "/client/updateClientProfile",
+  //         payload
+  //       );
+  //       if (response.status) {
+  //         alert("Profile updated successfully!");
+  //         onClose();
+  //       } else {
+  //         alert("Failed to update profile.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Profile update error:", error);
+  //       alert("Something went wrong.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const payload = {
-      companyCode,
-      unitCode,
-      clientId,
-      name,
-      phoneNumber,
-    };
+    const payload = new FormData();
+    payload.append("companyCode", companyCode);
+    payload.append("unitCode", unitCode);
+    payload.append("clientId", clientId);
+    payload.append("name", name);
+    payload.append("phoneNumber", phoneNumber);
 
     try {
       const response = await ApiService.post(
-        "/client/updateClientProfile",
-        payload
+        "/client/handleClientDetails",
+        payload,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
+
       if (response.status) {
-        alert("Profile updated successfully!");
-        onClose();
+        alert("Client updated successfully!");
+        onClose(); // close the popup
       } else {
-        alert("Failed to update profile.");
+        alert("Failed to update. Please try again.");
       }
     } catch (error) {
-      console.error("Profile update error:", error);
-      alert("Something went wrong.");
+      console.error("Error updating client details:", error);
+      alert("Failed to update. Please try again.");
     } finally {
       setLoading(false);
     }

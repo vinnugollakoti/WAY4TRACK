@@ -1,9 +1,9 @@
-import React from 'react';
-import HeroSection from './HeroSection';
-import AboutSection from './AboutSection';
-import ParametersSection from './ParametersSection';
-import FeaturesSection from './FeaturesSection';
-import './styles/product-page.css';
+import React from "react";
+import HeroSection from "./HeroSection";
+import AboutSection from "./AboutSection";
+import ParametersSection from "./ParametersSection";
+import FeaturesSection from "./FeaturesSection";
+import "./styles/product-page.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductPage = () => {
