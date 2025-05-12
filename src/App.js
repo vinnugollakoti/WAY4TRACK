@@ -27,13 +27,10 @@ import BlogList from "./components/Blogs/BlogList";
 import BlogDetail from "./components/Blogs/BlogDetail";
 import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import ProductTheme4 from "./components/ProductTheme4/index";
-import './App.css'
+import "./App.css";
 
-import 'aos/dist/aos.css';
-import AOS from 'aos';
-
-
-
+import "aos/dist/aos.css";
+import AOS from "aos";
 
 import MyOrders from "./components/MyOrders/MyOrders";
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
@@ -82,19 +79,19 @@ function App() {
     }
   };
 
-
   // theme 4
-    useEffect(() => {
+  useEffect(() => {
     // Initialize AOS animation library
     AOS.init({
       duration: 800,
       once: false,
-      mirror: true
+      mirror: true,
     });
 
     // Import Bootstrap JS
-    const bootstrap = document.createElement('script');
-    bootstrap.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js';
+    const bootstrap = document.createElement("script");
+    bootstrap.src =
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
     bootstrap.async = true;
     document.body.appendChild(bootstrap);
 
@@ -165,16 +162,14 @@ function App() {
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/hiring" element={<Hero />} />
-            <Route path="/" element={<PromotionAPI theme="default" />} />
-              <Route path="/bloglist" element={<BlogList />} />
-        <Route path="/blogs" element={<RelatedBlogs />} />
-        <Route path="/blogdetails" element={<BlogDetail />} />
-        <Route path="/category/:category" element={<BlogList />} />
-              <Route path="/theme4" element={<ProductTheme4/>} />
-
-        
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/hiring" element={<Hero />} />
+          <Route path="/" element={<PromotionAPI theme="default" />} />
+          <Route path="/bloglist" element={<BlogList />} />
+          <Route path="/blogs" element={<RelatedBlogs />} />
+          <Route path="/blogdetails" element={<BlogDetail />} />
+          <Route path="/category/:category" element={<BlogList />} />
+          <Route path="/theme4" element={<ProductTheme4 />} />
 
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);

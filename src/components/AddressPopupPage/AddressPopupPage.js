@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import "./AddressPopupPage.css";
 
-const AddressPopupPage = () => {
+const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
   const navigate = useNavigate();
 
-  const [addresses, setAddresses] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [showForm, setShowForm] = useState(!address); // if address is passed, show form directly
 
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
@@ -27,14 +25,34 @@ const AddressPopupPage = () => {
     apartment: "",
     city: "",
     state: "Andhra Pradesh",
-    pin: "",
+    pincode: "",
     phone: "",
     saveInfo: false,
   });
 
   useEffect(() => {
-    fetchSavedAddresses();
-  }, []);
+    if (address) {
+      // Edit mode: pre-fill form with address
+      setForm({
+        email: "",
+        subscribe: true,
+        country: "India",
+        firstName: address.name || "",
+        lastName: "",
+        company: address.company || "",
+        address: address.address || "",
+        apartment: address.apartment || "",
+        city: address.city || "",
+        state: address.state || "Andhra Pradesh",
+        pincode: address.pincode || "",
+        phone: address.phoneNumber || "",
+        saveInfo: false,
+      });
+    } else {
+      // Add mode: try to fetch existing addresses
+      fetchSavedAddresses();
+    }
+  }, [address]);
 
   const fetchSavedAddresses = async () => {
     try {
@@ -43,24 +61,12 @@ const AddressPopupPage = () => {
         "/client/getClientDetailsById",
         payload
       );
-      if (response.status) {
-        setAddresses(response.data.customerAddress);
-      } else {
+      if (!response.status) {
         setShowForm(true);
       }
     } catch (error) {
       console.error("Error fetching addresses:", error);
       setShowForm(true);
-    }
-  };
-
-  const handleAddressSelect = (addr) => {
-    setSelectedAddress(addr);
-  };
-
-  const handleProceed = () => {
-    if (selectedAddress) {
-      navigate("/order-details", { state: { selectedAddress } });
     }
   };
 
@@ -90,6 +96,7 @@ const AddressPopupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleRegister();
+
     try {
       const payload = {
         ...form,
@@ -99,12 +106,20 @@ const AddressPopupPage = () => {
         phoneNumber: phone,
         name: form.firstName,
       };
+
+      if (address?.id) {
+        payload.id = address.id; // important for edit
+      }
+
       const response = await ApiService.post(
         "/address/handleCreateAddress",
         payload
       );
+
       if (response.status === 200 || response.status) {
-        navigate("/order-details");
+        alert(address ? "Address updated!" : "Address added!");
+        onSuccess?.(); // parent callback
+        onClose?.(); // close popup
       } else {
         alert("Failed to save address");
       }
@@ -116,24 +131,6 @@ const AddressPopupPage = () => {
   return (
     <div className="address-popup-wrapper">
       <form className="address-form" onSubmit={handleSubmit}>
-        {/* <input
-        type="email"
-        name="email"
-        placeholder="Email or mobile phone number"
-        value={form.email}
-        onChange={handleChange}
-        required
-      />
-      <label>
-        <input
-          type="checkbox"
-          name="subscribe"
-          checked={form.subscribe}
-          onChange={handleChange}
-        />
-        Email me with news and offers
-      </label> */}
-
         <h2 className="delivery-title">Delivery</h2>
 
         <div className="name-fields">
@@ -165,6 +162,7 @@ const AddressPopupPage = () => {
         <select name="country" value={form.country} onChange={handleChange}>
           <option value="India">India</option>
         </select>
+
         <div className="location-fields">
           <input
             type="text"
@@ -185,13 +183,14 @@ const AddressPopupPage = () => {
           </select>
           <input
             type="text"
-            name="pin"
+            name="pincode"
             placeholder="PIN code"
-            value={form.pin}
+            value={form.pincode}
             onChange={handleChange}
             required
           />
         </div>
+
         <input
           type="text"
           name="address"
@@ -200,13 +199,6 @@ const AddressPopupPage = () => {
           onChange={handleChange}
           required
         />
-        {/* <input
-        type="text"
-        name="apartment"
-        placeholder="Apartment, suite, etc. (optional)"
-        value={form.apartment}
-        onChange={handleChange}
-      /> */}
 
         <input
           type="tel"
@@ -217,28 +209,8 @@ const AddressPopupPage = () => {
           required
         />
 
-        {/* <label>
-        <input
-          type="checkbox"
-          name="saveInfo"
-          checked={form.saveInfo}
-          onChange={handleChange}
-        />
-        Save this information for next time
-      </label> */}
-
-        {/* <div className="shipping-method">
-        <strong>Shipping method</strong>
-        <div className="free-shipping">
-          <span>Thank You for Your Order – Enjoy Free Shipping!</span>
-          <span>
-            <strong>FREE</strong>
-          </span>
-        </div>
-      </div> */}
-
         <button type="submit" className="checkout">
-          Continue
+          {address ? "Update Address" : "Continue"}
         </button>
       </form>
     </div>

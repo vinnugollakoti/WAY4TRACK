@@ -41,11 +41,11 @@ const ProfilePage = () => {
 
   const handleDeleteAddress = async (addressId) => {
     try {
-      const response = await ApiService.post("/client/deleteClientAddress", {
+      const response = await ApiService.post("/address/deleteAddress", {
         companyCode,
         unitCode,
         clientId,
-        addressId,
+        id:addressId,
       });
       if (response.status) fetchProfile();
     } catch (error) {
@@ -128,7 +128,7 @@ const ProfilePage = () => {
                         Edit
                       </button>
                       <button
-                        onClick={() => handleDeleteAddress(addr.addressId)}
+                        onClick={() => handleDeleteAddress(addr.id)}
                       >
                         Delete
                       </button>

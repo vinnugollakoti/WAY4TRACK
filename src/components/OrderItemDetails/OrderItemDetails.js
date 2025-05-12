@@ -3,6 +3,27 @@ import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { useParams } from "react-router-dom";
 import "./OrderItemDetails.css";
 
+// Define OrderStatus enum locally
+const OrderStatus = {
+  PENDING: "pending",
+  ORDERSUCESS: "orderSuccess",
+  Dispatched: "dispatched",
+  Delivered: "delivered",
+  CANCELED: "cancelled",
+  request_raised: "request_raised",
+  request_approved: "request_approved",
+  request_reject: "request_reject",
+  request_sucess: "request_sucess",
+};
+
+// RefundStatus enum
+const RefundStatus = {
+  PENDING: "pending",
+  APPROVED: "approved",
+  REJECTED: "rejected",
+  SUCCESS: "success",
+};
+
 const formatDate = (dateStr) =>
   new Date(dateStr).toLocaleDateString("en-IN", {
     year: "numeric",
@@ -15,15 +36,73 @@ const OrderItemDetails = () => {
   const [item, setItem] = useState(null);
   const [device, setDevice] = useState(null);
   const [order, setOrder] = useState(null);
+  const [refundDevices, setRefundDevices] = useState([]);
+
+  const [cancelReason, setCancelReason] = useState("");
+  const [replaceReason, setReplaceReason] = useState("");
+  const [replaceDescription, setReplaceDescription] = useState("");
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [showCancelReason, setShowCancelReason] = useState(false);
+  const [showReplaceForm, setShowReplaceForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
+  const clientDbId = localStorage.getItem("client_db_id");
+  console.log(order);
 
-  const [showCancelReason, setShowCancelReason] = useState(false);
-  const [cancelReason, setCancelReason] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  // const [status, setStatus] = useState(order.status || "Pending");
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]; // Get the file object
+    if (file) {
+      setUploadedImage(file); // Store the file object in state
+    }
+  };
+
+  // Check refund status for the current device
+  const refund = refundDevices?.find(
+    (r) => r.deviceId?.id.toString() === deviceId
+  );
+
+  const refundStatus = refund?.refundStatus;
+
+  console.log(refundStatus, "ref");
+
+  const getRefundStatusMessage = (status) => {
+    switch (status) {
+      case "pending":
+        return "Your replacement request is pending. We'll update you shortly.";
+      case "request_recived":
+        return "We've received your replacement request and are reviewing it.";
+      case "request_accept":
+        return "Your replacement request has been accepted.";
+      case "request_reject":
+        return "Unfortunately, your replacement request has been rejected.";
+      case "pick_scheduled":
+        return "Pickup for the item has been scheduled.";
+      case "item_picked_up":
+        return "The item has been picked up successfully.";
+      case "new_item_dispatched":
+        return "The replacement item has been dispatched.";
+      case "replaced_sucess":
+        return "The replacement was successful. Thank you!";
+      case "returning":
+        return "The item is being returned. We’ll notify you once it’s received.";
+      default:
+        return "Status unknown. Please contact support.";
+    }
+  };
+
+  // const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setUploadedImage(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -51,6 +130,7 @@ const OrderItemDetails = () => {
             setItem(currentItem);
             setDevice(currentDevice);
           }
+          setRefundDevices(response.data.refund);
         }
       } catch (error) {
         console.error("Error fetching order item details:", error);
@@ -58,104 +138,218 @@ const OrderItemDetails = () => {
     };
 
     fetchOrders();
-  }, [orderId, deviceId]);
+  }, [orderId, deviceId, companyCode, unitCode, clientId]);
 
-  // const handleCancel = () => {
-  //   alert("Cancellation request submitted!");
-  //   // Implement API call here
+  // Ensure handleUpdate correctly sends the file as part of the formData
+  // const handleUpdate = async (actionType, additionalData = {}) => {
+  //   setIsLoading(true);
+
+  //   const basePayload = {
+  //     companyCode,
+  //     unitCode,
+  //     clientId: clientDbId,
+  //     deliveryAddressId: order.deliveryAddress?.id,
+  //     buildingAddressId: order.buildingAddress?.id,
+  //     ...additionalData,
+  //   };
+
+  //   try {
+  //     if (actionType === "replace") {
+  //       const formData = new FormData();
+
+  //       formData.append("companyCode", companyCode);
+  //       formData.append("unitCode", unitCode);
+  //       formData.append("clientId", clientDbId);
+  //       formData.append("deliveryAddressId", order.deliveryAddress?.id);
+  //       formData.append("buildingAddressId", order.buildingAddress?.id);
+  //       formData.append("orderStatus", OrderStatus.request_raised);
+  //       formData.append("refundStatus", RefundStatus.PENDING);
+  //       formData.append("description", replaceDescription || "User action");
+  //       formData.append("name", order.name);
+  //       formData.append("reason", replaceReason);
+  //       formData.append("deviceId", item.deviceId);
+  //       formData.append("orderId", order.id);
+  //       formData.append("dateOfRequest", new Date().toISOString());
+  //       formData.append("dateOfReplace", new Date().toISOString());
+
+  //       // 👇 Upload actual file (binary form) - must be a File/Blob object
+  //       if (uploadedImage instanceof File) {
+  //         formData.append("damageImage", uploadedImage); // the key must match backend field
+  //       }
+
+  //       const refundResponse = await ApiService.post(
+  //         "/Refund/handleRefundDetails",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+
+  //       if (refundResponse.status) {
+  //         alert("Replacement request submitted successfully.");
+  //       } else {
+  //         alert("Failed to submit replacement request.");
+  //       }
+
+  //       const createOrderResponse = await ApiService.post(
+  //         "/order/handleCreateOrder",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data", // This header is required for file uploads
+  //           },
+  //         }
+  //       );
+
+  //       if (createOrderResponse.status) {
+  //         alert("Order updated successfully for replacement.");
+  //         window.location.reload();
+  //       } else {
+  //         alert("Failed to update the order.");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error("Error during order update:", err);
+  //     alert("Something went wrong. Please try again.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
   // };
-
-  const handleCancel = async () => {
-    if (!cancelReason) {
-      alert("Please select a reason for cancellation.");
-      return;
-    }
-
-    const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this item?"
-    );
-    if (!confirmCancel) return;
-
-    try {
-      const payload = {
-        orderId,
-        deviceId,
-        clientId,
-        companyCode,
-        unitCode,
-        reason: cancelReason,
-      };
-
-      const response = await ApiService.post("client/cancelOrderItem", payload);
-
-      if (response.status) {
-        alert("Cancellation request submitted successfully.");
-        window.location.reload();
-      } else {
-        alert("Cancellation failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Cancellation error:", error);
-      alert("An error occurred. Please try again later.");
-    }
-  };
 
   const handleUpdate = async (actionType, additionalData = {}) => {
     setIsLoading(true);
 
-    let orderStatus = "";
-    if (actionType === "cancel") {
-      orderStatus = "cancelled";
-    } else if (actionType === "replace") {
-      orderStatus = "replaced";
-    }
-
-    const payload = {
+    const basePayload = {
       companyCode,
       unitCode,
-      id: orderId,
-      orderStatus,
-      // actionType,
-      // deviceId,
-      // clientId,
+      clientId: clientDbId,
+      deliveryAddressId: order.deliveryAddress?.id,
+      buildingAddressId: order.buildingAddress?.id,
       ...additionalData,
     };
 
     try {
-      const response = await ApiService.post(
-        "/order/handleCreateOrder",
-        payload
-      );
+      if (actionType === "cancel") {
+        const payload = {
+          ...basePayload,
+          id: orderId,
+          orderStatus: OrderStatus.CANCELED,
+          description: cancelReason || "User action",
+        };
 
-      if (response.status) {
-        alert(`Order item ${orderStatus} successfully.`);
-        window.location.reload();
-      } else {
-        alert(`Failed to ${actionType} item.`);
+        const cancelResponse = await ApiService.post(
+          "/order/handleCreateOrder",
+          payload
+        );
+
+        if (cancelResponse.status) {
+          alert("Order item canceled successfully.");
+          window.location.reload();
+        } else {
+          alert("Failed to cancel item.");
+        }
+      } else if (actionType === "replace") {
+        const refundFormData = new FormData();
+        refundFormData.append("companyCode", companyCode);
+        refundFormData.append("unitCode", unitCode);
+        refundFormData.append("clientId", clientDbId);
+        refundFormData.append("orderId", order.id);
+        refundFormData.append("deviceId", item.deviceId);
+        refundFormData.append("orderStatus", OrderStatus.request_raised);
+        refundFormData.append("refundStatus", RefundStatus.PENDING);
+        refundFormData.append(
+          "description",
+          replaceDescription || "User action"
+        );
+        refundFormData.append("name", order.name);
+        refundFormData.append("reason", replaceReason);
+        refundFormData.append("dateOfRequest", new Date().toISOString());
+        refundFormData.append("dateOfReplace", new Date().toISOString());
+
+        // if (uploadedImage instanceof File) {
+        //   refundFormData.append("photo", uploadedImage);
+        // }
+
+        // 🔁 Send refund request
+        const refundResponse = await ApiService.post(
+          "/Refund/handleRefundDetails",
+          refundFormData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (refundResponse.status) {
+          alert("Replacement request submitted successfully.");
+        } else {
+          alert("Failed to submit replacement request.");
+          return;
+        }
+
+        const createOrderPayload = {
+          ...basePayload,
+          id: order.id,
+          orderStatus: OrderStatus.request_raised,
+          description: replaceDescription || "Replacement initiated",
+        };
+
+        const createOrderResponse = await ApiService.post(
+          "/order/handleCreateOrder",
+          createOrderPayload
+        );
+
+        if (createOrderResponse.status) {
+          alert("Order updated successfully for replacement.");
+          window.location.reload();
+        } else {
+          alert("Failed to update the order.");
+        }
       }
     } catch (err) {
-      console.error(`Error during ${actionType}:`, err);
+      console.error(
+        "Error during order update:",
+        err.response?.data || err.message || err
+      );
       alert("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleReturn = () => {
-    alert("Return request submitted!");
-    // Implement API call here
-  };
-
   if (!item || !order) return <p>Loading item details...</p>;
 
-  const isDelivered = order.orderStatus === "delivered";
-  const isDispatched = order.orderStatus === "dispatched";
-  const isShipped = order.orderStatus === "shipped";
   const deliveryDate = new Date(order.delivaryDate);
   const today = new Date();
+  const status = order.orderStatus;
+
+  const isDelivered = status === OrderStatus.Delivered;
+  const isDispatched = status === OrderStatus.Dispatched;
+  const isPending = status === OrderStatus.PENDING;
+  const isSuccess = status === OrderStatus.ORDERSUCESS;
+  const isCancelled = status === OrderStatus.CANCELED;
+  const isReturnRequested = status === OrderStatus.request_raised;
+  const isReturnApproved = status === OrderStatus.request_approved;
+  const isReturnRejected = status === OrderStatus.request_reject;
+  const isReturnSuccess = status === OrderStatus.request_sucess;
+
+  const canCancel =
+    (isPending || isSuccess) &&
+    !(
+      isCancelled ||
+      isReturnRequested ||
+      isReturnApproved ||
+      isReturnRejected ||
+      isReturnSuccess
+    );
+
   const canReturn =
-    isDelivered && (today - deliveryDate) / (1000 * 60 * 60 * 24) <= 7;
-  const canCancel = !isShipped && !isDispatched;
+    isDelivered &&
+    (today - deliveryDate) / (1000 * 60 * 60 * 24) <= 7 &&
+    !isReturnRequested;
 
   return (
     <div className="OrderItemDetails-container">
@@ -187,21 +381,19 @@ const OrderItemDetails = () => {
               <strong>
                 {isDelivered
                   ? `Delivered on ${formatDate(order.delivaryDate)}`
-                  : `Status: ${order.orderStatus}`}
+                  : `Status: ${status}`}
               </strong>
             </p>
             <div className="OrderItemDetails-timeline">
-              <div className="OrderItemDetails-timelineItem">
-                <span className="OrderItemDetails-icon">✔</span>
-                <span>Order Placed</span>
-              </div>
-              {isShipped && (
-                <div className="OrderItemDetails-timelineItem">
-                  <span className="OrderItemDetails-icon">✔</span>
-                  <span>Shipped</span>
-                </div>
-              )}
-              {isDelivered && (
+              {status !== OrderStatus.ABORTED &&
+                status !== OrderStatus.CANCELED && (
+                  <div className="OrderItemDetails-timelineItem">
+                    <span className="OrderItemDetails-icon">✔</span>
+                    <span>Order Placed</span>
+                  </div>
+                )}
+
+              {isDispatched && (
                 <div className="OrderItemDetails-timelineItem">
                   <span className="OrderItemDetails-icon">✔</span>
                   <span>Dispatched</span>
@@ -219,9 +411,15 @@ const OrderItemDetails = () => {
                 ? `Return policy ends on ${formatDate(
                     new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
                   )}`
+                : status === OrderStatus.request_raised ||
+                  status === OrderStatus.request_approved ||
+                  status === OrderStatus.request_reject ||
+                  status === OrderStatus.request_sucess
+                ? ""
                 : `Expected delivery: ${formatDate(order.delivaryDate)}`}
             </p>
-            {canCancel && item.status !== "cancelled" && (
+
+            {canCancel && item.status !== OrderStatus.CANCELED && (
               <>
                 <button
                   className="OrderItemDetails-actionBtn"
@@ -267,13 +465,100 @@ const OrderItemDetails = () => {
               </>
             )}
 
-            {canReturn && (
+            {canReturn && !isReturnRequested && (
               <button
                 className="OrderItemDetails-actionBtn"
-                onClick={() => handleUpdate("replace")}
+                // onClick={() =>
+                //   handleUpdate("replace", {
+                //     reason: "Return requested by user",
+                //     orderStatus: OrderStatus.request_raised,
+                //   })
+                // }
+                onClick={() => setShowReplaceForm(true)}
               >
-                Replace Item
+                Request Replace
               </button>
+            )}
+
+            {showReplaceForm && (
+              <div className="OrderItemDetails-replaceForm">
+                <label>
+                  Reason for replacement:
+                  <select onChange={(e) => setReplaceReason(e.target.value)}>
+                    <option value="">-- Select a reason --</option>
+                    <option value="Defective item">Defective item</option>
+                    <option value="Item damaged during delivery">
+                      Item damaged during delivery
+                    </option>
+                    <option value="Wrong item received">
+                      Wrong item received
+                    </option>
+                    <option value="Other">Other</option>
+                  </select>
+                </label>
+
+                <label>
+                  Additional Description (optional):
+                  <textarea
+                    onChange={(e) => setReplaceDescription(e.target.value)}
+                  />
+                </label>
+
+                <label>
+                  Upload Damage Image (optional):
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </label>
+
+                <button
+                  className="OrderItemDetails-actionBtn"
+                  onClick={() =>
+                    handleUpdate("replace", {
+                      reason: replaceReason,
+                      description: replaceDescription,
+                      damageImage: uploadedImage, // You will set this in handleImageUpload
+                    })
+                  }
+                >
+                  Submit Replacement Request
+                </button>
+              </div>
+            )}
+
+            {refundStatus && (
+              <div className="OrderItemDetails-refundStatusMessage">
+                <strong>Replacement Status:</strong>
+                <p>{getRefundStatusMessage(refundStatus)}</p>
+                {refund.description && (
+                  <p>
+                    <strong>Note:</strong> {refund.description}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {isReturnRequested && !refundStatus && (
+              <p className="OrderItemDetails-statusNote">
+                Return request is under review.
+              </p>
+            )}
+            {isReturnApproved && (
+              <p className="OrderItemDetails-statusNote">
+                Return approved. Awaiting pickup.
+              </p>
+            )}
+            {isReturnRejected && (
+              <p className="OrderItemDetails-statusNote">
+                Return request was rejected.
+              </p>
+            )}
+            {isReturnSuccess && (
+              <p className="OrderItemDetails-statusNote">
+                Return completed successfully.
+              </p>
             )}
           </div>
         </div>
@@ -288,25 +573,24 @@ const OrderItemDetails = () => {
 
           <div className="OrderItemDetails-shippingBox">
             <h3>Shipping Address</h3>
-            <p>{order.deliveryAddress.name || "Mahesh G"}</p>
+            <p>{order.deliveryAddress.name}</p>
             <p>
-              <span>Phone:</span>{" "}
-              {order.deliveryAddress.phoneNumber || "7995357141"}
+              <span>Phone:</span> {order.deliveryAddress.phoneNumber}
             </p>
-            <p>{order.deliveryAddress.city || "Visakhapatnam, AP"}</p>
-            <p>{order.deliveryAddress.state || "Andhra Pradesh"}</p>
-            <p>{order.deliveryAddress.country || "India"}</p>
+            <p>{order.deliveryAddress.city}</p>
+            <p>{order.deliveryAddress.state}</p>
+            <p>{order.deliveryAddress.country}</p>
           </div>
 
           <div className="OrderItemDetails-shippingBox">
             <h3>Billing Address</h3>
-            <p>{order.deliveryAddress.name || "Mahesh G"}</p>
+            <p>{order.deliveryAddress.name}</p>
             <p>
-              <span>Phone:</span> {order.deliveryAddress.phone || "7995357141"}
+              <span>Phone:</span> {order.deliveryAddress.phone}
             </p>
-            <p>{order.addressLine1 || "Sunshine Boys Hostel"}</p>
-            <p>{order.addressLine2 || "PM Palem"}</p>
-            <p>{order.deliveryAddress.city || "Visakhapatnam"}</p>
+            <p>{order.addressLine1}</p>
+            <p>{order.addressLine2}</p>
+            <p>{order.deliveryAddress.city}</p>
           </div>
 
           <div className="OrderItemDetails-priceBox">
@@ -318,10 +602,6 @@ const OrderItemDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="OrderItemDetails-footer">
-        <div className="OrderItemDetails-chat">💬 Chat with Support</div>
-      </div> */}
     </div>
   );
 };

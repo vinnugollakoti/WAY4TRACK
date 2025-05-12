@@ -25,7 +25,10 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     try {
       const payload = { companyCode, unitCode, clientId };
-      const response = await ApiService.post("client/getClientDetailsById", payload);
+      const response = await ApiService.post(
+        "client/getClientDetailsById",
+        payload
+      );
       if (response.status) {
         setOrders(response.data.orders);
       } else {
@@ -35,112 +38,6 @@ const MyOrders = () => {
       console.error("Error fetching orders:", error);
     }
   };
-
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const payload = { companyCode, unitCode, clientId };
-  //       const response = await ApiService.post(
-  //         "/client/getClientDetailsById",
-  //         payload
-  //       );
-  //       if (response.status) {
-  //         setOrders(response.data.order);
-  //       } else {
-  //         console.error("Error fetching orders");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching orders:", error);
-  //     }
-  //   };
-
-  //   const orders = [
-  //     {
-  //       id: 1,
-  //       productName: "GPS Tracking",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "Sparx SM 757 | Stylish, Comfortable | Casual Shoes",
-  //       subscription: "yearly",
-  //       is_relay: true,
-  //       network: "Airtel",
-  //       price: 849,
-  //       deliveryDate: "2025-05-07T18:30:00.000Z",
-  //     },
-  //     {
-  //       id: 2,
-  //       image: "https://via.placeholder.com/60",
-  //       name: "Amma Diarylo Konni Pageelu",
-  //       author: "Ravi Mantri",
-  //       price: 137,
-  //       deliveredOn: "Feb 25",
-  //     },
-  //     {
-  //       id: 3,
-  //       image: "https://via.placeholder.com/60",
-  //       name: "CAMPUS MIKE (N) Running Shoes For Men",
-  //       color: "Blue",
-  //       size: "8",
-  //       price: 913,
-  //       deliveredOn: "Nov 02, 2024",
-  //     },
-  //   ];
-
-  //   const orders = [
-  //     {
-  //       id: 1,
-  //       productName: "GPS Tracking",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "Sparx SM 757 | Stylish, Comfortable | Casual Shoes",
-  //       subscription: "yearly",
-  //       is_relay: true,
-  //       network: "Airtel",
-  //       price: 849,
-  //       deliveryDate: "2025-05-07T18:30:00.000Z",
-  //     },
-  //     {
-  //       id: 2,
-  //       productName: "Temperature Monitor",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "Roadster Men’s Solid Casual Shirt",
-  //       subscription: "monthly",
-  //       is_relay: false,
-  //       network: "Jio",
-  //       price: 1299,
-  //       deliveryDate: "2025-04-25T18:30:00.000Z",
-  //     },
-  //     {
-  //       id: 3,
-  //       productName: "Music Streaming",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "boAt Rockerz 255 Pro+ Wireless Earphones",
-  //       subscription: "quarterly",
-  //       is_relay: true,
-  //       network: "Vi",
-  //       price: 999,
-  //       deliveryDate: "2025-03-14T18:30:00.000Z",
-  //     },
-  //     {
-  //       id: 4,
-  //       productName: "Location Logger",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "Wildcraft Unisex Backpack",
-  //       subscription: "yearly",
-  //       is_relay: true,
-  //       network: "BSNL",
-  //       price: 1799,
-  //       deliveryDate: "2025-02-19T18:30:00.000Z",
-  //     },
-  //     {
-  //       id: 5,
-  //       productName: "Fitness Tracking",
-  //       deviceImage: "https://via.placeholder.com/60",
-  //       name: "Noise ColorFit Pulse Smart Watch",
-  //       subscription: "monthly",
-  //       is_relay: false,
-  //       network: "Airtel",
-  //       price: 1599,
-  //       deliveryDate: "2025-01-10T18:30:00.000Z",
-  //     },
-  //   ];
 
   return (
     <div>
@@ -273,16 +170,35 @@ const MyOrders = () => {
 
                           {order.orderStatus === "aborted" && (
                             <p>
-                              ❌ This order was aborted due to an issue in
-                              processing. You have not been charged.
+                              ❌ This order was aborted. You were not charged.
                             </p>
                           )}
 
                           {order.orderStatus === "cancelled" && (
                             <p>
-                              ❌ This order was cancelled. Please contact
-                              support if this was unexpected.
+                              ❌ This order was cancelled. Contact support if
+                              needed.
                             </p>
+                          )}
+
+                          {order.orderStatus === "success" && (
+                            <p>✅ Order successfully processed.</p>
+                          )}
+
+                          {order.orderStatus === "request_raised" && (
+                            <p>📝 A request has been raised for your order.</p>
+                          )}
+
+                          {order.orderStatus === "request_approved" && (
+                            <p>✅ Your order request has been approved.</p>
+                          )}
+
+                          {order.orderStatus === "request_reject" && (
+                            <p>❌ Your order request was rejected.</p>
+                          )}
+
+                          {order.orderStatus === "request_sucess" && (
+                            <p>✅ Your order request was successful.</p>
                           )}
                         </div>
                       </div>
