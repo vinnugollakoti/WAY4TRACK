@@ -1,5 +1,5 @@
 .OrderItemDetails-container {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 20px auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -283,4 +283,23 @@
   color: #6b7280;
   font-size: 14px;
   font-style: italic;
+}
+
+.OrderItemDetails-cancelReasonBox {
+  margin-top: 10px;
+  background: #fff8f8;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.OrderItemDetails-cancelReasonBox label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.OrderItemDetails-cancelReasonBox select {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
 }
