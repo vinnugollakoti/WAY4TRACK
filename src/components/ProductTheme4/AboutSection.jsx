@@ -1,11 +1,29 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
+import { Carousel } from 'react-bootstrap';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const AboutSection = () => {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: false
   });
+
+  const carouselImages = [
+    {
+      src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
+      alt: "OBD GPS Tracker - Front View"
+    },
+    {
+      src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
+      alt: "OBD GPS Tracker - Side View"
+    },
+    {
+      src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
+      alt: "OBD GPS Tracker - Installation"
+    }
+  ];
 
   return (
     <section className="about-section py-5" ref={ref}>
@@ -21,11 +39,32 @@ const AboutSection = () => {
       
       <div className="row align-items-center" style={{padding:"50px"}}>
         <div className="col-lg-5 mb-4 mb-lg-0">
-          <div className={`about-image ${inView ? 'animate' : ''}`} data-aos="fade-right">
-            <img src="https://images.pexels.com/photos/4219052/pexels-photo-4219052.jpeg" alt="OBD GPS Tracker" className="img-fluid rounded shadow" />
-            <div className="floating-badge">
+          <div className={`about-image position-relative ${inView ? 'animate' : ''}`} data-aos="fade-right">
+            <Carousel interval={5000} className="rounded shadow" fade={false} pause={false}>
+              {carouselImages.map((image, index) => (
+                <Carousel.Item key={index}>
+                  <img
+                    className="d-block w-100 img-fluid rounded"
+                    src={image.src}
+                    alt={image.alt}
+                     onLoad={() => console.log('Image loaded')} // optional check
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+            {/* <div className="floating-badge" style={{
+              position: 'absolute',
+              bottom: '20px',
+              right: '20px',
+              background: 'rgba(0, 123, 255, 0.9)',
+              color: 'white',
+              padding: '5px 15px',
+              borderRadius: '20px',
+              zIndex: 2,
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+            }}>
               <span>Premium</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="col-lg-7">
@@ -76,6 +115,70 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .about-section {
+          overflow: hidden;
+        }
+        
+        .divider {
+          width: 50px;
+          height: 3px;
+          background-color: #007bff;
+          margin-bottom: 30px;
+        }
+        
+        .feature-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+        }
+        
+        .icon-box {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 50px;
+          height: 50px;
+          background-color: rgba(0, 123, 255, 0.1);
+          border-radius: 50%;
+          margin-right: 15px;
+        }
+        
+        .icon-box i {
+          font-size: 1.5rem;
+          color: #007bff;
+        }
+        
+        .about-image.animate {
+          animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 50%;
+          padding: 10px;
+        }
+        
+        .carousel-indicators button {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin: 0 5px;
+        }
+      `}</style>
     </section>
   );
 };

@@ -193,12 +193,12 @@ const PromotionAPI = () => {
 
   return (
     <div
-      className="container-fluid my-4 promotion-container"
+      className="container-fluid  promotion-container"
       style={{ paddingLeft: "0px" }}
     >
       {/* Banner Section */}
       <div className="row mb-4">
-        <div className="col-12">
+        <div className="col-12" style={{paddingRight:"0px"}}>
           <BannerCarousel banners={allBanners} />
         </div>
       </div>
