@@ -6,10 +6,14 @@ import FeaturesSection from "./FeaturesSection";
 import "./styles/product-page.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ProductPage = () => {
+const ProductPage = (product) => {
+  console.log(product, "product4");
   return (
     <div className="product-page">
-      <HeroSection />
+      <HeroSection
+        homeTitle={product.data.name}
+        description={product.data.shortDescription}
+      />
       <div className="container-fluid">
         <AboutSection />
         <ParametersSection />

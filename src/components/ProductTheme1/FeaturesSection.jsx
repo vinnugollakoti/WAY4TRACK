@@ -3,7 +3,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { WrenchIcon, RouteIcon, MapPinIcon } from 'lucide-react';
 import './styles/FeaturesSection.css';
 
-const FeaturesSection = ({ title }) => {
+const FeaturesSection = ({ title,applications }) => {
+  console.log(applications,"applications")
   const features = [
     {
       icon: <WrenchIcon size={40} />,
@@ -32,7 +33,7 @@ const FeaturesSection = ({ title }) => {
           </Col>
         </Row>
         <Row>
-          {features.map((feature, index) => (
+          {applications.slice(0,3).map((feature, index) => (
             <Col lg={4} md={6} sm={12} key={index} className="mb-4">
               <div 
                 className="feature-card" 
@@ -40,10 +41,11 @@ const FeaturesSection = ({ title }) => {
                 data-aos-delay={100 + (index * 100)}
               >
                 <div className="feature-icon">
-                  {feature.icon}
+                  {/* {feature.icon} */}
+                  <img src={feature.image} alt={feature.name} />
                 </div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-description">{feature.description}</p>
+                <h3 className="feature-title">{feature.name}</h3>
+                <p className="feature-description">{feature.desc}</p>
               </div>
             </Col>
           ))}

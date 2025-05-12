@@ -14,7 +14,7 @@ const TestimonialCard = ({ text }) => {
   );
 };
 
-const SupportedTrackersSection = () => {
+const SupportedTrackersSection = ({footerImage}) => {
   const testimonials = [
     "SmartBus is our school bus monitoring software solution. It is an application suite consisting of the SmartBus Manager app, the SmartBus Parent app, the SmartBus driver app, and the SmartBus attendant app.",
     "The SmartBus parent app keeps all parents updated with their kid's school bus locations. Using the live tracking system, parents can access their child's school bus arrival and departure times. They can also customize school bus arrival alerts.",
@@ -63,7 +63,7 @@ const SupportedTrackersSection = () => {
           </div>
 
           <img
-            src="https://images.pexels.com/photos/9799706/pexels-photo-9799706.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src={footerImage}
             alt="School Bus Banner"
             className="img-fluid rounded-4 shadow"
             style={{ maxHeight: "300px", objectFit: "cover", width: "100%" }}

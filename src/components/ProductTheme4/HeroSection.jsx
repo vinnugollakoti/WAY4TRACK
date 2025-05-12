@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Cpu } from 'lucide-react';
 
-const HeroSection = () => {
+const HeroSection = ({homeTitle,description}) => {
   const heroRef = useRef(null);
   
   useEffect(() => {
@@ -26,10 +26,11 @@ const HeroSection = () => {
       <div className="container h-100 d-flex align-items-center">
         <div className="row align-items-center w-100">
           <div className="col-lg-6 text-white" data-aos="fade-right">
-            <h1 className="display-4 fw-bold mb-4" style={{color:"white"}}>OBD Plug and Play Device</h1>
+            <h1 className="display-4 fw-bold mb-4" style={{color:"white"}}>{homeTitle}</h1>
             <p className="lead mb-4">
-              Advanced positioning device with premium features like electronic fence, 
-              remote tracking, and comprehensive vehicle diagnostics.
+              {/* Advanced positioning device with premium features like electronic fence, 
+              remote tracking, and comprehensive vehicle diagnostics. */}
+              {description}
             </p>
             <button className="btn btn-primary btn-lg pulse-btn">
               Learn More

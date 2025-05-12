@@ -17,7 +17,7 @@ const FeatureItem = ({ text, delay }) => {
   );
 };
 
-const DriverAppSection = () => {
+const DriverAppSection = ({app,title}) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
@@ -33,6 +33,8 @@ const DriverAppSection = () => {
     }
   };
 
+  
+
   return (
     <section ref={ref} className="py-5 px-3 container">
       <div className="row align-items-center g-5">
@@ -43,13 +45,15 @@ const DriverAppSection = () => {
           animate={inView ? "visible" : "hidden"}
         >
           <span className="text-secondary text-uppercase small">App</span>
-          <h2 className="mt-2 h2 fw-bold text-warning mb-4">Driver App</h2>
+          <h2 className="mt-2 h2 fw-bold text-warning mb-4">{title}</h2>
 
           <ul className="list-unstyled mb-4">
-            <FeatureItem text="Pickup/Drop Management" delay={0.1} />
-            <FeatureItem text="Driver's can confirm student attendance" delay={0.2} />
-            <FeatureItem text="Route Planning" delay={0.3} />
-            <FeatureItem text="Edit or get acquainted with trips" delay={0.4} />
+            {/* {app.points.map((point)=> ( */}
+              <FeatureItem text={app.points[0].desc} delay={0.1} />
+              <FeatureItem text={app.points[1].desc} delay={0.2} />
+              <FeatureItem text={app.points[2].desc} delay={0.3} />
+              <FeatureItem text={app.points[3].desc} delay={0.4} />
+            {/* ))} */}
           </ul>
 
           <motion.p

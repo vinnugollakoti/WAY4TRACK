@@ -67,7 +67,7 @@ function App() {
   const getThemeComponent = (layoutType) => {
     switch (layoutType) {
       case "theme1":
-        return ProductTheme3;
+        return ProductTheme1;
       case "theme2":
         return ProductTheme2;
       case "theme3":

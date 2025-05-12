@@ -56,7 +56,7 @@ const TrackingFeatures = ({ dashboardImage }) => {
             </div>
           </Col>
         </Row>
-        <Row className="mt-5">
+        {/* <Row className="mt-5">
           {trackingFeatures.map((feature, index) => (
             <Col md={6} lg={3} sm={12} key={index}>
               <div 
@@ -72,7 +72,7 @@ const TrackingFeatures = ({ dashboardImage }) => {
               </div>
             </Col>
           ))}
-        </Row>
+        </Row> */}
         <Row className="mt-5">
           <Col lg={8} className="mx-auto">
             <div className="what-we-do-box" data-aos="fade-up">

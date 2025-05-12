@@ -20,11 +20,13 @@ const FeatureCard = ({ icon, title, description, delay }) => {
   );
 };
 
-const MonitoringSection = () => {
+const MonitoringSection = ({app}) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
   });
+
+  console.log(app,"school bus monetoring")
 
   return (
     <section ref={ref} className="py-5 container">
@@ -35,7 +37,7 @@ const MonitoringSection = () => {
         transition={{ duration: 0.5 }}
       >
         <span className="text-secondary text-uppercase small">APP</span>
-        <h2 className="fw-bold text-warning mt-2 fs-2">School Bus Monitoring</h2>
+        <h2 className="fw-bold text-warning mt-2 fs-2">{app.name}</h2>
       </motion.div>
 
       <div className="row g-4">

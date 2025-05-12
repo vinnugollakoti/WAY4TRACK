@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Clock, Navigation, Car } from 'lucide-react';
 import './styles/DashboardDemo.css';
 
-const DashboardDemo = ({ dashboardImage }) => {
+const DashboardDemo = ({ dashboardImage,applications }) => {
   const alerts = [
     {
       icon: <Clock size={28} />,
@@ -46,7 +46,7 @@ const DashboardDemo = ({ dashboardImage }) => {
           </Col>
         </Row>
         <Row>
-          {alerts.map((alert, index) => (
+          {applications.slice(3,7).map((alert, index) => (
             <Col md={4} sm={12} key={index}>
               <div 
                 className="alert-card" 
@@ -54,10 +54,11 @@ const DashboardDemo = ({ dashboardImage }) => {
                 data-aos-delay={100 * index}
               >
                 <div className="alert-icon">
-                  {alert.icon}
+                  {/* {alert.icon} */}
+                  <img src={alert.image} alt={alert.name} />
                 </div>
-                <h4 className="alert-title">{alert.title}</h4>
-                <p className="alert-description">{alert.description}</p>
+                <h4 className="alert-title">{alert.name}</h4>
+                <p className="alert-description">{alert.desc}</p>
               </div>
             </Col>
           ))}

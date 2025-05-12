@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Bus, Check, ChevronRight, AlertTriangle } from 'lucide-react';
 
-const HeroSection = () => {
+const HeroSection = ({title,shortDesc,blogImage}) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -38,11 +38,13 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.h1 className="display-5 fw-bold mb-4 text-dark" variants={itemVariants}>
-            School Bus <span className="text-warning">Tracker</span>
+            {/* School Bus <span className="text-warning">Tracker</span> */}
+            {title}
           </motion.h1>
 
           <motion.p className="lead text-muted mb-4" variants={itemVariants}>
-            SmartBus generates trips, lets you see how long the bus spends at each stop, notifies delays, records attendance, and more. Sit back and relax, let SmartBus do the work for you!
+            {/* SmartBus generates trips, lets you see how long the bus spends at each stop, notifies delays, records attendance, and more. Sit back and relax, let SmartBus do the work for you! */}
+            {shortDesc}
           </motion.p>
 
           <motion.div className="d-flex flex-column gap-3 mb-4" variants={itemVariants}>
@@ -94,7 +96,7 @@ const HeroSection = () => {
 
             {/* Image */}
             <motion.img
-              src="https://images.pexels.com/photos/6168334/pexels-photo-6168334.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src={blogImage}
               alt="School Bus"
               className="img-fluid rounded-4 shadow"
               style={{ height: '400px', objectFit: 'cover', width: '100%' }}

@@ -1,33 +1,41 @@
 // src/LandingPage.js
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-import HeroSection from './HeroSection';
-import FeaturesSection from './FeaturesSection';
-import GpsSection from './GpsSection';
-import ParentsAppSection from './ParentsAppSection';
-import MonitoringSection from './MonitoringSection';
-import DriverAppSection from './DriverAppSection';
-import SupportedTrackersSection from './SupportedTrackersSection';
+import HeroSection from "./HeroSection";
+import FeaturesSection from "./FeaturesSection";
+import GpsSection from "./GpsSection";
+import ParentsAppSection from "./ParentsAppSection";
+import MonitoringSection from "./MonitoringSection";
+import DriverAppSection from "./DriverAppSection";
+import SupportedTrackersSection from "./SupportedTrackersSection";
 
-function LandingPage3() {
+function LandingPage3(product) {
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
 
+  console.log(product, "product333");
+
+  const appSections = [ParentsAppSection,MonitoringSection,DriverAppSection];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-amber-50">
       <div data-aos="fade-up">
-        <HeroSection />
+        <HeroSection
+          title={product.data.name}
+          shortDesc={product.data.shortDescription}
+          blogImage={product.data.blogImage}
+        />
       </div>
       <div data-aos="fade-up" data-aos-delay="100">
-        <FeaturesSection />
+        <FeaturesSection applications={product.data.application} />
       </div>
       <div data-aos="fade-up" data-aos-delay="200">
         <GpsSection />
       </div>
-      <div data-aos="fade-up" data-aos-delay="300">
+      {/* <div data-aos="fade-up" data-aos-delay="300">
         <ParentsAppSection />
       </div>
       <div data-aos="fade-up" data-aos-delay="400">
@@ -35,9 +43,28 @@ function LandingPage3() {
       </div>
       <div data-aos="fade-up" data-aos-delay="500">
         <DriverAppSection />
-      </div>
+      </div> */}
+      {product.data.productApp.map((app, index) => {
+        const SectionComponent = appSections[index % appSections.length];
+        return (
+          <div
+            key={index}
+            data-aos="fade-up"
+            data-aos-delay={300 + index * 100}
+          >
+            <SectionComponent
+              app={app}
+              title={product.data.name}
+              steps={product.data.points}
+              chooseImage={product.data.chooseImage}
+              chooseTitle={product.data.chooseTitle}
+              chooseDescription={product.data.chooseDescription}
+            />
+          </div>
+        );
+      })}
       <div data-aos="fade-up" data-aos-delay="600">
-        <SupportedTrackersSection />
+        <SupportedTrackersSection footerImage={product.data.footerBanner} />
       </div>
     </div>
   );

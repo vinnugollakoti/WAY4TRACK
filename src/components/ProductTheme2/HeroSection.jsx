@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 
-const HeroSection = () => {
+const HeroSection = ({title,description,heroImage}) => {
   return (
     <section className="py-5 bg-custom-light">
       <Container>
@@ -30,7 +30,7 @@ const HeroSection = () => {
               </p>
               <div className="img-container overflow-hidden rounded-custom shadow-custom">
                 <img
-                  src="./images/ap_mining.png"
+                  src={heroImage}
                   alt="Mining Truck"
                   className="img-fluid"
                 />
@@ -40,11 +40,10 @@ const HeroSection = () => {
           <Col lg={6} data-aos="fade-left" data-aos-delay="200">
             <div className="ps-lg-5">
               <h1 className="display-4 fw-bold mb-4 text-primary">
-                AIS 140 IRNSS DEVICE for Mining vehicles.
+                {title}
               </h1>
               <p className="lead mb-4 text-secondary">
-                AIS 140 IRNSS Device is approved and certified by the Govt. of
-                India for optimized tracking and enhanced safety.
+                {description}
               </p>
               <Button
                 variant="success"

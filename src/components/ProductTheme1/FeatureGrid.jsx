@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Wifi, Battery, Navigation, AlarmPlus as Alarm, Clock, History, Map, AlertTriangle } from 'lucide-react';
 import './styles/FeatureGrid.css';
 
-const FeatureGrid = () => {
+const FeatureGrid = (amenities) => {
   const features = [
     {
       icon: <Wifi size={32} />,
@@ -47,6 +47,7 @@ const FeatureGrid = () => {
     }
   ];
 
+  console.log(amenities,"amenities feature grid")
   return (
     <section className="feature-grid-section section-padding">
       <Container>
@@ -60,7 +61,7 @@ const FeatureGrid = () => {
           </Col>
         </Row>
         <Row>
-          {features.map((feature, index) => (
+          {amenities.amenities.map((feature, index) => (
             <Col md={6} lg={3} sm={12} key={index} className="mb-4">
               <div 
                 className="info-box" 
@@ -68,10 +69,11 @@ const FeatureGrid = () => {
                 data-aos-delay={index * 50}
               >
                 <div className="info-icon">
-                  {feature.icon}
+                  {/* {feature.icon} */}
+                  <img src={feature.image} alt={feature.name} />
                 </div>
-                <h4>{feature.title}</h4>
-                <p>{feature.description}</p>
+                <h4>{feature.name}</h4>
+                <p>{feature.desc}</p>
               </div>
             </Col>
           ))}

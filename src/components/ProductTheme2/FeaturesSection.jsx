@@ -1,6 +1,8 @@
 import { Container, Row, Col, Card } from 'react-bootstrap'
 
-const FeaturesSection = () => {
+const FeaturesSection = (applications) => {
+
+  console.log(applications,"applicationnfjeianfuy")
   const features = [
     {
       icon: "bi bi-geo-alt-fill",
@@ -36,15 +38,16 @@ const FeaturesSection = () => {
           </Col>
         </Row>
         <Row>
-          {features.map((feature, index) => (
-            <Col md={6} lg={3} key={index} className="mb-4" data-aos="fade-up" data-aos-delay={index * 100}>
+          {applications.applications.map((feature, index) => (
+            <Col md={4} lg={3} key={index} className="mb-4" data-aos="fade-up" data-aos-delay={index * 100}>
               <Card className="h-100 border-0 shadow-custom text-center hover-lift">
                 <Card.Body className="p-4">
                   <div className="feature-icon-container mb-3">
-                    <i className={`${feature.icon} text-success fs-1`}></i>
+                    {/* <i className={`${feature.icon} text-success fs-1`}></i> */}
+                    <img src={feature.image} alt={feature.name} />
                   </div>
-                  <h4 className="fw-bold mb-3 text-primary">{feature.title}</h4>
-                  <p className="mb-0 text-secondary">{feature.description}</p>
+                  <h4 className="fw-bold mb-3 text-primary">{feature.name}</h4>
+                  <p className="mb-0 text-secondary">{feature.desc}</p>
                 </Card.Body>
               </Card>
             </Col>

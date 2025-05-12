@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-const FooterBanner = () => {
+const FooterBanner = (footerBanner) => {
   const bannerRef = useRef(null)
+
+  console.log(footerBanner,"footerjnfe")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,19 +28,21 @@ const FooterBanner = () => {
         ref={bannerRef}
         className="w-100 h-100 position-absolute" 
         style={{
-          backgroundImage: 'url(https://images.pexels.com/photos/2301471/pexels-photo-2301471.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
+          backgroundImage: `url(${footerBanner})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: -1,
+          position: 'relative',
         }}
       />
       <div 
         className="w-100 h-100 d-flex flex-column justify-content-center align-items-center position-relative"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
       >
-        <h2 className="text-white text-center mb-4 display-5 fw-bold" data-aos="fade-up">
+        {/* <img src={footerBanner} /> */}
+        {/* <h2 className="text-white text-center mb-4 display-5 fw-bold" data-aos="fade-up">
           AIS-140 MINING DEVICE
-        </h2>
+        </h2> */}
         <button 
           className="btn btn-success btn-lg btn-custom rounded-pill"
           data-aos="fade-up"
