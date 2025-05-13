@@ -86,6 +86,8 @@ const PromotionAPI = () => {
     fetchData();
   }, []);
 
+  console.log(products,"products")
+
   const handleButtonActions = {
     call: (callNumber) =>
       (window.location.href = `tel:${callNumber || "1234567890"}`),
@@ -199,7 +201,7 @@ const PromotionAPI = () => {
       {/* Banner Section */}
       <div className="row mb-4">
         <div className="col-12" style={{paddingRight:"0px"}}>
-          <BannerCarousel banners={allBanners} />
+          <BannerCarousel banners={allBanners} productsData={products} />
         </div>
       </div>
 

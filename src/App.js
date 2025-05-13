@@ -169,6 +169,9 @@ function App() {
           <Route path="/blogs" element={<RelatedBlogs />} />
           <Route path="/blogdetails" element={<BlogDetail />} />
           <Route path="/category/:category" element={<BlogList />} />
+          <Route path="/theme1" element={<ProductTheme1 />} />
+          <Route path="/theme2" element={<ProductTheme2 />} />
+          <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
 
           {products.map((product) => {

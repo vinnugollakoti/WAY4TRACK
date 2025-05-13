@@ -1,9 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const BannerCarousel = ({ banners = [] }) => {
+const BannerCarousel = ({ banners = [], productsData }) => {
+  const navigate = useNavigate();
+
   if (!banners || banners.length === 0) {
     return null;
   }
+
+  const handleBannerClick = (banner) => {
+    const matchedProduct = productsData.find(
+      (product) => product.homeBanner[0] === banner
+    );
+
+    console.log(matchedProduct, "matched product");
+
+    if (matchedProduct?.layoutType) {
+      navigate(`/product-theme/${matchedProduct.id}`);
+    } else {
+      console.warn("No matching product found for banner:", banner);
+    }
+  };
 
   return (
     <div className="banner-carousel-container">
@@ -17,6 +34,7 @@ const BannerCarousel = ({ banners = [] }) => {
             <div
               key={index}
               className={`carousel-item ${index === 0 ? "active" : ""}`}
+              onClick={() => handleBannerClick(banner)}
             >
               <img
                 src={banner}
