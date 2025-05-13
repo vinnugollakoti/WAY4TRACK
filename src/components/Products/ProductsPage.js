@@ -1,3 +1,5 @@
+// Updated ProductsPage.js with working filters
+
 import React, { useState, useEffect, useContext } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { CartContext } from "../../contexts/CartContext";
@@ -8,11 +10,16 @@ import ProductPopupPage from "../ProductPopupPage/ProductPopupPage";
 function ProductsPage() {
   const { addToCart, updateQuantity, cartItems } = useContext(CartContext);
   const [products, setProducts] = useState([]);
-  const [filters, setFilters] = useState({ type: "", price: "" });
   const [allProducts, setAllProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showProductModal, setShowProductModal] = useState(false);
   const [hovered, setHovered] = useState(false);
+
+  const [filters, setFilters] = useState({
+    names: [],
+    priceRange: [0, 10000],
+    sort: "",
+  });
 
   useEffect(() => {
     localStorage.removeItem("buyNowItem");
@@ -28,6 +35,7 @@ function ProductsPage() {
         }
       );
       setProducts(response.data || []);
+      setAllProducts(response.data || []);
     } catch (err) {
       console.error("Failed to fetch data:", err);
       setProducts([]);
@@ -38,63 +46,58 @@ function ProductsPage() {
     fetchAllProducts();
   }, []);
 
-  useEffect(() => {
-    filterProducts();
-  }, [filters]);
-
-  const filterProducts = () => {
-    let filtered = products;
-
-    if (filters.type) {
-      filtered = filtered.filter((p) => p.type === filters.type);
-    }
-
-    if (filters.price === "low") {
-      filtered = filtered.filter((p) => p.cost < 5000);
-    } else if (filters.price === "mid") {
-      filtered = filtered.filter((p) => p.cost >= 5000 && p.cost <= 10000);
-    } else if (filters.price === "high") {
-      filtered = filtered.filter((p) => p.cost > 10000);
-    }
-
-    setProducts(filtered);
-  };
-
-  const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const productCounts = filteredProducts.reduce((acc, product) => {
+  const productCounts = allProducts.reduce((acc, product) => {
     acc[product.name] = (acc[product.name] || 0) + 1;
     return acc;
   }, {});
 
   const uniqueProductNames = Object.keys(productCounts);
 
-  const handleQuantityChange = (id, type) => {
-    updateQuantity(id, type === "inc" ? 1 : -1);
+  const handleCheckboxChange = (name) => {
+    setFilters((prev) => {
+      const newNames = prev.names.includes(name)
+        ? prev.names.filter((n) => n !== name)
+        : [...prev.names, name];
+      return { ...prev, names: newNames };
+    });
   };
 
-  const removeProduct = (productId) => {
-    updateQuantity(productId, 0);
+  const handleSortChange = (value) => {
+    setFilters((prev) => ({ ...prev, sort: value }));
   };
 
-  // const handleAddToCart = (product) => {
-  //   const existingItem = cartItems.find((item) => item.id === product.id);
-  //   if (!existingItem) {
-  //     addToCart({ ...product, quantity: 1 });
-  //   }
-  // };
+  const handlePriceChange = (value) => {
+    setFilters((prev) => ({ ...prev, priceRange: [0, Number(value)] }));
+  };
+
+  const filteredProducts = allProducts
+    .filter((p) => {
+      if (filters.names.length === 0) return true;
+      return filters.names.includes(p.name);
+    })
+    .filter((p) => {
+      return p.device.some(
+        (d) => d.amount + d.subscriptionMonthlyAmt <= filters.priceRange[1]
+      );
+    });
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const aPrice =
+      a.device?.[0]?.amount + a.device?.[0]?.subscriptionMonthlyAmt || 0;
+    const bPrice =
+      b.device?.[0]?.amount + b.device?.[0]?.subscriptionMonthlyAmt || 0;
+
+    if (filters.sort === "low") return aPrice - bPrice;
+    if (filters.sort === "high") return bPrice - aPrice;
+    if (filters.sort === "az") return a.name.localeCompare(b.name);
+    if (filters.sort === "za") return b.name.localeCompare(a.name);
+    return 0;
+  });
 
   const handleAddToCart = (device) => {
     setSelectedProduct(device);
     setShowProductModal(true);
   };
-
-  console.log(cartItems, "products");
 
   return (
     <div className="products-container">
@@ -114,6 +117,8 @@ function ProductsPage() {
                   <input
                     type="checkbox"
                     className="products-filter-checkbox checkbox-input"
+                    checked={filters.names.includes(productName)}
+                    onChange={() => handleCheckboxChange(productName)}
                   />
                   <span className="product-name checkbox-name">
                     {productName}
@@ -134,35 +139,34 @@ function ProductsPage() {
               type="range"
               min="0"
               max="10000"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([0, Number(e.target.value)])}
+              value={filters.priceRange[1]}
+              onChange={(e) => handlePriceChange(e.target.value)}
               className="price-slider"
             />
             <div className="price-range price-display">
-              Price: ₹{priceRange[0]} - ₹{priceRange[1]}
+              Price: ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
             </div>
           </div>
 
           <div className="filters-wrapper sort-filter-wrapper">
             <select
-              onChange={(e) =>
-                setFilters({ ...filters, price: e.target.value })
-              }
+              onChange={(e) => handleSortChange(e.target.value)}
               className="filter-select sort-select"
+              value={filters.sort}
             >
               <option value="">Sort By</option>
               <option value="low">Price Low to High</option>
-              <option value="mid">Price High to Low</option>
-              <option value="high">A to Z</option>
-              <option value="high">Z to A</option>
+              <option value="high">Price High to Low</option>
+              <option value="az">Name A to Z</option>
+              <option value="za">Name Z to A</option>
             </select>
           </div>
         </div>
 
         <div className="productsPage-main-container">
           <div className="products-grid">
-            {filteredProducts.map((product) => {
-              return product.device?.map((device) => {
+            {sortedProducts.map((product) =>
+              product.device?.map((device) => {
                 const startPrice =
                   ((device.amount + device.subscriptionMonthlyAmt) *
                     device.discount) /
@@ -170,13 +174,6 @@ function ProductsPage() {
                 const matchedItem = cartItems.find(
                   (item) => item.device.id === device.id
                 );
-
-                // const endPrice =
-                //   ((device.amount +
-                //     device.subscriptionMonthlyAmt +
-                //     device.relayAmt) *
-                //     device.discount) /
-                //   100;
 
                 return (
                   <div
@@ -222,26 +219,6 @@ function ProductsPage() {
                                   ? "Update Cart"
                                   : "Added"}
                               </button>
-
-                              {/* <button
-                                className="qty-btn"
-                                onClick={() =>
-                                  handleQuantityChange(product.id, "dec")
-                                }
-                              >
-                                -
-                              </button>
-                              <span className="qty-number">
-                                {matchedItem.quantity}
-                              </span>
-                              <button
-                                className="qty-btn"
-                                onClick={() =>
-                                  handleQuantityChange(product.id, "inc")
-                                }
-                              >
-                                +
-                              </button> */}
                             </div>
                           ) : (
                             <button
@@ -263,11 +240,12 @@ function ProductsPage() {
                     </div>
                   </div>
                 );
-              });
-            })}
+              })
+            )}
           </div>
         </div>
       </div>
+
       {showProductModal && (
         <div
           className="modal-overlay"

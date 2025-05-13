@@ -12,12 +12,12 @@ const ProductPage = (product) => {
     <div className="product-page">
       <HeroSection
         homeTitle={product.data.name}
-        description={product.data.shortDescription}
+        shortDescription={product.data.shortDescription}
       />
       <div className="container-fluid">
-        <AboutSection />
-        <ParametersSection />
-        <FeaturesSection />
+        <AboutSection devices={product.data.device} />
+        <ParametersSection description={product.data.description} />
+        <FeaturesSection amenities={product.data.amenities} />
       </div>
     </div>
   );

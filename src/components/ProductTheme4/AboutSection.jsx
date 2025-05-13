@@ -1,53 +1,72 @@
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
-import { Carousel } from 'react-bootstrap';
+import React from "react";
+import { useInView } from "react-intersection-observer";
+import { Carousel } from "react-bootstrap";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { DiHtml5DeviceAccess } from "react-icons/di";
 
-const AboutSection = () => {
+const AboutSection = ({ devices }) => {
   const { ref, inView } = useInView({
     threshold: 0.2,
-    triggerOnce: false
+    triggerOnce: false,
   });
 
   const carouselImages = [
     {
       src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
-      alt: "OBD GPS Tracker - Front View"
+      alt: "OBD GPS Tracker - Front View",
     },
     {
       src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
-      alt: "OBD GPS Tracker - Side View"
+      alt: "OBD GPS Tracker - Side View",
     },
     {
       src: "https://images.pexels.com/photos/4218883/pexels-photo-4218883.jpeg",
-      alt: "OBD GPS Tracker - Installation"
-    }
+      alt: "OBD GPS Tracker - Installation",
+    },
   ];
+
+  console.log(devices[0].description, "devicessss");
 
   return (
     <section className="about-section py-5" ref={ref}>
       <div className="row justify-content-center">
         <div className="col-lg-8 text-center mb-5">
-          <h6 className="text-primary text-uppercase" data-aos="fade-up">About Our Device</h6>
+          <h6 className="text-primary text-uppercase" data-aos="fade-up">
+            About Our Device
+          </h6>
           <h2 className="section-title" data-aos="fade-up" data-aos-delay="100">
             Advanced GPS Tracking Technology
           </h2>
-          <div className="divider mx-auto" data-aos="fade-up" data-aos-delay="200"></div>
+          <div
+            className="divider mx-auto"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          ></div>
         </div>
       </div>
-      
-      <div className="row align-items-center" style={{padding:"50px"}}>
+
+      <div className="row align-items-center" style={{ padding: "50px" }}>
         <div className="col-lg-5 mb-4 mb-lg-0">
-          <div className={`about-image position-relative ${inView ? 'animate' : ''}`} data-aos="fade-right">
-            <Carousel interval={5000} className="rounded shadow" fade={false} pause={false}>
-              {carouselImages.map((image, index) => (
+          <div
+            className={`about-image position-relative ${
+              inView ? "animate" : ""
+            }`}
+            data-aos="fade-right"
+          >
+            <Carousel
+              interval={5000}
+              className="rounded shadow"
+              fade={false}
+              pause={false}
+            >
+              {devices.map((device, index) => (
                 <Carousel.Item key={index}>
                   <img
                     className="d-block w-100 img-fluid rounded"
-                    src={image.src}
-                    alt={image.alt}
-                     onLoad={() => console.log('Image loaded')} // optional check
+                    src={device.image}
+                    alt={device.name}
+                    onLoad={() => console.log("Image loaded")} // optional check
                   />
                 </Carousel.Item>
               ))}
@@ -70,47 +89,33 @@ const AboutSection = () => {
         <div className="col-lg-7">
           <div className="about-content" data-aos="fade-left">
             <p className="lead">
-              Way4Track plug & play is an enhanced version of Plus and Basic series of GPS tracking devices, 
-              offering numerous advanced features for comprehensive vehicle monitoring.
+              Way4Track plug & play is an enhanced version of Plus and Basic
+              series of GPS tracking devices, offering numerous advanced
+              features for comprehensive vehicle monitoring.
             </p>
             <p>
-              In the vehicle tracking system, it can be used to track cars, buses, trucks, and many other vehicles. 
-              Simply attach it to the OBD port under the dashboard and use it even when unplugged, thanks to its 
-              built-in battery backup system.
+              In the vehicle tracking system, it can be used to track cars,
+              buses, trucks, and many other vehicles. Simply attach it to the
+              OBD port under the dashboard and use it even when unplugged,
+              thanks to its built-in battery backup system.
             </p>
             <div className="row mt-4">
-              <div className="col-md-6 mb-3">
-                <div className="feature-item" data-aos="zoom-in" data-aos-delay="100">
-                  <div className="icon-box">
-                    <i className="bi bi-geo-alt"></i>
+              {devices.map((device, index) => (
+                <div key={index} className="col-md-6 mb-3">
+                  <div
+                    className="feature-item"
+                    data-aos="zoom-in"
+                    data-aos-delay="100"
+                  >
+                    <div className="icon-box">
+                      <DiHtml5DeviceAccess  />
+                      {/* <i className="bi bi-geo-alt"></i> */}
+                    </div>
+                    <h5>{device.name}</h5>
                   </div>
-                  <h5>Real-time Tracking</h5>
                 </div>
-              </div>
-              <div className="col-md-6 mb-3">
-                <div className="feature-item" data-aos="zoom-in" data-aos-delay="200">
-                  <div className="icon-box">
-                    <i className="bi bi-shield-check"></i>
-                  </div>
-                  <h5>Tamper Alert</h5>
-                </div>
-              </div>
-              <div className="col-md-6 mb-3">
-                <div className="feature-item" data-aos="zoom-in" data-aos-delay="300">
-                  <div className="icon-box">
-                    <i className="bi bi-battery-charging"></i>
-                  </div>
-                  <h5>Built-in Battery</h5>
-                </div>
-              </div>
-              <div className="col-md-6 mb-3">
-                <div className="feature-item" data-aos="zoom-in" data-aos-delay="400">
-                  <div className="icon-box">
-                    <i className="bi bi-tools"></i>
-                  </div>
-                  <h5>Diagnostic Data</h5>
-                </div>
-              </div>
+              ))}
+              
             </div>
           </div>
         </div>
@@ -120,20 +125,20 @@ const AboutSection = () => {
         .about-section {
           overflow: hidden;
         }
-        
+
         .divider {
           width: 50px;
           height: 3px;
           background-color: #007bff;
           margin-bottom: 30px;
         }
-        
+
         .feature-item {
           display: flex;
           align-items: center;
           margin-bottom: 15px;
         }
-        
+
         .icon-box {
           display: flex;
           align-items: center;
@@ -144,16 +149,16 @@ const AboutSection = () => {
           border-radius: 50%;
           margin-right: 15px;
         }
-        
+
         .icon-box i {
           font-size: 1.5rem;
           color: #007bff;
         }
-        
+
         .about-image.animate {
           animation: fadeInUp 0.8s ease-out;
         }
-        
+
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -164,14 +169,14 @@ const AboutSection = () => {
             transform: translateY(0);
           }
         }
-        
+
         .carousel-control-prev-icon,
         .carousel-control-next-icon {
           background-color: rgba(0, 0, 0, 0.5);
           border-radius: 50%;
           padding: 10px;
         }
-        
+
         .carousel-indicators button {
           width: 10px;
           height: 10px;

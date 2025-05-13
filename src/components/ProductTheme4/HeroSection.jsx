@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Cpu } from 'lucide-react';
 
-const HeroSection = ({homeTitle,description}) => {
+const HeroSection = ({homeTitle,shortDescription}) => {
   const heroRef = useRef(null);
   
   useEffect(() => {
@@ -30,7 +30,7 @@ const HeroSection = ({homeTitle,description}) => {
             <p className="lead mb-4">
               {/* Advanced positioning device with premium features like electronic fence, 
               remote tracking, and comprehensive vehicle diagnostics. */}
-              {description}
+              {shortDescription}
             </p>
             <button className="btn btn-primary btn-lg pulse-btn">
               Learn More
