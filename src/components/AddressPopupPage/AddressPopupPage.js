@@ -137,19 +137,19 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
           <input
             type="text"
             name="firstName"
-            placeholder="First name"
+            placeholder="Name"
             value={form.firstName}
             onChange={handleChange}
             required
           />
-          <input
+          {/* <input
             type="text"
             name="lastName"
             placeholder="Last name"
             value={form.lastName}
             onChange={handleChange}
             required
-          />
+          /> */}
         </div>
 
         <input

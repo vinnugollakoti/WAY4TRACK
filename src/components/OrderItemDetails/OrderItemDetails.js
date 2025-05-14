@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
 import "./OrderItemDetails.css";
 
-// Define OrderStatus enum locally
 const OrderStatus = {
   PENDING: "pending",
   ORDERSUCESS: "orderSuccess",
@@ -16,7 +16,6 @@ const OrderStatus = {
   request_sucess: "request_sucess",
 };
 
-// RefundStatus enum
 const RefundStatus = {
   PENDING: "pending",
   APPROVED: "approved",
@@ -51,6 +50,39 @@ const OrderItemDetails = () => {
   const clientId = localStorage.getItem("client_id");
   const clientDbId = localStorage.getItem("client_db_id");
   console.log(order);
+
+  const handleDownloadInvoice = () => {
+    const doc = new jsPDF();
+
+    // Add a title
+    doc.setFontSize(18);
+    doc.text("Invoice", 20, 20);
+
+    // Customer & Order Details
+    doc.setFontSize(12);
+    doc.text(`Customer: ${order?.name}`, 20, 35);
+    doc.text(`Order ID: ${order?.id}`, 20, 45);
+    doc.text(`Order Date: ${formatDate(order?.orderDate)}`, 20, 55);
+    doc.text(`Delivery Date: ${formatDate(order?.delivaryDate)}`, 20, 65);
+
+    // Item Details
+    doc.text("Item Details:", 20, 80);
+    doc.text(`- Product: ${item?.name}`, 25, 90);
+    doc.text(`- Network: ${item?.network}`, 25, 100);
+    doc.text(`- Subscription: ${item?.subscriptionType}`, 25, 110);
+    doc.text(
+      `- Accessories: ${item?.is_relay ? "With Relay" : "Without Relay"}`,
+      25,
+      120
+    );
+    doc.text(`- Amount: ₹${item?.amount}`, 25, 130);
+
+    // Footer
+    doc.text("Thank you for your purchase!", 20, 150);
+
+    // Save the PDF
+    doc.save(`Invoice_Order_${order?.id}.pdf`);
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0]; // Get the file object
@@ -566,9 +598,15 @@ const OrderItemDetails = () => {
         <div className="OrderItemDetails-right">
           <div className="OrderItemDetails-invoice">
             📄{" "}
-            <a href="#" download>
+            {/* <a href="#" download>
               Download Invoice
-            </a>
+            </a> */}
+            <button
+              className="OrderItemDetails-actionBtn"
+              onClick={handleDownloadInvoice}
+            >
+              Download Invoice
+            </button>
           </div>
 
           <div className="OrderItemDetails-shippingBox">

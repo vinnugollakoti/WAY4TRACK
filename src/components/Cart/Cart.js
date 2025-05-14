@@ -145,7 +145,7 @@ function CartPage() {
                 className="cart-page-add-button"
                 onClick={() => setShowForm(true)}
               >
-                + Add New Billing Address
+                + Add New Delivery Address
               </button>
             </div>
           )}
@@ -266,12 +266,12 @@ function CartPage() {
           )}
 
           <div className="cart-page-button-container">
-            <button
+            {/* <button
               className="cart-page-add-button"
               onClick={() => setShowForm(true)}
             >
               + Add New Address
-            </button>
+            </button> */}
             {/* <button
               type="button"
               className="cart-page-proceed-button"

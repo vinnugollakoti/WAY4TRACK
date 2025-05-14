@@ -283,10 +283,15 @@
 
 .cart-sub-main-container {
   margin-left: 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid #ddd;
+  padding: 16px 20px;
+  border-radius: 8px;
 }
 
 .cart-page-address-card {
-  background-color: var(--green-light);
+  /* background-color: var(--green-light); */
+  background-color: #c8e6c9;
   border: 1px solid var(--green-primary);
   border-radius: var(--border-radius);
   padding: 10px;

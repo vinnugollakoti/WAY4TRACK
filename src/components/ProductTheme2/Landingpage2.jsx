@@ -43,9 +43,9 @@ function App(product) {
         points={product.data.points}
       />
       <SolutionsSection
-        ourTitle={product.data.ourTitle}
-        ourDescription={product.data.ourDescription}
-        ourImage={product.data.ourImage}
+        ourTitle={product.data.solutionTitle}
+        ourDescription={product.data.solutionDescription}
+        ourImage={product.data.solutionImage}
       />
       <FeaturesSection applications={product.data.application} />
       <FooterBanner footerBanner={product.data.footerBanner} />
