@@ -8,6 +8,7 @@ import DashboardDemo from "./DashboardDemo";
 import TrackingFeatures from "./TrackingFeatures";
 import FeatureGrid from "./FeatureGrid";
 import CTASection from "./CTASection";
+import SolutionsSection from "../ProductTheme2/SolutionsSection";
 import "./styles/App.css";
 
 function Landingpage1(product) {
@@ -55,9 +56,12 @@ function Landingpage1(product) {
       />
       <TrackingFeatures dashboardImage={product.data.banner2} />
       <FeatureGrid amenities={product.data.amenities} />
-      <CTASection
-        footerImage={product.data.footerBanner}
+      <SolutionsSection
+        ourTitle={product.data.solutionTitle}
+        ourDescription={product.data.solutionDescription}
+        ourImage={product.data.solutionImage}
       />
+      <CTASection footerImage={product.data.footerBanner} />
     </div>
   );
 }

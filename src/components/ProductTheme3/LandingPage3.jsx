@@ -10,6 +10,7 @@ import ParentsAppSection from "./ParentsAppSection";
 import MonitoringSection from "./MonitoringSection";
 import DriverAppSection from "./DriverAppSection";
 import SupportedTrackersSection from "./SupportedTrackersSection";
+import SolutionsSection from "../ProductTheme2/SolutionsSection";
 import CTASection from "./CTASection";
 
 function LandingPage3(product) {
@@ -19,7 +20,7 @@ function LandingPage3(product) {
 
   console.log(product, "product333");
 
-  const appSections = [ParentsAppSection,MonitoringSection,DriverAppSection];
+  const appSections = [ParentsAppSection, MonitoringSection, DriverAppSection];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-amber-50">
@@ -64,9 +65,12 @@ function LandingPage3(product) {
           </div>
         );
       })}
-       <CTASection
-        footerImage={product.data.footerBanner}
+      <SolutionsSection
+        ourTitle={product.data.solutionTitle}
+        ourDescription={product.data.solutionDescription}
+        ourImage={product.data.solutionImage}
       />
+      <CTASection footerImage={product.data.footerBanner} />
     </div>
   );
 }

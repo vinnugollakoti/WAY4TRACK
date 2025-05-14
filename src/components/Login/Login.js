@@ -52,6 +52,11 @@ function LoginPage() {
       });
 
       if (response.status) {
+        const { id, clientId, phoneNumber } = response.data;
+
+        localStorage.setItem("client_id", clientId);
+        localStorage.setItem("client_db_id", id);
+        localStorage.setItem("client_phone", phoneNumber);
         console.log(response, "register");
 
         // Navigate back to the previous location after successful registration

@@ -14,6 +14,7 @@ const ProductPopupPage = ({ device }) => {
   const [network, setNetwork] = useState("Airtel");
   const [subscription, setSubscription] = useState("monthly");
   const [quantity, setQuantity] = useState(1);
+  const clientDbId = localStorage.getItem("client_db_id");
 
   console.log(cartItem, "cartItem");
 
@@ -69,6 +70,7 @@ const ProductPopupPage = ({ device }) => {
       network: network,
       subscription: subscription,
       totalAmount: totalAmount.toString(),
+      clientId: clientDbId,
     };
 
     if (cartItem && cartItem.id) {

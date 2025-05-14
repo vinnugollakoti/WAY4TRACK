@@ -10,6 +10,8 @@ const CartSidebar = ({ isOpen, onClose }) => {
   const { cartItems, removeFromCart, getTotal, addToCart } =
     useContext(CartContext);
 
+  console.log(cartItems, "outside");
+
   const updateQuantity = async (itemId, change) => {
     const cartItem = cartItems.find((item) => item.id === itemId);
     if (!cartItem) return;
@@ -17,7 +19,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
     if (updatedQuantity < 1) return;
 
-    console.log(itemId,"itemaisndihw")
+    console.log(cartItems, "cartItwenfj");
+
+    console.log(itemId, "itemaisndihw");
 
     const updatedCartData = {
       ...cartItem,

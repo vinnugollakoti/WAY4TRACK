@@ -8,7 +8,7 @@ import "./OrderDetailsPage.css";
 
 function OrderDetailsPage() {
   const location = useLocation();
-  const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
+  const { cartItems, removeFromCart, addToCart } = useContext(CartContext);
   const { deliveryAddress, billingAddress, isBuyNow, orderItems } =
     location.state || {};
   const companyCode = initialAuthState.companyCode;
@@ -17,6 +17,13 @@ function OrderDetailsPage() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log(
+    "BillingAddress:",
+    billingAddress,
+    "DeliveryAddress:",
+    deliveryAddress
+  );
 
   const displayedItems = isBuyNow ? orderItems : cartItems;
 
@@ -40,8 +47,34 @@ function OrderDetailsPage() {
     0
   );
 
-  const handleQuantityChange = (id, type) => {
-    updateQuantity(id, type === "inc" ? 1 : -1);
+  // const handleQuantityChange = (id, type) => {
+  //   updateQuantity(id, type === "inc" ? 1 : -1);
+  // };
+
+  const updateQuantity = async (itemId, change) => {
+    const cartItem = cartItems.find((item) => item.id === itemId);
+    if (!cartItem) return;
+    const updatedQuantity = (cartItem?.quantity || 1) + change;
+
+    if (updatedQuantity < 1) return;
+
+    console.log(cartItems, "cartItwenfj");
+
+    console.log(itemId, "itemaisndihw");
+
+    const updatedCartData = {
+      ...cartItem,
+      id: itemId,
+      quantity: updatedQuantity,
+      clientId: cartItem.client.id,
+      deviceId: cartItem.device.id,
+    };
+
+    try {
+      await addToCart(updatedCartData);
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
   };
 
   const createOrderPayload = () => {
@@ -144,14 +177,14 @@ function OrderDetailsPage() {
                     <div className="quantity-controls">
                       <button
                         className="qty-btn"
-                        onClick={() => handleQuantityChange(item.id, "dec")}
+                        onClick={() => updateQuantity(item.id, -1)}
                       >
                         -
                       </button>
                       <span className="qty-number">{item.quantity}</span>
                       <button
                         className="qty-btn"
-                        onClick={() => handleQuantityChange(item.id, "inc")}
+                        onClick={() => updateQuantity(item.id, 1)}
                       >
                         +
                       </button>

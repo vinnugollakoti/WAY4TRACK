@@ -3,6 +3,7 @@ import HeroSection from "./HeroSection";
 import AboutSection from "./AboutSection";
 import ParametersSection from "./ParametersSection";
 import FeaturesSection from "./FeaturesSection";
+import SolutionsSection from "../ProductTheme2/SolutionsSection";
 import "./styles/product-page.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,6 +18,11 @@ const ProductPage = (product) => {
       <div className="container-fluid">
         <AboutSection devices={product.data.device} />
         <ParametersSection description={product.data.description} />
+        <SolutionsSection
+          ourTitle={product.data.solutionTitle}
+          ourDescription={product.data.solutionDescription}
+          ourImage={product.data.solutionImage}
+        />
         <FeaturesSection amenities={product.data.amenities} />
       </div>
     </div>

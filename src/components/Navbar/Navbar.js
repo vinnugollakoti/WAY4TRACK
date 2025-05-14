@@ -34,7 +34,7 @@ const Navbar = ({ onCartClick }) => {
     localStorage.removeItem("client_phone");
 
     // Redirect to login page after logging out
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -129,7 +129,7 @@ const Navbar = ({ onCartClick }) => {
                 <Dropdown.Menu>
                   <Dropdown.Item href="/my-profile">Profile</Dropdown.Item>
                   <Dropdown.Item href="/orders">Orders</Dropdown.Item>
-                  <Dropdown.Item href="/payments">Payments</Dropdown.Item>
+                  {/* <Dropdown.Item href="/payments">Payments</Dropdown.Item> */}
                   <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
