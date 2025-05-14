@@ -3,7 +3,7 @@ import ActionButtons from "../common/ActionButtons";
 
 const SessionTen = ({ promo, handlers, navigate }) => {
   return (
-    <div className="row py-4">
+    <div className="row py-4" style={{padding:"0px 50px"}}>
       {/* Title */}
       <div className="col-12 mb-3 text-center animation-fade-in">
         <p className="mining-name">{promo.name}</p>

@@ -43,7 +43,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
           {promo.list.map((item, index) => (
             <div
               key={index}
-              className="card feature-card mb-4 shadow-lg border-0 rounded-4 w-100 animation-slide-in"
+              className="card feature-card-1 mb-4 shadow-lg border-0 rounded-4 w-100 animation-slide-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="card-body p-4">

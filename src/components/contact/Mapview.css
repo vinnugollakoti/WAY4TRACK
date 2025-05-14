@@ -1,0 +1,35 @@
+.map-view-container {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.leaflet-control-container .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  padding: 2px 5px;
+}
+
+/* Customize marker popup */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+  font-family: var(--font-family);
+}
+
+/* Increase marker contrast on dark maps */
+.leaflet-marker-icon {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+}

@@ -9,12 +9,12 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         minHeight: "auto",
-        padding: "40px 0",
+        padding: "50px",
       }
     : { backgroundColor: "#f8f9fa", padding: "40px 0" };
 
   return (
-    <div className="row align-items-center session-seven" style={bgStyle}>
+    <div className="row align-items-center session-seven" style={bgStyle} >
       {/* Title */}
       <div className="col-12 mb-4 text-center animation-fade-in">
         <p className="mining-name h4">{promo.name}</p>
@@ -34,7 +34,7 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
       </div>
 
       {/* Right: Content and Buttons */}
-      <div className="col-md-4 animation-fade-in">
+      <div className="col-md-4 animation-fade-in" style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
         <div className="session7-list p-4 mb-4 rounded">
           <ul className="list-unstyled">
             <li className="d-flex align-items-start mb-3">

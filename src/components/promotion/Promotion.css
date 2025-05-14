@@ -203,7 +203,7 @@
   position: relative;
 }
 
-.feature-card {
+.feature-card-1 {
   border-left: 3px solid #00A551;
   background: linear-gradient(to right, #c7ffda 0%, #38f9d7 100%);
   border-radius: 6px;
@@ -216,14 +216,14 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.feature-icon {
+.feature-icon-1 {
   width: 40px;
   height: 40px;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-.feature-card:hover .feature-icon {
+.feature-card:hover .feature-icon-1 {
   transform: rotate(10deg);
 }
 
@@ -317,22 +317,22 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.feature-card {
+.feature-card-1 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-card:hover {
+.feature-card-1:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
-.feature-icon {
+.feature-icon-1 {
   font-size: 30px;
   margin-right: 10px;
   transition: transform 0.3s ease;
 }
 
-.feature-card:hover .feature-icon {
+.feature-card-1:hover .feature-icon-1 {
   transform: rotate(15deg);
 }
 
@@ -417,7 +417,7 @@
     padding: 8px;
   }
   
-  .feature-icon {
+  .feature-icon-1 {
     width: 30px;
     height: 30px;
   }
@@ -634,3 +634,16 @@
 .chat-footer:hover {
   background-color: #20b954;
 }
+
+
+
+/*  */
+
+.stop-solutions{
+  text-align: center;
+  font-size: 30px;
+  
+}
+
+
+

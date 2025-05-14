@@ -3,7 +3,7 @@ import ActionButtons from "../common/ActionButtons";
 
 const SessionEight = ({ promo, handlers, navigate }) => {
   return (
-    <div className="row py-4">
+    <div className="row py-4" style={{padding:"0px 50px"}}>
       {/* Title */}
       <div className="col-12 mb-3 text-center animation-fade-in">
         <p className="mining-name">{promo.name}</p>
@@ -29,7 +29,7 @@ const SessionEight = ({ promo, handlers, navigate }) => {
       </div>
 
       {/* Right: Image */}
-      <div className="col-md-8 d-flex justify-content-center animation-fade-in">
+      <div className="col-md-8 animation-fade-in" style={{display:"flex",justifyContent:"center"}}>
         {promo.image && (
           <div className="img-container">
             <img

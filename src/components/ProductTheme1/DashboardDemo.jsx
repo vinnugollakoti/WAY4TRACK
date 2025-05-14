@@ -53,9 +53,9 @@ const DashboardDemo = ({ dashboardImage,applications }) => {
                 data-aos="fade-up" 
                 data-aos-delay={100 * index}
               >
-                <div className="alert-icon">
+                <div className="feature-icon-3">
                   {/* {alert.icon} */}
-                  <img src={alert.image} alt={alert.name} />
+                  <img src={alert.image} alt={alert.name} className='icons-size-dec'/>
                 </div>
                 <h4 className="alert-title">{alert.name}</h4>
                 <p className="alert-description">{alert.desc}</p>

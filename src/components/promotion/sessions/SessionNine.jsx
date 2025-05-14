@@ -8,7 +8,7 @@ const SessionNine = ({ promo, handlers, navigate }) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        padding: "40px 0",
+        padding: "50px",
       }
     : { backgroundColor: "#f0f8ff", padding: "40px 0" };
 

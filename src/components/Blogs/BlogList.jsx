@@ -63,8 +63,8 @@ const BlogList = () => {
   };
 
   return (
-    <div>
-      <h1 className="page-title">Way4Track - GPS Tracking Solutions</h1>
+    <div style={{padding:"50px 0px"}}>
+      <h1 className="page-title" style={{textAlign:"center", paddingBottom:"50px"}}>Way4Track - GPS Tracking Solutions</h1>
 
       {/* {!selectedProduct && (
         <div className="category-filters">
@@ -110,13 +110,18 @@ const BlogList = () => {
         </div>
       )} */}
 
- <div className="blog-grid">
-          {blogData.map(product => (
-            <div key={product.id} onClick={() => handleProductClick(product)} className="clickable">
-              <BlogCard blog={product} />
-            </div>
-          ))}
+<div className="container">
+  <div className="row">
+    {blogData.map(product => (
+      <div key={product.id} className="col-md-3 mb-4">
+        <div onClick={() => handleProductClick(product)} className="clickable">
+          <BlogCard blog={product} />
         </div>
+      </div>
+    ))}
+  </div>
+</div>
+
 
     </div>
   );

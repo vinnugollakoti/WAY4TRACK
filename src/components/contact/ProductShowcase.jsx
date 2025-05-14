@@ -1,79 +1,126 @@
-import React from 'react'
-import { Card, Row, Col, Badge } from 'react-bootstrap'
-import './ProductShowcase.css'
+import React, { useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import MapView from "./MapView";
+import "./ProductShowcase.css";
+import ApiService from "../Services/ApiServices";
 
-const ProductShowcase = () => {
-  const products = [
-    {
-      id: 1,
-      name: "BikeGuard Pro",
-      description: "Advanced GPS tracking for bicycles with anti-theft alerts and route history.",
-      imageUrl: "https://images.pexels.com/photos/5464239/pexels-photo-5464239.jpeg?auto=compress&cs=tinysrgb&w=600",
-      features: ["Real-time GPS", "Anti-theft alarm", "Mobile app", "Weatherproof"],
-      isNew: true
-    },
-    {
-      id: 2,
-      name: "CarTrack Guardian",
-      description: "Complete vehicle security system with real-time monitoring and geofencing.",
-      imageUrl: "https://images.pexels.com/photos/5835104/pexels-photo-5835104.jpeg?auto=compress&cs=tinysrgb&w=600",
-      features: ["Live tracking", "Geofencing", "Engine diagnostics", "Recovery assistance"],
-      isNew: false
-    },
-    {
-      id: 3,
-      name: "FleetVision",
-      description: "Enterprise fleet management solution with advanced analytics and reporting.",
-      imageUrl: "https://images.pexels.com/photos/6667360/pexels-photo-6667360.jpeg?auto=compress&cs=tinysrgb&w=600",
-      features: ["Multi-vehicle tracking", "Driver behavior", "Fuel monitoring", "Maintenance alerts"],
-      isNew: true
-    }
-  ]
+const ContactCardList = () => {
+  const [contacts, setContacts] = useState([]);
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const branchPayload = {
+          companyCode: "WAY4TRACK",
+          unitCode: "WAY4",
+        };
+
+        const response = await ApiService.post(
+          "branch/getBranchDetails",
+          branchPayload
+        );
+
+        console.log("Branch response:", response);
+        setContacts(response?.data || []);
+      } catch (error) {
+        console.error("Failed to fetch contact details:", error);
+      }
+    };
+
+    fetchContacts();
+  }, []);
+
+  const toggleExpand = (index) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   return (
-    <div className="product-showcase py-5">
-      <div className="container">
-        <h2 className="section-title text-center mb-5" data-aos="fade-up">
-          Our Tracking Solutions
-        </h2>
-        
-        <Row>
-          {products.map((product, index) => (
-            <Col lg={4} md={6} className="mb-4" key={product.id}>
-              <Card 
-                className="product-card h-100" 
-                data-aos="fade-up" 
-                data-aos-delay={index * 100}
-              >
-                <div className="product-image-wrapper">
-                  <Card.Img variant="top" src={product.imageUrl} className="product-image" />
-                  {product.isNew && (
-                    <Badge bg="danger" className="new-badge">NEW</Badge>
-                  )}
-                </div>
-                <Card.Body>
-                  <Card.Title className="product-title">{product.name}</Card.Title>
-                  <Card.Text className="product-description">
-                    {product.description}
-                  </Card.Text>
-                  <div className="product-features">
-                    {product.features.map((feature, i) => (
-                      <Badge bg="light" text="dark" className="feature-badge" key={i}>
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                </Card.Body>
-                <Card.Footer className="bg-transparent border-0">
-                  <button className="btn btn-outline-primary w-100">Learn More</button>
-                </Card.Footer>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </div>
-    </div>
-  )
-}
+    <>
+    <div className="container">
+    <div className="row">
+      {contacts.map((contact, index) => {
+        const lat = parseFloat(contact.latitude);
+        const lng = parseFloat(contact.longitude);
+        const isValidLatLng = !isNaN(lat) && !isNaN(lng);
 
-export default ProductShowcase
+        return (
+          <motion.div
+            key={index}
+            className="col-md-6 col-lg-6 mb-4"
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Card className="contact-card h-100 border-0 shadow-sm">
+              <Card.Body className="position-relative">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Card.Title className="contact-name mb-3">
+                    {contact.branchName}
+                  </Card.Title>
+                  <div className="contact-info">
+                    <div className="info-item">
+                      <MapPin size={16} className="info-icon" />
+                      <p className="mb-2">{contact.branchAddress}</p>
+                    </div>
+                    <div className="info-item">
+                      <Phone size={16} className="info-icon" />
+                      <p className="mb-2">{contact.branchNumber}</p>
+                    </div>
+                    <div className="info-item">
+                      <Mail size={16} className="info-icon" />
+                      <p className="mb-2">{contact.email}</p>
+                    </div>
+                  </div>
+
+                  <motion.div
+                    animate={{
+                      height: expandedIndex === index ? "auto" : 0,
+                      opacity: expandedIndex === index ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="map-container overflow-hidden"
+                  >
+                    {expandedIndex === index && isValidLatLng && (
+                      <MapView position={[lat, lng]} />
+                    )}
+                  </motion.div>
+                </motion.div>
+              </Card.Body>
+
+              <Card.Footer className="bg-white border-0 pt-0">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => toggleExpand(index)}
+                  className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                >
+                  {expandedIndex === index ? (
+                    <>
+                      <span>Hide Map</span>
+                      <ChevronUp size={16} />
+                    </>
+                  ) : (
+                    <>
+                      <span>View Map</span>
+                      <ChevronDown size={16} />
+                    </>
+                  )}
+                </motion.button>
+              </Card.Footer>
+            </Card>
+          </motion.div>
+        );
+      })}
+    </div>
+    </div>
+    </>
+  );
+};
+
+export default ContactCardList;

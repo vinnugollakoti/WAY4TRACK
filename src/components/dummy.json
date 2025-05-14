@@ -1,0 +1,21 @@
+{
+    "id": 1,
+    "branchName": "VISAKHAPATNAM",
+    "branchNumber": "7032213434",
+    "branchAddress": "21-27, Double road, Viman Nagar, Kakani Nagar, Visakhapatnam, Andhra Pradesh 530009",
+    "addressLine1": "21-27, Double road",
+    "addressLine2": "Viman Nagar, Kakani Nagar",
+    "city": "Visakhapatnam",
+    "state": "Andhra Pradesh ",
+    "pincode": "530009",
+    "branchOpening": null,
+    "email": "support@way4track.com",
+    "branchPhoto": null,
+    "qrPhoto": null,
+    "companyCode": "WAY4TRACK",
+    "unitCode": "WAY4",
+    "latitude": "17.733110",
+    "longitude": "83.249726",
+    "CIN": null,
+    "GST": null
+}

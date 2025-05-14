@@ -86,7 +86,7 @@ const PromotionAPI = () => {
     fetchData();
   }, []);
 
-  console.log(products,"products")
+  console.log(products, "products");
 
   const handleButtonActions = {
     call: (callNumber) =>
@@ -192,6 +192,7 @@ const PromotionAPI = () => {
 
   const allBanners = products.flatMap((product) => product.homeBanner || []);
   const firstProduct = products && products.length > 0 ? products[0] : null;
+  console.log("firstProduct........", firstProduct);
 
   return (
     <div
@@ -200,19 +201,21 @@ const PromotionAPI = () => {
     >
       {/* Banner Section */}
       <div className="row mb-4">
-        <div className="col-12" style={{paddingRight:"0px"}}>
+        <div className="col-12" style={{ paddingRight: "0px" }}>
           <BannerCarousel banners={allBanners} productsData={products} />
         </div>
       </div>
 
       {/* Product Icons */}
-      <div className="row mb-4">
-        <div className="col-12">
-          <ProductIconSection product={firstProduct} />
-        </div>
-      </div>
+      {/* <div className="row mb-4" style={{padding:"0px 50px"}}>
+        {products.map((product, index) => (
+          <div className="col-md-4 mb-3" key={product.id || index}>
+            <ProductIconSection product={product} />
+          </div>
+        ))}
+      </div> */}
 
-      {/* Promotions */}
+      {/*     
       {reorderedPromotions.map((promo, index) => {
         const normTheme = normalize(promo.theme);
         return (
@@ -221,6 +224,47 @@ const PromotionAPI = () => {
               {renderPromotionByTheme(promo)}
             </div>
 
+            {normTheme === "session5" && firstProduct && (
+              <div className="row mb-4">
+                <div className="col-12">
+                  <DevicesSection devices={firstProduct.device || []} />
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        );
+      })} */}
+
+      {reorderedPromotions.map((promo, index) => {
+        const normTheme = normalize(promo.theme);
+
+        return (
+          <React.Fragment key={promo.id || index}>
+            <div className="promotion-row mb-3">
+              {renderPromotionByTheme(promo)}
+            </div>
+
+            {normTheme === "session1" && products.length > 0 && (
+              <div>
+                <p className="stop-solutions">
+                  A One Stop Solution for your Personal and Commercial GPS
+                  services
+                </p>
+                <div className="row mb-4 px-5">
+                  {products.map((product, idx) => (
+                    <div className="col-md-4 mb-3" key={product.id || idx}>
+                      <div className="card h-100 shadow-sm rounded-4 custom-highlight">
+                        <div className="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                          <ProductIconSection product={product} />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Devices after session5 */}
             {normTheme === "session5" && firstProduct && (
               <div className="row mb-4">
                 <div className="col-12">

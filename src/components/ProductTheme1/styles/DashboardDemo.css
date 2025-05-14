@@ -89,8 +89,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
+  width: 50px !important;
+  height: 50px !important;
   margin: 0 auto 1.25rem;
   background-color: var(--primary-light);
   color: var(--primary-color);
@@ -98,7 +98,7 @@
   transition: var(--transition);
 }
 
-.alert-card:hover .alert-icon {
+.alert-card:hover .feature-icon-3 {
   background-color: var(--primary-color);
   color: var(--white);
   transform: rotateY(360deg);

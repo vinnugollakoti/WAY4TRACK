@@ -5,9 +5,13 @@ const RelatedBlogs = () => {
   const navigate = useNavigate();
   const blogs = location.state?.blogs || [];
   return (
-    <div className="blog-grid">
-      {blogs.map((blog, index) => (
-        <div className="blog-card" key={index}>
+<>
+   <div style={{padding:"50px 0px"}}>
+   <div className="container">
+  <div className="row">
+    {blogs.map((blog, index) => (
+      <div className="col-md-4 mb-4" key={index}>
+        <div className="blog-card h-100">
           <img
             src={blog.image}
             alt={blog.title || "Blog Image"}
@@ -24,8 +28,13 @@ const RelatedBlogs = () => {
             <p>Read More...</p>
           </button>
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
+  </div>
+</div>
+</div> 
+</>
+
   );
 };
 

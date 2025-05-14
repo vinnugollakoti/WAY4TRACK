@@ -12,20 +12,20 @@ const SessionThree = ({ promo }) => {
   return (
     <div className="row align-items-start session-three py-4">
       {/* Left column: split list into two side-by-side columns */}
-      <div className="col-md-6 mb-4 mb-md-0">
+      <div className="col-md-6 mb-4 mb-md-0" style={{padding:"0px 50px"}}>
         <div className="row">
           {/* First half of items */}
           <div className="col-6">
             {promo.list.slice(0, 5).map((item, index) => (
               <div
-                className="feature-card d-flex align-items-center mb-3 animation-slide-in"
+                className="feature-card-1 d-flex align-items-center mb-3 animation-slide-in"
                 key={index}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <img
                   src={item.photo}
                   alt={`Feature-${index}`}
-                  className="feature-icon me-2"
+                  className="feature-icon-1 me-2"
                 />
                 <p className="fw-bold mb-0">{item.desc}</p>
               </div>
@@ -36,14 +36,14 @@ const SessionThree = ({ promo }) => {
           <div className="col-6">
             {promo.list.slice(5, 10).map((item, index) => (
               <div
-                className="feature-card d-flex align-items-center mb-3 animation-slide-in"
+                className="feature-card-1 d-flex align-items-center mb-3 animation-slide-in"
                 key={index + 5}
                 style={{ animationDelay: `${(index + 5) * 0.1}s` }}
               >
                 <img
                   src={item.photo}
                   alt={`Feature-${index + 5}`}
-                  className="feature-icon me-2"
+                  className="feature-icon-1 me-2"
                 />
                 <p className="fw-bold mb-0">{item.desc}</p>
               </div>
@@ -53,7 +53,7 @@ const SessionThree = ({ promo }) => {
       </div>
 
       {/* Right column: main image */}
-      <div className="col-md-6 animation-fade-in">
+      <div className="col-md-6 animation-fade-in" style={{display:"flex",justifyContent:"center"}}>
         <div className="main-image-container">
           <img
             src={promo.image}

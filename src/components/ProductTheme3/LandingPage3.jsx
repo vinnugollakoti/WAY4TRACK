@@ -10,6 +10,7 @@ import ParentsAppSection from "./ParentsAppSection";
 import MonitoringSection from "./MonitoringSection";
 import DriverAppSection from "./DriverAppSection";
 import SupportedTrackersSection from "./SupportedTrackersSection";
+import CTASection from "./CTASection";
 
 function LandingPage3(product) {
   useEffect(() => {
@@ -63,9 +64,9 @@ function LandingPage3(product) {
           </div>
         );
       })}
-      <div data-aos="fade-up" data-aos-delay="600">
-        <SupportedTrackersSection footerImage={product.data.footerBanner} />
-      </div>
+       <CTASection
+        footerImage={product.data.footerBanner}
+      />
     </div>
   );
 }

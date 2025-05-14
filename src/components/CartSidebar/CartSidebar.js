@@ -16,11 +16,14 @@ const CartSidebar = ({ isOpen, onClose }) => {
     const updatedQuantity = (cartItem?.quantity || 1) + change;
 
     if (updatedQuantity < 1) return; // prevent quantity from going below 1
+    console.log(itemId,"eefhj")
 
     const updatedCartData = {
       ...cartItem,
       id: itemId,
       quantity: updatedQuantity,
+      clientId: cartItem.client.id,
+      deviceId: cartItem.device.id
     };
 
     try {

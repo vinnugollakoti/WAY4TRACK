@@ -40,9 +40,9 @@ const FeaturesSection = ({ title,applications }) => {
                 data-aos="fade-up" 
                 data-aos-delay={100 + (index * 100)}
               >
-                <div className="feature-icon">
+                <div className="feature-icon-3">
                   {/* {feature.icon} */}
-                  <img src={feature.image} alt={feature.name} />
+                  <img src={feature.image} alt={feature.name} className='icons-size-dec' />
                 </div>
                 <h3 className="feature-title">{feature.name}</h3>
                 <p className="feature-description">{feature.desc}</p>

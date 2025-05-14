@@ -4,7 +4,7 @@ import Typewriter from "typewriter-effect";
 const SessionOne = ({ promo }) => {
   return (
     <div className="row align-items-center session-one">
-      <div className="col-md-5 mb-4 mb-md-0 animation-fade-in">
+      <div className="col-md-5 mb-4 mb-md-0 animation-fade-in" style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",padding:"0px 50px"}}>
         <h4 className="way4track-text">WAY4TRACK</h4>
         <h1 className="typewriter-container">
           <Typewriter
@@ -25,7 +25,7 @@ const SessionOne = ({ promo }) => {
       </div>
       <div className="col-md-7 animation-slide-in">
         {promo.image && (
-          <div className="img-container">
+          <div className="img-container" style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
             <img
               src={promo.image}
               alt="WAY4TRACK Solution"
