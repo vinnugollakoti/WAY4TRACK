@@ -11,8 +11,8 @@ const SessionSix = ({ promo, handlers, navigate }) => {
   }
 
   return (
-    <div className="container-fluid px-0 py-4" style={{ backgroundColor: "aliceblue" }}>
-      <div className="row m-0 py-3">
+    <div className="container-fluid px-0 py-4" style={{  backgroundImage: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)", }}>
+      <div className="row m-0 py-3" style={{padding:"0px 30px"}}>
         {/* Title and Header */}
         <div className="col-12 text-center mb-4 animation-fade-in">
           <p className="mining-name">{promo.name}</p>
@@ -21,21 +21,17 @@ const SessionSix = ({ promo, handlers, navigate }) => {
 
         {/* Left column: Main image and buttons (opposite of Session 5) */}
         <div className="col-md-8 d-flex flex-column align-items-center mb-4 mb-md-0">
-          {promo.image && (
+          {promo?.image && (
             <div className="img-container mb-4 animation-fade-in">
               <img
-                src={promo.image}
+                src={promo?.image}
                 alt={promo.name}
                 className="img-fluid rounded-4 shadow-lg"
               />
             </div>
           )}
 
-          <ActionButtons 
-            promo={promo} 
-            handlers={handlers} 
-            navigate={navigate} 
-          />
+      
         </div>
 
         {/* Right column: List of features */}
@@ -59,6 +55,12 @@ const SessionSix = ({ promo, handlers, navigate }) => {
               </div>
             </div>
           ))}
+
+              <ActionButtons 
+            promo={promo} 
+            handlers={handlers} 
+            navigate={navigate} 
+          />
         </div>
       </div>
     </div>

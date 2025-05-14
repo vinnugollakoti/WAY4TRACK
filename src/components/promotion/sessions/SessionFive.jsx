@@ -2,6 +2,18 @@ import React from "react";
 import ActionButtons from "../common/ActionButtons";
 
 const SessionFive = ({ promo, handlers, navigate }) => {
+
+      const bgStyle = {
+    backgroundColor: "rgb(62 100 55)", // base color
+    padding: "50px",
+    ...(promo.themeBgimage && {
+      backgroundImage: `url(${promo.themeBgimage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }),
+  };
+
   if (!promo.list || promo.list.length === 0) {
     return (
       <div className="alert alert-warning">
@@ -10,23 +22,16 @@ const SessionFive = ({ promo, handlers, navigate }) => {
     );
   }
 
-  const bgStyle = promo.themeBgimage
-    ? {
-        backgroundImage: `url(${promo.themeBgimage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }
-    : { backgroundColor: "aliceblue" };
+
 
   return (
     <div className="session-five" style={bgStyle}>
-      <div className="container px-0 py-5">
-        <div className="row m-0">
+      <div className="container-fluid px-0 py-5" >
+        <div className="row m-0" style={{padding:"0px 30px"}}>
           {/* Title and header */}
           <div className="col-12 text-center mb-4 animation-fade-in">
             <p className="mining-name">{promo.name}</p>
-            <p className="fw-bold">{promo.header}</p>
+            <p className="fw-bold">{promo.shortDescription}</p>
           </div>
 
           {/* Left column: Feature cards */}
@@ -50,25 +55,27 @@ const SessionFive = ({ promo, handlers, navigate }) => {
                 </div>
               </div>
             ))}
+
+             <ActionButtons 
+              promo={promo} 
+              handlers={handlers} 
+              navigate={navigate} 
+            />
           </div>
 
           {/* Right column: Image and buttons */}
           <div className="col-md-8 d-flex flex-column align-items-center">
-            {promo.image && (
+            {promo?.image && (
               <div className="img-container mb-4 animation-fade-in">
                 <img
-                  src={promo.image}
+                  src={promo?.image}
                   alt={promo.name}
                   className="img-fluid rounded-4 shadow-lg"
                 />
               </div>
             )}
 
-            <ActionButtons 
-              promo={promo} 
-              handlers={handlers} 
-              navigate={navigate} 
-            />
+           
           </div>
         </div>
       </div>

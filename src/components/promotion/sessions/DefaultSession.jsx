@@ -9,10 +9,10 @@ const DefaultSession = ({ promo }) => {
         <p className="text-muted">{promo.shortDescription}</p>
       </div>
       <div className="col-md-8 animation-slide-in">
-        {promo.image && (
+        {promo?.image && (
           <div className="img-container">
             <img
-              src={promo.image}
+              src={promo?.image}
               alt={promo.name || "Promotion"}
               className="img-fluid rounded shadow-sm"
             />

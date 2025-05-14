@@ -16,7 +16,7 @@
 
 .img-container:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); */
 }
 
 /* Animation effects */
@@ -134,7 +134,8 @@
 .short-desc {
   font-family: "Roboto Serif", serif !important;
   font-size: 1.25rem;
-  color: #FFA500;
+  /* color: darkgray; */
+      color: var(--bs-secondary-color) !important;
   padding-top: 30px;
   line-height: 1.6;
 }
@@ -185,16 +186,17 @@
 
 .feature-description {
   text-align: justify;
-  font-size: 0.95rem;
+  font-size: 17px !important;
   line-height: 1.4;
 }
 
 .bg-light-session2 {
   transition: background-color 0.3s ease;
-  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  /* background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); */
+      background: linear-gradient(to right, #c7ffda 0%, #38f9d7 100%);
   padding: 10px;
   border-left: 2px solid #00A551;
-  border-radius: 6px;
+  /* border-radius: 6px; */
 }
 
 /* Session 3 styles */
@@ -206,7 +208,7 @@
 .feature-card-1 {
   border-left: 3px solid #00A551;
   background: linear-gradient(to right, #c7ffda 0%, #38f9d7 100%);
-  border-radius: 6px;
+  /* border-radius: 6px; */
   padding: 10px;
   transition: all 0.3s ease;
 }
@@ -311,10 +313,11 @@
 .mining-name {
   font-size: 2rem;
   font-weight: bold;
-  color: #FFA500;
+  color: #cacfe0;
   text-align: center;
   margin-top: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
 }
 
 .feature-card-1 {
@@ -338,20 +341,20 @@
 
 /* Session 7, 8, 9, 10 styles */
 .session7-list {
-  background: #fff;
+  /* background: #fff; */
   border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 0 12px rgba(0, 0, 0, 0.05); */
   transition: all 0.3s ease;
 }
 
-.session7-list:hover {
+/* .session7-list:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
+} */
 
-.session7-desc {
+.session7-desc-1 {
   font-size: 1rem;
   font-weight: 500;
-  color: #333;
+  color: white;
   line-height: 1.6;
   text-align: justify;
 }
@@ -423,7 +426,7 @@
   }
   
   .feature-description {
-    font-size: 0.85rem;
+    font-size: 17px !important;
   }
 }
 
@@ -644,6 +647,8 @@
   font-size: 30px;
   
 }
+
+
 
 
 

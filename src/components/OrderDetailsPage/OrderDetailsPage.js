@@ -126,13 +126,13 @@ function OrderDetailsPage() {
                 <div className="cart-card-inner">
                   <div className="cart-image-wrapper">
                     <img
-                      src={item.device.image}
-                      alt={item.device.name}
+                      src={item?.device?.image}
+                      alt={item?.device?.name}
                       className="cart-image"
                     />
                   </div>
                   <div className="cart-info">
-                    <h2 className="cart-name">{item.device.name}</h2>
+                    <h2 className="cart-name">{item?.device?.name}</h2>
                     <p>
                       Accessories:{" "}
                       {item.isRelay ? "With Relay" : "Without Relay"}
