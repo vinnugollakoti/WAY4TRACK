@@ -2,8 +2,18 @@ import React from "react";
 import ActionButtons from "../common/ActionButtons";
 
 const SessionEight = ({ promo, handlers, navigate }) => {
+      const bgStyle = {
+    backgroundColor: "rgb(41 53 104)", // base color
+    padding: "50px",
+    ...(promo.themeBgimage && {
+      backgroundImage: `url(${promo.themeBgimage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }),
+  };
   return (
-    <div className="row py-4" style={{padding:"0px 50px"}}>
+    <div className="row py-4" style={{padding:"0px 50px",...bgStyle}}>
       {/* Title */}
       <div className="col-12 mb-3 text-center animation-fade-in">
         <p className="mining-name">{promo.name}</p>
@@ -15,7 +25,7 @@ const SessionEight = ({ promo, handlers, navigate }) => {
           <ul className="list-unstyled">
             <li className="d-flex align-items-start mb-3">
               <span className="me-2 text-primary feature-arrow">➤</span>
-              <span className="session7-desc">{promo.shortDescription}</span>
+              <span className="session7-desc-1">{promo.shortDescription}</span>
             </li>
           </ul>
         </div>
@@ -29,13 +39,14 @@ const SessionEight = ({ promo, handlers, navigate }) => {
       </div>
 
       {/* Right: Image */}
-      <div className="col-md-8 animation-fade-in" style={{display:"flex",justifyContent:"center"}}>
-        {promo.image && (
+      <div className="col-md-8 animation-fade-in" style={{display:"flex",justifyContent:"flex-end"}}>
+        {promo?.image && (
           <div className="img-container">
             <img
-              src={promo.image}
-              alt={promo.name}
-              className="img-fluid rounded shadow-lg"
+              src={promo?.image}
+              alt={promo?.name}
+              className="img-fluid rounded"
+              style={{width:"400px"}}
             />
           </div>
         )}

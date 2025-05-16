@@ -11,6 +11,7 @@ const SessionThree = ({ promo }) => {
 
   return (
     <div className="row align-items-start session-three py-4">
+      <p className="mining-name">{promo.name}</p>
       {/* Left column: split list into two side-by-side columns */}
       <div className="col-md-6 mb-4 mb-md-0" style={{padding:"0px 50px"}}>
         <div className="row">
@@ -53,12 +54,12 @@ const SessionThree = ({ promo }) => {
       </div>
 
       {/* Right column: main image */}
-      <div className="col-md-6 animation-fade-in" style={{display:"flex",justifyContent:"center"}}>
+      <div className="col-md-6 animation-fade-in" style={{display:"flex",justifyContent:"flex-end"}}>
         <div className="main-image-container">
           <img
-            src={promo.image}
+            src={promo?.image}
             alt="Main Feature"
-            className="img-fluid rounded shadow-lg"
+            className="img-fluid rounded"
           />
         </div>
       </div>

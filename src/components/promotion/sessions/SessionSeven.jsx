@@ -22,12 +22,13 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
 
       {/* Left: Image */}
       <div className="col-md-8 mb-4 mb-md-0 animation-slide-in">
-        {promo.image && (
+        {promo?.image && (
           <div className="img-container">
             <img
-              src={promo.image}
+              src={promo?.image}
               alt={promo.name}
-              className="img-fluid rounded shadow-lg"
+              className="img-fluid rounded"
+               style={{width:"400px"}}
             />
           </div>
         )}
