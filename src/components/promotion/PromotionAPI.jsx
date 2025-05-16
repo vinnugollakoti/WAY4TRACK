@@ -173,7 +173,7 @@ const PromotionAPI = () => {
   const firstProduct = products.length > 0 ? products[0] : null;
 
   return (
-    <div className="container-fluid promotion-container" style={{ paddingLeft: "0px" }}>
+    <div className="container-fluid promotion-container" style={{ paddingLeft: "0px",paddingRight:"0px" }}>
       {/* Banner Section */}
       <div className="row mb-4" data-aos="fade-down">
         <div className="col-12" style={{ paddingRight: "0px" }}>
@@ -187,33 +187,34 @@ const PromotionAPI = () => {
 
         return (
           <React.Fragment key={promo.id || index}>
-            <div className="promotion-row mb-3" data-aos="fade-up">
+            <div className="promotion-row" data-aos="fade-up">
               {renderPromotionByTheme(promo)}
             </div>
 
             {/* Product Icons after session1 */}
-            {normTheme === "session1" && products.length > 0 && (
-              <div data-aos="fade-right">
-                <p className="stop-solutions">
-                  A One Stop Solution for your Personal and Commercial GPS services
-                </p>
-                <div className="row mb-4 px-5">
-                  {products.map((product, idx) => (
-                    <div className="col-md-4 mb-3" key={product.id || idx} data-aos="zoom-in">
-                      <div className="card h-100 shadow-sm rounded-4 custom-highlight">
-                        <div className="card-body d-flex flex-column align-items-center justify-content-center text-center">
-                          <ProductIconSection product={product} />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+          {normTheme === "session1" && products.length > 0 && (
+  <div data-aos="fade-right">
+    <p className="stop-solutions">
+      A One Stop Solution for your Personal and Commercial GPS services
+    </p>
+    <div className="row mb-4 px-5">
+      {products.map((product, idx) => (
+        <div className="col-md-4 mb-3" key={product.id || idx} data-aos="zoom-in">
+          <div className="card product-card h-100 shadow-sm rounded-4">
+            <div className="card-body d-flex flex-column align-items-center justify-content-center text-center">
+              <ProductIconSection product={product} />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
 
             {/* Devices after session5 */}
             {normTheme === "session5" && firstProduct && (
-              <div className="row mb-4" data-aos="fade-left">
+              <div className="row" data-aos="fade-left">
                 <div className="col-12">
                   <DevicesSection devices={firstProduct.device || []} />
                 </div>

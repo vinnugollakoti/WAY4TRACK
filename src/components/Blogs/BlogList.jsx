@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import BlogCard from './BlogCard';
-import ApiService from '../Services/ApiServices'; // adjust this path to your ApiService file
+import ApiService from '../Services/ApiServices';
 
 const BlogList = () => {
   const { category } = useParams();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState(category || 'all');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [blogData, setBlogData] = useState([]);
 
-  // Fetch products on component mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -22,7 +21,7 @@ const BlogList = () => {
           "website-product/getWebsiteProductDetails",
           productPayload
         );
-        console.log("respose",response)
+        console.log("respose", response);
         setBlogData(response?.data || []);
       } catch (error) {
         console.error("Failed to fetch product data:", error);
@@ -32,25 +31,20 @@ const BlogList = () => {
     fetchProducts();
   }, []);
 
-  // Get main products (parent categories)
   const mainProducts = blogData.filter(blog => blog.isMainProduct);
-
-  // Get unique categories from main products
   const categories = [...new Set(mainProducts.map(blog => blog.category))];
 
-  // Filtered products based on active category
   const filteredProducts = activeCategory === 'all'
     ? mainProducts
     : mainProducts.filter(blog => blog.category === activeCategory);
 
-  // Sub-products for selected product
   const subProducts = selectedProduct
     ? blogData.filter(blog => blog.parentCategory === selectedProduct.category)
     : [];
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
-    navigate("/blogs",{state:{blogs:product.Blog}})
+    navigate("/blogs", { state: { blogs: product.Blog } });
   };
 
   const handleBackClick = () => {
@@ -62,67 +56,86 @@ const BlogList = () => {
     setSelectedProduct(null);
   };
 
-  return (
-    <div style={{padding:"50px 0px"}}>
-      <h1 className="page-title" style={{textAlign:"center", paddingBottom:"50px"}}>Way4Track - GPS Tracking Solutions</h1>
+  const formatCategory = (cat) => {
+    return cat
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
 
+  return (
+    <div className="container py-5">
+      <h1 className="page-title text-center mb-5">Way4Track - GPS Tracking Solutions</h1>
+
+      {/* Uncomment this block if you want category filters */}
       {/* {!selectedProduct && (
-        <div className="category-filters">
+        <div className="d-flex flex-wrap justify-content-center mb-4 gap-2">
           <button
-            className={`category-filter-btn ${activeCategory === 'all' ? 'active' : ''}`}
+            className={`btn btn-outline-primary ${activeCategory === 'all' ? 'active' : ''}`}
             onClick={() => handleCategoryChange('all')}
+            style={{ minWidth: '120px' }}
           >
             All Products
           </button>
           {categories.map(cat => (
             <button
               key={cat}
-              className={`category-filter-btn ${activeCategory === cat ? 'active' : ''}`}
+              className={`btn btn-outline-primary ${activeCategory === cat ? 'active' : ''}`}
               onClick={() => handleCategoryChange(cat)}
+              style={{ minWidth: '120px' }}
             >
-              {cat.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+              {formatCategory(cat)}
             </button>
           ))}
         </div>
       )} */}
 
+      {/* Uncomment to show filtered products grid */}
       {/* {!selectedProduct ? (
-        <div className="blog-grid">
+        <div className="row row-cols-1 row-cols-md-4 g-4">
           {filteredProducts.map(product => (
-            <div key={product.id} onClick={() => handleProductClick(product)} className="clickable">
+            <div
+              key={product.id}
+              className="col"
+              onClick={() => handleProductClick(product)}
+              style={{ cursor: 'pointer' }}
+            >
               <BlogCard blog={product} />
             </div>
           ))}
         </div>
       ) : (
         <div>
-          <button onClick={handleBackClick} className="back-button mb-4">
+          <button onClick={handleBackClick} className="btn btn-secondary mb-4">
             ← Back to Products
           </button>
-          <h2 className="category-title mb-4">{selectedProduct.title} Solutions</h2>
-          <div className="blog-grid">
+          <h2 className="category-title mb-4 text-center">{selectedProduct.title} Solutions</h2>
+          <div className="row row-cols-1 row-cols-md-4 g-4">
             {subProducts.map(product => (
-              <Link to={`/blog/${product.id}`} key={product.id}>
-                <BlogCard blog={product} />
+              <Link to={`/blog/${product.id}`} key={product.id} className="text-decoration-none">
+                <div className="col">
+                  <BlogCard blog={product} />
+                </div>
               </Link>
             ))}
           </div>
         </div>
       )} */}
 
-<div className="container">
-  <div className="row">
-    {blogData.map(product => (
-      <div key={product.id} className="col-md-3 mb-4">
-        <div onClick={() => handleProductClick(product)} className="clickable">
-          <BlogCard blog={product} />
-        </div>
+      <div className="row row-cols-1 row-cols-md-4 g-4">
+        {blogData.map(product => (
+          <div key={product.id} className="col">
+            <div
+              onClick={() => handleProductClick(product)}
+              style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <BlogCard blog={product} />
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
-
-
     </div>
   );
 };

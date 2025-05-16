@@ -163,7 +163,7 @@ function App() {
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/hiring" element={<Hero />} />
+          <Route path="/Careers" element={<Hero />} />
           <Route path="/" element={<PromotionAPI theme="default" />} />
           <Route path="/bloglist" element={<BlogList />} />
           <Route path="/blogs" element={<RelatedBlogs />} />

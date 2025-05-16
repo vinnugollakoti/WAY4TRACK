@@ -2,7 +2,7 @@
   position: relative;
   height: 80vh;
   min-height: 500px;
-  background-image: url('https://images.pexels.com/photos/3806753/pexels-photo-3806753.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+  background-image: url('../../../public/images/contactbanner.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(11, 37, 69, 0.9) 0%, rgba(11, 37, 69, 0.7) 100%);
+  /* background: linear-gradient(135deg, rgba(11, 37, 69, 0.9) 0%, rgba(11, 37, 69, 0.7) 100%); */
 }
 
 .hero-title {
@@ -23,6 +23,7 @@
   font-weight: 800;
   letter-spacing: -1px;
   margin-bottom: 1rem;
+  color: white;
 }
 
 .text-gradient-hero {

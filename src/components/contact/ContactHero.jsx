@@ -33,14 +33,14 @@ const ContactHero = () => {
           </div>
         </div>
         
-        <div className="floating-devices">
+        {/* <div className="floating-devices">
           <div className="floating-device animated-float" style={{ animationDelay: '0s' }}>
             <img src="https://images.pexels.com/photos/4482932/pexels-photo-4482932.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tracking device" />
           </div>
           <div className="floating-device animated-float" style={{ animationDelay: '2s' }}>
             <img src="https://images.pexels.com/photos/5464239/pexels-photo-5464239.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tracking device on bike" />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

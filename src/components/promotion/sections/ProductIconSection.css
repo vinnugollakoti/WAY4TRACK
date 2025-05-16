@@ -1,6 +1,9 @@
+.product-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
 
-.product-box:hover {
-  /* background: linear-gradient(135deg, #ffc9a9, #ffc9a9) !important; */
+.product-card:hover {
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
   color: white;
   transform: translateY(-6px);
@@ -9,5 +12,29 @@
   border-radius: 10px;
 }
 
+.product-card .icon-circle {
+  border: 1px solid lightgray;
+  border-radius: 50%;
+  padding: 8px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  transition: all 0.3s ease;
+}
 
+.product-card .icon-circle:hover{
+  border: 1px solid white;
+}
 
+.product-card:hover .icon-circle {
+  /* background-color: white; */
+  color: #fda085; /* Optional: arrow color inside */
+
+}
+
+.product-card:hover .custom-arrow svg {
+  color: #fda085;
+}

@@ -105,3 +105,12 @@ body.dark-mode .info-item p {
     font-size: 0.9rem;
   }
 }
+
+
+.contact-info .info-item {
+  font-size: 0.95rem;
+}
+
+.contact-info .info-icon {
+  margin-right: 0.5rem;
+}
