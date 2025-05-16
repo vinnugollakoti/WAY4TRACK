@@ -1,0 +1,132 @@
+.ReviewComponent-container {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.ReviewComponent-header {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.ReviewComponent-ratingBox {
+  min-width: 100px;
+}
+
+.ReviewComponent-ratingValue {
+  font-size: 32px;
+  font-weight: bold;
+  color: #16a34a;
+}
+
+.ReviewComponent-ratingText {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.ReviewComponent-bars {
+  flex: 1;
+}
+
+.ReviewComponent-barRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.ReviewComponent-barContainer {
+  background-color: #e5e7eb;
+  width: 160px;
+  height: 6px;
+  position: relative;
+}
+
+.ReviewComponent-barFill {
+  height: 6px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.ReviewComponent-filterSection {
+  margin-bottom: 24px;
+}
+
+.ReviewComponent-filterTitle {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.ReviewComponent-filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ReviewComponent-filterButton {
+  background-color: #f3f4f6;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ReviewComponent-filterButton:hover {
+  background-color: #dbeafe;
+}
+
+.ReviewComponent-reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ReviewComponent-reviewItem {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.ReviewComponent-reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.ReviewComponent-starBadge {
+  background-color: #16a34a;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.ReviewComponent-reviewTitle {
+  font-weight: 500;
+}
+
+.ReviewComponent-reviewMeta {
+  font-size: 14px;
+  color: #374151;
+}
+
+.ReviewComponent-reviewAuthor {
+  font-weight: 600;
+}
+
+.ReviewComponent-reviewLocation {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.ReviewComponent-reviewFeedback {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 8px;
+}

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { useParams } from "react-router-dom";
+import { IoMdArrowDropright } from "react-icons/io";
+import { LiaFileInvoiceSolid } from "react-icons/lia";
+import ProductReviewForm from "../ProductReviewForm/ProductReviewForm";
 import jsPDF from "jspdf";
 import "./OrderItemDetails.css";
 
@@ -44,6 +47,9 @@ const OrderItemDetails = () => {
   const [showCancelReason, setShowCancelReason] = useState(false);
   const [showReplaceForm, setShowReplaceForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
@@ -125,17 +131,6 @@ const OrderItemDetails = () => {
     }
   };
 
-  // const handleImageUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setUploadedImage(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -171,84 +166,6 @@ const OrderItemDetails = () => {
 
     fetchOrders();
   }, [orderId, deviceId, companyCode, unitCode, clientId]);
-
-  // Ensure handleUpdate correctly sends the file as part of the formData
-  // const handleUpdate = async (actionType, additionalData = {}) => {
-  //   setIsLoading(true);
-
-  //   const basePayload = {
-  //     companyCode,
-  //     unitCode,
-  //     clientId: clientDbId,
-  //     deliveryAddressId: order.deliveryAddress?.id,
-  //     buildingAddressId: order.buildingAddress?.id,
-  //     ...additionalData,
-  //   };
-
-  //   try {
-  //     if (actionType === "replace") {
-  //       const formData = new FormData();
-
-  //       formData.append("companyCode", companyCode);
-  //       formData.append("unitCode", unitCode);
-  //       formData.append("clientId", clientDbId);
-  //       formData.append("deliveryAddressId", order.deliveryAddress?.id);
-  //       formData.append("buildingAddressId", order.buildingAddress?.id);
-  //       formData.append("orderStatus", OrderStatus.request_raised);
-  //       formData.append("refundStatus", RefundStatus.PENDING);
-  //       formData.append("description", replaceDescription || "User action");
-  //       formData.append("name", order.name);
-  //       formData.append("reason", replaceReason);
-  //       formData.append("deviceId", item.deviceId);
-  //       formData.append("orderId", order.id);
-  //       formData.append("dateOfRequest", new Date().toISOString());
-  //       formData.append("dateOfReplace", new Date().toISOString());
-
-  //       // 👇 Upload actual file (binary form) - must be a File/Blob object
-  //       if (uploadedImage instanceof File) {
-  //         formData.append("damageImage", uploadedImage); // the key must match backend field
-  //       }
-
-  //       const refundResponse = await ApiService.post(
-  //         "/Refund/handleRefundDetails",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-
-  //       if (refundResponse.status) {
-  //         alert("Replacement request submitted successfully.");
-  //       } else {
-  //         alert("Failed to submit replacement request.");
-  //       }
-
-  //       const createOrderResponse = await ApiService.post(
-  //         "/order/handleCreateOrder",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data", // This header is required for file uploads
-  //           },
-  //         }
-  //       );
-
-  //       if (createOrderResponse.status) {
-  //         alert("Order updated successfully for replacement.");
-  //         window.location.reload();
-  //       } else {
-  //         alert("Failed to update the order.");
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.error("Error during order update:", err);
-  //     alert("Something went wrong. Please try again.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleUpdate = async (actionType, additionalData = {}) => {
     setIsLoading(true);
@@ -375,7 +292,8 @@ const OrderItemDetails = () => {
       isReturnRequested ||
       isReturnApproved ||
       isReturnRejected ||
-      isReturnSuccess
+      isReturnSuccess ||
+      isDispatched
     );
 
   const canReturn =
@@ -383,29 +301,32 @@ const OrderItemDetails = () => {
     (today - deliveryDate) / (1000 * 60 * 60 * 24) <= 7 &&
     !isReturnRequested;
 
+  const showExpectedDelivery = !isDelivered && !isCancelled;
+
   return (
     <div className="OrderItemDetails-container">
       <div className="OrderItemDetails-main">
         <div className="OrderItemDetails-left">
           <div className="OrderItemDetails-product">
+            <div className="OrderItemDetails-productDetails">
+              <h2 className="OrderItemDetails-title">{item.name}</h2>
+              <p className="OrderItemDetails-subtext">
+                <strong>Network:</strong> {item.network}
+              </p>
+              <p className="OrderItemDetails-subtext">
+                <strong>Subscription:</strong> {item.subscriptionType}
+              </p>
+              <p className="OrderItemDetails-subtext">
+                <strong>Accessories:</strong>{" "}
+                {item.is_relay ? "With Relay" : "Without Relay"}
+              </p>
+              <p className="OrderItemDetails-price">₹{item.amount}</p>
+            </div>
             <img
               src={device?.image || "https://via.placeholder.com/100"}
               alt={item.name}
               className="OrderItemDetails-image"
             />
-            <div className="OrderItemDetails-productDetails">
-              <h2 className="OrderItemDetails-title">{item.name}</h2>
-              <p className="OrderItemDetails-subtext">
-                Network: {item.network}
-              </p>
-              <p className="OrderItemDetails-subtext">
-                Subscription: {item.subscriptionType}
-              </p>
-              <p className="OrderItemDetails-subtext">
-                Accessories: {item.is_relay ? "With Relay" : "Without Relay"}
-              </p>
-              <p className="OrderItemDetails-price">₹{item.amount}</p>
-            </div>
           </div>
 
           <div className="OrderItemDetails-statusTimeline">
@@ -413,7 +334,7 @@ const OrderItemDetails = () => {
               <strong>
                 {isDelivered
                   ? `Delivered on ${formatDate(order.delivaryDate)}`
-                  : `Status: ${status}`}
+                  : `Order Status: ${status}`}
               </strong>
             </p>
             <div className="OrderItemDetails-timeline">
@@ -593,42 +514,94 @@ const OrderItemDetails = () => {
               </p>
             )}
           </div>
+
+          <div className="OrderItemDetails-reviewSection">
+            <div className="OrderItemDetails-starDisplay">
+              {[...Array(5)].map((_, i) => {
+                const starValue = i + 1;
+                return (
+                  <span
+                    key={i}
+                    className={`OrderItemDetails-star ${
+                      starValue <= (hoverRating || rating) ? "filled" : ""
+                    }`}
+                    onClick={() => setRating(starValue)}
+                    onMouseEnter={() => setHoverRating(starValue)}
+                    onMouseLeave={() => setHoverRating(0)}
+                  >
+                    ★
+                  </span>
+                );
+              })}
+            </div>
+
+            {!showReviewForm && (
+              <button
+                className="OrderItemDetails-actionBtn"
+                onClick={() => setShowReviewForm(true)}
+              >
+                Add Review
+              </button>
+            )}
+
+            {showReviewForm && (
+              <div className="OrderItemDetails-modalOverlay">
+                <div className="OrderItemDetails-modalContent">
+                  <button
+                    className="OrderItemDetails-modalClose"
+                    onClick={() => setShowReviewForm(false)}
+                  >
+                    ×
+                  </button>
+                  <ProductReviewForm initialRating={rating} />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* <ProductReviewForm /> */}
         </div>
 
         <div className="OrderItemDetails-right">
-          <div className="OrderItemDetails-invoice">
-            📄{" "}
+          <div
+            className="OrderItemDetails-invoice"
+            onClick={handleDownloadInvoice}
+          >
+            <p className="OrderItemDetails-invoice-description">
+              <LiaFileInvoiceSolid size={30} />
+              Download Invoice
+            </p>
+            <IoMdArrowDropright size={30} />
             {/* <a href="#" download>
               Download Invoice
             </a> */}
-            <button
-              className="OrderItemDetails-actionBtn"
-              onClick={handleDownloadInvoice}
-            >
+            {/* <button className="OrderItemDetails-actionBtn">
               Download Invoice
-            </button>
+            </button> */}
           </div>
 
           <div className="OrderItemDetails-shippingBox">
             <h3>Shipping Address</h3>
-            <p>{order.deliveryAddress.name}</p>
-            <p>
-              <span>Phone:</span> {order.deliveryAddress.phoneNumber}
-            </p>
+            <h1>{order.deliveryAddress.name}</h1>
+
             <p>{order.deliveryAddress.city}</p>
             <p>{order.deliveryAddress.state}</p>
             <p>{order.deliveryAddress.country}</p>
+            <p>
+              <span>Phone Number:</span> {order.deliveryAddress.phoneNumber}
+            </p>
           </div>
 
           <div className="OrderItemDetails-shippingBox">
             <h3>Billing Address</h3>
-            <p>{order.deliveryAddress.name}</p>
-            <p>
-              <span>Phone:</span> {order.deliveryAddress.phone}
-            </p>
+            <h1>{order.deliveryAddress.name}</h1>
+
             <p>{order.addressLine1}</p>
             <p>{order.addressLine2}</p>
             <p>{order.deliveryAddress.city}</p>
+            <p>
+              <span>Phone Number:</span> {order.deliveryAddress.phone}
+            </p>
           </div>
 
           <div className="OrderItemDetails-priceBox">

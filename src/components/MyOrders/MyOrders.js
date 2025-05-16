@@ -80,28 +80,28 @@ const MyOrders = () => {
   };
 
   return (
-    <div>
-      <div className="products-heading-container">
-        <h1 className="products-title section-heading">My Orders</h1>
-      </div>
-      <div className="myorders-container">
-        <div className="myorders-sidebar">
-          <h2 className="myorders-sidebar-title">Filters</h2>
-          <div className="myorders-filter-section">
-            <h4>ORDER STATUS</h4>
-            {statusOptions.map((status) => (
-              <div key={status} className="myorders-checkbox">
-                <input
-                  type="checkbox"
-                  id={status}
-                  checked={selectedStatuses.includes(status)}
-                  onChange={() => handleStatusChange(status)}
-                />
-                <label htmlFor={status}>{status}</label>
-              </div>
-            ))}
-          </div>
-        </div>
+    // <div>
+    //   <div className="products-heading-container">
+    //     <h1 className="products-title section-heading">My Orders</h1>
+    //   </div>
+    //   <div className="myorders-container">
+    //     <div className="myorders-sidebar">
+    //       <h2 className="myorders-sidebar-title">Filters</h2>
+    //       <div className="myorders-filter-section">
+    //         <h4>ORDER STATUS</h4>
+    //         {statusOptions.map((status) => (
+    //           <div key={status} className="myorders-checkbox">
+    //             <input
+    //               type="checkbox"
+    //               id={status}
+    //               checked={selectedStatuses.includes(status)}
+    //               onChange={() => handleStatusChange(status)}
+    //             />
+    //             <label htmlFor={status}>{status}</label>
+    //           </div>
+    //         ))}
+    //       </div>
+    //     </div>
 
         <div className="myorders-main">
           <div className="myorders-search">
@@ -238,8 +238,8 @@ const MyOrders = () => {
             ))}
           </div>
         </div>
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 };
 
