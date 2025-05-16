@@ -1,114 +1,368 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Base navbar styling */
+.navbar {
+  height: auto;
+  padding: 0.8rem 1rem;
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* margin-bottom: 100px !important; */
 }
 
-nav.navbar {
-  height: auto;
+.navbar-scrolled {
   padding: 0.5rem 1rem;
-  /* padding-left: 80px; */
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Logo styling */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .logo-img {
-  /* width: 150px; */
-  text-shadow: 3px 3px 3px rgba(208, 200, 200, 0.58);
-  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.navbar-scrolled .logo-img {
+  width: 35px;
+  height: 35px;
+}
+
+.brand-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #00A551;
+  font-family: 'Bree Serif', serif;
+  letter-spacing: -0.5px;
   transition: all 0.3s ease;
 }
 
-/* @media (max-width: 768px) {
-  .logo-img {
-    width: 120px;
-  }
-} */
+.navbar-scrolled .brand-text {
+  font-size: 1.2rem;
+}
+
+.logo:hover .logo-img {
+  transform: scale(1.05);
+}
 
 /* Navbar links */
 .nav-content {
-  font-size: 1.2rem;
   display: flex;
-  gap: 1.2rem;
-  color: #464343;
-  font-family: 'Poppins', sans-serif;
-  font-weight: bold;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.nav-content .nav-link {
-  cursor: pointer;
-  font-weight: bold;
-  padding: 5px 10px;
+.nav-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333 !important;
+  font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 0.5rem 0.8rem;
+  position: relative;
   transition: all 0.3s ease;
+  border-radius: 6px;
 }
 
-.nav-content .nav-link:hover {
-  animation: underliner 0.5s;
-  border-bottom: 2px solid red;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #00A551;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
   color: #00A551 !important;
 }
 
-/* Responsive font size */
-@media (max-width: 768px) {
-  .nav-content {
-    font-size: 1rem;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-  }
-
-  .nav-content .nav-link {
-    padding: 8px 0;
-  }
+.nav-link:hover::after {
+  width: 80%;
 }
 
-/* Underline animation */
-@keyframes underliner {
-  from {
-    border-bottom: 0px solid red;
-  }
-  to {
-    border-bottom: 2px solid red;
-  }
+.nav-link.active {
+  color: #00A551 !important;
 }
 
+.nav-link.active::after {
+  width: 80%;
+}
 
-.user-icon {
-  font-size: 1.8rem;
-  color: #464343;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
+/* Cart styling */
+.cart-link {
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.user-icon:hover {
+.cart-link:hover {
+  color: #00A551 !important;
+  transform: translateY(-2px);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e53935;
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* User menu styling */
+.user-menu {
+  margin-left: 0.5rem;
+}
+
+.user-toggle, .login-toggle {
+  background: none !important;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333 !important;
+  font-weight: 600;
+  padding: 0.5rem 0.8rem;
+  font-family: 'SF Pro Display', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.user-toggle:hover, .login-toggle:hover, 
+.user-toggle:active, .login-toggle:active,
+.user-toggle:focus, .login-toggle:focus {
+  color: #00A551 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown.show .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.avatar-container {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.user-icon {
+  font-size: 1.5rem;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.avatar-container:hover .user-icon {
   color: #00A551;
   transform: scale(1.1);
-  cursor: pointer;
 }
 
-
-.way4track-text {
-  font-size: 2.8rem;
-  font-weight: bold;
-  background: linear-gradient(45deg, #0c743b, #00ff95); /* Two-tone gradient */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* 3D effect */
-  font-family: "bree serif";
-  
-}
-
-.login-dropdown {
+.user-dropdown-menu, .login-dropdown-menu {
+  margin-top: 0.5rem;
+  border-radius: 8px;
   border: none;
-  background: none;
-  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  animation: dropdownFade 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
   color: #333;
+  transition: all 0.2s ease;
 }
 
-.login-dropdown::after {
-  margin-left: 0.5em;
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #00A551;
+  transform: translateX(5px);
 }
 
+.dropdown-divider {
+  margin: 0.3rem 0;
+  border-top: 1px solid #eee;
+}
 
+.logout-item {
+  color: #e53935;
+}
+
+.logout-item:hover {
+  background-color: rgba(229, 57, 53, 0.1);
+  color: #e53935;
+}
+
+/* Mobile styles */
+.navbar-toggler {
+  border: none;
+  background: transparent;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-toggler:hover {
+  color: #00A551;
+}
+
+.navbar-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 300px;
+  background-color: white;
+  z-index: 1001;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-top: 4rem;
+}
+
+.navbar-mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.mobile-nav-link {
+  font-size: 1.1rem;
+  color: #333;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link:hover {
+  color: #00A551;
+  background-color: #f9f9f9;
+  padding-left: 2rem;
+}
+
+.mobile-cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e53935;
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+}
+
+.logout-link {
+  color: #e53935;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    display: none !important;
+  }
+  
+  .navbar-toggler {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-mobile-menu {
+    display: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .navbar {
+    padding: 0.6rem 1rem;
+  }
+  
+  .logo-img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .navbar {
+    padding: 0.5rem 0.8rem;
+  }
+  
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+}

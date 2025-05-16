@@ -185,6 +185,7 @@ function ProductsPage() {
                     <div className="product-card-inner">
                       <Link
                         to={`/product/${device.id}`}
+                        state={{device}}
                         className="product-image-wrapper"
                       >
                         <img
