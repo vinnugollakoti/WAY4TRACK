@@ -16,13 +16,18 @@ const Hero = () => {
   return (
     <section
       className="hero bg-dark text-white py-5 position-relative overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, #5e72eb, #ff9190)",
-        height: "100vh",
-        minHeight: "600px",
-        display: "flex",
-        alignItems: "center",
-      }}
+     style={{
+  backgroundImage: `url(/images/aboutbanner.jpg)`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  // height: "100vh",
+  minHeight: "600px",
+  display: "flex",
+  alignItems: "center",
+  color: "#fff",
+}}
+
     >
       {/* Animated background elements */}
       <div
@@ -65,13 +70,14 @@ const Hero = () => {
               transform: isVisible ? "translateX(0)" : "translateX(-50px)",
             }}
           >
-            <h1 className="display-3 fw-bold mb-4" data-aos="fade-right">
+            <h1 className="display-3 fw-bold mb-4" data-aos="fade-right" style={{color:"white"}}>
               About <span className="text-accent">TrackMaster</span>
             </h1>
             <p
               className="lead mb-4 fs-4"
               data-aos="fade-right"
               data-aos-delay="200"
+              color="gray"
             >
               Pioneering GPS tracking solutions that revolutionize how
               businesses monitor and optimize their assets in real-time.
@@ -85,68 +91,7 @@ const Hero = () => {
               </button>
             </div>
           </Col>
-          <Col lg={5} className="d-none d-lg-block">
-            <div
-              className="position-relative"
-              data-aos="zoom-in"
-              data-aos-delay="300"
-            >
-              <div
-                className="position-relative"
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  backgroundImage: "url('./images/track1.png')",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: "10px",
-                  backdropFilter: "blur(10px)",
-                  overflow: "hidden",
-                }}
-              >
-                {/* Animated map visualization */}
-                <div className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
-                  <div className="world-map-outline">
-                    <div
-                      className="animate-tracking-dot position-absolute bg-accent"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        top: "40%",
-                        left: "30%",
-                        zIndex: 2,
-                      }}
-                    ></div>
-                    <div
-                      className="animate-tracking-dot position-absolute bg-accent"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        top: "60%",
-                        left: "70%",
-                        zIndex: 2,
-                        animationDelay: "1s",
-                      }}
-                    ></div>
-                    <div
-                      className="animate-tracking-dot position-absolute bg-accent"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        top: "30%",
-                        left: "60%",
-                        zIndex: 2,
-                        animationDelay: "2s",
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Col>
+         
         </Row>
       </Container>
     </section>

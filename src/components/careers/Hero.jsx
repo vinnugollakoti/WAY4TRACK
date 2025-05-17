@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 import AddHiring from './AddHiring';
 
 const Hero = () => {
-  const backgroundImage = './images/career6.jpg';
+  const backgroundImage = './images/career.jpg';
 
   return (
     <>
       <div
-        className="hero-section"
+        className="hero-section position-relative"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
@@ -19,9 +19,24 @@ const Hero = () => {
           color: '#fff',
           paddingTop: '5rem',
           paddingBottom: '5rem',
+          zIndex: 1,
         }}
       >
-        <Container>
+        {/* Gradient Overlay */}
+        <div
+          className="overlay"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9))',
+            zIndex: 0,
+          }}
+        />
+
+        <Container style={{ position: 'relative', zIndex: 1 }}>
           <Row className="align-items-center">
             <Col lg={8} className="mx-auto text-center">
               <motion.div
@@ -29,7 +44,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="hero-title">Build Your Future With Us</h1>
+                <h1 className="hero-title" style={{color:"white"}}>Build Your Future With Us</h1>
               </motion.div>
 
               <motion.div
@@ -60,6 +75,7 @@ const Hero = () => {
           </Row>
         </Container>
       </div>
+
       <div>
         <AddHiring />
       </div>

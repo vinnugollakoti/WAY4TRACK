@@ -18,9 +18,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(11, 37, 69, 0.1);
+  width: 30px;
+  height: 30px;
+  /* background-color: rgba(11, 37, 69, 0.1); */
   border-radius: 10px;
   font-size: 20px;
   color: #0B2545;
@@ -29,7 +29,7 @@
 }
 
 .info-card:hover .info-icon {
-  background-color: #0B2545;
+  /* background-color: #0B2545; */
   color: #fff;
   transform: scale(1.1);
 }

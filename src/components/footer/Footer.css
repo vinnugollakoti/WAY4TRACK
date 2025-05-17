@@ -1,6 +1,7 @@
 .footer h5 {
   font-weight: bold;
   margin-bottom: 1rem;
+  color: lightgreen !important;
 }
 
 .footer ul li {
@@ -24,4 +25,17 @@
   .footer iframe {
     height: 100px !important;
   }
+}
+
+
+.footer-bottom {
+  font-size: 0.875rem;
+  color: #aaa;
+}
+.footer-bottom a {
+  color: #90ee90; /* light green or choose brand color */
+  text-decoration: none;
+}
+.footer-bottom a:hover {
+  text-decoration: underline;
 }

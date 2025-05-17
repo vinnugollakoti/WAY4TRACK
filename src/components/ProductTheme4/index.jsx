@@ -4,11 +4,12 @@ import AboutSection from "./AboutSection";
 import ParametersSection from "./ParametersSection";
 import FeaturesSection from "./FeaturesSection";
 import SolutionsSection from "../ProductTheme2/SolutionsSection";
+import FooterBanner from "./FooterBanner";
 import "./styles/product-page.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductPage = (product) => {
-  console.log(product, "product4");
+  console.log(product, "product4.........");
   return (
     <div className="product-page">
       <HeroSection
@@ -24,6 +25,8 @@ const ProductPage = (product) => {
           ourImage={product.data.solutionImage}
         />
         <FeaturesSection amenities={product.data.amenities} />
+      <FooterBanner footerBanner={product.data.footerBanner} />
+
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 .hero-section {
   padding: 6rem 0 8rem;
-  background-color: var(--primary-light);
+  /* background-color: var(--primary-light); */
   position: relative;
   overflow: hidden;
 }
@@ -12,7 +12,8 @@
   right: 0;
   width: 40%;
   height: 100%;
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+  
   opacity: 0.05;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
   z-index: 0;

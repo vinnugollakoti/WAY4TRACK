@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -13,15 +13,25 @@ L.Icon.Default.mergeOptions({
 })
 
 const officeLocations = [
-  { name: "Headquarters", coordinates: [40.7128, -74.0060], description: "New York City, USA" },
-  { name: "European Office", coordinates: [51.5074, -0.1278], description: "London, UK" },
-  { name: "Asia-Pacific Office", coordinates: [1.3521, 103.8198], description: "Singapore" },
-  { name: "Middle East Office", coordinates: [25.2048, 55.2708], description: "Dubai, UAE" }
+  { name: "Headquarters", coordinates: [17.6868, 83.2185], description: "Vizag" },
+  { name: "Vijayawada Office", coordinates: [16.5062, 80.6480], description: "Vijayawada, India" },
+  { name: "Tirupati Office", coordinates: [13.6288, 79.4192], description: "Tirupati, India" },
+  { name: "Hyderabad Office", coordinates: [17.3850, 78.4867], description: "Hyderabad, India" }
 ]
+
+// Component to auto-fit the map to all markers
+const FitBounds = ({ locations }) => {
+  const map = useMap()
+  useEffect(() => {
+    const bounds = L.latLngBounds(locations.map(loc => loc.coordinates))
+    map.fitBounds(bounds, { padding: [50, 50] })
+  }, [locations, map])
+  return null
+}
 
 const Coverage = () => {
   useEffect(() => {
-    // Handle leaflet container issues
+    // Handle leaflet container resize issues
     const resizeObserver = new ResizeObserver(() => {
       window.dispatchEvent(new Event('resize'))
     })
@@ -43,10 +53,10 @@ const Coverage = () => {
       <Container>
         <Row className="align-items-center">
           <Col lg={5} className="mb-5 mb-lg-0" data-aos="fade-right">
-            <h6 className="text-uppercase text-primary fw-bold mb-3">Global Coverage</h6>
-            <h2 className="display-5 fw-bold mb-4">Tracking Solutions Worldwide</h2>
+            <h6 className="text-uppercase text-primary fw-bold mb-3">India Coverage</h6>
+            <h2 className="display-5 fw-bold mb-4">Tracking Solutions Across Andhra & Telangana</h2>
             <p className="lead mb-4">
-              Our GPS tracking technology operates across all continents, providing reliable service no matter where your assets are located.
+              Our GPS tracking technology is active in multiple strategic cities, enabling strong operational visibility across South India.
             </p>
             
             <ul className="list-unstyled mb-5">
@@ -71,8 +81,8 @@ const Coverage = () => {
             </ul>
             
             <div className="bg-light rounded p-4" data-aos="fade-up">
-              <h5 className="mb-3">Need Global Tracking?</h5>
-              <p className="mb-3">Our solutions work everywhere, from dense urban environments to remote wilderness areas, keeping you connected to your assets at all times.</p>
+              <h5 className="mb-3">Need Regional Tracking?</h5>
+              <p className="mb-3">Stay connected to your assets throughout Andhra Pradesh and Telangana with our tailored GPS tracking coverage.</p>
               <button className="btn btn-accent">Get Coverage Details</button>
             </div>
           </Col>
@@ -84,8 +94,8 @@ const Coverage = () => {
             }}>
               <div style={{ height: '100%', width: '100%' }}>
                 <MapContainer 
-                  center={[20, 0]} 
-                  zoom={2} 
+                  center={[16.5, 80]} 
+                  zoom={6} 
                   style={{ height: '100%', width: '100%' }}
                   scrollWheelZoom={false}
                 >
@@ -93,6 +103,7 @@ const Coverage = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                   />
+                  <FitBounds locations={officeLocations} />
                   {officeLocations.map((office, index) => (
                     <Marker 
                       position={office.coordinates}

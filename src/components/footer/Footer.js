@@ -48,7 +48,7 @@ const Footer = () => {
         <div className="row">
           {/* Home */}
           <div className="col-12 col-md-3 mb-4 mb-md-0">
-            <h5>Home</h5>
+            <h5 style={{color:"white"}}>Home</h5>
             <ul className="list-unstyled">
               <li>
                 <a href="/" className="text-white">
@@ -98,8 +98,8 @@ const Footer = () => {
             <Slider {...settings}>
               {locations.map((loc, index) => (
                 <div key={index} className="p-2">
-                  <div className="bg-secondary text-white p-2 p-md-3 rounded">
-                    <h6>{loc.title}</h6>
+                  <div className="text-white p-2 p-md-3 rounded">
+                    <h6 style={{color:"lightgreen"}}>{loc.title}</h6>
                     <iframe
                       src={loc.mapEmbed}
                       width="100%"
@@ -118,9 +118,11 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="text-center mt-4 border-top pt-3">
-          <p>© 2025 Way4Track. All rights reserved.</p>
-        </div>
+       <footer className="text-center mt-4 border-top pt-3">
+  <p className="mb-1">© 2025 Way4Track. All rights reserved.</p>
+  <p className="small mb-0" style={{color:"white"}}>Developed by Leadxpo</p>
+</footer>
+
       </div>
     </footer>
   );

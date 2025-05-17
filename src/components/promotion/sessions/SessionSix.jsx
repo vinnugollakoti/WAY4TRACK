@@ -12,7 +12,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
 
   return (
     <div className="container-fluid px-0 py-4" style={{  backgroundImage: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)", }}>
-      <div className="row m-0 py-3" style={{padding:"0px 30px"}}>
+      <div className="row m-0" style={{padding:"0px 30px"}}>
         {/* Title and Header */}
         <div className="col-12 text-center mb-4 animation-fade-in">
           <p className="mining-name">{promo.name}</p>
