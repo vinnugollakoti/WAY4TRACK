@@ -18,7 +18,7 @@
 
 .products-sidebar-container {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: center;
 }
 
@@ -96,7 +96,7 @@
   margin-top: 10px;
 }
 
-.product-card {
+.product-card-productnew{
   list-style: none;
   background-color: #ffffff;
   text-align: center;
@@ -109,11 +109,12 @@
   margin-bottom: 20px;
 }
 
-.product-card:hover {
+.product-card-productnew:hover {
   transform: translateY(-10px) scale(1.03);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
   z-index: 10;
   border-radius: 12px;
+  background-image: linear-gradient(to right, #83cc9c 0%, #a9e4d9 100%);
 }
 
 .product-image {
@@ -221,7 +222,7 @@
 }
 
 .products-add-cart::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -100%;
   left: 0;
@@ -239,7 +240,6 @@
 .products-add-cart:hover {
   color: white;
 }
-
 
 .products-buy-now {
   background-color: white;
@@ -390,7 +390,7 @@
     font-size: 0.9rem;
   }
 
-  .product-card {
+  .product-card-productnew {
     padding: 0.8rem;
   }
 
@@ -531,3 +531,78 @@
     opacity: 1;
   }
 }
+
+/* mobile */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .products-sidebar-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar-wrapper {
+    width: 100%;
+    order: 2;
+  }
+
+  .productsPage-main-container {
+    order: 1;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .product-buttons {
+    flex-direction: column;
+  }
+
+  .products-add-cart,
+  .products-buy-now {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-title {
+    font-size: 1.5rem;
+  }
+
+  .product-description {
+    font-size: 0.85rem;
+  }
+
+  .product-price,
+  .product-base-price {
+    font-size: 1rem;
+  }
+}
+
+
+
+@media (max-width: 1024px) {
+  .modal-content {
+    width: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: 20px;
+  }
+}
+
+
+

@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
 })
 
 const officeLocations = [
-  { name: "Headquarters", coordinates: [17.6868, 83.2185], description: "Vizag" },
+  { name: "Headquarters", coordinates: [17.6868, 83.2185], description: "Visakhapatnam" },
   { name: "Vijayawada Office", coordinates: [16.5062, 80.6480], description: "Vijayawada, India" },
   { name: "Tirupati Office", coordinates: [13.6288, 79.4192], description: "Tirupati, India" },
   { name: "Hyderabad Office", coordinates: [17.3850, 78.4867], description: "Hyderabad, India" }
@@ -54,7 +54,7 @@ const Coverage = () => {
         <Row className="align-items-center">
           <Col lg={5} className="mb-5 mb-lg-0" data-aos="fade-right">
             <h6 className="text-uppercase text-primary fw-bold mb-3">India Coverage</h6>
-            <h2 className="display-5 fw-bold mb-4">Tracking Solutions Across Andhra & Telangana</h2>
+            <h2 className="display-5 fw-bold mb-4">Tracking Solutions Across India</h2>
             <p className="lead mb-4">
               Our GPS tracking technology is active in multiple strategic cities, enabling strong operational visibility across South India.
             </p>

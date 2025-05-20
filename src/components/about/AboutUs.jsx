@@ -3,7 +3,7 @@ import Hero from './Hero'
 import Mission from './Mission'
 import Services from './Services'
 import Stats from './Stats'
-import Team from './Team'
+// import Team from './Team'
 import Testimonials from './Testimonials'
 import Coverage from './Coverage'
 import Technology from './Technology'
@@ -33,7 +33,7 @@ const AboutUs = () => {
       <Mission />
       <Services />
       <Stats />
-      <Team />
+      {/* <Team /> */}
       <Testimonials />
       <Technology />
       <Coverage />

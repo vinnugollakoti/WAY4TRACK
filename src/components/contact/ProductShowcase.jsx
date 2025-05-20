@@ -56,7 +56,7 @@ const ContactCardList = () => {
           return (
             <motion.div
               key={index}
-              className="col-md-6 col-lg-6 mb-4"
+              className="col-md-4 col-lg-4 mb-4"
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
