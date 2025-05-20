@@ -103,141 +103,133 @@ const MyOrders = () => {
     //       </div>
     //     </div>
 
-        <div className="myorders-main">
-          <div className="myorders-search">
-            <input
-              className="myorders-search-input"
-              placeholder="Search your orders here"
-            />
-            <button className="myorders-search-button">🔍 Search Orders</button>
-          </div>
+    <div className="myorders-main">
+      <div className="myorders-search">
+        <input
+          className="myorders-search-input"
+          placeholder="Search your orders here"
+        />
+        <button className="myorders-search-button">🔍 Search Orders</button>
+      </div>
 
-          <div className="myorders-list">
-            {filteredOrders.map((order) => (
-              <div key={order.id} className="myorders-order">
-                <h1 className="myorders-order-heading">Order: #{order.id}</h1>
-                {order.orderItems.map((item) => {
-                  const device = Array.isArray(order.deviceDetails)
-                    ? order.deviceDetails.find(
-                        (d) => Number(d.deviceId) === Number(item.deviceId)
-                      )
-                    : null;
+      <div className="myorders-list">
+        {filteredOrders.map((order) => (
+          <div key={order.id} className="myorders-order">
+            <h1 className="myorders-order-heading">Order: #{order.id}</h1>
+            {order.orderItems.map((item) => {
+              const device = Array.isArray(order.deviceDetails)
+                ? order.deviceDetails.find(
+                    (d) => Number(d.deviceId) === Number(item.deviceId)
+                  )
+                : null;
 
-                  return (
-                    <Link
-                      to={`/order-item/${order.id}/${item.deviceId}`}
-                      className="myorders-redirection-link"
-                      key={item.deviceId}
+              return (
+                <Link
+                  to={`/order-item/${order.id}/${item.deviceId}`}
+                  className="myorders-redirection-link"
+                  key={item.deviceId}
+                >
+                  <div className="myorders-item">
+                    <img
+                      src={device?.image || "https://via.placeholder.com/60"}
+                      alt={item.name}
+                      className="myorders-item-image"
+                    />
+
+                    <div className="myorders-item-details">
+                      <h4 className="myorders-item-title">{item.name}</h4>
+                      <p className="myorders-item-author">
+                        Network: {item.network}
+                      </p>
+                      <p className="myorders-item-meta">
+                        Subscription: {item.subscriptionType} subscription
+                      </p>
+                      <p className="myorders-item-meta">
+                        Accessories:{" "}
+                        {item.is_relay ? "With Relay" : "Without Relay"}
+                      </p>
+                      <p className="myorders-item-meta">Quantity: {item.qty}</p>
+                    </div>
+                    <div className="myorders-item-price">
+                      Price: Rs.{item.amount}
+                    </div>
+                    <div
+                      className={`myorders-item-delivery myorders-status-box status-${order.orderStatus?.toLowerCase()}`}
                     >
-                      <div className="myorders-item">
-                        <img
-                          src={
-                            device?.image || "https://via.placeholder.com/60"
-                          }
-                          alt={item.name}
-                          className="myorders-item-image"
-                        />
-
-                        <div className="myorders-item-details">
-                          <h4 className="myorders-item-title">{item.name}</h4>
-                          <p className="myorders-item-author">
-                            Network: {item.network}
+                      {order.orderStatus === "delivered" && (
+                        <>
+                          <span>
+                            🟢 Delivered on {formatDate(order.delivaryDate)}
+                          </span>
+                          <p>Your item has been delivered.</p>
+                        </>
+                      )}
+                      {order.orderStatus === "pending" && (
+                        <p>
+                          ⏳ Your order is pending confirmation by the seller.
+                        </p>
+                      )}
+                      {order.orderStatus === "received" && (
+                        <>
+                          <p>
+                            📦 We've received your order and it is being
+                            prepared.
                           </p>
-                          <p className="myorders-item-meta">
-                            Subscription: {item.subscriptionType} subscription
+                          <p>
+                            📅 Expected Delivery:{" "}
+                            {formatDate(order.delivaryDate)}
                           </p>
-                          <p className="myorders-item-meta">
-                            Accessories:{" "}
-                            {item.is_relay ? "With Relay" : "Without Relay"}
+                        </>
+                      )}
+                      {order.orderStatus === "dispatched" && (
+                        <>
+                          <p>
+                            🚚 Your order has been dispatched and is on the way.
                           </p>
-                          <p className="myorders-item-meta">
-                            Quantity: {item.qty}
+                          <p>
+                            📅 Expected Delivery:{" "}
+                            {formatDate(order.delivaryDate)}
                           </p>
-                        </div>
-                        <div className="myorders-item-price">
-                          Price: Rs.{item.amount}
-                        </div>
-                        <div
-                          className={`myorders-item-delivery myorders-status-box status-${order.orderStatus?.toLowerCase()}`}
-                        >
-                          {order.orderStatus === "delivered" && (
-                            <>
-                              <span>
-                                🟢 Delivered on {formatDate(order.delivaryDate)}
-                              </span>
-                              <p>Your item has been delivered.</p>
-                            </>
-                          )}
-                          {order.orderStatus === "pending" && (
-                            <p>
-                              ⏳ Your order is pending confirmation by the
-                              seller.
-                            </p>
-                          )}
-                          {order.orderStatus === "received" && (
-                            <>
-                              <p>
-                                📦 We've received your order and it is being
-                                prepared.
-                              </p>
-                              <p>
-                                📅 Expected Delivery:{" "}
-                                {formatDate(order.delivaryDate)}
-                              </p>
-                            </>
-                          )}
-                          {order.orderStatus === "dispatched" && (
-                            <>
-                              <p>
-                                🚚 Your order has been dispatched and is on the
-                                way.
-                              </p>
-                              <p>
-                                📅 Expected Delivery:{" "}
-                                {formatDate(order.delivaryDate)}
-                              </p>
-                            </>
-                          )}
-                          {order.orderStatus === "aborted" && (
-                            <p>
-                              ❌ This order was aborted. You were not charged.
-                            </p>
-                          )}
-                          {order.orderStatus === "cancelled" && (
-                            <p>
-                              ❌ This order was cancelled. Contact support if
-                              needed.
-                            </p>
-                          )}
-                          {order.orderStatus === "success" && (
-                            <p>✅ Order successfully processed.</p>
-                          )}
-                          {order.orderStatus === "request_raised" && (
-                            <p>📝 A request has been raised for your order.</p>
-                          )}
-                          {order.orderStatus === "request_approved" && (
-                            <p>✅ Your order request has been approved.</p>
-                          )}
-                          {order.orderStatus === "request_reject" && (
-                            <p>❌ Your order request was rejected.</p>
-                          )}
-                          {order.orderStatus === "request_sucess" && (
-                            <p>✅ Your order request was successful.</p>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-                <div className="myorders-total-order-amount-container">
-                  <p className="myorders-total-order-amount">
-                    Total Order Amount: Rs.{order.totalAmount}
-                  </p>
-                </div>
-              </div>
-            ))}
+                        </>
+                      )}
+                      {order.orderStatus === "aborted" && (
+                        <p>❌ This order was aborted. You were not charged.</p>
+                      )}
+                      {order.orderStatus === "cancelled" && (
+                        <p>
+                          ❌ This order was cancelled. Contact support if
+                          needed.
+                        </p>
+                      )}
+                      {order.orderStatus === "success" && (
+                        <p>✅ Order successfully processed.</p>
+                      )}
+                      {order.orderStatus === "request_raised" && (
+                        <p>📝 A request has been raised for your order.</p>
+                      )}
+                      {order.orderStatus === "request_approved" && (
+                        <p>✅ Your order request has been approved.</p>
+                      )}
+                      {order.orderStatus === "request_reject" && (
+                        <p>❌ Your order request was rejected.</p>
+                      )}
+                      {order.orderStatus === "request_sucess" && (
+                        <p>✅ Your order request was successful.</p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+            <div className="myorders-total-order-amount-container">
+              <p className="myorders-total-order-amount">
+                Total Order Amount: Rs.{order.totalAmount}
+              </p>
+            </div>
           </div>
-        </div>
+        ))}
+      </div>
+    </div>
     //   </div>
     // </div>
   );

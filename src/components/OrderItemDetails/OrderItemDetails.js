@@ -37,6 +37,7 @@ const OrderItemDetails = () => {
   const { orderId, deviceId } = useParams();
   const [item, setItem] = useState(null);
   const [device, setDevice] = useState(null);
+
   const [order, setOrder] = useState(null);
   const [refundDevices, setRefundDevices] = useState([]);
 
@@ -48,6 +49,7 @@ const OrderItemDetails = () => {
   const [showReplaceForm, setShowReplaceForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -56,6 +58,112 @@ const OrderItemDetails = () => {
   const clientId = localStorage.getItem("client_id");
   const clientDbId = localStorage.getItem("client_db_id");
   console.log(order);
+
+  console.log(rating, "rating");
+  console.log(reviews, "review");
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const payload = { companyCode, unitCode, clientId };
+        const response = await ApiService.post(
+          "client/getClientDetailsById",
+          payload
+        );
+
+        if (response.status) {
+          const orders = response.data.orders;
+          const currentOrder = orders.find((o) => o.id.toString() === orderId);
+          if (currentOrder) {
+            const currentItem = currentOrder.orderItems.find(
+              (i) => i.deviceId.toString() === deviceId
+            );
+            const currentDevice = Array.isArray(currentOrder.deviceDetails)
+              ? currentOrder.deviceDetails.find(
+                  (d) => d.deviceId.toString() === deviceId
+                )
+              : null;
+
+            setOrder(currentOrder);
+            setItem(currentItem);
+            setDevice(currentDevice);
+          }
+          setRefundDevices(response.data.refund);
+        }
+      } catch (error) {
+        console.error("Error fetching order item details:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [orderId, deviceId, companyCode, unitCode, clientId]);
+
+  useEffect(() => {
+    if (item) {
+      fetchReviews();
+    }
+  }, [item]);
+
+  const fetchReviews = async () => {
+    const value = item?.deviceId;
+    try {
+      const response = await ApiService.post("/client/getClientReviewsById", {
+        companyCode,
+        unitCode,
+        clientId: clientId,
+      });
+
+      if (response.status) {
+        const allReviews = response.data?.review || [];
+
+        const filteredReviews = allReviews.filter(
+          (item) => item.deviceId.id === value
+        );
+
+        setReviews(filteredReviews[0]);
+
+        if (filteredReviews.length > 0) {
+          setRating(filteredReviews[0].rating);
+        } else {
+          setRating(0);
+        }
+      }
+    } catch (error) {
+      console.error("Reviews fetching failed:", error);
+      alert("Failed to fetch reviews.");
+    }
+  };
+
+  const handleStarClick = async (value) => {
+    setRating(value);
+
+    try {
+      const payload = {
+        companyCode,
+        unitCode,
+        clientId: clientDbId,
+        orderId,
+        deviceId: item.deviceId,
+        rating: value,
+      };
+
+      console.log(reviews,"reeviews")
+
+      if (reviews && reviews.id) {
+        payload.id = reviews.id;
+      }
+      const response = await ApiService.post(
+        "/review/handleReviewDetails",
+        payload
+      );
+
+      console.log("Rating submitted successfully:", response.data);
+      alert("Rating submitted successfully!");
+    } catch (error) {
+      console.error("Rating submission failed:", error);
+      alert("Failed to submit rating.");
+    }
+  };
 
   const handleDownloadInvoice = () => {
     const doc = new jsPDF();
@@ -97,7 +205,6 @@ const OrderItemDetails = () => {
     }
   };
 
-  // Check refund status for the current device
   const refund = refundDevices?.find(
     (r) => r.deviceId?.id.toString() === deviceId
   );
@@ -130,42 +237,6 @@ const OrderItemDetails = () => {
         return "Status unknown. Please contact support.";
     }
   };
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const payload = { companyCode, unitCode, clientId };
-        const response = await ApiService.post(
-          "client/getClientDetailsById",
-          payload
-        );
-
-        if (response.status) {
-          const orders = response.data.orders;
-          const currentOrder = orders.find((o) => o.id.toString() === orderId);
-          if (currentOrder) {
-            const currentItem = currentOrder.orderItems.find(
-              (i) => i.deviceId.toString() === deviceId
-            );
-            const currentDevice = Array.isArray(currentOrder.deviceDetails)
-              ? currentOrder.deviceDetails.find(
-                  (d) => d.deviceId.toString() === deviceId
-                )
-              : null;
-
-            setOrder(currentOrder);
-            setItem(currentItem);
-            setDevice(currentDevice);
-          }
-          setRefundDevices(response.data.refund);
-        }
-      } catch (error) {
-        console.error("Error fetching order item details:", error);
-      }
-    };
-
-    fetchOrders();
-  }, [orderId, deviceId, companyCode, unitCode, clientId]);
 
   const handleUpdate = async (actionType, additionalData = {}) => {
     setIsLoading(true);
@@ -302,6 +373,10 @@ const OrderItemDetails = () => {
     !isReturnRequested;
 
   const showExpectedDelivery = !isDelivered && !isCancelled;
+
+
+
+  console.log(item, "item");
 
   return (
     <div className="OrderItemDetails-container">
@@ -525,7 +600,7 @@ const OrderItemDetails = () => {
                     className={`OrderItemDetails-star ${
                       starValue <= (hoverRating || rating) ? "filled" : ""
                     }`}
-                    onClick={() => setRating(starValue)}
+                    onClick={() => handleStarClick(starValue)}
                     onMouseEnter={() => setHoverRating(starValue)}
                     onMouseLeave={() => setHoverRating(0)}
                   >
@@ -553,7 +628,11 @@ const OrderItemDetails = () => {
                   >
                     ×
                   </button>
-                  <ProductReviewForm initialRating={rating} />
+                  <ProductReviewForm
+                  item={item}
+                    review={reviews}
+                    initialRating={rating}
+                  />
                 </div>
               </div>
             )}

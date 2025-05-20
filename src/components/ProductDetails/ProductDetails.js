@@ -226,7 +226,7 @@ const ProductDetailsPage = () => {
           </div>
           {/* <DeviceReviewComponent /> */}
         </div>
-        <DeviceReviewComponent />
+        <DeviceReviewComponent device={device} />
       </div>
     </div>
   );
