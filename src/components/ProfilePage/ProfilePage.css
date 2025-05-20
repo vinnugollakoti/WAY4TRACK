@@ -321,3 +321,109 @@
   border: none;
   cursor: pointer;
 }
+
+
+
+/* mobile */
+
+
+/* Default desktop styles remain unchanged */
+
+/* Add this for mobile responsiveness */
+@media (max-width: 768px) {
+  .profilePage-layout {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .profilePage-left, .profilePage-right {
+    width: 100%;
+    padding: 0;
+  }
+
+  .profilePage-imageWrapper {
+    margin: 0 auto;
+  }
+
+  .profilePage-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .profilePage-tabs {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .profilePage-tabs button {
+    flex: 1;
+    margin: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .profilePage-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  }
+
+  .profilePage-form input {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .profilePage-contact-info {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .profilePage-address-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .profilePage-address-card {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+
+  .profilePage-address-options {
+    position: relative;
+  }
+
+  .address-options-popup {
+    right: 0;
+    left: auto;
+    top: 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .profilePage-popup-content {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .profilePage-edit-btn,
+  .profilePage-add-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+
+body, html {
+  overflow-x: hidden;
+}
+

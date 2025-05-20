@@ -1,4 +1,4 @@
-// Updated ProductsPage.js with working filterssss
+// ProductsPage.js
 
 import React, { useState, useEffect, useContext } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
@@ -102,173 +102,174 @@ function ProductsPage() {
   };
 
   return (
-    <div className="products-container">
-      <div className="products-heading-container">
-        <h1 className="products-title section-heading">Devices</h1>
-      </div>
-      <div className="products-sidebar-container">
-        <div className="sidebar-wrapper">
-          <div className="filter-group product-filter-group">
-            <h2 className="subsection-heading">Products</h2>
-            {uniqueProductNames.map((productName) => (
-              <label
-                key={productName}
-                className="checkbox-label product-checkbox-label"
-              >
-                <div className="checkbox-container product-checkbox-container">
-                  <input
-                    type="checkbox"
-                    className="products-filter-checkbox checkbox-input"
-                    checked={filters.names.includes(productName)}
-                    onChange={() => handleCheckboxChange(productName)}
-                  />
-                  <span className="product-name checkbox-name">
-                    {productName}
-                  </span>
-                </div>
-                <div className="count-container product-count-container">
-                  <span className="product-count count-badge">
-                    {productCounts[productName]}
-                  </span>
-                </div>
-              </label>
-            ))}
-          </div>
-
-          <div className="filter-group price-filter-group">
-            <h2 className="subsection-heading">Price</h2>
-            <input
-              type="range"
-              min="0"
-              max="10000"
-              value={filters.priceRange[1]}
-              onChange={(e) => handlePriceChange(e.target.value)}
-              className="price-slider"
-            />
-            <div className="price-range price-display">
-              Price: ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
+  <div className="products-container">
+  <div className="products-heading-container">
+    <h1 className="products-title section-heading">Devices</h1>
+  </div>
+  <div className="products-sidebar-container">
+    <div className="sidebar-wrapper">
+      <div className="filter-group product-filter-group">
+        <h2 className="subsection-heading">Products</h2>
+        {uniqueProductNames.map((productName) => (
+          <label
+            key={productName}
+            className="checkbox-label product-checkbox-label"
+          >
+            <div className="checkbox-container product-checkbox-container">
+              <input
+                type="checkbox"
+                className="products-filter-checkbox checkbox-input"
+                checked={filters.names.includes(productName)}
+                onChange={() => handleCheckboxChange(productName)}
+              />
+              <span className="product-name checkbox-name">
+                {productName}
+              </span>
             </div>
-          </div>
+            <div className="count-container product-count-container">
+              <span className="product-count count-badge">
+                {productCounts[productName]}
+              </span>
+            </div>
+          </label>
+        ))}
+      </div>
 
-          <div className="filters-wrapper sort-filter-wrapper">
-            <select
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="filter-select sort-select"
-              value={filters.sort}
-            >
-              <option value="">Sort By</option>
-              <option value="low">Price Low to High</option>
-              <option value="high">Price High to Low</option>
-              <option value="az">Name A to Z</option>
-              <option value="za">Name Z to A</option>
-            </select>
-          </div>
+      <div className="filter-group price-filter-group">
+        <h2 className="subsection-heading">Price</h2>
+        <input
+          type="range"
+          min="0"
+          max="10000"
+          value={filters.priceRange[1]}
+          onChange={(e) => handlePriceChange(e.target.value)}
+          className="price-slider"
+        />
+        <div className="price-range price-display">
+          Price: ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
         </div>
+      </div>
 
-        <div className="productsPage-main-container">
-          <div className="products-grid">
-            {sortedProducts.map((product) =>
-              product.device?.map((device) => {
-                const startPrice =
-                  ((device.amount + device.subscriptionMonthlyAmt) *
-                    (100-device.discount)) /
-                  100;
-                const matchedItem = cartItems.find(
-                  (item) => item.device.id === device.id
-                );
+      <div className="filters-wrapper sort-filter-wrapper">
+        <select
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="filter-select sort-select"
+          value={filters.sort}
+        >
+          <option value="">Sort By</option>
+          <option value="low">Price Low to High</option>
+          <option value="high">Price High to Low</option>
+          <option value="az">Name A to Z</option>
+          <option value="za">Name Z to A</option>
+        </select>
+      </div>
+    </div>
 
-                return (
-                  <div
-                    key={device.id}
-                    className="product-card product-card-custom"
+    <div className="productsPage-main-container">
+      <div className="products-grid">
+        {sortedProducts.map((product) =>
+          product.device?.map((device) => {
+            const startPrice =
+              ((device.amount + device.subscriptionMonthlyAmt) *
+                (100 - device.discount)) /
+              100;
+            const matchedItem = cartItems.find(
+              (item) => item.device.id === device.id
+            );
+
+            return (
+              <div
+                key={device.id}
+                className="product-card-productnew product-card-custom"
+              >
+                <div className="product-card-inner">
+                  <Link
+                    to={`/product/${device.id}`}
+                    state={{ device }}
+                    className="product-image-wrapper"
                   >
-                    <div className="product-card-inner">
-                      <Link
-                        to={`/product/${device.id}`}
-                        state={{device}}
-                        className="product-image-wrapper"
-                      >
-                        <img
-                          src={device.image}
-                          alt={device.model}
-                          className="products-product-image"
-                        />
-                      </Link>
+                    <img
+                      src={device.image}
+                      alt={device.model}
+                      className="products-product-image"
+                    />
+                  </Link>
 
-                      <div className="product-info">
-                        <h2 className="product-name">{device.name}</h2>
-                        <p className="product-description">
-                          {device.description}
-                        </p>
-                        <div className="product-old-price-container">
-                          <p className="product-base-price">
-                            Rs.{device.amount}
-                          </p>
-                          <span className="product-price-discount">
-                            -{device.discount}%
-                          </span>
-                        </div>
-                        <p className="product-price">From Rs.{startPrice}/-</p>
-                        <div className="product-buttons">
-                          {matchedItem ? (
-                            <div className="quantity-controls">
-                              <button
-                                className="products-add-cart"
-                                onClick={() => handleAddToCart(device)}
-                                onMouseEnter={() => setHovered(device.id)}
-                                onMouseLeave={() => setHovered(false)}
-                              >
-                                {hovered === device.id
-                                  ? "Update Cart"
-                                  : "Added"}
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              className="button products-add-cart"
-                              onClick={() => handleAddToCart(device)}
-                            >
-                              Add Cart
-                            </button>
-                          )}
-
+                  <div className="product-info">
+                    <h2 className="product-name">{device.name}</h2>
+                    <p className="product-description">
+                      {device.description}
+                    </p>
+                    <div className="product-old-price-container">
+                      <p className="product-base-price">
+                        Rs.{device.amount}
+                      </p>
+                      <span className="product-price-discount">
+                        -{device.discount}%
+                      </span>
+                    </div>
+                    <p className="product-price">From Rs.{startPrice}/-</p>
+                    <div className="product-buttons">
+                      {matchedItem ? (
+                        <div className="quantity-controls">
                           <button
-                            className="button products-buy-now"
+                            className="products-add-cart"
                             onClick={() => handleAddToCart(device)}
+                            onMouseEnter={() => setHovered(device.id)}
+                            onMouseLeave={() => setHovered(false)}
                           >
-                            Buy
+                            {hovered === device.id
+                              ? "Update Cart"
+                              : "Added"}
                           </button>
                         </div>
-                      </div>
+                      ) : (
+                        <button
+                          className="button products-add-cart"
+                          onClick={() => handleAddToCart(device)}
+                        >
+                          Add Cart
+                        </button>
+                      )}
+
+                      <button
+                        className="button products-buy-now"
+                        onClick={() => handleAddToCart(device)}
+                      >
+                        Buy
+                      </button>
                     </div>
                   </div>
-                );
-              })
-            )}
-          </div>
-        </div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
+    </div>
+  </div>
 
-      {showProductModal && (
-        <div
-          className="modal-overlay"
+  {showProductModal && (
+    <div
+      className="modal-overlay"
+      onClick={() => setShowProductModal(false)}
+    >
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="modal-close"
           onClick={() => setShowProductModal(false)}
         >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setShowProductModal(false)}
-            >
-              ×
-            </button>
-            <ProductPopupPage
-              device={selectedProduct}
-              isOpen={showProductModal}
-            />
-          </div>
-        </div>
-      )}
+          ×
+        </button>
+        <ProductPopupPage
+          device={selectedProduct}
+          isOpen={showProductModal}
+        />
+      </div>
     </div>
+  )}
+</div>
+
   );
 }
 

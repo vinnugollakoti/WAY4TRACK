@@ -11,10 +11,11 @@ const MapView = ({ position }) => {
         scrollWheelZoom={false}
         style={{ height: "200px", width: "100%", borderRadius: "8px" }}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <TileLayer
+  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+/>
+
         <Marker position={position}>
           <Popup>
             This location is approximate

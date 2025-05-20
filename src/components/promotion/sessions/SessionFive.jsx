@@ -26,7 +26,7 @@ const SessionFive = ({ promo, handlers, navigate }) => {
 
   return (
     <div className="session-five" style={bgStyle}>
-      <div className="container-fluid px-0 py-5" >
+      <div className="container-fluid py-5" >
         <div className="row m-0" style={{padding:"0px 30px"}}>
           {/* Title and header */}
           <div className="col-12 text-center mb-4 animation-fade-in">

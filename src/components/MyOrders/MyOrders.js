@@ -19,7 +19,6 @@ const MyOrders = () => {
   const clientId = localStorage.getItem("client_id");
 
   const statusOptions = [
-    // "on the way",
     "delivered",
     "cancelled",
     "returned",
@@ -45,10 +44,7 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     try {
       const payload = { companyCode, unitCode, clientId };
-      const response = await ApiService.post(
-        "client/getClientDetailsById",
-        payload
-      );
+      const response = await ApiService.post("client/getClientDetailsById", payload);
       if (response.status) {
         setOrders(response.data.orders);
       } else {
@@ -80,166 +76,160 @@ const MyOrders = () => {
   };
 
   return (
-    // <div>
-    //   <div className="products-heading-container">
-    //     <h1 className="products-title section-heading">My Orders</h1>
-    //   </div>
-    //   <div className="myorders-container">
-    //     <div className="myorders-sidebar">
-    //       <h2 className="myorders-sidebar-title">Filters</h2>
-    //       <div className="myorders-filter-section">
-    //         <h4>ORDER STATUS</h4>
-    //         {statusOptions.map((status) => (
-    //           <div key={status} className="myorders-checkbox">
-    //             <input
-    //               type="checkbox"
-    //               id={status}
-    //               checked={selectedStatuses.includes(status)}
-    //               onChange={() => handleStatusChange(status)}
-    //             />
-    //             <label htmlFor={status}>{status}</label>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </div>
+    <div className="container my-4">
+      <div className="mb-4">
+        <div className="input-group">
+          <input
+            className="form-control"
+            placeholder="Search your orders here"
+          />
+          <button className="btn btn-primary">🔍 Search Orders</button>
+        </div>
+      </div>
 
-        <div className="myorders-main">
-          <div className="myorders-search">
-            <input
-              className="myorders-search-input"
-              placeholder="Search your orders here"
-            />
-            <button className="myorders-search-button">🔍 Search Orders</button>
-          </div>
+      <div className="filter-bar mb-4">
+        {statusOptions.map((status) => (
+          <button
+            key={status}
+            className={`status-pill ${
+              selectedStatuses.includes(status) ? "active" : ""
+            }`}
+            onClick={() => handleStatusChange(status)}
+          >
+            {status.replace("_", " ")}
+          </button>
+        ))}
+      </div>
 
-          <div className="myorders-list">
-            {filteredOrders.map((order) => (
-              <div key={order.id} className="myorders-order">
-                <h1 className="myorders-order-heading">Order: #{order.id}</h1>
-                {order.orderItems.map((item) => {
-                  const device = Array.isArray(order.deviceDetails)
-                    ? order.deviceDetails.find(
-                        (d) => Number(d.deviceId) === Number(item.deviceId)
-                      )
-                    : null;
+      {filteredOrders.length === 0 ? (
+        <p className="text-muted">No orders found.</p>
+      ) : (
+        filteredOrders.map((order) => (
+          <div className="card mb-4" key={order.id}>
+            <div className="card-header bg-light">
+              <h5 className="mb-0">Order #{order.id}</h5>
+            </div>
+            <div className="card-body">
+              {order.orderItems.map((item) => {
+                const device = Array.isArray(order.deviceDetails)
+                  ? order.deviceDetails.find(
+                      (d) => Number(d.deviceId) === Number(item.deviceId)
+                    )
+                  : null;
 
-                  return (
-                    <Link
-                      to={`/order-item/${order.id}/${item.deviceId}`}
-                      className="myorders-redirection-link"
-                      key={item.deviceId}
-                    >
-                      <div className="myorders-item">
+                return (
+                  <Link
+                    to={`/order-item/${order.id}/${item.deviceId}`}
+                    className="text-decoration-none text-dark"
+                    key={item.deviceId}
+                  >
+                    <div className="row align-items-center border-bottom py-3">
+                      <div className="col-3 col-md-2">
                         <img
-                          src={
-                            device?.image || "https://via.placeholder.com/60"
-                          }
+                          src={device?.image || "https://via.placeholder.com/60"}
                           alt={item.name}
-                          className="myorders-item-image"
+                          className="img-fluid rounded"
                         />
-
-                        <div className="myorders-item-details">
-                          <h4 className="myorders-item-title">{item.name}</h4>
-                          <p className="myorders-item-author">
-                            Network: {item.network}
-                          </p>
-                          <p className="myorders-item-meta">
-                            Subscription: {item.subscriptionType} subscription
-                          </p>
-                          <p className="myorders-item-meta">
-                            Accessories:{" "}
-                            {item.is_relay ? "With Relay" : "Without Relay"}
-                          </p>
-                          <p className="myorders-item-meta">
-                            Quantity: {item.qty}
-                          </p>
-                        </div>
-                        <div className="myorders-item-price">
-                          Price: Rs.{item.amount}
+                      </div>
+                      <div className="col-9 col-md-6">
+                        <h6>{item.name}</h6>
+                        <p className="mb-1 small">Network: {item.network}</p>
+                        <p className="mb-1 small">
+                          Subscription: {item.subscriptionType} subscription
+                        </p>
+                        <p className="mb-1 small">
+                          Accessories:{" "}
+                          {item.is_relay ? "With Relay" : "Without Relay"}
+                        </p>
+                        <p className="mb-1 small">Quantity: {item.qty}</p>
+                      </div>
+                      <div className="col-12 col-md-4 mt-2 mt-md-0">
+                        <div className="fw-bold mb-2">
+                          Price: ₹{item.amount}
                         </div>
                         <div
-                          className={`myorders-item-delivery myorders-status-box status-${order.orderStatus?.toLowerCase()}`}
+                          className={`alert p-2 mb-0 text-capitalize alert-${
+                            order.orderStatus?.toLowerCase() === "delivered"
+                              ? "success"
+                              : order.orderStatus?.toLowerCase() === "pending"
+                              ? "warning"
+                              : order.orderStatus?.toLowerCase() === "cancelled"
+                              ? "danger"
+                              : "secondary"
+                          }`}
                         >
                           {order.orderStatus === "delivered" && (
                             <>
                               <span>
-                                🟢 Delivered on {formatDate(order.delivaryDate)}
+                                Delivered on {formatDate(order.delivaryDate)}
                               </span>
-                              <p>Your item has been delivered.</p>
+                              <p className="mb-0">
+                                Your item has been delivered.
+                              </p>
                             </>
                           )}
                           {order.orderStatus === "pending" && (
-                            <p>
-                              ⏳ Your order is pending confirmation by the
-                              seller.
+                            <p className="mb-0">
+                              ⏳ Order is pending confirmation by the seller.
                             </p>
                           )}
                           {order.orderStatus === "received" && (
                             <>
-                              <p>
-                                📦 We've received your order and it is being
-                                prepared.
+                              <p className="mb-0">
+                                📦 We've received your order.
                               </p>
-                              <p>
-                                📅 Expected Delivery:{" "}
-                                {formatDate(order.delivaryDate)}
+                              <p className="mb-0">
+                                📅 Expected: {formatDate(order.delivaryDate)}
                               </p>
                             </>
                           )}
                           {order.orderStatus === "dispatched" && (
                             <>
-                              <p>
-                                🚚 Your order has been dispatched and is on the
-                                way.
-                              </p>
-                              <p>
-                                📅 Expected Delivery:{" "}
-                                {formatDate(order.delivaryDate)}
+                              <p className="mb-0">🚚 Your order is on the way.</p>
+                              <p className="mb-0">
+                                📅 Expected: {formatDate(order.delivaryDate)}
                               </p>
                             </>
                           )}
                           {order.orderStatus === "aborted" && (
-                            <p>
-                              ❌ This order was aborted. You were not charged.
+                            <p className="mb-0">
+                              ❌ Order was aborted. You were not charged.
                             </p>
                           )}
                           {order.orderStatus === "cancelled" && (
-                            <p>
-                              ❌ This order was cancelled. Contact support if
-                              needed.
+                            <p className="mb-0">
+                              ❌ Order was cancelled. Contact support if needed.
                             </p>
                           )}
                           {order.orderStatus === "success" && (
-                            <p>✅ Order successfully processed.</p>
+                            <p className="mb-0">✅ Order processed.</p>
                           )}
                           {order.orderStatus === "request_raised" && (
-                            <p>📝 A request has been raised for your order.</p>
+                            <p className="mb-0">📝 Request raised.</p>
                           )}
                           {order.orderStatus === "request_approved" && (
-                            <p>✅ Your order request has been approved.</p>
+                            <p className="mb-0">✅ Request approved.</p>
                           )}
                           {order.orderStatus === "request_reject" && (
-                            <p>❌ Your order request was rejected.</p>
+                            <p className="mb-0">❌ Request rejected.</p>
                           )}
                           {order.orderStatus === "request_sucess" && (
-                            <p>✅ Your order request was successful.</p>
+                            <p className="mb-0">✅ Request successful.</p>
                           )}
                         </div>
                       </div>
-                    </Link>
-                  );
-                })}
-                <div className="myorders-total-order-amount-container">
-                  <p className="myorders-total-order-amount">
-                    Total Order Amount: Rs.{order.totalAmount}
-                  </p>
-                </div>
-              </div>
-            ))}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="card-footer text-end fw-bold">
+              Total: ₹{order.totalAmount}
+            </div>
           </div>
-        </div>
-    //   </div>
-    // </div>
+        ))
+      )}
+    </div>
   );
 };
 

@@ -1,27 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CartSidebar.css";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
-import { CartContext } from "../../contexts/CartContext";
 import { BsCartX } from "react-icons/bs";
+import { CartContext } from "../../contexts/CartContext";
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, getTotal, addToCart } =
-    useContext(CartContext);
+  const { cartItems, removeFromCart, getTotal, addToCart } = useContext(CartContext);
 
-  console.log(cartItems, "outside");
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const sidebar = document.querySelector('.cart-sidebar');
+      const isClickInside = sidebar && sidebar.contains(event.target);
+      
+      if (isOpen && sidebar && !isClickInside && !event.target.closest('.cart-link')) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen, onClose]);
+
+  // Prevent body scrolling when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   const updateQuantity = async (itemId, change) => {
     const cartItem = cartItems.find((item) => item.id === itemId);
     if (!cartItem) return;
+    
     const updatedQuantity = (cartItem?.quantity || 1) + change;
-
     if (updatedQuantity < 1) return;
-
-    console.log(cartItems, "cartItwenfj");
-
-    console.log(itemId, "itemaisndihw");
 
     const updatedCartData = {
       ...cartItem,
@@ -49,8 +70,24 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   const continueShopping = () => {
     onClose();
-    navigate("/products"); // Change this route if your products page differs
+    navigate("/products");
   };
+
+  // Add simple animation for cart items
+  useEffect(() => {
+    if (isOpen) {
+      const cartItems = document.querySelectorAll('.cart-item');
+      cartItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(20px)';
+        
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'translateX(0)';
+        }, 100 + (index * 50));
+      });
+    }
+  }, [isOpen, cartItems]);
 
   return (
     <div className={`cart-sidebar ${isOpen ? "open" : ""}`}>
@@ -65,15 +102,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
         {cartItems.length === 0 ? (
           <div className="empty-cart">
-            {/* <img
-              src="/images/empty-cart.png" 
-              alt="Empty Cart"
-              className="empty-cart-img"
-            /> */}
-
-            <BsCartX size={120} />
+            <BsCartX size={120} className="empty-cart-icon" />
             <h3>Your cart is empty</h3>
-            <p>Looks like you haven’t added anything yet.</p>
+            <p>Looks like you haven't added anything yet.</p>
             <button className="continue-btn" onClick={continueShopping}>
               Continue Shopping
             </button>
@@ -84,47 +115,60 @@ const CartSidebar = ({ isOpen, onClose }) => {
               <div className="cart-items">
                 {cartItems.map((item) => (
                   <div className="cart-item" key={item.id}>
-                    <img
-                      src={item?.device?.image || "/images/default.jpg"}
-                      alt={item?.device?.name}
-                      className="cart-item-img"
-                    />
-                    <div className="cart-item-info">
-                      <h6>
-                        <strong>{item?.device?.name}</strong>
-                      </h6>
-                      <p>
-                        Accessories:{" "}
-                        {item.isRelay ? "With Relay" : "Without Relay"}
-                      </p>
-                      <p>Subscription: {item.subscription} subscription</p>
-                      <p>Network: {item.network}</p>
-                      <p>Rs. {item.totalAmount}</p>
+                    <div className="cart-item-image-container">
+                      <img
+                        src={item?.device?.image || "/images/default.jpg"}
+                        alt={item?.device?.name}
+                        className="cart-item-img"
+                      />
                     </div>
-                    <div className="quantity-controls">
-                      <button onClick={() => updateQuantity(item.id, -1)}>
-                        <FaMinus />
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)}>
-                        <FaPlus />
-                      </button>
+                    <div className="cart-item-details">
+                      <div className="cart-item-info">
+                        <h6 className="item-name">{item?.device?.name}</h6>
+                        <p className="item-meta">
+                          Accessories: {item.isRelay ? "With Relay" : "Without Relay"}
+                        </p>
+                        <p className="item-meta">Subscription: {item.subscription} subscription</p>
+                        <p className="item-meta">Network: {item.network}</p>
+                        <p className="item-price">Rs. {item.totalAmount}</p>
+                      </div>
+                      <div className="cart-item-actions">
+                        <div className="quantity-controls">
+                          <button 
+                            className="qty-btn" 
+                            onClick={() => updateQuantity(item.id, -1)}
+                            aria-label="Decrease quantity"
+                          >
+                            <FaMinus />
+                          </button>
+                          <span className="qty-value">{item.quantity}</span>
+                          <button 
+                            className="qty-btn" 
+                            onClick={() => updateQuantity(item.id, 1)}
+                            aria-label="Increase quantity"
+                          >
+                            <FaPlus />
+                          </button>
+                        </div>
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDelete(item.id)}
+                          aria-label="Remove item"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      <FaTrash />
-                    </button>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="cart-footer">
-              <p>
-                <strong>SUBTOTAL</strong> Rs. {getTotal()}
-              </p>
+              <div className="cart-total">
+                <span>SUBTOTAL</span>
+                <span className="total-amount">Rs. {getTotal()}</span>
+              </div>
               <button className="checkout-btn" onClick={goToCart}>
                 Check out
               </button>

@@ -5,6 +5,7 @@
   position: relative;
   margin: 30px auto;
   max-width: 800px;
+  flex-wrap: wrap;
 }
 
 .step-container {
@@ -66,17 +67,27 @@
 @media screen and (max-width: 600px) {
   .checkout-steps {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .step-container {
     flex-direction: column;
     align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .step-label {
+    margin-left: 0;
+    margin-top: 6px;
+    text-align: center;
   }
 
   .step-line {
     width: 2px;
-    height: 30px;
-    margin: 8px 0;
+    height: 50px;
+    /* margin: 8px 0; */
+    flex: none;
+
+
   }
 }
