@@ -1,8 +1,7 @@
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col } from "react-bootstrap";
 
 const MiningVehiclesSection = (device) => {
-
-  console.log(device,"device11111")
+  console.log(device, "device11111");
   return (
     <section className="py-5">
       <Container>
@@ -13,16 +12,16 @@ const MiningVehiclesSection = (device) => {
               {/* AIS140 GPS systems for <br /> */}
               {/* <span className="highlight">Mining Vehicles</span> */}
             </h2>
+            <p className="mb-3">{device.device.description}</p>
             <p className="mb-3">
-            {device.device.description}
+              It is now mandatory for all the Mining transport organisations
+              that the E-permit system has to be integrated with the GPS vehicle
+              tracking system.
             </p>
             <p className="mb-3">
-              It is now mandatory for all the Mining transport organisations that the E-permit system 
-              has to be integrated with the GPS vehicle tracking system.
-            </p>
-            <p className="mb-3">
-              As per the AP state government guidelines all mining transport vehicles must be integrated 
-              with AIS 140 devices in order to maintain real-time location, stoppage reports and other 
+              As per the AP state government guidelines all mining transport
+              vehicles must be integrated with AIS 140 devices in order to
+              maintain real-time location, stoppage reports and other
               performance information with government servers.
             </p>
           </Col>
@@ -38,7 +37,7 @@ const MiningVehiclesSection = (device) => {
         </Row>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default MiningVehiclesSection
+export default MiningVehiclesSection;

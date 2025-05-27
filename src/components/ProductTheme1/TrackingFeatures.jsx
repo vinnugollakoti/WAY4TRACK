@@ -79,7 +79,7 @@ const TrackingFeatures = ({ dashboardImage }) => {
               <h3>— WHAT WE DO? —</h3>
               <p>
                 The crucial idea of the way4track vehicle tracking system is to ensure 
-                the safety of all its customers. The GPS tracking app for the bike has 
+                the safety of all its customers. The GPS tracking app for the vehicle has 
                 to be installed by the individual who will track and monitor the concerned 
                 person's location.
               </p>

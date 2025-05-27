@@ -65,13 +65,13 @@ const filters = [
   "True to Specs",
 ];
 
-const DeviceReviewComponent = ({device}) => {
+const DeviceReviewComponent = ({ device }) => {
   const [reviews, setReviews] = useState([]);
   const clientDbId = localStorage.getItem("client_db_id");
 
   useEffect(() => {
     fetchReviews();
-  },[]);
+  }, []);
 
   const fetchReviews = async () => {
     try {
@@ -81,10 +81,11 @@ const DeviceReviewComponent = ({device}) => {
         // id: Number(clientDbId),
       });
       if (response.status) {
-
-        const data=response.data
-        const deviceReviews=data.filter((item)=> (item.deviceId.id===device.id))
-        setReviews(deviceReviews)
+        const data = response.data;
+        const deviceReviews = data.filter(
+          (item) => item.deviceId.id === device.id
+        );
+        setReviews(deviceReviews);
         console.log(deviceReviews, " device reviews");
       } else {
         console.error("Error while fetching the reviews");
@@ -152,6 +153,7 @@ const DeviceReviewComponent = ({device}) => {
               <span className="ReviewComponent-reviewTitle">
                 {review.review}
               </span>
+
               {/* {review.emojis &&
                 review.emojis.map((emoji, idx) => (
                   <span key={idx}>{emoji}</span>
@@ -161,12 +163,32 @@ const DeviceReviewComponent = ({device}) => {
               <span className="ReviewComponent-reviewAuthor">
                 {review.clientId.name}
               </span>
-              {review.updatedAt && ` · ${review.updatedAt}`}
+              {review.updatedAt &&
+                ` · ${new Date(review.updatedAt).toLocaleString("en-US", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}`}
+
               <div className="ReviewComponent-reviewLocation">
                 ✔ Certified Buyer
                 {/* , {review.location} */}
               </div>
             </div>
+
+            {review.adminReply && (
+              <div className="DeviceReviews-reviewReply">
+                <strong>Response From th Owner:</strong>
+                <p>
+                  {review.adminReply.split("\n").map((line, i) => (
+                    <React.Fragment key={i}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                </p>
+              </div>
+            )}
             {/* <div className="ReviewComponent-reviewFeedback">
               <span>👍 {review.helpful}</span>
               <span>👎 {review.notHelpful}</span>

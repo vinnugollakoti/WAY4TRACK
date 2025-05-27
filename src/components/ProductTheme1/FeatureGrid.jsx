@@ -56,7 +56,7 @@ const FeatureGrid = (amenities) => {
             <h2 className="section-title" data-aos="fade-up">Key Tracking Features</h2>
             <div className="title-underline" data-aos="fade-up" data-aos-delay="100"></div>
             <p className="section-description" data-aos="fade-up" data-aos-delay="200">
-              Explore our comprehensive set of tracking features designed to keep your bike safe and secure at all times.
+              Explore our comprehensive set of tracking features designed to keep your vehicle safe and secure at all times.
             </p>
           </Col>
         </Row>

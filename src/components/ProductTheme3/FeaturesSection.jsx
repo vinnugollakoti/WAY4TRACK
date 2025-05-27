@@ -27,7 +27,7 @@ const FeatureCard = ({ icon, title, delay }) => {
   );
 };
 
-const FeaturesSection = ({ applications }) => {
+const FeaturesSection = ({ applications,description }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -44,8 +44,9 @@ const FeaturesSection = ({ applications }) => {
       >
         <span className="text-secondary text-uppercase small">What We Do?</span>
         <h2 className="mt-2 h3 fw-bold text-warning">
-          GETTING KIDS TO SCHOOL ON TIME <br className="d-none d-md-block" /> &
-          BACK HOME SAFELY
+          {/* GETTING KIDS TO SCHOOL ON TIME <br className="d-none d-md-block" /> &
+          BACK HOME SAFELY */}
+          {description}
         </h2>
       </motion.div>
 

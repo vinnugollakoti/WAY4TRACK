@@ -16,10 +16,10 @@ const CTASection = ({ footerImage }) => {
                 <MapPin size={16} />
                 <span>GPS Tracker</span>
               </div>
-              <h2>Protect Your Bike with Advanced GPS Tracking</h2>
+              <h2>Protect Your Vehicle with Advanced GPS Tracking</h2>
               <p>
                 Get real-time location updates, theft alerts, and comprehensive monitoring 
-                for your bike with our state-of-the-art GPS tracking system.
+                for your vehicle with our state-of-the-art GPS tracking system.
               </p>
               <div className="cta-buttons">
                 <button className="btn btn-light">Learn More</button>

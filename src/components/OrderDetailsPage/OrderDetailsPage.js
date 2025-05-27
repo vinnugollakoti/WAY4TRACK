@@ -3,12 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
 import { CartContext } from "../../contexts/CartContext";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
+import PromoCode from "../Promocode/Promocode";
 
 import "./OrderDetailsPage.css";
 
 function OrderDetailsPage() {
   const location = useLocation();
   const { cartItems, removeFromCart, addToCart } = useContext(CartContext);
+  const [promoDiscount, setPromoDiscount] = useState(0);
+
   const { deliveryAddress, billingAddress, isBuyNow, orderItems } =
     location.state || {};
   const companyCode = initialAuthState.companyCode;
@@ -46,6 +49,8 @@ function OrderDetailsPage() {
     (sum, item) => sum + Number(item.totalAmount),
     0
   );
+
+  const finalAmount = total - promoDiscount;
 
   // const handleQuantityChange = (id, type) => {
   //   updateQuantity(id, type === "inc" ? 1 : -1);
@@ -201,6 +206,10 @@ function OrderDetailsPage() {
 
         {/* Right: Address + Summary */}
         <div className="order-right">
+          <PromoCode
+            totalAmount={total}
+            onApply={(discount) => setPromoDiscount(discount)}
+          />
           <div className="order-section">
             <h2>Shipping Address</h2>
             {deliveryAddress ? (
@@ -236,6 +245,17 @@ function OrderDetailsPage() {
             <h2>Summary</h2>
             <p>Total Items: {displayedItems.length}</p>
             <p>Total Price: ₹{total}</p>
+
+            {promoDiscount > 0 && (
+              <p style={{ color: "green" }}>
+                Promo Discount: -₹{promoDiscount.toFixed(2)}
+              </p>
+            )}
+
+            <p>
+              <strong>Final Amount: ₹{finalAmount.toFixed(2)}</strong>
+            </p>
+
             <button
               className="place-order"
               onClick={placeOrder}

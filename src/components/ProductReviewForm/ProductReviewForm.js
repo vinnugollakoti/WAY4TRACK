@@ -62,8 +62,8 @@ const ProductReviewForm = ({ item, initialRating = 0, onUpdateReview }) => {
       const response = await ApiService.post("/review/handleReviewDetails", {
         companyCode,
         unitCode,
-        clientId:clientDbId,
-        orderId: review?.orderId?._id || "", 
+        clientId: clientDbId,
+        orderId: review?.orderId?._id || "",
         deviceId: item.deviceId,
         rating: updatedReview.rating,
         review: updatedReview.description,

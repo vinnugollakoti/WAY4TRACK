@@ -57,6 +57,7 @@ const OrderItemDetails = () => {
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
   const clientDbId = localStorage.getItem("client_db_id");
+
   console.log(order);
 
   console.log(rating, "rating");
