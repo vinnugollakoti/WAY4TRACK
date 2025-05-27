@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
 import { CartContext } from "../../contexts/CartContext";
@@ -11,12 +11,17 @@ function OrderDetailsPage() {
   const location = useLocation();
   const { cartItems, removeFromCart, addToCart } = useContext(CartContext);
   const [promoDiscount, setPromoDiscount] = useState(0);
+  const [selectedPromoDetails, setSelectedPromoDetails] = useState(null);
+  console.log(selectedPromoDetails, "promo details of selecting");
 
   const { deliveryAddress, billingAddress, isBuyNow, orderItems } =
     location.state || {};
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
   const clientId = Number(localStorage.getItem("client_db_id"));
+  const userId = localStorage.getItem("client_id");
+  const [orders, setOrders] = useState([]);
+
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -45,10 +50,40 @@ function OrderDetailsPage() {
     return item;
   });
 
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      const payload = {
+        companyCode: initialAuthState.companyCode,
+        unitCode: initialAuthState.unitCode,
+        clientId: userId,
+      };
+      const response = await ApiService.post(
+        "client/getClientDetailsById",
+        payload
+      );
+      if (response.status) {
+        setOrders(response.data.orders);
+      } else {
+        console.error("Error fetching orders");
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
   const total = displayedItems.reduce(
     (sum, item) => sum + Number(item.totalAmount),
     0
   );
+  const totalOrdersAmount = orders.reduce(
+    (sum, item) => sum + Number(item.totalAmount),
+    0
+  );
+
 
   const finalAmount = total - promoDiscount;
 
@@ -132,6 +167,31 @@ function OrderDetailsPage() {
 
       if (response.status) {
         console.log("Order placed successfully:", response);
+
+        if (selectedPromoDetails) {
+          let existingPromoUsers = [];
+
+          try {
+            existingPromoUsers = JSON.parse(selectedPromoDetails.promoUsers);
+            if (!Array.isArray(existingPromoUsers)) {
+              existingPromoUsers = [];
+            }
+          } catch (err) {
+            existingPromoUsers = [];
+          }
+
+          console.log(userId, "lwnfberfhjk");
+
+          const updatedPromoUsers = [
+            ...new Set([...existingPromoUsers, userId]),
+          ];
+
+          await ApiService.post(`/promocode/handlePromocodeDetails`, {
+            promoUsers: JSON.stringify(updatedPromoUsers),
+            id: selectedPromoDetails.id,
+          });
+        }
+
         if (!isBuyNow) {
           for (const item of displayedItemsNormalized) {
             await removeFromCart(item.id);
@@ -207,8 +267,11 @@ function OrderDetailsPage() {
         {/* Right: Address + Summary */}
         <div className="order-right">
           <PromoCode
-            totalAmount={total}
-            onApply={(discount) => setPromoDiscount(discount)}
+            totalAmount={totalOrdersAmount}
+            onApply={(discount, promoDetails) => {
+              setPromoDiscount(discount);
+              setSelectedPromoDetails(promoDetails);
+            }}
           />
           <div className="order-section">
             <h2>Shipping Address</h2>
