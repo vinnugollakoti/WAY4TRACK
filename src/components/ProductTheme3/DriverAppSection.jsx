@@ -49,10 +49,10 @@ const DriverAppSection = ({app,title}) => {
 
           <ul className="list-unstyled mb-4">
             {/* {app.points.map((point)=> ( */}
-              <FeatureItem text={app.points[0].desc} delay={0.1} />
-              <FeatureItem text={app.points[1].desc} delay={0.2} />
-              <FeatureItem text={app.points[2].desc} delay={0.3} />
-              <FeatureItem text={app.points[3].desc} delay={0.4} />
+              <FeatureItem text={app.points[0]?.desc} delay={0.1} />
+              <FeatureItem text={app.points[1]?.desc} delay={0.2} />
+              <FeatureItem text={app.points[2]?.desc} delay={0.3} />
+              <FeatureItem text={app.points[3]?.desc} delay={0.4} />
             {/* ))} */}
           </ul>
 

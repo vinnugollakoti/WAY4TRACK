@@ -32,7 +32,7 @@ function LandingPage3(product) {
         />
       </div>
       <div data-aos="fade-up" data-aos-delay="100">
-        <FeaturesSection description={product.data.description} applications={product.data.amenities} />
+        <FeaturesSection description={product.data.description} amenities={product.data.amenities} />
       </div>
       {/* <div data-aos="fade-up" data-aos-delay="200">
         <GpsSection />

@@ -27,7 +27,7 @@ const FeatureCard = ({ icon, title, delay }) => {
   );
 };
 
-const FeaturesSection = ({ applications,description }) => {
+const FeaturesSection = ({ amenities,description }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -51,12 +51,12 @@ const FeaturesSection = ({ applications,description }) => {
       </motion.div>
 
       <div className="row g-4">
-        {applications.slice(0,6).map((application,index) => (
+        {amenities.slice(0,6).map((amenity,index) => (
           <div className="col-12 col-sm-6 col-lg-3" key={index}>
             <FeatureCard
               // icon={<Route className="text-warning" size={24} />}
-              icon={<img src={application.image} alt={application.name} />}
-              title={application.name}
+              icon={<img src={amenity.image} alt={amenity.name} />}
+              title={amenity.name}
               delay={0}
             />
           </div>
