@@ -111,6 +111,7 @@ const ParentsAppSection = ({
             students in transit...
           </p> */}
           <p className="text-muted mb-3">{app.shortDescription}</p>
+          <img src={app.image} alt={app.name} />
         </motion.div>
 
         <div className="col-lg-6 d-flex flex-column gap-3">
