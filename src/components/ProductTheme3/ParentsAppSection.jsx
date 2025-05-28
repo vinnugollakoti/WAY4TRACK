@@ -57,20 +57,19 @@ const ParentsAppSection = ({
   chooseTitle,
   chooseDescription,
   steps,
-  title
+  title,
 }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  console.log(app.name,"parents")
+  console.log(app.name, "parents");
 
   const [openAccordion, setOpenAccordion] = React.useState(0);
   const toggleAccordion = (index) => {
     setOpenAccordion(openAccordion === index ? null : index);
   };
-
 
   const accordionItems = [
     {
@@ -104,32 +103,33 @@ const ParentsAppSection = ({
         >
           <span className="text-secondary text-uppercase small">FEATURES</span>
           <h2 className="fw-bold text-warning mt-2 fs-2 mb-3">{app.name}</h2>
-          <p className="text-muted mb-3">
+          {/* <p className="text-muted mb-3">
             Keeps parents in the know of bus ETA, departures, and delays...
           </p>
           <p className="text-muted">
             A portal that allows school management to ensure the safety of
             students in transit...
-          </p>
+          </p> */}
+          <p className="text-muted mb-3">{app.shortDescription}</p>
         </motion.div>
 
         <div className="col-lg-6 d-flex flex-column gap-3">
           <FeatureBox
             number="01"
-            title={app.points[0].title}
-            description={app.points[0].desc}
+            title={app.points?.[0]?.title || "Title Missing"}
+            description={app.points?.[0]?.desc || "Description Missing"}
             delay={0.1}
           />
           <FeatureBox
             number="02"
-            title={app.points[1].title}
-            description={app.points[1].title}
+            title={app.points?.[1]?.title || "Title Missing"}
+            description={app.points?.[1]?.desc || "Description Missing"}
             delay={0.2}
           />
           <FeatureBox
             number="03"
-            title={app.points[2].title}
-            description={app.points[2].title}
+            title={app.points?.[2]?.title || "Title Missing"}
+            description={app.points?.[2]?.desc || "Description Missing"}
             delay={0.3}
           />
         </div>

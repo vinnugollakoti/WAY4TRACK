@@ -51,7 +51,7 @@ const FeaturesSection = ({ applications,description }) => {
       </motion.div>
 
       <div className="row g-4">
-        {applications.slice(0,3).map((application,index) => (
+        {applications.slice(0,6).map((application,index) => (
           <div className="col-12 col-sm-6 col-lg-3" key={index}>
             <FeatureCard
               // icon={<Route className="text-warning" size={24} />}

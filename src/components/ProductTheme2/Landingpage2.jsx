@@ -47,7 +47,7 @@ function App(product) {
         ourDescription={product.data.solutionDescription}
         ourImage={product.data.solutionImage}
       />
-      <FeaturesSection applications={product.data.application} />
+      <FeaturesSection amenities={product.data.amenities} />
       <FooterBanner product={product} footerBanner={product.data.footerBanner} />
     </div>
   );

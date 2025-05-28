@@ -45,7 +45,7 @@ const DriverAppSection = ({app,title}) => {
           animate={inView ? "visible" : "hidden"}
         >
           <span className="text-secondary text-uppercase small">App</span>
-          <h2 className="mt-2 h2 fw-bold text-warning mb-4">{title}</h2>
+          <h2 className="mt-2 h2 fw-bold text-warning mb-4">{app.name}</h2>
 
           <ul className="list-unstyled mb-4">
             {/* {app.points.map((point)=> ( */}
@@ -62,9 +62,10 @@ const DriverAppSection = ({app,title}) => {
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            Our driver app makes it easy for bus drivers to follow optimized routes,
+            {/* Our driver app makes it easy for bus drivers to follow optimized routes,
             manage student attendance, receive instant alerts about route changes,
-            and communicate with parents and school administrators.
+            and communicate with parents and school administrators. */}
+            {app.shortDescription}
           </motion.p>
 
           <motion.button
@@ -101,7 +102,8 @@ const DriverAppSection = ({app,title}) => {
             </motion.div>
 
             <motion.img
-              src="https://images.pexels.com/photos/3958201/pexels-photo-3958201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              // src="https://images.pexels.com/photos/3958201/pexels-photo-3958201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              src={app.image}
               alt="Driver app showing route on map"
               className="img-fluid rounded-4 shadow"
               style={{ height: "500px", objectFit: "cover", width: "100%" }}

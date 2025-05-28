@@ -4,6 +4,7 @@ import { MapPin } from 'lucide-react';
 import './styles/CTASection.css';
 
 const CTASection = ({ footerBanner }) => {
+  console.log(footerBanner,"footer banner theme 1")
   return (
     <section className="cta-section">
       <div className="parallax-bg" style={{ backgroundImage: `url(${footerBanner})` }}></div>

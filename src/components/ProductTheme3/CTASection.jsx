@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { MapPin } from 'lucide-react';
 import './CTASection.css';
 
-const CTASection = ({ footerImage }) => {
+const CTASection = ({ footerImage,title }) => {
   return (
     <section className="cta-section">
       <div className="parallax-bg" style={{ backgroundImage: `url(${footerImage})` }}></div>
@@ -16,10 +16,10 @@ const CTASection = ({ footerImage }) => {
                 <MapPin size={16} />
                 <span>GPS Tracker</span>
               </div>
-              <h2>Protect Your Bike with Advanced GPS Tracking</h2>
+              <h2>Protect Your {title} with Advanced GPS Tracking</h2>
               <p>
                 Get real-time location updates, theft alerts, and comprehensive monitoring 
-                for your bike with our state-of-the-art GPS tracking system.
+                for your {title} with our state-of-the-art GPS tracking system.
               </p>
               <div className="cta-buttons">
                 <button className="btn btn-light">Learn More</button>

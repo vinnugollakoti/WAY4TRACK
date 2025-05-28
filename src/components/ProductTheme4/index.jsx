@@ -17,16 +17,18 @@ const ProductPage = (product) => {
         shortDescription={product.data.shortDescription}
       />
       <div className="container-fluid">
-        <AboutSection devices={product.data.device} />
+        <AboutSection title={product.data.name} devices={product.data.device} />
         <ParametersSection description={product.data.description} />
         <SolutionsSection
           ourTitle={product.data.solutionTitle}
           ourDescription={product.data.solutionDescription}
           ourImage={product.data.solutionImage}
         />
-        <FeaturesSection amenities={product.data.amenities} />
-      {/* <FooterBanner footerBanner={product.data.footerBanner} /> */}
-
+        <FeaturesSection
+          applications={product.data.application}
+          title={product.data.name}
+        />
+        {/* <FooterBanner footerBanner={product.data.footerBanner} /> */}
       </div>
     </div>
   );

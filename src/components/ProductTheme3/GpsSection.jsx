@@ -1,26 +1,39 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { MapPin, Navigation, Clock, Shield } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { MapPin, Navigation, Clock, Shield } from "lucide-react";
 
-const GpsSection = () => {
+const GpsSection = ({
+  app,
+  chooseImage,
+  chooseTitle,
+  chooseDescription,
+  steps,
+  title,
+}) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
+      transition: { staggerChildren: 0.2 },
+    },
   };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: 'easeOut' } }
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
   };
+
+  console.log(app,"nfibweifwriufui")
 
   return (
     <section className="py-5 container">
@@ -31,51 +44,75 @@ const GpsSection = () => {
           className="col-lg-6"
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
+          animate={inView ? "visible" : "hidden"}
         >
-          <motion.span className="text-secondary text-uppercase small" variants={itemVariants}>
+          <motion.span
+            className="text-secondary text-uppercase small"
+            variants={itemVariants}
+          >
             Analyze Now
           </motion.span>
-          <motion.h2 className="mt-2 h3 fw-bold text-warning mb-4" variants={itemVariants}>
-            GPS For School Bus
+          <motion.h2
+            className="mt-2 h3 fw-bold text-warning mb-4"
+            variants={itemVariants}
+          >
+            {app.name}
           </motion.h2>
           <motion.p className="text-muted mb-4 lead" variants={itemVariants}>
-            We provide customized GPS solutions to School buses to help both management and parents track their first location and activity.
+            {app.shortDescription}
           </motion.p>
 
           <div className="d-flex flex-column gap-4">
             {/* Feature 1 */}
-            <motion.div className="d-flex align-items-start gap-3" variants={itemVariants}>
-              <div className="bg-warning bg-opacity-25 p-2 rounded">
-                <Clock className="text-warning" size={24} />
-              </div>
-              <div>
-                <h5 className="fw-semibold text-dark mb-1">Time Monitoring</h5>
-                <p className="text-muted mb-0">See how long the bus spends at each stop</p>
-              </div>
-            </motion.div>
+            {app.points.map((step, index) => (
+              <motion.div
+                className="d-flex align-items-start gap-3 mb-3"
+                variants={itemVariants}
+                key={index}
+              >
+                {/* <div className="bg-warning bg-opacity-25 p-2 rounded">
+                  {step.icon}
+                </div> */}
+                <div>
+                  <h5 className="fw-semibold text-dark mb-1">{step.title}</h5>
+                  <p className="text-muted mb-0">{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
 
             {/* Feature 2 */}
-            <motion.div className="d-flex align-items-start gap-3" variants={itemVariants}>
+            {/* <motion.div
+              className="d-flex align-items-start gap-3"
+              variants={itemVariants}
+            >
               <div className="bg-warning bg-opacity-25 p-2 rounded">
                 <Navigation className="text-warning" size={24} />
               </div>
               <div>
-                <h5 className="fw-semibold text-dark mb-1">Real-time Tracking</h5>
-                <p className="text-muted mb-0">Monitor the bus location in real-time</p>
+                <h5 className="fw-semibold text-dark mb-1">
+                  Real-time Tracking
+                </h5>
+                <p className="text-muted mb-0">
+                  Monitor the bus location in real-time
+                </p>
               </div>
-            </motion.div>
+            </motion.div> */}
 
             {/* Feature 3 */}
-            <motion.div className="d-flex align-items-start gap-3" variants={itemVariants}>
+            {/* <motion.div
+              className="d-flex align-items-start gap-3"
+              variants={itemVariants}
+            >
               <div className="bg-warning bg-opacity-25 p-2 rounded">
                 <Shield className="text-warning" size={24} />
               </div>
               <div>
                 <h5 className="fw-semibold text-dark mb-1">Enhanced Safety</h5>
-                <p className="text-muted mb-0">Alerts and notifications for any deviations</p>
+                <p className="text-muted mb-0">
+                  Alerts and notifications for any deviations
+                </p>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
         </motion.div>
 
@@ -94,8 +131,8 @@ const GpsSection = () => {
             transition={{
               duration: 0.5,
               delay: 0.7,
-              type: 'spring',
-              stiffness: 200
+              type: "spring",
+              stiffness: 200,
             }}
           >
             <div className="d-flex align-items-center gap-2">
@@ -106,10 +143,11 @@ const GpsSection = () => {
 
           {/* Image */}
           <motion.img
-            src="https://images.pexels.com/photos/7948060/pexels-photo-7948060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-            alt="GPS For School Bus"
+            // src="https://images.pexels.com/photos/7948060/pexels-photo-7948060.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src={app.image}
+            alt={app.name}
             className="img-fluid rounded-4 shadow"
-            style={{ height: '400px', objectFit: 'cover', width: '100%' }}
+            style={{ height: "400px", objectFit: "cover", width: "100%" }}
             initial={{ y: 20, opacity: 0 }}
             animate={inView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}

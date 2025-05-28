@@ -28,7 +28,7 @@ const FeatureCard = ({ icon, title, description, color }) => {
   );
 };
 
-const FeaturesSection = ({ amenities }) => {
+const FeaturesSection = ({ applications,title }) => {
   return (
     <section className="features-section py-5">
       <div className="row justify-content-center">
@@ -56,37 +56,39 @@ const FeaturesSection = ({ amenities }) => {
       </div>
 
       <div className="row" style={{ padding: "50px" }}>
-        {amenities.map((item, index) => (
-          <FeatureCard
-            key={item.id}
-            icon={
-              <img
-                src={item.image}
-                alt={item.name}
-                style={{ width: 32, height: 32 }}
-              />
-            }
-            title={item.name}
-            description={item.desc}
-            color={
-              [
-                "#4CAF50",
-                "#2196F3",
-                "#F44336",
-                "#FF9800",
-                "#9C27B0",
-                "#00BCD4",
-              ][index % 6]
-            }
-          />
-        ))}
+        {applications
+          .filter((f) => f.image && f.name && f.desc)
+          .map((item, index) => (
+            <FeatureCard
+              key={item.id}
+              icon={
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  style={{ width: 32, height: 32 }}
+                />
+              }
+              title={item.name}
+              description={item.desc}
+              color={
+                [
+                  "#4CAF50",
+                  "#2196F3",
+                  "#F44336",
+                  "#FF9800",
+                  "#9C27B0",
+                  "#00BCD4",
+                ][index % 6]
+              }
+            />
+          ))}
       </div>
 
       <div className="row justify-content-center mt-5">
         <div className="col-md-8 text-center">
           <div className="cta-box" data-aos="zoom-in">
             <h3>Ready to enhance your vehicle security?</h3>
-            <p>Get started with our premium OBD tracking device today</p>
+            <p>Get started with our premium {title} tracking device today</p>
             <button className="btn btn-primary btn-lg mt-3">
               Request a Demo
             </button>

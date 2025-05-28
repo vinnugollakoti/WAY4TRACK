@@ -5,7 +5,7 @@ import { Carousel } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { DiHtml5DeviceAccess } from "react-icons/di";
 
-const AboutSection = ({ devices }) => {
+const AboutSection = ({ devices,title }) => {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: false,
@@ -89,16 +89,16 @@ const AboutSection = ({ devices }) => {
         <div className="col-lg-7">
           <div className="about-content" data-aos="fade-left">
             <p className="lead">
-              Way4Track plug & play is an enhanced version of Plus and Basic
+              Way4Track {title} is an enhanced version of Plus and Basic
               series of GPS tracking devices, offering numerous advanced
               features for comprehensive vehicle monitoring.
             </p>
-            <p>
+            {/* <p>
               In the vehicle tracking system, it can be used to track cars,
               buses, trucks, and many other vehicles. Simply attach it to the
               OBD port under the dashboard and use it even when unplugged,
               thanks to its built-in battery backup system.
-            </p>
+            </p> */}
             <div className="row mt-4">
               {devices.map((device, index) => (
                 <div key={index} className="col-md-6 mb-3">

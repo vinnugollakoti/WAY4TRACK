@@ -20,7 +20,7 @@ function LandingPage3(product) {
 
   console.log(product, "product333");
 
-  const appSections = [ParentsAppSection, MonitoringSection, DriverAppSection];
+  const appSections = [GpsSection,ParentsAppSection, DriverAppSection];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-amber-50">
@@ -32,11 +32,11 @@ function LandingPage3(product) {
         />
       </div>
       <div data-aos="fade-up" data-aos-delay="100">
-        <FeaturesSection description={product.data.description} applications={product.data.application} />
+        <FeaturesSection description={product.data.description} applications={product.data.amenities} />
       </div>
-      <div data-aos="fade-up" data-aos-delay="200">
+      {/* <div data-aos="fade-up" data-aos-delay="200">
         <GpsSection />
-      </div>
+      </div> */}
       {/* <div data-aos="fade-up" data-aos-delay="300">
         <ParentsAppSection />
       </div>
@@ -70,7 +70,7 @@ function LandingPage3(product) {
         ourDescription={product.data.solutionDescription}
         ourImage={product.data.solutionImage}
       />
-      <CTASection footerImage={product.data.footerBanner} />
+      <CTASection title={product.data.name} footerImage={product.data.footerBanner} />
     </div>
   );
 }
