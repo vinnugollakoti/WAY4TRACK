@@ -1,0 +1,161 @@
+.banner-carousel-container {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  /* padding: 10px 50px; */
+}
+
+.banner-swiper {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.banner-slide {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  cursor: pointer;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  display: block;
+  border-radius: 20px;
+}
+
+/* Navigation Arrows */
+.banner-button-prev,
+.banner-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.banner-button-prev {
+  left: 20px;
+}
+
+.banner-button-next {
+  right: 20px;
+}
+
+.banner-button-prev:hover,
+.banner-button-next:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* Controls Container */
+.banner-controls-container {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Pagination Bullets */
+.banner-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000;
+  width: 10px;
+  height: 10px;
+}
+
+/* Autoplay Button */
+.banner-autoplay-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.banner-autoplay-button:hover {
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .banner-slide {
+    height: 300px;
+  }
+  
+  .banner-button-prev,
+  .banner-button-next {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .banner-button-prev {
+    left: 10px;
+  }
+  
+  .banner-button-next {
+    right: 10px;
+  }
+  
+  .banner-controls-container {
+    bottom: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-slide {
+    height: 240px;
+  }
+  
+  .banner-button-prev,
+  .banner-button-next {
+    width: 32px;
+    height: 32px;
+  }
+}

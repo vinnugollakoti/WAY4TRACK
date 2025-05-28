@@ -11,6 +11,8 @@ const SessionFive = ({ promo, handlers, navigate }) => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
+      // padding: "50px",
+      borderRadius:"20px"
     }),
   };
 
@@ -25,8 +27,9 @@ const SessionFive = ({ promo, handlers, navigate }) => {
 
 
   return (
+    <div style={{ padding: "0px 50px", borderRadius: "20px" }}>
     <div className="session-five" style={bgStyle}>
-      <div className="container-fluid py-5" >
+      <div className="container-fluid py-5"  style={{ borderRadius: "20px" }}>
         <div className="row m-0" style={{padding:"0px 30px"}}>
           {/* Title and header */}
           <div className="col-12 text-center mb-4 animation-fade-in">
@@ -35,7 +38,7 @@ const SessionFive = ({ promo, handlers, navigate }) => {
           </div>
 
           {/* Left column: Feature cards */}
-          <div className="col-md-4 d-flex flex-column align-items-start mb-4 mb-md-0">
+          <div className="col-md-6 d-flex flex-column align-items-start mb-4 mb-md-0">
             {promo.list.map((item, index) => (
               <div
                 key={index}
@@ -44,7 +47,7 @@ const SessionFive = ({ promo, handlers, navigate }) => {
               >
                 <div className="card-body p-4">
                   <div className="d-flex flex-column align-items-start">
-                    <div className="d-flex align-items-center mb-3">
+                    <div className="d-flex align-items-center">
                       <i className="bi bi-arrow-right-circle text-primary feature-icon"></i>
                       <h5 className="card-title fw-bold text-dark mb-0">
                         {item.name}
@@ -64,7 +67,7 @@ const SessionFive = ({ promo, handlers, navigate }) => {
           </div>
 
           {/* Right column: Image and buttons */}
-          <div className="col-md-8 d-flex flex-column align-items-center">
+          <div className="col-md-6 d-flex flex-column align-items-center">
             {promo?.image && (
               <div className="img-container mb-4 animation-fade-in">
                 <img
@@ -79,6 +82,7 @@ const SessionFive = ({ promo, handlers, navigate }) => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

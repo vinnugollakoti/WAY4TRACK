@@ -11,7 +11,9 @@ const SessionSix = ({ promo, handlers, navigate }) => {
   }
 
   return (
-    <div className="container-fluid px-0 py-4" style={{  backgroundImage: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)", }}>
+    <div style={{ padding: "20px 50px",borderRadius: "20px",  }}>
+      {/* Background image and gradient */}
+    <div className="container-fluid px-0 py-4" style={{  backgroundImage: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)", borderRadius:"20px"}}>
       <div className="row m-0" style={{padding:"0px 30px"}}>
         {/* Title and Header */}
         <div className="col-12 text-center mb-4 animation-fade-in">
@@ -20,7 +22,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
         </div>
 
         {/* Left column: Main image and buttons (opposite of Session 5) */}
-        <div className="col-md-8 d-flex flex-column align-items-center mb-4 mb-md-0">
+        <div className="col-md-6 d-flex flex-column align-items-center mb-4 mb-md-0">
           {promo?.image && (
             <div className="img-container mb-4 animation-fade-in">
               <img
@@ -35,7 +37,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
         </div>
 
         {/* Right column: List of features */}
-        <div className="col-md-4 d-flex flex-column align-items-start">
+        <div className="col-md-6 d-flex flex-column align-items-end">
           {promo.list.map((item, index) => (
             <div
               key={index}
@@ -44,7 +46,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
             >
               <div className="card-body p-4">
                 <div className="d-flex flex-column align-items-start">
-                  <div className="d-flex align-items-center mb-3">
+                  <div className="d-flex align-items-center">
                     <i className="bi bi-arrow-right-circle text-primary feature-icon"></i>
                     <h5 className="card-title fw-bold text-dark mb-0">
                       {item.name}
@@ -63,6 +65,7 @@ const SessionSix = ({ promo, handlers, navigate }) => {
           />
         </div>
       </div>
+    </div>
     </div>
   );
 };

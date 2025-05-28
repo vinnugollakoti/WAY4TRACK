@@ -10,7 +10,9 @@ const SessionFour = ({ promo }) => {
   }
 
   return (
-    <section className="client-section py-5">
+
+    <div style={{padding:"20px 50px"}}>
+    <section className="client-section" >
       <div className="client-swiper-container">
         <h2 className="client-heading text-center mb-2">
           {promo.heading || "Our Esteemed Clients"}
@@ -36,6 +38,7 @@ const SessionFour = ({ promo }) => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 

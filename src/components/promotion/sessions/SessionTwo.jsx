@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 
 const SessionTwo = ({ promo }) => {
+
+  const bgStyle = {
+    // backgroundImage: 'linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%)',
+    backgroundColor: "antiquewhite",
+    // padding: "50px",
+    ...(promo.themeBgimage && {
+      backgroundImage: `url(${promo.themeBgimage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      // borderRadius: "20px !important",
+    }),
+  };
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const headerText = promo.header || "";
@@ -15,6 +29,10 @@ const SessionTwo = ({ promo }) => {
   }
 
   return (
+    <>
+    <div style={{ padding: "20px 50px" ,}}>
+    <div className="seven-border" style={bgStyle}>
+    <div className="container-fluid">
     <div className="row">
       {[...Array(Math.ceil(promo.list.length / 4))].map((_, groupIndex) => {
         const groupStart = groupIndex * 4;
@@ -59,7 +77,7 @@ const SessionTwo = ({ promo }) => {
                         display: "inline-block",
                       }}
                     >
-                      {firstWord}
+                      {firstWord} 
                     </span>{" "}
                     {restWords.join(" ")}
                   </h2>
@@ -94,6 +112,10 @@ const SessionTwo = ({ promo }) => {
         );
       })}
     </div>
+    </div>
+    </div>
+    </div>
+    </>
   );
 };
 

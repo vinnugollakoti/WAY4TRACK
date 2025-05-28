@@ -2,10 +2,29 @@ import React from "react";
 import Typewriter from "typewriter-effect";
 
 const SessionOne = ({ promo }) => {
+   const bgStyle = promo.themeBgimage
+    ? {
+        backgroundImage: `url(${promo.themeBgimage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        borderRadius: "20px",
+        padding: "40px",
+        overflow: "hidden", // important if you want inner content to stay inside the border radius
+        backgroundColor:"#D8D7D7"
+      }
+    : {
+        backgroundColor: "#f8f9fa",
+        borderRadius: "20px",
+        padding: "40px",
+        overflow: "hidden",
+      };
   return (
+    <div className="" style={{padding: "20px 50px"}}>
+    <div className="container-fluid session-one-container" style={bgStyle}>
     <div className="row align-items-center session-one">
       <div
-        className="col-md-5 mb-4 mb-md-0 animation-fade-in"
+        className="col-md-6 mb-4 mb-md-0 animation-fade-in"
         style={{
           display: "flex",
           alignItems: "center",
@@ -47,7 +66,7 @@ const SessionOne = ({ promo }) => {
           Talk to Expert
         </button>
       </div>
-      <div className="col-md-7 animation-slide-in">
+      <div className="col-md-6 animation-slide-in">
         {promo?.image && (
           <div
             className="img-container"
@@ -65,6 +84,8 @@ const SessionOne = ({ promo }) => {
           </div>
         )}
       </div>
+    </div>
+    </div>
     </div>
   );
 };

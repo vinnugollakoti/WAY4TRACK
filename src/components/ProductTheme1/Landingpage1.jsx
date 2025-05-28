@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import HeroSection from "./HeroSection";
@@ -22,8 +21,11 @@ function Landingpage1(product) {
   }, []);
 
   console.log(product, "Product");
+  console.log(product.data.footerBanner, "FOOTER BANNER........");
 
-  // Mock data that would normally come from an API or CMS
+  // Clean footerBanner URL by removing spaces
+  const footerBanner = product.data.footerBanner?.replace(/\s/g, "");
+
   const productData = {
     name: "Bike GPS Tracker",
     shortDescription:
@@ -34,8 +36,6 @@ function Landingpage1(product) {
       "https://images.pexels.com/photos/5082579/pexels-photo-5082579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=",
     dashboardImage1: "./images/banner2.png",
     dashboardImage2: "./images/banner3.png",
-    footerImage:
-      "https://images.pexels.com/photos/5372639/pexels-photo-5372639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   };
 
   return (
@@ -61,7 +61,7 @@ function Landingpage1(product) {
         ourDescription={product.data.solutionDescription}
         ourImage={product.data.solutionImage}
       />
-      <CTASection footerImage={product.data.footerBanner} />
+      <CTASection footerBanner={footerBanner} />
     </div>
   );
 }

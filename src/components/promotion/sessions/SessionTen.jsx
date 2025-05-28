@@ -10,9 +10,12 @@ const SessionTen = ({ promo, handlers, navigate }) => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
+      borderRadius: "20px",
     }),
   };
   return (
+    <div style={{padding:"20px 50px"}}>
+    <div className="container-fluid">
     <div className="row py-4" style={{ padding: "0px 50px",background:"#D2DAFF", ...bgStyle }}>
       {/* Title */}
       <div className="col-12 mb-3 text-center animation-fade-in">
@@ -20,7 +23,7 @@ const SessionTen = ({ promo, handlers, navigate }) => {
       </div>
 
       {/* Left: Content and buttons */}
-      <div className="col-md-4 mb-4 mb-md-0 animation-slide-in">
+      <div className="col-md-6 mb-4 mb-md-0 animation-slide-in">
         <div className="session7-list p-4 mb-4">
           <ul className="list-unstyled">
             <li className="d-flex align-items-start mb-3">
@@ -39,9 +42,9 @@ const SessionTen = ({ promo, handlers, navigate }) => {
       </div>
 
       {/* Right: Image */}
-      <div className="col-md-8 d-flex justify-content-end animation-fade-in">
+      <div className="col-md-6 d-flex justify-content-end animation-fade-in">
         {promo?.image && (
-          <div className="img-container">
+          <div className="img-container" style={{display: "flex", justifyContent: "end"}}>
             <img
               src={promo?.image}
               alt={promo.name}
@@ -51,6 +54,8 @@ const SessionTen = ({ promo, handlers, navigate }) => {
           </div>
         )}
       </div>
+    </div>
+    </div>
     </div>
   );
 };

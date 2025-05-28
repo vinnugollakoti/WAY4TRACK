@@ -9,6 +9,8 @@ const SessionThree = ({ promo }) => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
+      // padding:"50px"
+      borderRadius: "20px",
     }),
   };
 
@@ -22,6 +24,7 @@ const SessionThree = ({ promo }) => {
 
   return (
     <>
+    <div className="" style={{padding:"20px 50px"}}>
     <div className="" style={bgStyle}>
       <div className="container-fluid">
         <div className="row align-items-start session-three py-4" style={{paddingRight:"0px"}}>
@@ -84,6 +87,7 @@ const SessionThree = ({ promo }) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       </div>
     </>

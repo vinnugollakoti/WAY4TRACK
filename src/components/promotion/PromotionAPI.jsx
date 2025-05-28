@@ -112,27 +112,51 @@ const PromotionAPI = () => {
         return <SessionFour promo={promo} />;
       case "session5":
         return (
-          <SessionFive promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionFive
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       case "session6":
         return (
-          <SessionSix promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionSix
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       case "session7":
         return (
-          <SessionSeven promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionSeven
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       case "session8":
         return (
-          <SessionEight promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionEight
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       case "session9":
         return (
-          <SessionNine promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionNine
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       case "session10":
         return (
-          <SessionTen promo={promo} handlers={handleButtonActions} navigate={navigate} />
+          <SessionTen
+            promo={promo}
+            handlers={handleButtonActions}
+            navigate={navigate}
+          />
         );
       default:
         return <DefaultSession promo={promo} />;
@@ -173,7 +197,10 @@ const PromotionAPI = () => {
   const firstProduct = products.length > 0 ? products[0] : null;
 
   return (
-    <div className="container-fluid promotion-container" style={{ paddingLeft: "0px",paddingRight:"0px" }}>
+    <div
+      className="container-fluid promotion-container"
+      style={{ paddingLeft: "0px", paddingRight: "0px" }}
+    >
       {/* Banner Section */}
       <div className="row mb-4" data-aos="fade-down">
         <div className="col-12" style={{ paddingRight: "0px" }}>
@@ -193,20 +220,26 @@ const PromotionAPI = () => {
 
             {/* Product Icons after session1 */}
           {normTheme === "session1" && products.length > 0 && (
-  <div data-aos="fade-right">
-    <p className="stop-solutions">
-      A One Stop Solution for your Personal and Commercial GPS services
-    </p>
-    <div className="row mb-4 px-5">
-      {products.map((product, idx) => (
-        <div className="col-md-4 mb-3" key={product.id || idx} data-aos="zoom-in">
-          <div className="card product-card h-100 shadow-sm rounded-4">
-            <div className="card-body d-flex flex-column align-items-center justify-content-center text-center">
-              <ProductIconSection product={product} />
+  <div className="devices-section-wrapper" data-aos="fade-right">
+    <div className="devices-section py-4">
+      <p className="stop-solutions text-center">
+        A One Stop Solution for your Personal and Commercial GPS services
+      </p>
+      <div className="row mb-4 px-5">
+        {products.map((product, idx) => (
+          <div
+            className="col-md-4 mb-3"
+            key={product.id || idx}
+            data-aos="zoom-in"
+          >
+            <div className="card product-card h-100 shadow-sm rounded-4">
+              <div className="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                <ProductIconSection product={product} />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   </div>
 )}
@@ -235,7 +268,11 @@ const PromotionAPI = () => {
 
       {/* WhatsApp Floating Button */}
       <div>
-        <div className="whatsapp-button" onClick={() => setIsOpen(!isOpen)} data-aos="fade-up">
+        <div
+          className="whatsapp-button"
+          onClick={() => setIsOpen(!isOpen)}
+          data-aos="fade-up"
+        >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
             alt="WhatsApp"
@@ -251,7 +288,8 @@ const PromotionAPI = () => {
             </div>
             <div className="chat-body">
               <p>
-                Hi 👋<br />
+                Hi 👋
+                <br />
                 How can we help you?
               </p>
             </div>
@@ -271,8 +309,8 @@ const PromotionAPI = () => {
       <div className="bottom-bar" data-aos="fade-up">
         <div className="marquee">
           For Free Demo Contact Us -{" "}
-          <strong style={{ color: "#FFD700" }}>703 221 3434</strong> | Way4Track -
-          Track Anything, Anytime, Anywhere
+          <strong style={{ color: "#FFD700" }}>703 221 3434</strong> | Way4Track
+          - Track Anything, Anytime, Anywhere
         </div>
       </div>
     </div>

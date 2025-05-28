@@ -11,7 +11,7 @@ const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
           <Col lg={6} md={12} className="hero-content" data-aos="fade-right">
             <div className="hero-badge">
               <MapPin size={16} />
-              <span>Premium GPS Technology</span>
+              <span style={{color:"white"}}>Premium GPS Technology</span>
             </div>
             <h1 className="hero-title">{title}</h1>
             <p className="hero-description">{description}</p>
@@ -31,11 +31,11 @@ const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
                 alt="GPS Tracking Map" 
                 className="hero-main-image img-fluid"
               />
-              <img 
+              {/* <img 
                 src={mobileAppImage} 
                 alt="Mobile Tracking App" 
                 className="hero-mobile-image"
-              />
+              /> */}
               <div className="pulse-effect"></div>
               <div className="location-marker location-1">
                 <div className="pin-dot"></div>
