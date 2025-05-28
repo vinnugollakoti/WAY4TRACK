@@ -56,7 +56,8 @@ const ParentsAppSection = ({
   chooseImage,
   chooseTitle,
   chooseDescription,
-  steps
+  steps,
+  title
 }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -167,7 +168,7 @@ const ParentsAppSection = ({
             WHY CHOOSE US?
           </span>
           <h2 className="fw-bold text-warning mt-2 fs-2 mb-4">
-            Why is SmartBus the smart choice?
+            Why is {title} the smart choice?
           </h2>
           <div className="bg-white rounded-4 shadow-sm p-4">
             {steps.map((item, index) => (

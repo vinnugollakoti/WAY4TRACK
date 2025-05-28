@@ -47,7 +47,7 @@ const HeroSection = ({title,shortDesc,blogImage}) => {
             {shortDesc}
           </motion.p>
 
-          <motion.div className="d-flex flex-column gap-3 mb-4" variants={itemVariants}>
+          {/* <motion.div className="d-flex flex-column gap-3 mb-4" variants={itemVariants}>
             <div className="d-flex align-items-start gap-2">
               <Check className="text-success flex-shrink-0 mt-1" size={18} />
               <p className="text-muted mb-0">Real-time GPS tracking for parents and administrators</p>
@@ -60,7 +60,7 @@ const HeroSection = ({title,shortDesc,blogImage}) => {
               <Check className="text-success flex-shrink-0 mt-1" size={18} />
               <p className="text-muted mb-0">Instant notifications for parents about delays</p>
             </div>
-          </motion.div>
+          </motion.div> */}
 
           <motion.div variants={itemVariants}>
             <button className="btn btn-warning d-inline-flex align-items-center fw-medium px-4 py-2 rounded-pill shadow-sm">

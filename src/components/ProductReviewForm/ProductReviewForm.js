@@ -1,13 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ApiService, { initialAuthState } from "../Services/ApiServices";
+
 import "./ProductReviewForm.css";
 
 const ratingDescriptions = ["Poor", "Fair", "Good", "Very Good", "Excellent"];
 
-const ProductReviewForm = ({ initialRating = 0 }) => {
-  const [rating, setRating] = useState(initialRating);
+const ProductReviewForm = ({ item, initialRating = 0, onUpdateReview }) => {
+  const [review, setReview] = useState(null); // changed from [] to null
+  const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
+
+  const companyCode = initialAuthState.companyCode;
+  const unitCode = initialAuthState.unitCode;
+  const clientId = localStorage.getItem("client_id");
+  const clientDbId = localStorage.getItem("client_db_id");
+
+  useEffect(() => {
+    if (item) {
+      fetchReviews();
+    }
+  }, [item]);
+
+  const fetchReviews = async () => {
+    const value = item?.deviceId;
+    try {
+      const response = await ApiService.post("/client/getClientReviewsById", {
+        companyCode,
+        unitCode,
+        clientId,
+      });
+
+      if (response.status) {
+        const allReviews = response.data?.review || [];
+        const filteredReviews = allReviews.filter(
+          (r) => r.deviceId.id === value
+        );
+
+        if (filteredReviews.length > 0) {
+          const existingReview = filteredReviews[0];
+          setReview(existingReview);
+          setRating(existingReview.rating);
+          setDescription(existingReview.review || "");
+          setTitle(existingReview.title || "");
+        } else {
+          setReview(null);
+          setRating(0);
+          setDescription("");
+          setTitle("");
+        }
+      }
+    } catch (error) {
+      console.error("Reviews fetching failed:", error);
+      alert("Failed to fetch reviews.");
+    }
+  };
+
+  const handleUpdateReview = async (updatedReview) => {
+    try {
+      const response = await ApiService.post("/review/handleReviewDetails", {
+        companyCode,
+        unitCode,
+        clientId: clientDbId,
+        orderId: review?.orderId?._id || "",
+        deviceId: item.deviceId,
+        rating: updatedReview.rating,
+        review: updatedReview.description,
+        title: updatedReview.title,
+        id: updatedReview.id,
+      });
+
+      if (response.status) {
+        alert("Review updated successfully.");
+        fetchReviews();
+      } else {
+        alert("Failed to update review.");
+      }
+    } catch (error) {
+      console.error("Update review error:", error);
+      alert("Something went wrong while updating the review.");
+    }
+  };
 
   const handleSubmit = () => {
     if (rating === 0 || description.trim() === "") {
@@ -19,16 +93,19 @@ const ProductReviewForm = ({ initialRating = 0 }) => {
       rating,
       title,
       description,
+      id: review?.id || "", // existing review ID if updating
     };
 
-    console.log("Review submitted:", reviewData);
-    alert("Review submitted successfully!");
-
-    // Reset form (optional)
-    setRating(0);
-    setHover(0);
-    setDescription("");
-    setTitle("");
+    if (review && review.id) {
+      // Update if review exists
+      handleUpdateReview(reviewData);
+    } else {
+      // Else call onUpdateReview passed as prop (maybe to create new)
+      if (onUpdateReview) {
+        onUpdateReview(reviewData);
+        alert("Review submitted successfully!");
+      }
+    }
   };
 
   return (
@@ -42,6 +119,9 @@ const ProductReviewForm = ({ initialRating = 0 }) => {
             onClick={() => setRating(star)}
             onMouseEnter={() => setHover(star)}
             onMouseLeave={() => setHover(0)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
           >
             ★
             {hover === star && (

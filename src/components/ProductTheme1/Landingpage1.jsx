@@ -54,7 +54,7 @@ function Landingpage1(product) {
         dashboardImage={product.data.banner2}
         applications={product.data.application}
       />
-      <TrackingFeatures dashboardImage={product.data.banner2} />
+      <TrackingFeatures dashboardImage={product.data.banner3} />
       <FeatureGrid amenities={product.data.amenities} />
       <SolutionsSection
         ourTitle={product.data.solutionTitle}

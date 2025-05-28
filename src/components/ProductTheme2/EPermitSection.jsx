@@ -20,13 +20,14 @@ const EPermitSection = ({ subHeading, steps }) => {
       <Container>
         <Row>
           <Col lg={6} className="mb-5 mb-lg-0" data-aos="fade-up">
-            <h2 className="section-title">{subHeading}</h2>
+            <h2 className="section-title">Here are 3 working steps to The Online Mineral ePermit System</h2>
             <p className="mb-3">
-              The online E-Permit system is made easy with Way4Track to help our
+              {/* The online E-Permit system is made easy with Way4Track to help our
               customers get AIS140 GPS integration as easy as possible and to
-              make the process much faster.
+              make the process much faster. */}
+              {subHeading}
             </p>
-            <p className="mb-3">
+            {/* <p className="mb-3">
               The 3 steps mentioned show the Process of GPS integration with the
               portal of Online Mineral ePermit System, Department of AP Mining
               and Geology, Andhra Pradesh.
@@ -37,7 +38,7 @@ const EPermitSection = ({ subHeading, steps }) => {
               to improve the transport system in its efficacy, value, safety and
               security. The implementation of AIS 140 is being done all over the
               country.
-            </p>
+            </p> */}
             <Button variant="success" className="btn-custom rounded-pill">
               Learn More
             </Button>
