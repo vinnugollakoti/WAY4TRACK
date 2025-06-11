@@ -1,0 +1,118 @@
+.OtpVerification-container {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.OtpVerification-left {
+  background-color: #0a1529;
+  color: white;
+  width: 45%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.OtpVerification-summary-card {
+  /* background: #ffffff10; */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.OtpVerification-summary-header {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.OtpVerification-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* .OtpVerification-product-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+} */
+
+.OtpVerification-product-title {
+  font-size: 14px;
+}
+
+.OtpVerification-product-price {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.OtpVerification-powered {
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.OtpVerification-right {
+  width: 55%;
+  padding: 60px 40px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.OtpVerification-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.OtpVerification-subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.OtpVerification-otp-box {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.OtpVerification-input {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.OtpVerification-resend {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.OtpVerification-btn {
+  background-color: #002b40;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.OtpVerification-footer {
+  display: flex;
+  justify-content: space-around;
+  font-size: 13px;
+  margin-top: 40px;
+}
+
+.OtpVerification-policy-links {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #999;
+}

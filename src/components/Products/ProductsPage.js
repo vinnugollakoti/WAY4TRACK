@@ -1393,7 +1393,7 @@ function ProductsPage() {
       </div>
       <div className="products-sidebar-container">
         <div className="sidebar-wrapper">
-          <div className="location-filter-wrapper">
+          {/* <div className="location-filter-wrapper">
             <label className="state-select-label" htmlFor="state-select">
               Select State
             </label>
@@ -1430,7 +1430,7 @@ function ProductsPage() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <div className="filter-group product-filter-group">
             <h2 className="subsection-heading">Products</h2>
