@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
-
 import "./Login.css";
 
 function LoginPage() {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
 
-  // const handleSendCode = () => {
-  //   if (phone.length === 10) {
-  //     navigate("/verify-otp", { state: { phone } });
-  //   } else {
-  //     alert("Enter a valid 10-digit number");
-  //   }
-  // };
-
   const handleSendCode = async () => {
-    alert("test0");
     if (phone.length !== 10) {
       alert("Enter a valid 10-digit number");
       return;
@@ -29,7 +19,6 @@ function LoginPage() {
         unitCode: initialAuthState.unitCode,
         phoneNumber: phone,
       });
-      alert("Test1");
 
       if (response.status) {
         alert("Otp Sent successfully.");
@@ -44,31 +33,17 @@ function LoginPage() {
   };
 
   return (
-    <div className="Login-container">
-      <div className="Login-left">
-        <div className="Login-summary-card">
-          {/* <div className="Login-item"> */}
+    <div className="Login-wrapper">
+      <div className="Login-card-glass">
+        <div className="Login-image-side">
           <img
-            src="https://res.cloudinary.com/dabzdwxet/image/upload/v1746123490/bike_device1_ip8bus.png"
-            alt="Login"
-            className="Login-product-img"
+            src="https://res.cloudinary.com/dabzdwxet/image/upload/v1749645288/login_xkxs2t.avif"
+            alt="Login Illustration"
+            className="Login-image"
           />
-          {/* <div>
-              <p className="Login-product-title">
-                Fleettrack AirCheck™ – Digital...
-              </p>
-              <p className="Login-product-price">₹999.00</p>
-            </div> */}
-          {/* </div> */}
         </div>
-        {/* <div className="Login-powered">
-          Powered by <strong>COD King</strong>
-        </div> */}
-      </div>
-
-      <div className="Login-right">
-        <div className="Login-card">
-          <h2 className="Login-title">Login/Signup</h2>
+        <div className="Login-form-side">
+          <h2 className="Login-title">Login / Signup</h2>
           <p className="Login-subtitle">
             Confirm your mobile number to proceed
           </p>
@@ -79,7 +54,7 @@ function LoginPage() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <button className="Login-btn Login-send-btn" onClick={handleSendCode}>
+          <button className="Login-btn" onClick={handleSendCode}>
             Send OTP →
           </button>
           <div className="Login-policy-links">

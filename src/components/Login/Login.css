@@ -1,126 +1,148 @@
-.Login-container {
-  display: flex;
-  padding: 50px;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #e9fbe9, #ffffff);
+}
+
+.Login-wrapper {
   height: 100vh;
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #dbeafe, #f0f9ff);
-}
-
-.Login-left {
-  background-color: #e0f2fe;
-  color: white;
-  width: 45%;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.Login-summary-card {
-  /* background: #d10d0d10; */
-  /* width: 420px; */
-  padding: 20px;
-  border-radius: 10px;
-  backdrop-filter: blur(4px);
-}
-
-.Login-summary-header {
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.Login-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* .Login-product-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-} */
-
-.Login-product-title {
-  font-size: 14px;
-}
-
-.Login-product-price {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.Login-powered {
-  font-size: 12px;
-  text-align: center;
-  opacity: 0.6;
-}
-
-.Login-right {
-  width: 55%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #e0f2fe;
-  position: relative;
+  padding: 20px;
 }
 
-.Login-card {
+.Login-card-glass {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(40, 167, 69, 0.2); /* greenish glow */
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  overflow: hidden;
+  animation: fadeIn 1s ease-in;
+}
+
+/* Image side */
+.Login-image-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  background: rgba(233, 251, 233, 0.3);
+  border-right: 1px solid rgba(40, 167, 69, 0.1);
+}
+
+.Login-image {
   width: 100%;
   max-width: 420px;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.2);
+  object-fit: contain;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Form side */
+.Login-form-side {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Login-title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 600;
   margin-bottom: 10px;
-  color: #002b40;
+  color: #1e2d24; /* dark green-black */
+  text-align: center;
 }
 
 .Login-subtitle {
   font-size: 14px;
+  color: #4b6354; /* muted green text */
   margin-bottom: 30px;
-  color: #333;
+  text-align: center;
 }
 
 .Login-input {
-  font-size: 16px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 20px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #c3e6cb; /* light green */
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  transition: border-color 0.3s;
+}
+
+.Login-input:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
 .Login-btn {
-  padding: 12px;
+  background: #28a745;
+  color: white;
   border: none;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 10px;
   font-size: 16px;
-  margin-bottom: 12px;
+  font-weight: 600;
   cursor: pointer;
-  width: 100%;
+  transition: background-color 0.3s;
 }
 
-.Login-send-btn {
-  background-color: #002b40;
-  color: white;
+.Login-btn:hover {
+  background: #218838;
 }
 
 .Login-policy-links {
   font-size: 12px;
-  margin-top: 20px;
-  color: #555;
+  color: #6c757d;
   text-align: center;
+  margin-top: 20px;
 }
+
+.Login-policy-links a {
+  color: #218838;
+  text-decoration: none;
+}
+
+.Login-policy-links a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .Login-card-glass {
+    flex-direction: column;
+  }
+
+  .Login-image-side {
+    border-right: none;
+    border-bottom: 1px solid rgba(40, 167, 69, 0.15);
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* Reset & Base
 body {

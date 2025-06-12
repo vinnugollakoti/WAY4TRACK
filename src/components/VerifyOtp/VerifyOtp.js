@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
-
 import "./VerifyOtp.css";
 
 function VerifyOtp() {
@@ -9,7 +8,6 @@ function VerifyOtp() {
   const [timer, setTimer] = useState(60);
   const location = useLocation();
   const phone = location.state?.phone;
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,25 +23,15 @@ function VerifyOtp() {
       updated[index] = value;
       setOtp(updated);
       if (value !== "" && index < 5) {
-        document.getElementById(`OtpVerification-input-${index + 1}`).focus();
+        document.getElementById(`otp-input-${index + 1}`).focus();
       }
     }
   };
-
-  //   const handleVerify = () => {
-  //     const fullOtp = otp.join("");
-  //     if (fullOtp.length === 4) {
-  //       alert(`Verifying OTP: ${fullOtp}`);
-  //     } else {
-  //       alert("Enter complete OTP");
-  //     }
-  //   };
 
   const handleLoginSuccess = async (clientId) => {
     const guestCartItems = JSON.parse(
       localStorage.getItem("guestCartItems") || "[]"
     );
-
     if (guestCartItems.length > 0) {
       for (const item of guestCartItems) {
         await ApiService.post("/cart/handleCreateCart", {
@@ -53,7 +41,6 @@ function VerifyOtp() {
           clientId,
         });
       }
-
       localStorage.removeItem("guestCartItems");
     }
   };
@@ -69,19 +56,14 @@ function VerifyOtp() {
       const response = await ApiService.post("otp/verifyClientOtp", {
         companyCode: initialAuthState.companyCode,
         unitCode: initialAuthState.unitCode,
-        otp: fullOtp, // ✅ send the actual entered OTP
-        // phoneNumber: phone,
+        otp: fullOtp,
       });
 
       if (response.status) {
-        console.log(response.data, "client data");
         const { id, clientId } = response.data;
-
         localStorage.setItem("client_id", clientId);
         localStorage.setItem("client_db_id", id);
-
         await handleLoginSuccess(id);
-
         alert("OTP Verified successfully.");
         navigate("/products");
       } else {
@@ -94,47 +76,43 @@ function VerifyOtp() {
   };
 
   return (
-    <div className="OtpVerification-container">
-      <div className="OtpVerification-left">
-        <div className="OtpVerification-summary-card">
-          <div className="OtpVerification-item">
-            <img
-              src="https://res.cloudinary.com/dabzdwxet/image/upload/v1746123490/bike_device1_ip8bus.png"
-              alt="Login"
-              className="OtpVerification-product-img"
-            />
-          </div>
+    <div className="VerifyOtp-wrapper">
+      <div className="VerifyOtp-card-glass">
+        <div className="VerifyOtp-image-side">
+          <img
+            src="https://res.cloudinary.com/dabzdwxet/image/upload/v1749693073/otp_ih9ato.jpg"
+            alt="Verification Illustration"
+            className="VerifyOtp-image"
+          />
         </div>
-      </div>
+        <div className="VerifyOtp-form-side">
+          <h2 className="VerifyOtp-title">Verify Mobile Number</h2>
+          <p className="VerifyOtp-subtitle">Enter the OTP sent to +91{phone}</p>
 
-      <div className="OtpVerification-right">
-        <div className="Login-card">
-          <h2 className="OtpVerification-title">Verify Mobile Number</h2>
-          <p className="OtpVerification-subtitle">
-            Enter the code sent to +91{phone}
-          </p>
-          <div className="OtpVerification-otp-box">
+          <div className="VerifyOtp-otp-box">
             {otp.map((val, idx) => (
               <input
                 key={idx}
-                id={`OtpVerification-input-${idx}`}
+                id={`otp-input-${idx}`}
                 type="text"
                 maxLength="1"
                 value={val}
                 onChange={(e) => handleChange(idx, e.target.value)}
-                className="OtpVerification-input"
+                className="VerifyOtp-input"
               />
             ))}
           </div>
-          <p className="OtpVerification-resend">
+
+          <p className="VerifyOtp-resend">
             Didn’t receive the OTP? Retry in{" "}
             <b>00:{timer.toString().padStart(2, "0")}</b>
           </p>
-          <button className="OtpVerification-btn" onClick={handleVerify}>
-            Verify Code
+
+          <button className="VerifyOtp-btn" onClick={handleVerify}>
+            Verify Code →
           </button>
 
-          <div className="OtpVerification-policy-links">
+          <div className="VerifyOtp-policy-links">
             <a href="/">T&C</a> | <a href="/">Privacy Policy</a>
           </div>
         </div>

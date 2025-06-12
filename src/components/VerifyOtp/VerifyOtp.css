@@ -1,118 +1,155 @@
-.OtpVerification-container {
-  display: flex;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #e9fbe9, #ffffff);
+}
+
+.VerifyOtp-wrapper {
   height: 100vh;
-  font-family: "Segoe UI", sans-serif;
-}
-
-.OtpVerification-left {
-  background-color: #0a1529;
-  color: white;
-  width: 45%;
-  padding: 30px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.OtpVerification-summary-card {
-  /* background: #ffffff10; */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.OtpVerification-summary-header {
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.OtpVerification-item {
-  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 15px;
+  padding: 20px;
 }
 
-/* .OtpVerification-product-img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-} */
-
-.OtpVerification-product-title {
-  font-size: 14px;
+.VerifyOtp-card-glass {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(40, 167, 69, 0.2);
+  border: 1px solid rgba(40, 167, 69, 0.3);
+  overflow: hidden;
+  animation: fadeIn 1s ease-in;
 }
 
-.OtpVerification-product-price {
-  font-size: 16px;
-  font-weight: bold;
+.VerifyOtp-image-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  background: rgba(233, 251, 233, 0.3);
+  border-right: 1px solid rgba(40, 167, 69, 0.1);
 }
 
-.OtpVerification-powered {
-  font-size: 12px;
-  text-align: center;
-  opacity: 0.6;
+.VerifyOtp-image {
+  width: 100%;
+  max-width: 420px;
+  object-fit: contain;
+  border-radius: 20px;
 }
 
-.OtpVerification-right {
-  width: 55%;
-  padding: 60px 40px;
-  background: #fff;
+.VerifyOtp-form-side {
+  flex: 1;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.OtpVerification-title {
-  font-size: 20px;
-  font-weight: bold;
+.VerifyOtp-title {
+  font-size: 26px;
+  font-weight: 600;
   margin-bottom: 10px;
-}
-
-.OtpVerification-subtitle {
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.OtpVerification-otp-box {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.OtpVerification-input {
-  width: 50px;
-  height: 50px;
+  color: #1e2d24;
   text-align: center;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
 }
 
-.OtpVerification-resend {
+.VerifyOtp-subtitle {
+  font-size: 14px;
+  color: #4b6354;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.VerifyOtp-otp-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.VerifyOtp-input {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  font-size: 20px;
+  border: 1px solid #c3e6cb;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.VerifyOtp-input:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+}
+
+.VerifyOtp-resend {
   font-size: 13px;
   color: #666;
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.OtpVerification-btn {
-  background-color: #002b40;
+.VerifyOtp-btn {
+  background-color: #28a745;
   color: white;
   padding: 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
+  font-weight: 600;
+  width: 100%;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.OtpVerification-footer {
-  display: flex;
-  justify-content: space-around;
-  font-size: 13px;
-  margin-top: 40px;
+.VerifyOtp-btn:hover {
+  background-color: #218838;
 }
 
-.OtpVerification-policy-links {
+.VerifyOtp-policy-links {
   font-size: 12px;
-  margin-top: 10px;
-  color: #999;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.VerifyOtp-policy-links a {
+  color: #218838;
+  text-decoration: none;
+}
+
+.VerifyOtp-policy-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .VerifyOtp-card-glass {
+    flex-direction: column;
+  }
+
+  .VerifyOtp-image-side {
+    border-right: none;
+    border-bottom: 1px solid rgba(40, 167, 69, 0.15);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
