@@ -1,10 +1,10 @@
-import React, { useContext, useState,useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
 import { CartContext } from "../../contexts/CartContext";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import PromoCode from "../Promocode/Promocode";
-
+import toast, { Toaster } from "react-hot-toast";
 import "./OrderDetailsPage.css";
 
 function OrderDetailsPage() {
@@ -117,7 +117,7 @@ function OrderDetailsPage() {
     }
   };
 
-  const createOrderPayload = () => {
+  const createOrderPayload = (razorpayResponse = {}) => {
     if (!deliveryAddress || !billingAddress) {
       // Handle the case where the addresses are missing
       alert("Please provide both delivery and billing addresses.");
@@ -150,6 +150,9 @@ function OrderDetailsPage() {
       companyCode,
       unitCode,
       orderItems,
+      razorpay_order_id: razorpayResponse.razorpay_order_id,
+      razorpay_payment_id: razorpayResponse.razorpay_payment_id,
+      razorpay_signature: razorpayResponse.razorpay_signature,
       delivaryDate: deliveryDate.toISOString(),
     };
   };
@@ -157,49 +160,16 @@ function OrderDetailsPage() {
   const placeOrder = async () => {
     setIsLoading(true);
 
-    const payload = createOrderPayload();
+    const payload = { totalAmount: finalAmount };
 
     try {
       const response = await ApiService.post(
-        "/order/handleCreateOrder",
+        "/order/CreateOrder",
         payload
       );
-
       if (response.status) {
         console.log("Order placed successfully:", response);
-
-        if (selectedPromoDetails) {
-          let existingPromoUsers = [];
-
-          try {
-            existingPromoUsers = JSON.parse(selectedPromoDetails.promoUsers);
-            if (!Array.isArray(existingPromoUsers)) {
-              existingPromoUsers = [];
-            }
-          } catch (err) {
-            existingPromoUsers = [];
-          }
-
-          console.log(userId, "lwnfberfhjk");
-
-          const updatedPromoUsers = [
-            ...new Set([...existingPromoUsers, userId]),
-          ];
-
-          await ApiService.post(`/promocode/handlePromocodeDetails`, {
-            promoUsers: JSON.stringify(updatedPromoUsers),
-            id: selectedPromoDetails.id,
-          });
-        }
-
-        if (!isBuyNow) {
-          for (const item of displayedItemsNormalized) {
-            await removeFromCart(item.id);
-          }
-        }
-
-        localStorage.removeItem("buyNowItem");
-        navigate("/orders", { state: { order: response.data } });
+        handlePaymentVerify(response.data);
       } else {
         throw new Error("Failed to place order");
       }
@@ -208,6 +178,102 @@ function OrderDetailsPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePaymentVerify = async (data) => {
+
+    const options = {
+      key: process.env.KEY_ID || 'rzp_test_NPT4UOaHTgxvZj',
+      amount: data.amount,
+      currency: data.currency,
+      name: "Mahesh",
+      description: "Test Mode",
+      image: "/images/logo.png",
+      order_id: data.id,
+      handler: async (response) => {
+        const finalPayload = createOrderPayload({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        });
+
+        if (!finalPayload) return; // return if payload creation failed
+        try {
+          const res = await ApiService.post(`/order/OrderVerify`, {
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(finalPayload)
+          })
+
+          const verifyData = await res.json();
+
+          if (verifyData.message) {
+            toast.success(verifyData.message)
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#5f63b8"
+      }
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  }
+
+  const verificationPayment = async (data) => {
+    setIsLoading(true);
+    console.log("verfiyrequest data :", data)
+    const payload = createOrderPayload();
+
+    // try {
+    //   const response = await ApiService.post(
+    //     "/order/OrderVerify",
+    //     payload
+    //   );
+
+    //   if (response.status) {
+    //     console.log("Order placed successfully:", response);
+    //     verificationPayment(response.data);
+    //     if (selectedPromoDetails) {
+    //       let existingPromoUsers = [];
+
+    //       try {
+    //         existingPromoUsers = JSON.parse(selectedPromoDetails.promoUsers);
+    //         if (!Array.isArray(existingPromoUsers)) {
+    //           existingPromoUsers = [];
+    //         }
+    //       } catch (err) {
+    //         existingPromoUsers = [];
+    //       }
+    //       const updatedPromoUsers = [
+    //         ...new Set([...existingPromoUsers, userId]),
+    //       ];
+
+    //       await ApiService.post(`/promocode/handlePromocodeDetails`, {
+    //         promoUsers: JSON.stringify(updatedPromoUsers),
+    //         id: selectedPromoDetails.id,
+    //       });
+    //     }
+
+    //     if (!isBuyNow) {
+    //       for (const item of displayedItemsNormalized) {
+    //         await removeFromCart(item.id);
+    //       }
+    //     }
+
+    //     localStorage.removeItem("buyNowItem");
+    //     navigate("/orders", { state: { order: response.data } });
+    //   } else {
+    //     throw new Error("Failed to place order");
+    //   }
+    // } catch (err) {
+    //   console.error("Error placing order:", err);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -329,6 +395,7 @@ function OrderDetailsPage() {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }

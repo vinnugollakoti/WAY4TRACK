@@ -50,6 +50,18 @@ export const CartProvider = ({ children }) => {
 
       if (response.status) {
         alert("Item added to cart");
+        const guestCartItems = JSON.parse(
+          localStorage.getItem("guestCartItems") || "[]"
+        );
+
+        guestCartItems.push(item);
+        localStorage.setItem("guestCartItems", JSON.stringify(guestCartItems));
+        console.log(item, "item");
+        // const guestCartIds = JSON.parse(
+        //   localStorage.getItem("guestCartIds") || "[]"
+        // );
+        // guestCartIds.push(response.data.id);
+        // localStorage.setItem("guestCartIds", JSON.stringify(guestCartIds));
         fetchCartItems();
       } else {
         console.error("Failed to add item to cart:", response.message);

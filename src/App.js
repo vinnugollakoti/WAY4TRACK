@@ -11,6 +11,7 @@ import ProductTheme3 from "./components/ProductTheme3/LandingPage3";
 import AddressPage from "./components/AddressPage/AddressPage";
 import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
+import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import RegisterClient from "./components/RegisterClient/RegisterClient";
 import Navbar from "./components/Navbar/Navbar";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
@@ -162,6 +163,7 @@ function App() {
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/about" element={<About />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/Careers" element={<Hero />} />
           <Route path="/" element={<PromotionAPI theme="default" />} />
