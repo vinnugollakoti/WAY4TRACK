@@ -199,11 +199,11 @@ const PromotionAPI = () => {
   return (
     <div
       className="container-fluid promotion-container"
-      style={{ paddingLeft: "0px", paddingRight: "0px" }}
+      // style={{ paddingLeft: "0px", paddingRight: "0px" }}
     >
       {/* Banner Section */}
-      <div className="row mb-4" data-aos="fade-down">
-        <div className="col-12" style={{ paddingRight: "0px" }}>
+      <div className="row" data-aos="fade-down">
+        <div className="col-12">
           <BannerCarousel banners={allBanners} productsData={products} />
         </div>
       </div>
@@ -214,7 +214,7 @@ const PromotionAPI = () => {
 
         return (
           <React.Fragment key={promo.id || index}>
-            <div className="promotion-row" data-aos="fade-up">
+            <div className="promotion-row">
               {renderPromotionByTheme(promo)}
             </div>
 
@@ -225,7 +225,7 @@ const PromotionAPI = () => {
       <p className="stop-solutions text-center">
         A One Stop Solution for your Personal and Commercial GPS services
       </p>
-      <div className="row mb-4 px-5">
+      <div className="row mb-4 px-3 px-sm-4 px-md-5">
         {products.map((product, idx) => (
           <div
             className="col-md-4 mb-3"

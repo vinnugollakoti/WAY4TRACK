@@ -4,14 +4,15 @@ const SessionTwo = ({ promo }) => {
 
   const bgStyle = {
     // backgroundImage: 'linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%)',
-    backgroundColor: "antiquewhite",
+    backgroundColor: "white",
     // padding: "50px",
     ...(promo.themeBgimage && {
       backgroundImage: `url(${promo.themeBgimage})`,
       backgroundSize: "cover",
-      backgroundPosition: "center",
+      // backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       // borderRadius: "20px !important",
+       padding: "10px 20px",
     }),
   };
 
@@ -30,7 +31,7 @@ const SessionTwo = ({ promo }) => {
 
   return (
     <>
-    <div style={{ padding: "20px 50px" ,}}>
+    <div style={{ padding: "10px 10px" ,}}>
     <div className="seven-border" style={bgStyle}>
     <div className="container-fluid">
     <div className="row">
@@ -64,49 +65,53 @@ const SessionTwo = ({ promo }) => {
               </div>
 
               {/* Right: Content Section */}
-              <div className="col-md-6">
-                <div className="mb-4 animation-fade-in">
-                  {/* <h2 className="fw-bold" style={{color:"#4e4a4a"}}>{promo.header}</h2> */}
-                  <h2 className="fw-bold" style={{ color: "#4e4a4a" }}>
-                    <span
-                      style={{
-                        background:
-                          "linear-gradient(to right, rgb(12, 116, 59), rgb(0, 255, 149))",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        display: "inline-block",
-                      }}
-                    >
-                      {firstWord} 
-                    </span>{" "}
-                    {restWords.join(" ")}
-                  </h2>
-                  <p className="text-muted" style={{ fontSize: "17px" }}>
-                    {promo.shortDescription}
-                  </p>
-                </div>
+            <div className="col-md-6">
+  <div className="animation-fade-in">
+    <h2 className="fw-bold text-center text-md-start" style={{ color: "#4e4a4a" }}>
+      <span
+        style={{
+          background: "linear-gradient(to right, rgb(12, 116, 59), rgb(0, 255, 149))",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          display: "inline-block",
+        }}
+      >
+        {firstWord}
+      </span>{" "}
+      {restWords.join(" ")}
+    </h2>
+    <p className="text-muted text-center text-md-start" style={{ fontSize: "16px" }}>
+      {promo.shortDescription}
+    </p>
+  </div>
 
-                <div className="row">
-                  {group.map((item, index) => {
-                    const absoluteIndex = groupStart + index;
-                    const isHovered = hoveredIndex === absoluteIndex;
-                    return (
-                      <div className="col-6 mb-3" key={absoluteIndex}>
-                        <div
-                          className={`feature-item d-flex align-items-start p-2 rounded ${
-                            isHovered ? "bg-light-session2" : ""
-                          }`}
-                        >
-                          <span className="feature-check me-2">✔</span>
-                          <p className="fw-bold mb-0 feature-description">
-                            {item.desc}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+  <div className="row justify-content-center justify-content-md-start">
+    {group.map((item, index) => {
+      const absoluteIndex = groupStart + index;
+      const isHovered = hoveredIndex === absoluteIndex;
+      return (
+        <div className="col-12 col-sm-6 mb-2" key={absoluteIndex}>
+          <div
+            className={`feature-item d-flex align-items-start p-2 rounded ${
+              isHovered ? "bg-light-session2" : ""
+            }`}
+          >
+            {/* <span className="feature-check me-2">✔</span> */}
+            <img
+  src="/images/circle.png"  // Replace with your actual path
+  alt="Check Icon"
+  className="me-2"
+  style={{ width: "20px", height: "20px", objectFit: "contain" }}
+/>
+
+            <p className="fw-bold mb-0 feature-description">{item.desc}</p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
             </div>
           </div>
         );

@@ -6,16 +6,17 @@ const SessionNine = ({ promo, handlers, navigate }) => {
     ? {
         backgroundImage: `url(${promo.themeBgimage})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        // backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        padding: "50px",
-        backgroundColor: "#FFE5D2",
+        // padding: "50px",
+         padding: "10px 20px",
+        backgroundColor: "rgb(255 219 82)",
         borderRadius: "20px",
       }
     : { backgroundColor: "#f0f8ff", padding: "40px 0" };
 
   return (
-    <div className="gap-all" style={{ padding: "20px 50px" }}>
+    <div className="gap-all" style={{ padding: "10px 10px" }}>
 
     <div className="container-fluid">
     <div className="row session-nine" style={bgStyle}>
@@ -53,7 +54,7 @@ const SessionNine = ({ promo, handlers, navigate }) => {
           promo={promo}
           handlers={handlers}
           navigate={navigate}
-          className="justify-content-start ps-4"
+          className="justify-content-start"
         />
       </div>
     </div>

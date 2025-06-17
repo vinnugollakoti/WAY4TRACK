@@ -1,8 +1,8 @@
 /* Hero Section */
 .hero-section {
   position: relative;
-  height: 100vh;
-  min-height: 600px;
+  /* height: 100vh; */
+  height: 500px;
   /* background: linear-gradient(135deg, #5e72eb, #ff9190); */
  
 background: url('../../../../public/images/doodle.png') no-repeat center center;

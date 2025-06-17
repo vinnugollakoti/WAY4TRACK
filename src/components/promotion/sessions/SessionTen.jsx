@@ -4,17 +4,18 @@ import ActionButtons from "../common/ActionButtons";
 const SessionTen = ({ promo, handlers, navigate }) => {
     const bgStyle = {
     backgroundColor: "#D2DAFF", // base color
-    padding: "50px",
+    // padding: "50px",
+     padding: "10px 20px",
     ...(promo.themeBgimage && {
       backgroundImage: `url(${promo.themeBgimage})`,
       backgroundSize: "cover",
-      backgroundPosition: "center",
+      // backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       borderRadius: "20px",
     }),
   };
   return (
-    <div style={{padding:"20px 50px"}}>
+    <div style={{padding:"10px 10px"}}>
     <div className="container-fluid">
     <div className="row py-4" style={{ padding: "0px 50px",background:"#D2DAFF", ...bgStyle }}>
       {/* Title */}
@@ -37,7 +38,7 @@ const SessionTen = ({ promo, handlers, navigate }) => {
           promo={promo} 
           handlers={handlers} 
           navigate={navigate} 
-          className="justify-content-start ps-4" 
+          className="justify-content-start" 
         />
       </div>
 

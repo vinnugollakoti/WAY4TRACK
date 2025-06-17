@@ -103,37 +103,23 @@ const ParentsAppSection = ({
         >
           <span className="text-secondary text-uppercase small">FEATURES</span>
           <h2 className="fw-bold text-warning mt-2 fs-2 mb-3">{app.name}</h2>
-          {/* <p className="text-muted mb-3">
-            Keeps parents in the know of bus ETA, departures, and delays...
-          </p>
-          <p className="text-muted">
-            A portal that allows school management to ensure the safety of
-            students in transit...
-          </p> */}
+       
           <p className="text-muted mb-3">{app.shortDescription}</p>
           <img src={app.image} alt={app.name} />
         </motion.div>
 
-        <div className="col-lg-6 d-flex flex-column gap-3">
-          <FeatureBox
-            number="01"
-            title={app.points?.[0]?.title || "Title Missing"}
-            description={app.points?.[0]?.desc || "Description Missing"}
-            delay={0.1}
-          />
-          <FeatureBox
-            number="02"
-            title={app.points?.[1]?.title || "Title Missing"}
-            description={app.points?.[1]?.desc || "Description Missing"}
-            delay={0.2}
-          />
-          <FeatureBox
-            number="03"
-            title={app.points?.[2]?.title || "Title Missing"}
-            description={app.points?.[2]?.desc || "Description Missing"}
-            delay={0.3}
-          />
-        </div>
+       <div className="col-lg-6 d-flex flex-column gap-3">
+  {app.points?.map((point, index) => (
+    <FeatureBox
+      key={index}
+      number={String(index + 1).padStart(2, '0')} // e.g., "01", "02", "03"
+      title={point.title || "Title Missing"}
+      description={point.desc || "Description Missing"}
+      delay={0.1 * (index + 1)} // Staggered animation delay
+    />
+  ))}
+</div>
+
       </div>
 
       <div className="row gy-4 align-items-center">

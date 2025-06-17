@@ -6,12 +6,13 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
     ? {
         backgroundImage: `url(${promo.themeBgimage})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        // backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         borderRadius: "20px",
-        padding: "40px",
+        // padding: "40px",
         overflow: "hidden", // important if you want inner content to stay inside the border radius
-        backgroundColor:"#55AC34"
+        backgroundColor:"rgb(255, 219, 82)",
+         padding: "10px 20px",
       }
     : {
         backgroundColor: "#f8f9fa",
@@ -21,7 +22,7 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
       };
 
   return (
-    <div className="" style={{padding: "20px 50px"}}>
+    <div className="" style={{padding: "10px 10px"}}>
       <div className="container-fluid" style={bgStyle}>
         <div className="row align-items-center">
           {/* Title */}

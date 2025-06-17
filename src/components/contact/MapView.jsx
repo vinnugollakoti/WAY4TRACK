@@ -1,27 +1,31 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import './Mapview.css';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import './Mapview.css';            // keep your own styles
+
+const containerStyle = {
+  width: '100%',
+  height: '200px',
+  borderRadius: '8px',
+};
 
 const MapView = ({ position }) => {
+  const [lat, lng] = position;     // [lat, lng] from props
+
   return (
     <div className="map-view-container">
-      <MapContainer 
-        center={position} 
-        zoom={13} 
-        scrollWheelZoom={false}
-        style={{ height: "200px", width: "100%", borderRadius: "8px" }}
-      >
-      <TileLayer
-  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-/>
-
-        <Marker position={position}>
-          <Popup>
-            This location is approximate
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_KEY}>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat, lng }}
+          zoom={14}
+          options={{
+            disableDefaultUI: true,       // hides controls, keeps it minimal
+            gestureHandling: 'greedy',    // or 'cooperative' if you want
+          }}
+        >
+          <Marker position={{ lat, lng }} />
+        </GoogleMap>
+      </LoadScript>
     </div>
   );
 };

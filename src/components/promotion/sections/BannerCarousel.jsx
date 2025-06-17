@@ -54,7 +54,7 @@ const handleBannerClick = (banner) => {
   if (!banners || banners.length === 0) return null;
 
   return (
-    <div style={{padding:"20px 50px"}}>
+    <div style={{padding:"10px"}}>
     <div className="banner-carousel-container">
       <Swiper
         ref={swiperRef}

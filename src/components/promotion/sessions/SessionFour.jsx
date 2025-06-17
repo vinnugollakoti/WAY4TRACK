@@ -11,7 +11,7 @@ const SessionFour = ({ promo }) => {
 
   return (
 
-    <div style={{padding:"20px 50px"}}>
+    <div style={{padding:"10px 20px"}}>
     <section className="client-section" >
       <div className="client-swiper-container">
         <h2 className="client-heading text-center mb-2">

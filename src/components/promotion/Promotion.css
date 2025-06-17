@@ -93,10 +93,10 @@
 .way4track-text {
   font-size: 3rem;
   font-weight: bold;
-  color: black !important;
+  color: rgb(10, 175, 32) !important;
   text-align: center;
   margin-bottom: 20px;
-  /* animation: shadowGlow 1.5s ease-in-out infinite alternate; */
+ 
   font-family: "Roboto Serif", serif !important;
 }
 
@@ -186,7 +186,7 @@
 }
 
 .feature-description {
-  text-align: justify;
+  /* text-align: justify; */
   font-size: 17px !important;
   line-height: 1.4;
 }
@@ -200,7 +200,97 @@
   /* border-radius: 6px; */
 }
 
+
+@media (max-width: 767.98px) {
+  .feature-item {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .feature-check {
+    font-size: 1rem;
+  }
+
+  .feature-description {
+    font-size: 15px !important;
+    text-align: left;
+    line-height: 1.4;
+  }
+
+  .animation-fade-in h2 {
+    font-size: 1.5rem;
+  }
+
+  .animation-fade-in p {
+    font-size: 15px;
+    margin-bottom: 1rem;
+  }
+}
+
+
+
+/* ----------------------------------
+   Mobile‑first fine‑tuning (<768 px)
+-----------------------------------*/
+@media (max-width: 767.98px) {
+  .hover-card {
+    padding: 20px 16px !important;          /* a touch tighter on phones */
+  }
+
+  .feature-item {
+    /* wrap onto the next line nicely if text is long */
+    flex-wrap: nowrap;
+    align-items: center;                    /* keep checkmark vertically centred */
+  }
+
+  .feature-check {
+    font-size: 1rem;                        /* slightly smaller bullet */
+  }
+
+  .feature-description {
+    font-size: 15px !important;
+    line-height: 1.35;
+    text-align: left;                       /* prevent awkward centre‑justified columns */
+  }
+}
+
+/* ----------------------------------
+   Optional: ultra‑small screens (<360 px)
+-----------------------------------*/
+@media (max-width: 359.98px) {
+  .feature-description {
+    font-size: 14px !important;
+  }
+}
+
+
 /* Session 3 styles */
+/* Feature icon sizing */
+.feature-icon-1 {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* Optional: improve spacing on small screens */
+@media (max-width: 767.98px) {
+  .feature-card-1 {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .feature-icon-1 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature-desc-text {
+    font-size: 15px;
+    line-height: 1.4;
+    text-align: left;
+  }
+}
+
 .session-three {
   /* border-radius: 10px; */
   position: relative;
@@ -209,7 +299,7 @@
 .feature-card-1 {
   border-left: 3px solid #00A551;
   /* background: linear-gradient(to right, #c7ffda 0%, #38f9d7 100%); */
-      background: linear-gradient(to right, #c7ffda 0%, #c3d7d3 100%);
+      background: linear-gradient(to right, #c7ffda 0%, #e2e3e3 100%);
 
   /* border-radius: 6px; */
   padding: 10px;
@@ -286,7 +376,7 @@
 
 /* Session 4 styles */
 .client-section {
-  background-color: #b4bcc3;
+  background-color: rgb(100, 202, 164);
   border-radius: 10px;
 }
 
@@ -357,6 +447,38 @@
 }
 
 /* Session 5 & 6 styles */
+/* mobile */
+@media (max-width: 767.98px) {
+  .session-five {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 10px !important;
+  }
+
+  .mining-name {
+    font-size: 1.1rem;
+  }
+
+  .card h6 {
+    font-size: 1rem;
+  }
+
+  .card p {
+    font-size: 0.875rem;
+  }
+}
+
+
+@media (max-width: 575.98px) {
+  .mining-name        { font-size: 1.1rem; }
+  .session-six h6     { font-size: 1rem; }
+  .session-six p      { font-size: 0.875rem; }
+}
+
+
+/*  */
 .mining-name {
   font-size: 2rem;
   font-weight: bold;
@@ -452,9 +574,9 @@
     border-radius: 12px;
   }
 
-  .container-fluid {
+  /* .container-fluid {
     padding: 0 !important;
-  }
+  } */
 
   .row.m-0 {
     padding: 0 15px !important;
@@ -779,9 +901,9 @@
 
 
 
-.gap-all{
+/* .gap-all{
   padding: 50px;
-}
+} */
 
 .seven-border{
   border-radius: 20px;
@@ -791,8 +913,8 @@
 /* devices */
 
 .devices-section {
-  background-color: #accae5; /* Light blue background, change as needed */
-  /* padding: 20px 50px; */
+  background-color: rgb(100, 202, 164); /* Light blue background, change as needed */
+  /* padding: 10px 10px; */
   border-radius: 20px;
 
 }
@@ -805,7 +927,7 @@
 
 
 .devices-section-wrapper{
-  padding: 20px 50px;
+  padding: 10px 10px;
 }
 
 

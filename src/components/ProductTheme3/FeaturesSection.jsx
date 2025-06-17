@@ -55,7 +55,7 @@ const FeaturesSection = ({ amenities,description }) => {
           <div className="col-12 col-sm-6 col-lg-3" key={index}>
             <FeatureCard
               // icon={<Route className="text-warning" size={24} />}
-              icon={<img src={amenity.image} alt={amenity.name} />}
+              icon={<img src={amenity.image} alt={amenity.name} style={{height:"80px"}} />}
               title={amenity.name}
               delay={0}
             />

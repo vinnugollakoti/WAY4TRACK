@@ -1,31 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import React from "react";
 import "./MapSection.css";
 
 const MapSection = () => {
-  const [mapLoaded, setMapLoaded] = useState(false);
-
-  useEffect(() => {
-    // Add Leaflet CSS
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-    link.integrity = "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
-    link.crossOrigin = "";
-    document.head.appendChild(link);
-
-    // Set loaded state after a short delay to ensure CSS is applied
-    setTimeout(() => {
-      setMapLoaded(true);
-    }, 500);
-
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
-
-  const position = [37.7749, -122.4194]; // San Francisco coordinates
-
   return (
     <div className="map-section">
       <div className="container py-5">
@@ -44,18 +20,21 @@ const MapSection = () => {
                 <div className="location-item">
                   <strong>Address:</strong> SHARON TELEMATICS PT LTD | WAY4TRACK
                   FUEL MONITORING SYSTEM (GPS TRACKER) VISAKHAPATNAM 21-27,
-                  Double road, Viman Nagar,kakani Nagar
+                  Double road, Viman Nagar, Kakani Nagar
                 </div>
                 <div className="location-item">
-                  <strong>Nearby:</strong> Airport Road ,Visakhapatnam
-                  station
+                  <strong>Nearby:</strong> Airport Road, Visakhapatnam Station
                 </div>
-                {/* <div className="location-item">
-                  <strong>Parking:</strong> Available in the building garage
-                </div> */}
               </div>
 
-              <button className="btn btn-primary mt-4">Get Directions</button>
+              <a
+                href="https://www.google.com/maps/dir//SHARON+TELEMATICS+PT+LTD+%7C+WAY4TRACK+FUEL+MONITORING+SYSTEM+%28GPS+TRACKER%29+VISAKHAPATNAM/@17.7358275,83.2239519,17z"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary mt-4"
+              >
+                Get Directions
+              </a>
             </div>
           </div>
 

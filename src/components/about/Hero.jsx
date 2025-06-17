@@ -71,7 +71,7 @@ const Hero = () => {
             }}
           >
             <h1 className="display-3 fw-bold mb-4" data-aos="fade-right" style={{color:"white"}}>
-              About <span className="text-accent">TrackMaster</span>
+              About <span className="text-accent">Way4Track</span>
             </h1>
             <p
               className="lead mb-4 fs-4"

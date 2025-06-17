@@ -2,17 +2,18 @@ import React from "react";
 import ActionButtons from "../common/ActionButtons";
 
 const SessionFive = ({ promo, handlers, navigate }) => {
-
-      const bgStyle = {
-    backgroundColor: "rgb(62 100 55)", // base color
-    padding: "50px",
+  const bgStyle = {
+    backgroundColor: "rgb(255, 219, 82)",
+    // height: "500px",
+    padding: "10px 20px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    borderRadius: "20px",
     ...(promo.themeBgimage && {
       backgroundImage: `url(${promo.themeBgimage})`,
       backgroundSize: "cover",
-      backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      // padding: "50px",
-      borderRadius:"20px"
     }),
   };
 
@@ -24,66 +25,59 @@ const SessionFive = ({ promo, handlers, navigate }) => {
     );
   }
 
-
+  const visibleItems = promo.list.slice(0, 3); // limit to 3 cards
 
   return (
-    <div style={{ padding: "0px 50px", borderRadius: "20px" }}>
-    <div className="session-five" style={bgStyle}>
-      <div className="container-fluid py-5"  style={{ borderRadius: "20px" }}>
-        <div className="row m-0" style={{padding:"0px 30px"}}>
-          {/* Title and header */}
-          <div className="col-12 text-center mb-4 animation-fade-in">
-            <p className="mining-name">{promo.name}</p>
-            <p className="fw-bold">{promo.shortDescription}</p>
-          </div>
+  <div style={{ padding: "10px", borderRadius: "20px" }}>
+  <div className="session-five" style={bgStyle}>
+    {/* Title */}
+    <div className="text-center text-white mb-2">
+      <p className="mining-name mb-1">{promo.name}</p>
+      <p className="fw-bold small mb-0">{promo.shortDescription}</p>
+    </div>
 
-          {/* Left column: Feature cards */}
-          <div className="col-md-6 d-flex flex-column align-items-start mb-4 mb-md-0">
-            {promo.list.map((item, index) => (
-              <div
-                key={index}
-                className="card feature-card-1 mb-4 shadow-lg border-0 rounded-4 w-100 animation-slide-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="card-body p-4">
-                  <div className="d-flex flex-column align-items-start">
-                    <div className="d-flex align-items-center">
-                      <i className="bi bi-arrow-right-circle text-primary feature-icon"></i>
-                      <h5 className="card-title fw-bold text-dark mb-0">
-                        {item.name}
-                      </h5>
-                    </div>
-                    <p className="card-text text-muted">{item.desc}</p>
-                  </div>
-                </div>
+    {/* Content: Left cards + Right image */}
+    <div className="d-flex flex-column flex-md-row" style={{ overflow: "hidden" }}>
+      {/* Left Cards */}
+      <div className="flex-grow-1 pe-md-3 d-flex flex-column justify-content-center">
+        {visibleItems.map((item, index) => (
+          <div
+            key={index}
+            className="mb-2 border-0 shadow-sm rounded-4"
+            style={{ padding: "10px", minHeight: "75px" }}
+          >
+            <div className="d-flex align-items-start">
+              <i className="bi bi-arrow-right-circle text-success me-2 mt-1"></i>
+              <div>
+                <h6 className="fw-bold mb-1">{item.name}</h6>
+                <p className="text-muted small mb-0">{item.desc}</p>
               </div>
-            ))}
-
-             <ActionButtons 
-              promo={promo} 
-              handlers={handlers} 
-              navigate={navigate} 
-            />
+            </div>
           </div>
+        ))}
 
-          {/* Right column: Image and buttons */}
-          <div className="col-md-6 d-flex flex-column align-items-center">
-            {promo?.image && (
-              <div className="img-container mb-4 animation-fade-in">
-                <img
-                  src={promo?.image}
-                  alt={promo.name}
-                  className="img-fluid rounded-4 shadow-lg"
-                />
-              </div>
-            )}
-
-           
-          </div>
+        {/* Action Buttons */}
+        <div className="mt-2">
+          <ActionButtons promo={promo} handlers={handlers} navigate={navigate} />
         </div>
       </div>
+
+      {/* Right Image */}
+   {promo.image && (
+  <div className="mt-3 mt-md-0 ms-md-3 d-flex align-items-center justify-content-center" style={{ width: "100%", maxWidth: "400px" }}>
+    <img
+      src={promo.image}
+      alt={promo.name}
+      className="img-fluid rounded-4"
+      style={{ objectFit: "contain", width: "100%", height: "auto" }}
+    />
+  </div>
+)}
+
     </div>
-    </div>
+  </div>
+</div>
+
   );
 };
 

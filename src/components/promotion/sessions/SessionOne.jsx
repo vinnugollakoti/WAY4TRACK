@@ -6,21 +6,21 @@ const SessionOne = ({ promo }) => {
     ? {
         backgroundImage: `url(${promo.themeBgimage})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        // backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         borderRadius: "20px",
         padding: "40px",
-        overflow: "hidden", // important if you want inner content to stay inside the border radius
-        backgroundColor:"#D8D7D7"
+        // overflow: "hidden", 
+        backgroundColor:"rgb(235 233 233)"
       }
     : {
         backgroundColor: "#f8f9fa",
         borderRadius: "20px",
         padding: "40px",
-        overflow: "hidden",
+        // overflow: "hidden",
       };
   return (
-    <div className="" style={{padding: "20px 50px"}}>
+    <div className="" style={{padding: "10px 10px"}}>
     <div className="container-fluid session-one-container" style={bgStyle}>
     <div className="row align-items-center session-one">
       <div
@@ -30,7 +30,8 @@ const SessionOne = ({ promo }) => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          padding: "0px 50px",
+          // padding: "0px 50px",
+           padding: "10px 20px",
         }}
       >
         <h4 className="way4track-text">WAY4TRACK</h4>

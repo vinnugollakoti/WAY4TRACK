@@ -65,17 +65,7 @@
 /* typewriter.css */
 
 /* Static 'WAY4TRACK' 3D text effect */
-.way4track-text {
-  font-size: 50px;
-  font-weight: bold;
-  color: black !important; /* Updated color */
 
-  text-align: center;
-  margin-bottom: 20px;
-  animation: shadowGlow 1.5s ease-in-out infinite alternate;
-  font-family: "Roboto Serif", serif !important;
-  
-}
 
 /* Typewriter effect */
 .typewriter-container {

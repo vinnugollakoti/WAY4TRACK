@@ -10,62 +10,68 @@ const SessionSix = ({ promo, handlers, navigate }) => {
     );
   }
 
+  const visibleItems = promo.list.slice(0, 3);   // limit to 3 cards
+
   return (
-    <div style={{ padding: "20px 50px",borderRadius: "20px",  }}>
-      {/* Background image and gradient */}
-    <div className="container-fluid px-0 py-4" style={{  backgroundImage: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)", borderRadius:"20px"}}>
-      <div className="row m-0" style={{padding:"0px 30px"}}>
-        {/* Title and Header */}
-        <div className="col-12 text-center mb-4 animation-fade-in">
-          <p className="mining-name">{promo.name}</p>
-          <p className="fw-bold">{promo.header}</p>
+    <div style={{ padding: "10px 20px", borderRadius: "20px" }}>
+      <div
+        className="container-fluid px-4"
+        style={{
+          backgroundColor: "#64CAA4",
+          borderRadius: "20px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Title */}
+        <div className="text-center text-dark mb-2">
+          <p className="mining-name mb-1">{promo.name}</p>
+          <p className="fw-bold small mb-0">{promo.header}</p>
         </div>
 
-        {/* Left column: Main image and buttons (opposite of Session 5) */}
-        <div className="col-md-6 d-flex flex-column align-items-center mb-4 mb-md-0">
-          {promo?.image && (
-            <div className="img-container mb-4 animation-fade-in">
+        {/* Content row */}
+        <div className="d-flex flex-column flex-md-row" style={{ overflow: "hidden" }}>
+          {/* -------- Left: Image -------- */}
+          {promo.image && (
+            <div
+              className="mb-3 mb-md-2 me-md-3 d-flex align-items-center justify-content-center"
+              style={{ width: "100%", maxWidth: "400px" }}   // mobile full‑width, desktop max 400 px
+            >
               <img
-                src={promo?.image}
+                src={promo.image}
                 alt={promo.name}
-                className="img-fluid rounded-4 shadow-lg"
+                className="img-fluid rounded-4"
+                style={{ objectFit: "contain", width: "100%", height: "auto" }}
               />
             </div>
           )}
 
-      
-        </div>
-
-        {/* Right column: List of features */}
-        <div className="col-md-6 d-flex flex-column align-items-end">
-          {promo.list.map((item, index) => (
-            <div
-              key={index}
-              className="card feature-card-1 mb-4 shadow-lg border-0 rounded-4 w-100 animation-slide-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="card-body p-4">
-                <div className="d-flex flex-column align-items-start">
-                  <div className="d-flex align-items-center">
-                    <i className="bi bi-arrow-right-circle text-primary feature-icon"></i>
-                    <h5 className="card-title fw-bold text-dark mb-0">
-                      {item.name}
-                    </h5>
+          {/* -------- Right: Cards -------- */}
+          <div className="flex-grow-1 ps-md-3 d-flex flex-column justify-content-center">
+            {visibleItems.map((item, index) => (
+              <div
+                key={index}
+                className="mb-2 border-0 shadow-sm rounded-4"
+                style={{ padding: "10px", minHeight: "75px" }}
+              >
+                <div className="d-flex align-items-start">
+                  <i className="bi bi-arrow-right-circle text-success me-2 mt-1"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">{item.name}</h6>
+                    <p className="text-muted small mb-0">{item.desc}</p>
                   </div>
-                  <p className="card-text text-muted">{item.desc}</p>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-              <ActionButtons 
-            promo={promo} 
-            handlers={handlers} 
-            navigate={navigate} 
-          />
+            {/* Action buttons */}
+            <div className="mt-2">
+              <ActionButtons promo={promo} handlers={handlers} navigate={navigate} />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
