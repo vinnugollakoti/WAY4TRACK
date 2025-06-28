@@ -25,9 +25,6 @@ function Landingpage1({ data, aisProducts }) {
     });
   }, []);
 
-  console.log(aisProducts, "AIS Products");
-  console.log(data.footerBanner, "FOOTER BANNER........");
-
   const footerBanner = selectedProduct.footerBanner?.replace(/\s/g, "");
 
   const productData = {

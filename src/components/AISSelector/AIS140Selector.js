@@ -5,9 +5,15 @@ import "./AIS140Selector.css"; // We'll create this for styles
 const AIS140Selector = ({ products, selectedProduct }) => {
   const navigate = useNavigate();
 
-  const ais140Products = products?.filter((p) => p.name?.startsWith("AIS-140"));
+  const ais140Products = products?.filter((p) =>
+    p.name?.replace(/\s+/g, "").toLowerCase().startsWith("ais140")
+  );
 
-  const showAisCards = selectedProduct?.name?.startsWith("AIS-140");
+  const formatedProductName = selectedProduct?.name
+    .replace(/\s+/g, "")
+    .toLowerCase();
+
+  const showAisCards = formatedProductName.startsWith("ais140");
 
   const handleCardClick = (item) => {
     navigate(`/product-theme/${item.id}`);
