@@ -8,7 +8,7 @@ const FeatureGrid = (amenities) => {
 
   console.log(amenities,"amenities feature grid")
   return (
-    <section className="feature-grid-section section-padding">
+    <section className="container">
       <Container>
         <Row className="mb-5">
           <Col lg={12} className="mx-auto text-center">

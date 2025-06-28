@@ -1,25 +1,13 @@
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import "./Landingpage2.css";
 
 const EPermitSection = ({ subHeading, steps }) => {
-  // const steps = [
-  //   {
-  //     number: "01",
-  //   },
-  //   {
-  //     number: "02",
-  //   },
-  //   {
-  //     number: "03",
-  //   },
-  // ];
-
-  let number = 1;
 
   return (
-    <section className="py-5">
+    <section className="py-5 rounded my-3 grayDoodles">
       <Container>
         <Row>
-          <Col lg={6} className="mb-5 mb-lg-0" data-aos="fade-up">
+          <Col lg={6} className=" mb-lg-10" data-aos="fade-up">
             <h2 className="section-title">
               Here are 3 working steps to The Online Mineral ePermit System
             </h2>

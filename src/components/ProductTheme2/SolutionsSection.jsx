@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const SolutionsSection = ({ ourTitle, ourDescription, ourImage }) => {
   return (
-    <section className="py-5">
+    <section className="py-5 rounded my-3 rrr">
       <Container>
         <Row className="align-items-center">
           <Col lg={6} className="mb-5 mb-lg-0" data-aos="fade-up">

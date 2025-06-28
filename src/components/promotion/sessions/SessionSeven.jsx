@@ -11,7 +11,7 @@ const SessionSeven = ({ promo, handlers, navigate }) => {
         borderRadius: "20px",
         // padding: "40px",
         overflow: "hidden", // important if you want inner content to stay inside the border radius
-        backgroundColor:"rgb(255, 219, 82)",
+        backgroundColor:"rgb(250 232 162)",
          padding: "10px 20px",
       }
     : {

@@ -376,7 +376,7 @@
 
 /* Session 4 styles */
 .client-section {
-  background-color: rgb(100, 202, 164);
+  background-color: rgb(185 ,233, 215);
   border-radius: 10px;
 }
 
@@ -913,7 +913,7 @@
 /* devices */
 
 .devices-section {
-  background-color: rgb(100, 202, 164); /* Light blue background, change as needed */
+  background-color: rgb(185 ,233, 215); /* Light blue background, change as needed */
   /* padding: 10px 10px; */
   border-radius: 20px;
 

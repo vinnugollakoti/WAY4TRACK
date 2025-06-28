@@ -28,7 +28,7 @@ const TrackingFeatures = ({ dashboardImage }) => {
   ];
 
   return (
-    <section className="tracking-features section-padding">
+    <section className="tracking-features section-padding rounded my-3 grayDoodles">
       <Container>
         <Row className="justify-content-center">
           <Col lg={10}>

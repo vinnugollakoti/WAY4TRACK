@@ -2,7 +2,7 @@ import React from "react";
 
 const SessionThree = ({ promo }) => {
   const bgStyle = {
-    backgroundColor: "rgb(100, 202, 164)", // base color
+    backgroundColor: "rgb(185 ,233, 215)", // base color
     // padding: "0px 50px",
     ...(promo.themeBgimage && {
       backgroundImage: `url(${promo.themeBgimage})`,

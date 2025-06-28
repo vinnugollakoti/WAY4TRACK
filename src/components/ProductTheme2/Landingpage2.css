@@ -6,6 +6,11 @@ section {
 section.bg-light {
   background-color: #f8f9fa;
 }
+.rrr{
+  background: url('../../../public/images/doodle.png') no-repeat center center;
+  background-size: cover;
+  background-color:rgb(185 ,233, 215);
+  }
 
 .section-title {
   font-size: 2.5rem;

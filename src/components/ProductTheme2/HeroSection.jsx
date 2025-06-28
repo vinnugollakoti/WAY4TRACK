@@ -2,7 +2,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 
 const HeroSection = ({title,description,heroImage}) => {
   return (
-    <section className="py-5 bg-custom-light">
+    <section className="py-5 bg-custom-light rounded my-3 rrr">
       <Container>
         <Row className="align-items-center">
           <Col lg={6} className="mb-5 mb-lg-0" data-aos="fade-right">
@@ -10,19 +10,7 @@ const HeroSection = ({title,description,heroImage}) => {
               <p className="text-uppercase fw-bold mb-2 text-secondary">
                 Authorized by
               </p>
-              {/* <div className="mb-4">
-                <img
-                  src="./images/ap_mining.png"
-                  alt="Government Authorization"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    objectFit: "cover",
-                    borderRadius: "50%",
-                  }}
-                  className="shadow-sm"
-                />
-              </div> */}
+             
               <p className="fw-bold text-primary small mb-4">
                 DEPARTMENT OF MINES AND GEOLOGY
                 <br />

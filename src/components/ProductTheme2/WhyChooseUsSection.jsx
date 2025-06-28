@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const WhyChooseUsSection = ({ chooseImage, chooseTitle, points }) => {
   return (
-    <section className="py-5 bg-custom-light">
+    <section className="py-5 bg-custom-light rounded my-3 yellowDoodles">
       <Container>
         <Row className="align-items-center">
           <Col lg={6} className="mb-5 mb-lg-0" data-aos="fade-right">

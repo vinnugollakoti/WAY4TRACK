@@ -54,6 +54,7 @@ function Landingpage2({ data, aisProducts }) {
         return <Component key={device.id} device={device} />;
       })}
 
+
       <EPermitSection
         subHeading={selectedProduct.description}
         steps={selectedProduct.steps}

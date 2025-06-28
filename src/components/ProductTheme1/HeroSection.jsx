@@ -34,11 +34,6 @@ const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
                 alt="GPS Tracking Map"
                 className="hero-main-image img-fluid"
               />
-              {/* <img 
-                src={mobileAppImage} 
-                alt="Mobile Tracking App" 
-                className="hero-mobile-image"
-              /> */}
               <div className="pulse-effect"></div>
               <div className="location-marker location-1">
                 <div className="pin-dot"></div>

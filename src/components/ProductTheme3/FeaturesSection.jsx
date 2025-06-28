@@ -34,7 +34,7 @@ const FeaturesSection = ({ amenities,description }) => {
   });
 
   return (
-    <section className="py-5 px-3 container">
+    <section className="py-5 px-4">
       <motion.div
         ref={ref}
         className="text-center mb-5"

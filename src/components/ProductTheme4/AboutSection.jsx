@@ -26,10 +26,8 @@ const AboutSection = ({ devices,title }) => {
     },
   ];
 
-  console.log(devices[0].description, "devicessss");
-
   return (
-    <section className="about-section py-5" ref={ref}>
+    <section className="rounded my-4 rrr" style={{backgroundColor:"lightGreen"}} ref={ref}>
       <div className="row justify-content-center">
         <div className="col-lg-8 text-center mb-5">
           <h6 className="text-primary text-uppercase" data-aos="fade-up">

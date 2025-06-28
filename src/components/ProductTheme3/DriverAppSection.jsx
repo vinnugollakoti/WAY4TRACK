@@ -36,7 +36,7 @@ const DriverAppSection = ({app,title}) => {
   
 
   return (
-    <section ref={ref} className="py-5 px-3 container">
+    <section ref={ref} className="p-4 px-3 rounded yellowDoodles">
       <div className="row align-items-center g-5">
         <motion.div
           className="col-lg-6"

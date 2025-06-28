@@ -93,7 +93,7 @@ const ParentsAppSection = ({
   ];
 
   return (
-    <section ref={ref} className="py-5 container">
+    <section ref={ref} className="p-4 my-4 rounded grayDoodles">
       <div className="mb-5 row gy-4 align-items-start">
         <motion.div
           className="col-lg-6"

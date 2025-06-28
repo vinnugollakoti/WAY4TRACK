@@ -3,7 +3,13 @@
   position: relative;
   overflow: hidden;
 }
+.yellowDoodles{
+  background: url('../../../../public/images/doodle.png') no-repeat center center;
+  background-size: cover;
+  background-color:rgb(255, 255, 143);
 
+  }
+  
 .dashboard-image-container {
   position: relative;
   margin-bottom: 3rem;

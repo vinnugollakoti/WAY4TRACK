@@ -42,7 +42,7 @@ const ParametersSection = ({ description }) => {
   };
 
   return (
-    <section className="parameters-section py-5">
+    <section className="parameters-section rounded my-4 yellowDoodles" style={{backgroundColor:"lightYellow"}} >
       <div className="row justify-content-center" style={{ padding: "50px" }}>
         <div className="col-lg-8 text-center mb-5">
           <h6 className="text-primary text-uppercase" data-aos="fade-up">

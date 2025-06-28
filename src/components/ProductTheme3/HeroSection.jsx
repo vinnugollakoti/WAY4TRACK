@@ -21,8 +21,8 @@ const HeroSection = ({title,shortDesc,blogImage}) => {
   };
 
   return (
-    <section className="py-5 container">
-      <div className="row align-items-center g-5">
+    <section className="p-4 ">
+      <div className="row align-items-center g-5 py-3">
         {/* Text Content */}
         <motion.div
           className="col-md-6"

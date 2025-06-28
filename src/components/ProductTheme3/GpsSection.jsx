@@ -33,10 +33,8 @@ const GpsSection = ({
     },
   };
 
-  console.log(app,"nfibweifwriufui")
-
   return (
-    <section className="py-5 container">
+    <section className="p-3 rounded my-4 rrr">
       <div className="row align-items-center g-5">
         {/* Text Content */}
         <motion.div

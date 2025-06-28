@@ -4,8 +4,8 @@ import './styles/DashboardDemo.css';
 
 const DashboardDemo = ({ dashboardImage }) => {
   return (
-    <section className="dashboard-demo section-padding">
-      <Container>
+<section className="dashboard-demo rounded my-3 section-padding yellowDoodles">      
+<Container>
         <Row className="justify-content-center mb-5">
           <Col lg={10} className="text-center">
             <div 

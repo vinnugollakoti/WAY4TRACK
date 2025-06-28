@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import './styles/FeaturesSection.css';
 
 const FeaturesSection = ({ title, applications = [] }) => (
-  <section className="features-section section-padding" id="features">
+  <section className="features-section rounded my-3 section-padding" id="features">
     <Container>
       <Row className="text-center mb-5">
         <Col>

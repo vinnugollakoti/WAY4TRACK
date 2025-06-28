@@ -37,15 +37,7 @@ function LandingPage3({ data, aisProducts }) {
           blogImage={selectedProduct.blogImage}
         />
       </div>
-
-      <div data-aos="fade-up" data-aos-delay="100">
-        <FeaturesSection
-          description={selectedProduct.description}
-          amenities={selectedProduct.amenities}
-        />
-      </div>
-
-      {selectedProduct.productApp?.map((app, index) => {
+      {product.data.productApp.map((app, index) => {
         const SectionComponent = appSections[index % appSections.length];
         return (
           <div

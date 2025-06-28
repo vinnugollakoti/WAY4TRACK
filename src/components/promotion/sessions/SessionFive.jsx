@@ -3,7 +3,7 @@ import ActionButtons from "../common/ActionButtons";
 
 const SessionFive = ({ promo, handlers, navigate }) => {
   const bgStyle = {
-    backgroundColor: "rgb(255, 219, 82)",
+    backgroundColor: "rgb(250 232 162)",
     // height: "500px",
     padding: "10px 20px",
     display: "flex",
