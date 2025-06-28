@@ -44,6 +44,9 @@ import { CartProvider } from "./contexts/CartContext";
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const [aisProducts, setAisProducts] = useState([]);
+  console.log(products,"product")
+  console.log(aisProducts,"ais product")
 
   const fetchAllProducts = async () => {
     try {
@@ -55,6 +58,10 @@ function App() {
         }
       );
       setProducts(response.data || []);
+      const filteredProducts = response.data.filter((product) =>
+        product.name.startsWith("AIS-140")
+      );
+      setAisProducts(filteredProducts)
     } catch (err) {
       console.error("Failed to fetch products:", err);
       setProducts([]);
@@ -182,7 +189,7 @@ function App() {
               <Route
                 key={product.id}
                 path={`/product-theme/${product.id}`}
-                element={<ThemeComponent data={product} />}
+                element={<ThemeComponent data={product} aisProducts={aisProducts} />}
               />
             );
           })}

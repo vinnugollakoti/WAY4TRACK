@@ -1,5 +1,5 @@
 /* App.css - Global Styles */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
   --primary-color: #198754;
@@ -16,7 +16,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: var(--text-color);
   overflow-x: hidden;
   background-color: var(--white);
@@ -26,7 +26,12 @@ body {
   position: relative;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   line-height: 1.2;
   color: var(--primary-dark);
@@ -49,7 +54,7 @@ p {
 }
 
 .section-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 0;
@@ -108,15 +113,31 @@ img {
   box-shadow: var(--box-shadow);
 }
 
+.hero-extra-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.extra-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  transition: 0.3s ease;
+}
+
+.extra-card:hover {
+  background-color: #f5f5f5;
+}
+
 @media (max-width: 768px) {
   .section-padding {
     padding: 3rem 0;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.75rem;
   }

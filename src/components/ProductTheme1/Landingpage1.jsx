@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import AIS140Selector from "../AISSelector/AIS140Selector";
 import HeroSection from "./HeroSection";
 import FeaturesSection from "./FeaturesSection";
 import DashboardDemo from "./DashboardDemo";
@@ -10,7 +12,10 @@ import CTASection from "./CTASection";
 import SolutionsSection from "../ProductTheme2/SolutionsSection";
 import "./styles/App.css";
 
-function Landingpage1(product) {
+function Landingpage1({ data, aisProducts }) {
+  const [selectedProduct, setSelectedProduct] = useState(data);
+  const navigate = useNavigate();
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -20,11 +25,10 @@ function Landingpage1(product) {
     });
   }, []);
 
-  console.log(product, "Product");
-  console.log(product.data.footerBanner, "FOOTER BANNER........");
+  console.log(aisProducts, "AIS Products");
+  console.log(data.footerBanner, "FOOTER BANNER........");
 
-  // Clean footerBanner URL by removing spaces
-  const footerBanner = product.data.footerBanner?.replace(/\s/g, "");
+  const footerBanner = selectedProduct.footerBanner?.replace(/\s/g, "");
 
   const productData = {
     name: "Bike GPS Tracker",
@@ -40,27 +44,50 @@ function Landingpage1(product) {
 
   return (
     <div className="bike-tracker-app">
+      <AIS140Selector products={aisProducts} selectedProduct={data} />
+      {/* {showAisCards && aisProducts?.length > 0 && (
+        <div className="hero-extra-cards mt-4">
+          {aisProducts.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleCardClick(item)}
+              className={`extra-card p-3 mb-2 rounded shadow-sm bg-light ${
+                selectedProduct.id === item.id
+                  ? "border-blue-500"
+                  : "border-gray-300"
+              }`}
+            >
+              <h5 className="font-semibold text-lg mb-1">{item.name}</h5>
+              <p className="text-sm text-gray-600">{item.shortDescription}</p>
+            </div>
+          ))}
+        </div>
+      )} */}
       <HeroSection
-        title={product.data.name}
-        description={product.data.shortDescription}
-        heroImage={product.data.banner1}
-        mobileAppImage={productData.mobileAppImage}
+        title={selectedProduct.name}
+        description={selectedProduct.shortDescription}
+        heroImage={selectedProduct.banner1}
+        mobileAppImage={
+          selectedProduct.mobileAppImage ||
+          "https://images.pexels.com/photos/5082579/pexels-photo-5082579.jpeg"
+        }
       />
+
       <FeaturesSection
-        title={product.data.description}
-        applications={product.data.application}
+        title={selectedProduct.description}
+        applications={selectedProduct.application}
       />
-      <DashboardDemo
-        dashboardImage={product.data.banner2}
-        // applications={product.data.application}
-      />
-      <TrackingFeatures dashboardImage={product.data.banner3} />
-      <FeatureGrid amenities={product.data.amenities} />
+
+      <DashboardDemo dashboardImage={selectedProduct.banner2} />
+      <TrackingFeatures dashboardImage={selectedProduct.banner3} />
+      <FeatureGrid amenities={selectedProduct.amenities} />
+
       <SolutionsSection
-        ourTitle={product.data.solutionTitle}
-        ourDescription={product.data.solutionDescription}
-        ourImage={product.data.solutionImage}
+        ourTitle={selectedProduct.solutionTitle}
+        ourDescription={selectedProduct.solutionDescription}
+        ourImage={selectedProduct.solutionImage}
       />
+
       <CTASection footerBanner={footerBanner} />
     </div>
   );

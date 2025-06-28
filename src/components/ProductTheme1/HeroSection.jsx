@@ -1,7 +1,7 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import './styles/HeroSection.css';
-import { MapPin } from 'lucide-react';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import "./styles/HeroSection.css";
+import { MapPin } from "lucide-react";
 
 const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
   return (
@@ -11,24 +11,27 @@ const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
           <Col lg={6} md={12} className="hero-content" data-aos="fade-right">
             <div className="hero-badge">
               <MapPin size={16} />
-              <span style={{color:"white"}}>Premium GPS Technology</span>
+              <span style={{ color: "white" }}>Premium GPS Technology</span>
             </div>
             <h1 className="hero-title">{title}</h1>
             <p className="hero-description">{description}</p>
             <div className="hero-buttons">
-              <button className="btn btn-primary me-3">
-                Learn More
-              </button>
-              <button className="btn btn-outline-primary">
-                View Demo
-              </button>
+              <button className="btn btn-primary me-3">Learn More</button>
+              <button className="btn btn-outline-primary">View Demo</button>
             </div>
           </Col>
-          <Col lg={6} md={12} className="hero-image-container" data-aos="zoom-in" data-aos-delay="300">
+
+          <Col
+            lg={6}
+            md={12}
+            className="hero-image-container"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
             <div className="hero-image-wrapper">
-              <img 
-                src={heroImage} 
-                alt="GPS Tracking Map" 
+              <img
+                src={heroImage}
+                alt="GPS Tracking Map"
                 className="hero-main-image img-fluid"
               />
               {/* <img 

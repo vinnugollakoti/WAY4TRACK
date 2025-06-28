@@ -8,7 +8,7 @@ const ProductPopupPage = ({ device }) => {
   const navigate = useNavigate();
   console.log(device, "deviceccccc");
 
-  const cartItem = cartItems.find((item) => item.device.id === device.id);
+  const cartItem = cartItems.find((item) => item.device?.id === device.id);
 
   const [accessory, setAccessory] = useState("Without Relay");
   const [network, setNetwork] = useState("Airtel");

@@ -1,0 +1,86 @@
+/* Wrapper styling */
+.ais-selector-wrapper {
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 1rem 1rem;
+  /* max-width: 1280px; */
+  margin: 0 auto;
+}
+
+/* Section title */
+.ais-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1f2937; /* text-gray-800 */
+}
+
+/* Grid layout */
+.ais-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ais-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card styling */
+.ais-card {
+  position: relative;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  /* min-height: 150px; */
+}
+
+.ais-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: #a0aec0; /* hover border */
+}
+
+.ais-card-default {
+  border-color: #e2e8f0; /* default border */
+}
+
+.ais-card-active {
+  border-color: #1c8528; /* blue border */
+  background-color: #f0f9ff;
+  box-shadow: 0 0 0 3px rgba(44, 169, 48, 0.3);
+}
+
+/* Card content */
+.ais-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111827; /* text-gray-900 */
+}
+
+.ais-card-description {
+  font-size: 0.875rem;
+  color: #4b5563; /* text-gray-600 */
+}
+
+/* Selected badge */
+.ais-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  background-color: green;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}

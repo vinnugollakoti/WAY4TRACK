@@ -6,14 +6,14 @@
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
   width: 40%;
   height: 100%;
   /* background-color: var(--primary-color); */
-  
+
   opacity: 0.05;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
   z-index: 0;
@@ -190,11 +190,11 @@
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-description {
     font-size: 1.1rem;
   }
-  
+
   .hero-mobile-image {
     width: 120px;
     bottom: -20px;
@@ -206,16 +206,16 @@
   .hero-section {
     padding: 4rem 0;
   }
-  
+
   .hero-content {
     margin-bottom: 3rem;
     text-align: center;
   }
-  
+
   .hero-description {
     max-width: 100%;
   }
-  
+
   .hero-mobile-image {
     display: none;
   }

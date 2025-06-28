@@ -1268,6 +1268,8 @@ function ProductsPage() {
     ],
   };
 
+  console.log(cartItems,"cart items product pages")
+
   const [states] = useState(Object.keys(statesWithCities));
   const [selectedState, setSelectedState] = useState("");
   const [cities, setCities] = useState([]);
@@ -1324,7 +1326,7 @@ function ProductsPage() {
     // Filter devices like in code1
     const validDevices = Array.isArray(product.device)
       ? product.device.filter(
-          (device) => device && device.id && device.image && device.name
+          (device) => device && device.id && device.name
           // &&
           // typeof device.amount === "number" &&
           // typeof device.subscriptionMonthlyAmt === "number" &&
@@ -1500,7 +1502,7 @@ function ProductsPage() {
                 product.device
                   .filter(
                     (device) =>
-                      device && device.id && device.image && device.name
+                      device && device.id && device.name
                     // &&
                     // typeof device.amount === "number" &&
                     // typeof device.subscriptionMonthlyAmt === "number" &&
@@ -1513,7 +1515,7 @@ function ProductsPage() {
                       100;
 
                     const matchedItem = cartItems.find(
-                      (item) => item.device.id === device.id
+                      (item) => item.device?.id === device.id
                     );
 
                     return (
