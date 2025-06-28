@@ -13,7 +13,8 @@ import SupportedTrackersSection from "./SupportedTrackersSection";
 import SolutionsSection from "../ProductTheme2/SolutionsSection";
 import CTASection from "./CTASection";
 
-function LandingPage3({ data, aisProducts }) {
+function LandingPage3({ data, Products }) {
+
   const [selectedProduct, setSelectedProduct] = useState(data);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function LandingPage3({ data, aisProducts }) {
     <div className="min-h-screen bg-gradient-to-b from-white to-amber-50">
       {/* ✅ AIS-140 Selector */}
       <AIS140Selector
-        products={aisProducts}
+        products={Products}
         selectedProduct={selectedProduct}
       />
 
@@ -37,7 +38,7 @@ function LandingPage3({ data, aisProducts }) {
           blogImage={selectedProduct.blogImage}
         />
       </div>
-      {product.data.productApp.map((app, index) => {
+      {data?.productApp?.map((app, index) => {
         const SectionComponent = appSections[index % appSections.length];
         return (
           <div

@@ -35,7 +35,7 @@ function Landingpage2({ data, aisProducts }) {
   const deviceComponents = [MiningVehiclesSection, GpsTrackingSection];
 
   return (
-    <div className="app-container">
+    <div className="px-4">
       {/* ✅ AIS-140 Product Selector */}
       <AIS140Selector
         products={aisProducts}
