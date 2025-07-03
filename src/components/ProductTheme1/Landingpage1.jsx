@@ -69,14 +69,14 @@ function Landingpage1({ data, aisProducts }) {
           "https://images.pexels.com/photos/5082579/pexels-photo-5082579.jpeg"
         }
       />
+<DashboardDemo dashboardImage={selectedProduct.banner2} />
 
       <FeaturesSection
         title={selectedProduct.description}
         applications={selectedProduct.application}
       />
 
-      <DashboardDemo dashboardImage={selectedProduct.banner2} />
-      <TrackingFeatures dashboardImage={selectedProduct.banner3} />
+      <TrackingFeatures dashboardImage={selectedProduct.banner3} whatWeDo={selectedProduct.workDescription}/>
       <FeatureGrid amenities={selectedProduct.amenities} />
 
       <SolutionsSection

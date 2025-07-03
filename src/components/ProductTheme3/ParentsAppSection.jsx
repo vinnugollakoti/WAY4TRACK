@@ -101,50 +101,28 @@ const ParentsAppSection = ({
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-secondary text-uppercase small">FEATURES</span>
-          <h2 className="fw-bold text-warning mt-2 fs-2 mb-3">{app.name}</h2>
-       
-          <p className="text-muted mb-3">{app.shortDescription}</p>
           <img src={app.image} alt={app.name} />
         </motion.div>
 
-       <div className="col-lg-6 d-flex flex-column gap-3">
-  {app.points?.map((point, index) => (
-    <FeatureBox
-      key={index}
-      number={String(index + 1).padStart(2, '0')} // e.g., "01", "02", "03"
-      title={point.title || "Title Missing"}
-      description={point.desc || "Description Missing"}
-      delay={0.1 * (index + 1)} // Staggered animation delay
-    />
-  ))}
-</div>
+        <div className="col-lg-6 d-flex flex-column gap-3">
+          <span className="text-secondary text-uppercase small">FEATURES</span>
+          <h2 className="fw-bold text-warning mt-2 fs-2 mb-3">{app.name}</h2>
+
+          <p className="text-muted mb-3">{app.shortDescription}</p>
+          {app.points?.map((point, index) => (
+            <FeatureBox
+              key={index}
+              number={String(index + 1).padStart(2, '0')} // e.g., "01", "02", "03"
+              title={point.title || "Title Missing"}
+              description={point.desc || "Description Missing"}
+              delay={0.1 * (index + 1)} // Staggered animation delay
+            />
+          ))}
+        </div>
 
       </div>
 
       <div className="row gy-4 align-items-center">
-        <motion.div
-          className="col-lg-6 position-relative"
-          initial={{ opacity: 0, x: -50 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          <motion.div
-            className="position-absolute top-0 end-0 translate-middle bg-primary text-white px-3 py-2 rounded shadow"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-          >
-            <span className="fw-medium">Real-time updates</span>
-          </motion.div>
-          <motion.img
-            src={chooseImage}
-            alt="Parents App and Safety Graph"
-            className="rounded-4 shadow w-100 object-fit-cover"
-            style={{ height: "500px", objectFit: "cover" }}
-          />
-        </motion.div>
-
         <motion.div
           className="col-lg-6"
           initial={{ opacity: 0, y: 30 }}
@@ -171,6 +149,29 @@ const ParentsAppSection = ({
             ))}
           </div>
         </motion.div>
+
+        <motion.div
+          className="col-lg-6 position-relative"
+          initial={{ opacity: 0, x: -50 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
+          <motion.div
+            className="position-absolute top-0 end-0 translate-middle bg-primary text-white px-3 py-2 rounded shadow"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            <span className="fw-medium">Real-time updates</span>
+          </motion.div>
+          <motion.img
+            src={chooseImage}
+            alt="Parents App and Safety Graph"
+            className="rounded-4 shadow w-100 object-fit-cover"
+            style={{ height: "500px", objectFit: "cover" }}
+          />
+        </motion.div>
+
       </div>
     </section>
   );

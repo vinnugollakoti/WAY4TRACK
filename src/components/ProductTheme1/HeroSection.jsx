@@ -28,11 +28,14 @@ const HeroSection = ({ title, description, heroImage, mobileAppImage }) => {
             data-aos="zoom-in"
             data-aos-delay="300"
           >
-            <div className="hero-image-wrapper">
+            <div style={{ position: 'relative', height: '70%'}}>
               <img
                 src={heroImage}
                 alt="GPS Tracking Map"
-                className="hero-main-image img-fluid"
+                className="hero-main-image"
+                style={{width: '100%',
+                  height: '100%',
+                  objectFit: 'fill'}}
               />
               <div className="pulse-effect"></div>
               <div className="location-marker location-1">

@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { CalendarClock, Clock, Bell, Users } from 'lucide-react';
 import './styles/TrackingFeatures.css';
 
-const TrackingFeatures = ({ dashboardImage }) => {
+const TrackingFeatures = ({ dashboardImage,whatWeDo }) => {
   const trackingFeatures = [
     {
       icon: <CalendarClock size={28} />,
@@ -78,10 +78,7 @@ const TrackingFeatures = ({ dashboardImage }) => {
             <div className="what-we-do-box" data-aos="fade-up">
               <h3>— WHAT WE DO? —</h3>
               <p>
-                The crucial idea of the way4track vehicle tracking system is to ensure 
-                the safety of all its customers. The GPS tracking app for the vehicle has 
-                to be installed by the individual who will track and monitor the concerned 
-                person's location.
+               {whatWeDo}
               </p>
             </div>
           </Col>

@@ -4,29 +4,25 @@ import './styles/DashboardDemo.css';
 
 const DashboardDemo = ({ dashboardImage }) => {
   return (
-<section className="dashboard-demo rounded my-3 section-padding yellowDoodles">      
+<section className="dashboard-demo rounded my-3 section-padding yellowDoodles" >      
 <Container>
-        <Row className="justify-content-center mb-5">
+        <Row className="justify-content-center">
           <Col lg={10} className="text-center">
             <div 
               className="dashboard-image-container" 
-              data-aos="fade-up"
+              data-aos="fade-up" style={{height:600}}
             >
               <img 
                 src={dashboardImage} 
                 alt="Vehicle Tracking Dashboard" 
-                className="dashboard-image img-fluid" 
+                className="dashboard-image img-fluid" style={{width: '100%',
+                  height: '100%',
+                  objectFit: 'fill'}}
               />
-              <div className="overlay-element element-1">
-                <div className="blob-shape"></div>
-              </div>
-              <div className="overlay-element element-2">
-                <div className="blob-shape"></div>
-              </div>
             </div>
           </Col>
         </Row>
-
+{/* 
         <Row className="mt-5">
           <Col lg={8} md={10} className="mx-auto">
             <div className="cta-box" data-aos="fade-up">
@@ -35,7 +31,7 @@ const DashboardDemo = ({ dashboardImage }) => {
               <button className="btn btn-accent">Try it today</button>
             </div>
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </section>
   );
