@@ -118,9 +118,7 @@ const Navbar = ({ onCartClick }) => {
       userRef.current.style.opacity = 0.5;
       userRef.current.style.transform = "scale(0.8)";
       setTimeout(() => {
-        localStorage.removeItem("client_id");
-        localStorage.removeItem("client_db_id");
-        localStorage.removeItem("client_phone");
+        localStorage.clear()
         if (userRef.current) {
           userRef.current.style.opacity = 1;
           userRef.current.style.transform = "scale(1)";

@@ -56,13 +56,16 @@ function VerifyOtp() {
       const response = await ApiService.post("otp/verifyClientOtp", {
         companyCode: initialAuthState.companyCode,
         unitCode: initialAuthState.unitCode,
+        phoneNumber:phone,
         otp: fullOtp,
       });
 
       if (response.status) {
-        const { id, clientId } = response.data;
+        const { id,name,clientId,phoneNumber} = response.data;
         localStorage.setItem("client_id", clientId);
         localStorage.setItem("client_db_id", id);
+        localStorage.setItem("client_name", name);
+        localStorage.setItem("client_phoneNumber", phoneNumber);
         await handleLoginSuccess(id);
         alert("OTP Verified successfully.");
         navigate("/products");

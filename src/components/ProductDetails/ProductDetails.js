@@ -4,22 +4,50 @@ import { CartContext } from "../../contexts/CartContext";
 import DeviceReviewComponent from "../DeviceReviewComponent/DeviceReviewCOmponent";
 
 import "./ProductDetails.css";
+import AIS140Availability from "../../contexts/AIS140Availabilities";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { cartItems, addToCart } = useContext(CartContext);
-
   const device = location.state?.device;
-  const cartItem = cartItems.find((item) => item.deviceId === device?.id);
+  console.log("device:",device)
+  console.log("cartItems:",cartItems)
+  const cartItem = cartItems.find((item) => item?.device?.id === device?.id);
   const clientDbId = localStorage.getItem("client_db_id");
-
   const [accessory, setAccessory] = useState("Without Relay");
   const [network, setNetwork] = useState("Airtel");
   const [subscription, setSubscription] = useState("monthly");
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState(device?.image || "");
+
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [isAIS, setIsAIS] = useState(false);
+
+  useEffect(() => {
+    setIsAIS(device.name.startsWith("AIS"));
+  }, [device.name]);
+
+
+  const handleStateChange = (e) => {
+    const state = e.target.value;
+    setSelectedState(state);
+    setSelectedCity(""); // reset city when state changes
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
+  const selectedCityInfo = AIS140Availability[selectedState]?.find(
+    (city) => city.name === selectedCity
+  );
+  const isBuyDisabled = isAIS
+  ? !selectedState || !selectedCity || !selectedCityInfo?.availability
+  : false;
+
   const [images, setImages] = useState([
     {
       id: 0,
@@ -94,7 +122,7 @@ const ProductDetailsPage = () => {
     };
 
     localStorage.setItem("buyNowItem", JSON.stringify(orderItem));
-    navigate("/checkout");
+    navigate("/cart");
   };
 
   return (
@@ -178,7 +206,56 @@ const ProductDetailsPage = () => {
                 </button>
               </div>
             </div>
+            {
+        isAIS &&
+        <div className="ProductPopupPage-section">
+          <label className="ProductPopupPage-label">Location:</label>
+          <div className="ProductPopupPage-options">
+            {/* State dropdown */}
+            <select
+              className="ProductPopupPage-select"
+              value={selectedState}
+              onChange={handleStateChange}
+            >
+              <option value="">Select State</option>
+              {Object.keys(AIS140Availability).map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
 
+            {/* City dropdown */}
+            <select
+              className="ProductPopupPage-select"
+              value={selectedCity}
+              onChange={handleCityChange}
+              disabled={!selectedState}
+            >
+              <option value="">Select City</option>
+              {selectedState &&
+                AIS140Availability[selectedState].map((city) => (
+                  <option
+                    key={city.name}
+                    value={city.name}
+                    disabled={!city.availability}
+                  >
+                    {city.name} {city.availability ? "" : "(Unavailable)"}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          {/* Show price and availability */}
+          {selectedCityInfo && (
+            <div style={{ marginTop: "10px" }}>
+              <strong>Price:</strong> ₹{selectedCityInfo.price} <br />
+              <strong>Available:</strong>{" "}
+              {selectedCityInfo.availability ? "Yes" : "No"}
+            </div>
+          )}
+        </div>
+      }
             <div className="product-details-option-group">
               <label>Subscription:</label>
               <div className="product-details-btn-group">
@@ -213,12 +290,14 @@ const ProductDetailsPage = () => {
           <div className="product-details-action-buttons">
             <button
               onClick={handleAddToCart}
+              disabled={isBuyDisabled}
               className="product-details-btn product-details-btn-outline-dark"
             >
               Add to Cart
             </button>
             <button
               onClick={handleBuyNow}
+              disabled={isBuyDisabled}
               className="product-details-btn product-details-btn-dark"
             >
               Buy It Now
@@ -227,6 +306,7 @@ const ProductDetailsPage = () => {
           {/* <DeviceReviewComponent /> */}
         </div>
         <DeviceReviewComponent device={device} />
+        
       </div>
     </div>
   );

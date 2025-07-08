@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import "./Login.css";
+import { CartContext } from "../../contexts/CartContext";
 
 function LoginPage() {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
+  const { cartItems, removeFromCart, getTotal, addToCart } = useContext(CartContext);
+  useEffect(()=>{
+    localStorage.clear();
+  },[])
+  
 
   const handleSendCode = async () => {
     if (phone.length !== 10) {
       alert("Enter a valid 10-digit number");
       return;
     }
-
     try {
       const response = await ApiService.post("otp/sendClientOtp", {
         companyCode: initialAuthState.companyCode,
