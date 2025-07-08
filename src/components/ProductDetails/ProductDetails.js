@@ -12,8 +12,7 @@ const ProductDetailsPage = () => {
   const navigate = useNavigate();
   const { cartItems, addToCart } = useContext(CartContext);
   const device = location.state?.device;
-  console.log("device:",device)
-  console.log("cartItems:",cartItems)
+
   const cartItem = cartItems.find((item) => item?.device?.id === device?.id);
   const clientDbId = localStorage.getItem("client_db_id");
   const [accessory, setAccessory] = useState("Without Relay");
