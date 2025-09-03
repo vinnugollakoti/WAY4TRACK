@@ -40,6 +40,7 @@ import ApiService, {
   initialAuthState,
 } from "./components/Services/ApiServices";
 import { CartProvider } from "./contexts/CartContext";
+import Mining from "./components/New_Templates/Mining";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -180,6 +181,7 @@ function App() {
           <Route path="/theme2" element={<ProductTheme2 />} />
           <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
+          <Route path="/mining" element={<Mining />} />
 
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
@@ -196,7 +198,7 @@ function App() {
         </Routes>
 
         {/* Add Footer here */}
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </CartProvider>
   );
