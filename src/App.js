@@ -28,6 +28,8 @@ import BlogList from "./components/Blogs/BlogList";
 import BlogDetail from "./components/Blogs/BlogDetail";
 import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import ProductTheme4 from "./components/ProductTheme4/index";
+import SchoolBus from "./components/New_Templates/school_bus";
+
 import "./App.css";
 
 import "aos/dist/aos.css";
@@ -181,6 +183,8 @@ function App() {
           <Route path="/theme2" element={<ProductTheme2 />} />
           <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
+          <Route path="/school-bus" element={<SchoolBus />} />
+
           <Route path="/mining" element={<Mining />} />
 
           {products.map((product) => {
