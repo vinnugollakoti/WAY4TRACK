@@ -1,0 +1,278 @@
+/* school_bus.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 4% 4% 1% 4%;
+    background-color: #f9f9f9;
+}
+
+.school-bus-landing-pic {
+    border-radius: 22px;
+}
+
+/* Header Content */
+.school-bus-content {
+    margin: 32px auto 0 auto;
+    max-width: 1000px;
+    padding: 0 24px;
+    text-align: center;
+}
+
+.school-bus-content-1 h1 {
+    font-size: 48px;
+    color: #60A442;
+    margin-bottom: 32px;
+    font-weight: 500;
+}
+
+.school-bus-content-2 p {
+    font-size: 1.1rem;
+    color: black;
+    line-height: 1.7;
+}
+
+.school-bus-tracker-properties {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 48px auto;
+    gap: 32px;
+}
+
+/* Features Grid Section */
+.school-bus-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    width: 100%;
+}
+
+.school-bus-feature-card {
+    background: #F2F2F2;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(96, 164, 66, 0.08);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 300px;
+    transition: box-shadow 0.2s;
+}
+
+.school-bus-feature-card:hover {
+    box-shadow: 0 4px 18px rgba(96, 164, 66, 0.18);
+}
+
+.school-bus-feature-img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.school-bus-feature-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #60A442;
+    margin-bottom: 12px;
+}
+
+.school-bus-feature-desc {
+    font-size: 16px;
+    color: #00000069;
+    /* line-height: 1.6; */
+}
+
+/* Apps Section */
+.school-bus-apps-section {
+    /* margin: 56px auto 0 auto;
+    max-width: 1200px;
+    padding: 0 24px; */
+}
+
+.school-bus-apps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    width: 100%;
+}
+
+.school-bus-app-card {
+    background: linear-gradient(135deg, #60A442 0%, #8fd19c 100%);
+    border-radius: 32px;
+    box-shadow: 0 4px 24px rgba(96, 164, 66, 0.13);
+    padding: 40px 28px 0px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 520px;
+    position: relative;
+    color: #fff;
+    transition: box-shadow 0.2s;
+    justify-content: space-between;
+}
+
+.school-bus-app-card:hover {
+    box-shadow: 0 8px 32px rgba(96, 164, 66, 0.22);
+}
+
+.school-bus-app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 22px;
+    text-align: center;
+    letter-spacing: -1px;
+}
+
+.school-bus-app-desc {
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 32px;
+    text-align: center;
+    line-height: 1.7;
+    color: #fff;
+    opacity: 0.95;
+}
+
+.school-bus-app-btn {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.school-bus-app-btn button {
+    background: #fff;
+    color: #222;
+    font-size: 1.08rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 22px;
+    padding: 12px 32px;
+    box-shadow: 0 4px 16px rgba(96, 164, 66, 0.18);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.18s, color 0.18s;
+}
+
+.school-bus-app-btn button:hover {
+    background: #60A442;
+    color: #fff;
+}
+
+.school-bus-app-btn-arrow {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-left: 4px;
+    background-color: black;
+    border-radius: 50%;
+    padding: 5px;
+    color: white;
+    display: flex;
+}
+
+.school-bus-app-img {
+    width: 210px;
+    height: 260px;
+    margin: 0 auto;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(96, 164, 66, 0.10);
+    overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .school-bus-tracker-properties {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .school-bus-tracker-properties-left-side,
+    .school-bus-tracker-properties-right-side {
+        width: 100%;
+    }
+    .school-bus-features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .school-bus-landing {
+        height: 180px;
+    }
+    .school-bus-landing-pic {
+        max-width: 220px;
+        max-height: 120px;
+    }
+    .school-bus-content-1 h1 {
+        font-size: 1.3rem;
+    }
+    .school-bus-content {
+        padding: 0 8px;
+    }
+    .school-bus-tracker-properties {
+        padding: 0 8px;
+    }
+    .school-bus-tracker-properties-left-side,
+    .school-bus-tracker-properties-right-side-top-content,
+    .school-bus-tracker-properties-right-side-bottom-content {
+        padding: 16px 8px;
+    }
+    .school-bus-features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .school-bus-feature-card {
+        padding: 18px 10px;
+        min-height: 120px;
+    }
+    .school-bus-feature-title {
+        font-size: 1.1rem;
+    }
+    .school-bus-feature-desc {
+        font-size: 0.95rem;
+    }
+}
+
+/* Responsive for Apps Section */
+@media (max-width: 1100px) {
+    .school-bus-apps-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+    .school-bus-app-card {
+        min-height: 480px;
+        padding: 32px 18px 18px 18px;
+    }
+}
+
+@media (max-width: 800px) {
+    .school-bus-apps-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .school-bus-app-card {
+        min-height: 420px;
+        padding: 24px 8px 8px 8px;
+    }
+    .school-bus-app-title {
+        font-size: 1.6rem;
+    }
+    .school-bus-app-desc {
+        font-size: 1rem;
+    }
+    .school-bus-app-img {
+        width: 160px;
+        height: 180px;
+    }
+}
