@@ -503,6 +503,38 @@ function Mining() {
           </div>
         </div>
       </div>
+
+      {/* Product & Overview Section with Truck Image */}
+      <div className="mining-product-overview">
+        <div className="mining-product-overview-header">
+          <h2>Product & Overview</h2>
+        </div>
+        
+        <div className="mining-product-overview-content">
+          <div className="mining-product-overview-text">
+            <div>
+              <h3>AIS-140 Mining GPS Tracker</h3>
+            <p>
+              The AIS-140 GPS Tracker is a government-certified device designed for compliance with 
+              MoRTH regulations in India. Built for public transport, mining fleets, and commercial 
+              vehicles, it ensures passenger safety, real-time monitoring, and legal compliance. 
+              With dual communication support to both government servers and user dashboards, it 
+              provides seamless control, safety, and operational efficiency.
+            </p>
+            </div>
+            
+            <div className="mining-product-overview-features">
+              <p>
+                Why Choose AIS-140 GPS Tracker?<br/> Government-Approved & Compliant – under AIS-140 standards. <br/>Enhanced Safety & Control – Equipped with SOS button, route <br/>monitoring, and to prevent theft or misuse.<br/>Government-Certified Compliance-The AIS-140 GPS Tracker is<br/> approved for meeting MoRTH regulations in India.
+              </p>
+            </div>
+          </div>
+          
+          <div className="mining-product-overview-image">
+            <img src="/images/product-mining-truck.png" alt="Mining Truck" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

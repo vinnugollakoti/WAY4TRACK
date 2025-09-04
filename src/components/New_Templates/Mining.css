@@ -286,7 +286,26 @@ body, html {
   display: flex;
   width: 100%;
   margin-top: 4rem;
-  padding: 30px;
+  padding: 30px 80px 30px 30px ;
+}
+
+.mining-product h2{
+  font-family: "Nunito", sans-serif;
+  font-size: 37px;
+  color: black;
+}
+
+.mining-product-price{
+  font-size: 20px;
+}
+
+.mining-product-features li{
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.mining-product p{
+  font-family: "Nunito", sans-serif;
 }
 
 .mining-product-img {
@@ -295,7 +314,7 @@ body, html {
 
 .mining-product-order {
   background-color: #F8FEF2;
-  padding: 30px;
+  padding: 30px 10px 30px 30px;
   border-radius: 15px;
 }
 
@@ -308,12 +327,25 @@ body, html {
 .mining-product-network-btn button {
   background-color: white;
   border: none;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 11px rgba(55, 55, 55, 0.25);
+  color: inherit; 
+  transition: all 0.3s ease; 
 }
 
-.mining-product-final-price p {
+.mining-product-network-btn button:hover {
+  background-color: #60A342; 
+  color: black; 
+  cursor: pointer;
+}
+
+.mining-product-quantity-label{
+  font-size: 12px;
+  color: #00000080;
+}
+
+.mining-product-final-price{
   font-size: 20px;
 }
 
@@ -321,30 +353,31 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  gap: 1rem; 
+  margin-top: 1rem;
 }
 
 .mining-product-quantity-selector {
   display: flex;
-  flex-direction: row;
   align-items: stretch;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 0 2px #F8FEF2, 0 2px 8px rgba(96,164,66,0.06);
-  border: 2px solid #F8FEF2;
+  border-radius: 16px; /* smoother rounded corners */
+  box-shadow: 0 2px 8px rgba(96, 164, 66, 0.08);
+  border: 1px solid #e6e6e6;
   overflow: hidden;
-  min-width: 110px;
-  height: 48px;
-  max-height: 48px;
+  width: 120px;   /* slightly wider */
+  height: 70px;   /* matches screenshot proportions */
 }
 
 .mining-product-quantity-value {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
-  background: #fff;
+  font-size: 32px;   /* big bold number */
+  font-weight: 500;
+  color: #000;
+  border-right: 1px solid #f0f0f0; /* divider */
 }
 
 .mining-product-quantity-value p {
@@ -387,13 +420,15 @@ body, html {
   color: white;
   font-weight: 600;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 12px 120px;
   font-size: 18px;
   margin-right: 1rem;
   box-shadow: 0px 2px 8px rgba(96, 164, 66, 0.12);
   transition: background 0.2s;
-  height: 48px;
+  width: 100%;   /* slightly wider */
+  height: 70px;
+
 }
 
 .mining-product-cart-btn button:hover {
@@ -401,16 +436,17 @@ body, html {
 }
 
 .mining-product-buy-btn button {
-  background-color: white;
-  color: #60A442;
+  background-color: transparent;
+  color: black;
   font-weight: 600;
-  border: 2px solid #60A442;
+  border: 1px solid black;
   border-radius: 12px;
   padding: 12px 48px;
   font-size: 18px;
   box-shadow: 0px 2px 8px rgba(96, 164, 66, 0.08);
   transition: background 0.2s, color 0.2s;
-  height: 48px;
+  width: 100%;   /* slightly wider */
+  height: 70px;
 }
 
 .mining-product-buy-btn button:hover {
@@ -424,7 +460,7 @@ body, html {
   justify-content: space-between;
   align-items: stretch;
   background: #fff;
-  margin: 48px 0 0 0;
+  margin-top: 5rem;
   padding: 0 5%;
   min-height: 340px;
 }
@@ -560,11 +596,13 @@ body, html {
 
 .mining-benefit-icon {
   margin-bottom: 24px;
-  height: 40px;
-  width: 40px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.mining-benefit-icon img {
+  object-fit: contain;
 }
 
 .mining-benefit-title {
@@ -614,11 +652,6 @@ body, html {
 
 .mining-benefit-plus:hover {
   background: #60A442;
-}
-
-.mining-benefit-icon img.mining-benefit-icon-passenger {
-  width: 40px !important;
-  height: 40px !important;
 }
 
 .mining-solutions-section {
@@ -686,4 +719,43 @@ body, html {
   object-fit: contain;
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+.mining-product-overview{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 80px 5%;
+  gap: 2rem;
+  margin-top: 5rem;
+  background-color: #F5F5F7;
+}
+
+.mining-product-overview-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.mining-product-overview-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3rem;
+  width: 50%;
+}
+
+.mining-product-overview-text p{
+  font-size: 18px;
+}
+
+.mining-product-overview-text h3{
+  font-size: 32px;
+  color: #60A442;
+}
+
+.mining-product-overview-header h2{
+  font-size: 56px;
+  color: #60A442;
 }
