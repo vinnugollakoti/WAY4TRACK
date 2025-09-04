@@ -112,7 +112,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        {/* <Navbar onCartClick={() => setCartOpen(true)} /> */}
+        <Navbar onCartClick={() => setCartOpen(true)} />
         <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
         <Routes>
@@ -202,7 +202,7 @@ function App() {
         </Routes>
 
         {/* Add Footer here */}
-        {/* <Footer /> */}
+        <Footer />
       </Router>
     </CartProvider>
   );
