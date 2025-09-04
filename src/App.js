@@ -13,12 +13,12 @@ import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
 import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import RegisterClient from "./components/RegisterClient/RegisterClient";
-import Navbar from "./components/Navbar/Navbar";
+// import Navbar from "./components/Navbar/Navbar";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
-import Footer from "./components/footer/Footer"; // Should be designed
+// import Footer from "./components/footer/Footer"; // Should be designed
 // import About from "./components/about/AboutUs"; // Import your About component
 import Contact from "./components/contact/ContactPage";
 import Hero from "./components/careers/Hero";
@@ -31,6 +31,7 @@ import ProductTheme4 from "./components/ProductTheme4/index";
 import SchoolBus from "./components/New_Templates/school_bus";
 import Bike from "./components/New_Templates/Bike"
 import AboutUs from "./components/New_Templates/About"
+import Mining from "./components/New_Templates/Mining"
 
 import "./App.css";
 
@@ -44,7 +45,7 @@ import ApiService, {
   initialAuthState,
 } from "./components/Services/ApiServices";
 import { CartProvider } from "./contexts/CartContext";
-import Mining from "./components/New_Templates/Mining";
+
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);

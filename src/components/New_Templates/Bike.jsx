@@ -40,28 +40,46 @@ const Bike = () => {
     {/* 6 cards section */}
     <div className="six-cards-main">
       <div className="six-cards-1">
+        <div className="six-cards-icon-bg">
+          <img src="/images/icon4-bike.png" alt="" className="six-cards-icon" />
+        </div>
         <h1 className="six-cards-heading">Real-time Tracking </h1>
         <p className="six-cards-text">"Track your assets in real time with interval-based or continuous updates for complete visibility. Stay informed, stay in control — anytime, anywhere</p>
       </div>
       <div className="six-cards-2">
+        <div className="six-cards-icon-bg">
+          <img src="/images/icon5-bike.png" alt="" className="six-cards-icon" />
+        </div>
         <h1  className="six-cards-heading">Cellular connectivity with 2G and 4G</h1>
         <p className="six-cards-text">"Reliable 4G connectivity with automatic 2G fallback ensures uninterrupted tracking. Stay connected everywhere, even in low-network areas.".</p>
       </div>
       <div className="six-cards-3">
+        <div className="six-cards-icon-bg">
+          <img src="/images/icon2-bike.png" alt="" className="six-cards-icon" />
+        </div>
         <h1 className="six-cards-heading">Overspeed alert</h1>
         <p className="six-cards-text">"Overspeed alerts notify you instantly when set speed limits are crossed. Drive safer and protect your vehicle with real-time monitoring."</p>
       </div>
     </div>
     <div className="six-cards-main-2">
       <div className="six-cards-1">
+        <div className="six-cards-icon-bg">
+          <img src="/images/icon3-bike.png" alt="" className="six-cards-icon" />
+        </div>
         <h1 className="six-cards-heading">Mileage & trip history report</h1>
         <p className="six-cards-text">Access detailed mileage and trip history reports anytime. Review past journeys, analyze travel patterns, and keep track of distances covered with ease.</p>
       </div>
       <div className="six-cards-2">
+        <div className="six-cards-icon-bg">
+          <img src="/images/icon6-bike.png" alt="" className="six-cards-icon" />
+        </div>
         <h1 className="six-cards-heading">Movement-Triggered Alerts with Smart Motion Sensor</h1>
         <p className="six-cards-text">"Motion sensor sends instant alerts on movement. Stay aware and protect your assets anytime."</p>
       </div>
       <div className="six-cards-3">
+        <div className="six-cards-icon-bg">
+          <img src="/images/token.png" alt="" className="six-cards-icon" />
+        </div>
         <h1 className="six-cards-heading">Smart Geo-Fencing with Instant Alerts</h1>
         <p className="six-cards-text">"Set virtual boundaries with smart geo-fencing. Get instant alerts whenever your asset moves in or out."</p>
       </div>
