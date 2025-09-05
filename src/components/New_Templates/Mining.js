@@ -2,7 +2,7 @@ import "./Mining.css";
 
 function Mining() {
   return (
-    <div>
+    <div className="mining-body">
       {/* Landing Section */}
       <div className="mining-landing">
         <img

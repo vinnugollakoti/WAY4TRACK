@@ -1,8 +1,10 @@
 import './school_bus.css';
+import Navbar from './Navbar';
 
 function SchoolBus() {
   return (
-    <div>
+    <div className='schoolbus-body'>
+      <Navbar />
       {/* Landing Section */}
       <div className="school-bus-landing">
         <img

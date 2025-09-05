@@ -204,7 +204,7 @@ function App() {
         </Routes>
 
         {/* Add Footer here */}
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </CartProvider>
   );
