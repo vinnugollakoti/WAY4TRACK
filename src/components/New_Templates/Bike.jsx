@@ -1,8 +1,42 @@
+import { Nav } from "react-bootstrap";
 import "./Bike.css";
+import Navbar from "./Navbar";
 
 const Bike = () => {
+  const testimonials = [
+    { 
+      name: "S E", 
+      time: "10 days ago", 
+      text: "Love this place! Awesome coaches, great vibe, and tough sessions that actually get results.", 
+      avatar: "https://randomuser.me/api/portraits/men/32.jpg", 
+      rating: 5 
+    },
+    { 
+      name: "Jak", 
+      time: "30 days ago", 
+      text: "Love training here – great energy, killer workouts and awesome instructors!!", 
+      avatar: "https://randomuser.me/api/portraits/men/33.jpg", 
+      rating: 5 
+    },
+    { 
+      name: "Nar", 
+      time: "1 month ago", 
+      text: "Today's hybrid class was awesome as always.", 
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg", 
+      rating: 5 
+    },
+    { 
+      name: "Mic", 
+      time: "1 month ago", 
+      text: "For the first time I consistently went to the gym for 2 years straight! Thanks to the beautiful community.", 
+      avatar: "https://randomuser.me/api/portraits/men/32.jpg", 
+      rating: 5 
+    },
+  ];
+
   return (
     <div className="body">
+      <Navbar />
       <img src="/images/bike-banner.jpg" alt="" className="hero-bike" />
       <center>
         <h1 className="heading">
@@ -187,9 +221,66 @@ const Bike = () => {
       </div>
     </div>
 
-
-    <div className="footer">
+    {/* three images section */}
+    <div className="three-cards-section">
+      <h1 className="gps-communications-heading">GPS Communications</h1>
+      <div className="three-cards">
+        <div className="three-card-1 start">
+          <center>
+          <h1 className="three-cards-section-heading">Sensors in BIKE GPS</h1>
+          </center>
+          <p className="three-cards-section-text">Supports 2G and 4G GSM/GPRS (850/900/1800/1900 MHz) with standard/micro SIM. Data via TCP/UDP 
+with SMS backup for alerts.</p>
+        <center>
+        <img src="/images/bike4.png" alt="" className="three-cards-section-img" />
+        </center>
+        </div>
+        <div className="three-card-1">
+          <center>
+          <h1 className="three-cards-section-heading">Sensors in BIKE GPS</h1>
+          </center>
+          <p className="three-cards-section-text">Supports 2G and 4G GSM/GPRS (850/900/1800/1900 MHz) with standard/micro SIM. Data via TCP/UDP 
+with SMS backup for alerts.</p>
+       <center>
+        <img src="/images/bike5.png" alt="" className="three-cards-section-img bike5" />
+        </center>
+        </div>
+        <div className="three-card-1">
+          <center>
+          <h1 className="three-cards-section-heading">Sensors in BIKE GPS</h1>
+          </center>
+          <p className="three-cards-section-text">Supports 2G and 4G GSM/GPRS (850/900/1800/1900 MHz) with standard/micro SIM. Data via TCP/UDP 
+with SMS backup for alerts.</p>
+           <center>
+        <img src="/images/bike6.png" alt="" className="three-cards-section-img bike6" />
+        </center>
+        </div>
+      </div>
     </div>
+
+    {/* poster section */}
+    <div className="poster-section">
+      <img src="/images/schoolbus.jpg" alt="" className="poster-bike-last" />
+    </div>
+
+    <div className="testimonials-container">
+      <div className="testimonials-scroll">
+        {testimonials.concat(testimonials).map((t, i) => (
+          <div key={i} className="testimonial-card">
+            <div className="stars">{"⭐".repeat(t.rating)}</div>
+            <p className="testimonial-text">{t.text}</p>
+            <div className="testimonial-footer">
+              <img src={t.avatar} alt={t.name} className="avatar" />
+              <div className="user-info">
+                <strong>{t.name}</strong>
+                <span>{t.time}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
     </div>
   )
 }
