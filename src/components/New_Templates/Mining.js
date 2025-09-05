@@ -3,6 +3,16 @@ import "./Mining.css";
 
 function Mining() {
   const [selectedTruckInfo, setSelectedTruckInfo] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  // Quantity control functions
+  const incrementQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+  };
 
   return (
     <div>
@@ -223,22 +233,22 @@ function Mining() {
               <div className="mining-product-quantity-controls">
                 <div className="mining-product-quantity-selector">
                   <div className="mining-product-quantity-value">
-                    <p>1</p>
+                    <p>{quantity}</p>
                   </div>
                   <div className="mining-product-quantity-btns">
                     <div className="mining-product-quantity-btns-container">
-                      <button className="quantity-up">
+                      <button className="quantity-up" onClick={incrementQuantity}>
                         <img
                           className="arrow-up"
                           src="/images/up-arrows.png"
-                          alt=""
+                          alt="Increase quantity"
                         />
                       </button>
-                      <button className="quantity-down">
+                      <button className="quantity-down" onClick={decrementQuantity}>
                         <img
                           className="arrow-down"
                           src="/images/arrow-down-sign-to-navigate.png"
-                          alt=""
+                          alt="Decrease quantity"
                         />
                       </button>
                     </div>
@@ -437,7 +447,10 @@ function Mining() {
           </h2>
         </div>
         <div className="mining-solutions-hero">
-          <img src="/images/leadxpo_Expand_the_background_into_a_clean_seamless_white_studi_6f786aeb-e9ae-42a0-81d0-c4cecc5f93d5 1.png" alt="AIS-140 Vehicles" />
+          <img
+            src="/images/leadxpo_Expand_the_background_into_a_clean_seamless_white_studi_6f786aeb-e9ae-42a0-81d0-c4cecc5f93d5 1.png"
+            alt="AIS-140 Vehicles"
+          />
         </div>
         <div className="mining-solutions-grid">
           <div className="mining-solutions-card">
@@ -509,27 +522,37 @@ function Mining() {
         <div className="mining-product-overview-header">
           <h2>Product & Overview</h2>
         </div>
-        
+
         <div className="mining-product-overview-content">
           <div className="mining-product-overview-text">
             <div>
               <h3>AIS-140 Mining GPS Tracker</h3>
-            <p>
-              The AIS-140 GPS Tracker is a government-certified device designed for compliance with 
-              MoRTH regulations in India. Built for public transport, mining fleets, and commercial 
-              vehicles, it ensures passenger safety, real-time monitoring, and legal compliance. 
-              With dual communication support to both government servers and user dashboards, it 
-              provides seamless control, safety, and operational efficiency.
-            </p>
+              <p>
+                The AIS-140 GPS Tracker is a government-certified device
+                designed for compliance with MoRTH regulations in India. Built
+                for public transport, mining fleets, and commercial vehicles, it
+                ensures passenger safety, real-time monitoring, and legal
+                compliance. With dual communication support to both government
+                servers and user dashboards, it provides seamless control,
+                safety, and operational efficiency.
+              </p>
             </div>
-            
+
             <div className="mining-product-overview-features">
               <p>
-                Why Choose AIS-140 GPS Tracker?<br/> Government-Approved & Compliant – under AIS-140 standards. <br/>Enhanced Safety & Control – Equipped with SOS button, route <br/>monitoring, and to prevent theft or misuse.<br/>Government-Certified Compliance-The AIS-140 GPS Tracker is<br/> approved for meeting MoRTH regulations in India.
+                Why Choose AIS-140 GPS Tracker?
+                <br /> Government-Approved & Compliant – under AIS-140
+                standards. <br />
+                Enhanced Safety & Control – Equipped with SOS button, route{" "}
+                <br />
+                monitoring, and to prevent theft or misuse.
+                <br />
+                Government-Certified Compliance-The AIS-140 GPS Tracker is
+                <br /> approved for meeting MoRTH regulations in India.
               </p>
             </div>
           </div>
-          
+
           <div className="mining-product-overview-image">
             <img src="/images/product-mining-truck.png" alt="Mining Truck" />
           </div>

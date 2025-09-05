@@ -43,6 +43,7 @@ import ApiService, {
 } from "./components/Services/ApiServices";
 import { CartProvider } from "./contexts/CartContext";
 import Mining from "./components/New_Templates/Mining";
+import Homepage from "./components/New_Templates/Home";
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -112,7 +113,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        {/* <Navbar onCartClick={() => setCartOpen(true)} /> */}
+        <Navbar onCartClick={() => setCartOpen(true)} />
         <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
         <Routes>
@@ -186,7 +187,7 @@ function App() {
           <Route path="/school-bus" element={<SchoolBus />} />
 
           <Route path="/mining" element={<Mining />} />
-
+          <Route path="/home" element={<Homepage />} />
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
             return (
