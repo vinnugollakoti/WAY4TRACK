@@ -46,7 +46,6 @@ import ApiService, {
 } from "./components/Services/ApiServices";
 import { CartProvider } from "./contexts/CartContext";
 
-
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [products, setProducts] = useState([]);
@@ -186,7 +185,7 @@ function App() {
           <Route path="/theme2" element={<ProductTheme2 />} />
           <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
-          <Route path="/school-bus" element={<SchoolBus />} />
+           <Route path="/school-bus" element={<SchoolBus />} />
           <Route path ="/bike" element={<Bike />} />
           <Route path="/mining" element={<Mining />} />
 
@@ -205,7 +204,7 @@ function App() {
         </Routes>
 
         {/* Add Footer here */}
-        {/* <Footer /> */}
+        <Footer />
       </Router>
     </CartProvider>
   );
