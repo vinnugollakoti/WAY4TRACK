@@ -13,13 +13,13 @@ import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
 import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import RegisterClient from "./components/RegisterClient/RegisterClient";
-import Navbar from "./components/Navbar/Navbar";
+// import Navbar from "./components/Navbar/Navbar";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute/PublicRoute";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
-import Footer from "./components/footer/Footer";
-import About from "./components/about/AboutUs"; // Import your About component
+// import Footer from "./components/footer/Footer"; // Should be designed
+// import About from "./components/about/AboutUs"; // Import your About component
 import Contact from "./components/contact/ContactPage";
 import Hero from "./components/careers/Hero";
 // import Homepage from "./components/Home/Homepage";
@@ -29,6 +29,9 @@ import BlogDetail from "./components/Blogs/BlogDetail";
 import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import ProductTheme4 from "./components/ProductTheme4/index";
 import SchoolBus from "./components/New_Templates/school_bus";
+import Bike from "./components/New_Templates/Bike"
+import AboutUs from "./components/New_Templates/About"
+import Mining from "./components/New_Templates/Mining"
 
 import "./App.css";
 
@@ -111,7 +114,7 @@ function App() {
   return (
     <CartProvider>
       <Router>
-        <Navbar onCartClick={() => setCartOpen(true)} />
+        {/* <Navbar onCartClick={() => setCartOpen(true)} /> */}
         <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
         <Routes>
@@ -169,7 +172,7 @@ function App() {
           />
           <Route path="/register-client" element={<RegisterClient />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/Careers" element={<Hero />} />
@@ -183,6 +186,8 @@ function App() {
           <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
            <Route path="/school-bus" element={<SchoolBus />} />
+          <Route path ="/bike" element={<Bike />} />
+          <Route path="/mining" element={<Mining />} />
 
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
