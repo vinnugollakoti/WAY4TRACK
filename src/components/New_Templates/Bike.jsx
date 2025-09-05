@@ -39,9 +39,7 @@ const Bike = () => {
       <Navbar />
       <img src="/images/bike-banner.jpg" alt="" className="hero-bike" />
       <center>
-        <h1 className="heading">
-          Curious to know about our Bike GPS ?
-        </h1>
+        <h1 className="heading">Curious to know about our Bike GPS ?</h1>
         <p className="curios-line">
           The Basic GPS Tracking Device provides 2G and 4G tracking, geo-fencing, alerts, and trip history with motion-triggered reporting and remote configuration.
         </p>

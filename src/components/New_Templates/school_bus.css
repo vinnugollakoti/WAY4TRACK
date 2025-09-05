@@ -1,6 +1,7 @@
-body {
+
+.schoolbus-body {
     margin: 0;
-    padding: 4% 4% 1% 4%;
+    padding: 1% 4% 1% 4%;
     background-color: #f9f9f9;
 }
 
@@ -939,3 +940,4 @@ body {
         border-bottom: none;
     }
 }
+

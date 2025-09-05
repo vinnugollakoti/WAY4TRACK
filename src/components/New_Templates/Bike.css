@@ -347,3 +347,121 @@
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+
+/* Smooth fade-in on load */
+.body {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Hero image zoom effect */
+.hero-bike {
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+.hero-bike:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+/* Section headings pop */
+.heading, .gps-tracking-dashboard-heading, .gps-communications-heading {
+  animation: slideUp 1s ease;
+  position: relative;
+}
+.heading::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #60A442;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  animation: growBar 1.5s ease forwards;
+}
+
+/* Card hover lift */
+.main-cards-1, .main-cards-2, .main-cards-3,
+.six-cards-1, .six-cards-2, .six-cards-3,
+.gps-tracking-card-1, .gps-tracking-card-2,
+.points-card-points-div-1, .points-card-points-div-1-start,
+.testimonial-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.main-cards-1:hover, .main-cards-2:hover, .main-cards-3:hover,
+.six-cards-1:hover, .six-cards-2:hover, .six-cards-3:hover,
+.gps-tracking-card-1:hover, .gps-tracking-card-2:hover,
+.points-card-points-div-1:hover, .points-card-points-div-1-start:hover,
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Buttons */
+.gps-know-more-btn {
+  transition: all 0.3s ease;
+}
+.gps-know-more-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(96,164,66,0.5);
+}
+
+/* Poster zoom-in */
+.poster-bike-last {
+  transition: transform 0.6s ease;
+}
+.poster-bike-last:hover {
+  transform: scale(1.02);
+}
+
+/* Testimonials scroll speed & smooth */
+.testimonials-scroll {
+  animation: scrollSide 30s linear infinite;
+}
+.testimonials-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes growBar {
+  from { width: 0; }
+  to   { width: 60px; }
+}
+
+/* Typing effect for heading */
+.heading {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #60A442;
+  width: 0;
+  animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+}
+
+/* Paragraph fade-in with slight delay */
+.curios-line {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1.5s ease forwards;
+  animation-delay: 3.2s; /* starts after heading types */
+}
+
+/* Animations */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
