@@ -182,7 +182,7 @@ function App() {
           <Route path="/theme2" element={<ProductTheme2 />} />
           <Route path="/theme3" element={<ProductTheme3 />} />
           <Route path="/theme4" element={<ProductTheme4 />} />
-          <Route path="/school-bus" element={<SchoolBus />} />
+           <Route path="/school-bus" element={<SchoolBus />} />
 
           {products.map((product) => {
             const ThemeComponent = getThemeComponent(product.layoutType);
