@@ -15,7 +15,7 @@ function Mining() {
   };
 
   return (
-    <div>
+    <div className="mining-body">
       {/* Landing Section */}
       <div className="mining-hero">
         <img
