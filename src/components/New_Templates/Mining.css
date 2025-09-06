@@ -30,17 +30,18 @@ body, html {
 .mining-intro-heading h1 {
   color: #60A442;
   font-weight: 600;
-  font-size: 56px;
+  font-size: 30px;
   line-height: 60px;
   text-align: center;
   letter-spacing: -0.28px;
 }
 
+
 .mining-intro-text {
   text-align: center;
   color: black;
   letter-spacing: -0.28px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 510;
   line-height: 33px;
 }
@@ -481,7 +482,7 @@ body, html {
   top: 0;
   width: 2px;
   height: 100%;
-  background: #F3C787;
+  background: #60A342;
   border-radius: 2px;
   z-index: 1;
 }
@@ -540,11 +541,12 @@ body, html {
 
 .mining-benefits-section h3{
   color: #60A442;
+  font-size: 25px;
 }
 
 .mining-benefits-header {
   color: #60A442;
-  font-size: 56px;
+  font-size: 30px;
   font-weight: 600;
   margin-left: 7%;
   margin-bottom: 48px;
@@ -607,7 +609,7 @@ body, html {
 
 .mining-benefit-title {
   color: #60A442;
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 500;
   margin-bottom: 18px;
   font-family: 'Inter', sans-serif;
@@ -620,7 +622,7 @@ body, html {
 
 .mining-benefit-desc {
   color: #222;
-  font-size: 20px;
+  font-size: 18px;
   font-family: 'Inter', sans-serif;
   margin-bottom: 32px;
   text-align: left;

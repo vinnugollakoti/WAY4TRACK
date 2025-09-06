@@ -17,14 +17,14 @@
 }
 
 .school-bus-content-1 h1 {
-    font-size: 48px;
+    font-size: 38px;
     color: #60A442;
     margin-bottom: 32px;
     font-weight: 500;
 }
 
 .school-bus-content-2 p {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: black;
     line-height: 1.7;
 }
@@ -51,7 +51,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 300px;
+    height: 250px;
     transition: box-shadow 0.2s;
 }
 
@@ -60,8 +60,8 @@
 }
 
 .school-bus-feature-img {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     margin-bottom: 18px;
     background: #fff;
     border-radius: 12px;
@@ -71,14 +71,14 @@
 }
 
 .school-bus-feature-title {
-    font-size: 24px;
+    font-size: 19px;
     font-weight: 600;
     color: #60A442;
     margin-bottom: 12px;
 }
 
 .school-bus-feature-desc {
-    font-size: 16px;
+    font-size: 14px;
     color: #00000069;
     /* line-height: 1.6; */
 }
@@ -98,7 +98,7 @@
 
 .school-bus-app-card {
     background: linear-gradient(135deg, #60A442 0%, #8fd19c 100%);
-    border-radius: 32px;
+    border-radius: 10px;
     box-shadow: 0 4px 24px rgba(96, 164, 66, 0.13);
     padding: 40px 28px 0px 28px;
     display: flex;
@@ -116,17 +116,17 @@
 }
 
 .school-bus-app-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
     text-align: center;
     letter-spacing: -1px;
 }
 
 .school-bus-app-desc {
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 300;
-    margin-bottom: 32px;
+    margin-bottom: 22px;
     text-align: center;
     line-height: 1.7;
     color: #fff;
@@ -134,20 +134,20 @@
 }
 
 .school-bus-app-btn {
-    margin-bottom: 32px;
+    margin-bottom: 22px;
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: 50%;
 }
 
 .school-bus-app-btn button {
     background: #fff;
     color: #222;
-    font-size: 1.08rem;
+    font-size: 0.8rem;
     font-weight: 500;
     border: none;
     border-radius: 22px;
-    padding: 12px 32px;
+    padding: 8px 22px;
     box-shadow: 0 4px 16px rgba(96, 164, 66, 0.18);
     cursor: pointer;
     display: flex;
@@ -162,7 +162,7 @@
 }
 
 .school-bus-app-btn-arrow {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
     margin-left: 4px;
     background-color: black;
@@ -194,9 +194,9 @@
     display: flex;
     justify-content: space-between;
     background: #60A442;
-    border-radius: 32px;
+    border-radius: 22px;
     box-shadow: 0 4px 24px rgba(96, 164, 66, 0.13);
-    padding: 40px;
+    padding: 20px;
     align-items: center;
 }
 
@@ -208,7 +208,7 @@
 }
 
 .school-bus-demo-title {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #fff;
     margin-bottom: 8px;
@@ -216,7 +216,7 @@
 }
 
 .school-bus-demo-desc {
-    font-size: 1.18rem;
+    font-size: 1rem;
     color: #fff;
     opacity: 0.95;
     margin-bottom: 8px;
@@ -255,8 +255,8 @@
 
 .school-bus-demo-form {
     background: #357a2a;
-    border-radius: 28px;
-    padding: 32px 28px;
+    border-radius: 22px;
+    padding: 22px 22px;
     display: flex;
     flex-direction: column;
     min-width: 320px;
@@ -265,7 +265,7 @@
 .school-bus-demo-form form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 5px;
 }
 
 .school-bus-demo-form label {
@@ -299,7 +299,7 @@
     font-weight: 500;
     border: none;
     border-radius: 40px;
-    padding: 12px 32px;
+    padding: 7px 12px;
     box-shadow: 0 4px 16px rgba(96, 164, 66, 0.18);
     display: flex;
     align-items: center;
@@ -312,7 +312,7 @@
     background:linear-gradient(179.99deg, #60A442 0.01%, #DCFFCC 168.58%);
     border-radius: 24px;
     margin: 48px auto 0 auto;
-    padding: 48px 36px 36px 36px;
+    padding: 8px 36px 36px 36px;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -395,7 +395,7 @@
 }
 
 .manager-app-advantages-desc {
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: #605F5F;
     opacity: 0.95;
     line-height: 1.6;
@@ -406,7 +406,7 @@
     border-radius: 24px;
     padding: 14px;
     margin: 0 auto;
-    max-width: 1100px;
+    max-width: 1000px;
 }
 
 .manager-app-advantages-grid {
@@ -445,13 +445,13 @@
 }
 
 .manager-app-advantage-title {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 400;
     color: black;
 }
 
 .manager-app-advantage-desc {
-    font-size: 16px;
+    font-size: 14px;
     color: #605F5F;
 }
 
@@ -520,7 +520,7 @@
 }
 
 .manager-app-features-adv-desc {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: #eafbe2;
     opacity: 0.95;
     line-height: 1.5;
@@ -530,8 +530,9 @@
 .manager-app-image-section {
     background: #fff;
     border-radius: 24px;
-    padding: 12px;
+    padding: 8px;
     margin: 0px auto;
+    width: 50%;
     /* max-width: 1100px; */
     box-shadow: 0 4px 24px rgba(96, 164, 66, 0.13);
 }
