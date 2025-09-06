@@ -45,7 +45,6 @@ import ApiService, {
   initialAuthState,
 } from "./components/Services/ApiServices";
 import { CartProvider } from "./contexts/CartContext";
-import Mining from "./components/New_Templates/Mining";
 import Homepage from "./components/New_Templates/Home";
 
 function App() {

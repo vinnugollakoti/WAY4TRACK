@@ -5,13 +5,13 @@ function Homepage() {
   // Carousel state management
   const [currentSlide, setCurrentSlide] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  
+
   const images = [
     "/images/mining1.png",
     "/images/Rectangle 16.png",
     "/images/Rectangle 17.png",
     "/images/Rectangle 18.png",
-    "/images/Rectangle 19.png"
+    "/images/Rectangle 19.png",
   ];
 
   // Auto-advance carousel
@@ -29,16 +29,18 @@ function Homepage() {
   };
 
   const goToPrevSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + images.length) % images.length);
+    setCurrentSlide(
+      (prevSlide) => (prevSlide - 1 + images.length) % images.length
+    );
   };
 
   // Quantity control functions
   const incrementQuantity = () => {
-    setQuantity(prev => prev + 1);
+    setQuantity((prev) => prev + 1);
   };
 
   const decrementQuantity = () => {
-    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
   return (
@@ -47,25 +49,32 @@ function Homepage() {
       <div className="homepage-intro">
         <div className="carousel-container">
           {/* Navigation Arrows */}
-          <button className="carousel-arrow carousel-arrow-left" onClick={goToPrevSlide}>
+          <button
+            className="carousel-arrow carousel-arrow-left"
+            onClick={goToPrevSlide}
+          >
             &#8249; {/* Left arrow character */}
           </button>
-          <button className="carousel-arrow carousel-arrow-right" onClick={goToNextSlide}>
-            &#8250; {/* Right arrow character */}
-          </button>
-          
           {images.map((image, index) => (
             <div
               key={index}
-              className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}
+              className={`carousel-slide ${
+                index === currentSlide ? "active" : ""
+              }`}
             >
-              <img 
-                className="homepage-intro-img" 
-                src={image} 
-                alt={`Slide ${index + 1}`} 
+              <img
+                className="homepage-intro-img"
+                src={image}
+                alt={`Slide ${index + 1}`}
               />
             </div>
           ))}
+          <button
+            className="carousel-arrow carousel-arrow-right"
+            onClick={goToNextSlide}
+          >
+            &#8250; {/* Right arrow character */}
+          </button>
         </div>
       </div>
 
@@ -314,14 +323,20 @@ function Homepage() {
                   </div>
                   <div className="mining-product-quantity-btns">
                     <div className="mining-product-quantity-btns-container">
-                      <button className="quantity-up" onClick={incrementQuantity}>
+                      <button
+                        className="quantity-up"
+                        onClick={incrementQuantity}
+                      >
                         <img
                           className="arrow-up"
                           src="/images/up-arrows.png"
                           alt="Increase quantity"
                         />
                       </button>
-                      <button className="quantity-down" onClick={decrementQuantity}>
+                      <button
+                        className="quantity-down"
+                        onClick={decrementQuantity}
+                      >
                         <img
                           className="arrow-down"
                           src="/images/arrow-down-sign-to-navigate.png"
@@ -354,7 +369,9 @@ function Homepage() {
               alt="Government GPS"
               className="featuree-img"
             />
-            <h3 className="featuree-title">Government-Integrated GPS Solutions</h3>
+            <h3 className="featuree-title">
+              Government-Integrated GPS Solutions
+            </h3>
             <p className="featuree-text">
               "AIS-140 certified trackers with real-time data sharing for
               compliance and smooth fleet operations"
@@ -414,66 +431,62 @@ function Homepage() {
         <div className="footer-top">
           <div className="footer-column">
             <h4>Company</h4>
-            <ul>
-              <li>
-                <a href="#">About</a>
-              </li>
-              <li>
-                <a href="#">Our Products</a>
-              </li>
-              <li>
-                <a href="#">Careers</a>
-              </li>
-              <li>
-                <a href="#">Blogs</a>
-              </li>
-            </ul>
+            <p>
+              <a href="#">About</a>
+            </p>
+            <p>
+              <a href="#">Our Products</a>
+            </p>
+            <p>
+              <a href="#">Careers</a>
+            </p>
+            <p>
+              <a href="#">Blogs</a>
+            </p>
           </div>
 
           <div className="footer-column">
             <h4>Support</h4>
-            <ul>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-              <li>
-                <a href="#">Whatsapp</a>
-              </li>
-            </ul>
+            <p>
+              <a href="#">Contact Us</a>
+            </p>
+            <p>
+              <a href="#">Whatsapp</a>
+            </p>
           </div>
 
           <div className="footer-column">
             <h4>Support</h4>
-            <ul>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-              <li>
-                <a href="#">Whatsapp</a>
-              </li>
-            </ul>
+            <p>
+              <a href="#">Contact Us</a>
+            </p>
+            <p>
+              <a href="#">Whatsapp</a>
+            </p>
           </div>
 
           <div className="footer-column">
             <h4>Follow Us</h4>
-            <ul>
-              <li>
-                <a href="#">Instagram</a>
-              </li>
-              <li>
-                <a href="#">Facebook</a>
-              </li>
-              <li>
-                <a href="#">Twitter</a>
-              </li>
-              <li>
-                <a href="#">Youtube</a>
-              </li>
-            </ul>
+            <p>
+              <a href="#">Instagram</a>
+            </p>
+            <p>
+              <a href="#">Facebook</a>
+            </p>
+            <p>
+              <a href="#">Twitter</a>
+            </p>
+            <p>
+              <a href="#">Youtube</a>
+            </p>
           </div>
         </div>
 
-        <div className="footer-logo">Way4Track</div>
+        <div className="footer-logo">
+          <h1>
+            Way4Track
+          </h1>
+        </div>
 
         <div className="footer-bottom">
           <p>
