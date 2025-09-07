@@ -1,8 +1,10 @@
-import { Nav } from "react-bootstrap";
+
 import "./Bike.css";
 import Navbar from "./Navbar";
+import  { useState } from "react";
 
 const Bike = () => {
+  const [selectedTruckInfo, setSelectedTruckInfo] = useState(null);
   const testimonials = [
     { 
       name: "S E", 
@@ -66,8 +68,53 @@ const Bike = () => {
     </div>
 
     {/* RAHULS HAD THIS SECTION */}
-    <div>
-    </div>
+    <div className="mining-truck-info-section">
+        <div className="mining-truck-info-left">
+          <div
+            className="mining-truck-info-block"
+            onClick={() => setSelectedTruckInfo(1)}
+          >
+            <p className="mining-truck-info-p">
+              Supports a wide range of 9–36V DC, making it compatible with
+              multiple mining vehicles
+            </p>
+          </div>
+          <hr className="mining-truck-info-divider" />
+          <div
+            className="mining-truck-info-block"
+            onClick={() => setSelectedTruckInfo(2)}
+          >
+            <p className="mining-truck-info-p">
+              Equipped with 4 hours battery, ensuring uninterrupted operation
+              with a minimum of 4 hours backup as mandated by AIS-140 standards.
+            </p>
+          </div>
+          <hr className="mining-truck-info-divider" />
+          <div
+            className="mining-truck-info-block"
+            onClick={() => setSelectedTruckInfo(3)}
+          >
+            <p className="mining-truck-info-p">
+              Water-resistant AIS-140 devices with an IP67 rating are ideal for
+              mining vehicles, as they withstand dust, mud, and water, ensuring
+              reliable real-time tracking even in tough environments.
+            </p>
+          </div>
+        </div>
+        <div className="mining-truck-info-right">
+          <img
+            className={
+              selectedTruckInfo === 3 ? "iphone-truck" : "default-truck"
+            }
+            src={
+              selectedTruckInfo === 3
+                ? "/images/iphone-mine.png"
+                : "/images/mining-page-truck.png"
+            }
+            alt="Mining Trucks"
+          />
+        </div>
+      </div>
 
     {/* 6 cards section */}
     <div className="six-cards-main">
@@ -158,6 +205,131 @@ const Bike = () => {
     </div>
 
     {/* TAKE FROM RAHUL */}
+    <div className="mining-benefits-section">
+        <h2 className="mining-benefits-header">
+          Benefits of AIS-140 GPS Tracker
+        </h2>
+        <div className="mining-benefits-grid">
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img src="/images/legal.png" alt="Legal Compliance" />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Legal Compliance</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              AIS-140 certified GPS devices are mandatory in India for
+              commercial and public transport vehicles to meet government
+              standards.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img
+                src="/images/government-integration.png"
+                alt="Government Integration"
+              />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Government Integration</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              Live location and travel data are automatically shared with state
+              and national control centers.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img
+                className="mining-benefit-icon-passenger"
+                src="/images/delivery-truck.png"
+                alt="Passenger Safety"
+              />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Passenger Safety</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              SOS button enables instant emergency alerts to ensure quick help
+              during accidents or threats.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img src="/images/fleet.png" alt="Fleet Efficiency" />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Fleet Efficiency</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              Real-time tracking improves routes, reduces downtime, and boosts
+              productivity for fleets and trucks.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img
+                src="/images/shop-specialist-icon.png"
+                alt="Shop Specialist"
+              />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Shop live with a Specialist</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              Let us guide you live over video and answer all of your questions.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img src="/images/personal-setup-icon.png" alt="Personal Setup" />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Join an online Personal Setup session</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              Talk one on one with a Specialist to set up your device and
+              discover new features.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+          <div className="mining-benefit-card">
+            <div className="mining-benefit-icon">
+              <img
+                src="/images/explore-experience-icon.png"
+                alt="Explore Experience"
+              />
+            </div>
+            <div className="mining-benefit-title">
+              <h3>Explore new experiences around you</h3>
+            </div>
+            <div className="mining-benefit-desc">
+              Use the app to find personal workshops and more.
+            </div>
+            <button className="mining-benefit-plus">
+              <span>+</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
 
     <div className="points-card-main">
       <img src="/images/bike3.png" alt="" className="gps-tracking-img" />
