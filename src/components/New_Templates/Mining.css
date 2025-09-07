@@ -5,12 +5,14 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: "Inter", sans-serif;
+}
+.mining-body {
   background-color: white;
 }
 
 .mining-hero {
   width: 100%;
-  padding: 4.3% 0;
+  /* padding: 4.3% 0; */
 }
 
 .mining-hero-img {

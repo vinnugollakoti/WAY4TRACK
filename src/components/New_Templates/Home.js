@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Navbar from "./Navbar";
 import "./Homepage.css";
 
 function Homepage() {
@@ -7,7 +8,7 @@ function Homepage() {
   const [quantity, setQuantity] = useState(1);
 
   const images = [
-    "/images/mining1.png",
+    "/images/Group 92.png",
     "/images/Rectangle 16.png",
     "/images/Rectangle 17.png",
     "/images/Rectangle 18.png",
@@ -45,6 +46,7 @@ function Homepage() {
 
   return (
     <div className="homepage-root">
+      <Navbar/>
       {/* Carousel Section */}
       <div className="homepage-intro">
         <div className="carousel-container">
