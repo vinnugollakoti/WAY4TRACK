@@ -1,3 +1,7 @@
+.navbar-schoolbus{
+    background-color: white;
+}
+
 
 .schoolbus-body {
     margin: 0;
@@ -941,3 +945,59 @@
     }
 }
 
+
+
+.footer-school-bus {
+    background: #60A442;
+    color: white;
+    padding: 40px 60px;
+  }
+  
+  .footer-columns {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .footer-columnn {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-columnn h4 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 25px;
+  }
+  
+  .footer-columnn a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.9;
+  }
+  
+  .footer-columnn a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  
+  .footer-logo-title {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+  }
+
+  .footer-logo-title h1{
+    font-size: 250px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    color: white;
+  }
+  
+  .footer-bottom-content {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    color: #FFFFFF82;
+    letter-spacing: -5%;
+  }
