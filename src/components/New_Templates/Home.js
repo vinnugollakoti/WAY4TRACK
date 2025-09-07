@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
 import "./Homepage.css";
+import { motion } from "framer-motion";
+import Navbar from "./Navbar";
 
 function Homepage() {
   // Carousel state management
@@ -8,7 +9,7 @@ function Homepage() {
   const [quantity, setQuantity] = useState(1);
 
   const images = [
-    "/images/Group 92.png",
+    "/images/mining1.png",
     "/images/Rectangle 16.png",
     "/images/Rectangle 17.png",
     "/images/Rectangle 18.png",
@@ -46,7 +47,7 @@ function Homepage() {
 
   return (
     <div className="homepage-root">
-      <Navbar/>
+      <Navbar />
       {/* Carousel Section */}
       <div className="homepage-intro">
         <div className="carousel-container">
@@ -123,72 +124,46 @@ function Homepage() {
       <section className="homepage-solutions">
         <h2 className="solutions-title">Our Solutions -</h2>
         <div className="solutions-list">
-          <div className="solution-card">
-            <div className="solution-left">
-              <h3 className="solution-heading">Tire Management</h3>
-              <p className="solution-desc">
-                Tire management systems use sensors to monitor tire pressure,
-                temperature, and wear in real time, helping prevent sudden
-                failures. They also calculate tire life based on mileage, load,
-                and road conditions, sending alerts when replacement is due.
-                This reduces fuel consumption, improves safety, and extends
-                overall tire lifespan.
-              </p>
-              <button className="solution-cta">Know more</button>
-            </div>
-            <div className="solution-right">
-              <img src="/images/tire-1.png" alt="Tire" />
-            </div>
-          </div>
-
-          <div className="solution-card">
-            <div className="solution-left">
-              <h3 className="solution-heading">Vehicle Health Management</h3>
-              <p className="solution-desc">
-                Vehicle health management tracks key parameters like engine
-                temperature, oil pressure, and battery status in real time to
-                detect faults early. It reduces breakdowns, lowers maintenance
-                costs, and improves overall vehicle reliability and safety.
-              </p>
-              <button className="solution-cta">Know more</button>
-            </div>
-            <div className="solution-right">
-              <img src="/images/vehicle-health.png" alt="Vehicle Health" />
-            </div>
-          </div>
-
-          <div className="solution-card">
-            <div className="solution-left">
-              <h3 className="solution-heading">AIS-140 VLTD</h3>
-              <p className="solution-desc">
-                VLTD GPS trackers provide real-time vehicle tracking, route
-                monitoring, and emergency SOS alerts to ensure passenger and
-                driver safety. They help authorities and fleet owners improve
-                compliance, reduce downtime, and enhance overall operational
-                efficiency.
-              </p>
-              <button className="solution-cta">Know more</button>
-            </div>
-            <div className="solution-right">
-              <img src="/images/Column.png" alt="AIS-140" />
-            </div>
-          </div>
-
-          <div className="solution-card">
-            <div className="solution-left">
-              <h3 className="solution-heading">Smart Waste Management</h3>
-              <p className="solution-desc">
-                Smart waste management uses IoT-enabled bins and sensors to
-                monitor waste levels in real time and optimize collection
-                routes. This reduces operational costs, prevents overflow, and
-                promotes cleaner, more sustainable cities.
-              </p>
-              <button className="solution-cta">Know more</button>
-            </div>
-            <div className="solution-right">
-              <img src="/images/9-42143900.png" alt="Smart Waste" />
-            </div>
-          </div>
+          {[
+            {
+              title: "Tire Management",
+              desc: "Tire management systems use sensors to monitor tire pressure, temperature, and wear in real time...",
+              img: "/images/tire-1.png",
+            },
+            {
+              title: "Vehicle Health Management",
+              desc: "Tracks engine temp, oil pressure, and battery status in real time to detect faults early...",
+              img: "/images/vehicle-health.png",
+            },
+            {
+              title: "AIS-140 VLTD",
+              desc: "VLTD GPS trackers provide real-time vehicle tracking, route monitoring, and SOS alerts...",
+              img: "/images/Column.png",
+            },
+            {
+              title: "Smart Waste Management",
+              desc: "IoT-enabled bins monitor waste levels in real time and optimize collection routes...",
+              img: "/images/9-42143900.png",
+            },
+          ].map((card, index) => (
+            <motion.div
+              key={index}
+              className="solution-card"
+              initial={{ opacity: 0, y: 100 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              <div className="solution-left">
+                <h3 className="solution-heading">{card.title}</h3>
+                <p className="solution-desc">{card.desc}</p>
+                <button className="solution-cta">Know more</button>
+              </div>
+              <div className="solution-right">
+                <img src={card.img} alt={card.title} />
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
