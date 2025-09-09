@@ -222,9 +222,6 @@ const Bike = () => {
               commercial and public transport vehicles to meet government
               standards.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -240,9 +237,6 @@ const Bike = () => {
               Live location and travel data are automatically shared with state
               and national control centers.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -259,9 +253,6 @@ const Bike = () => {
               SOS button enables instant emergency alerts to ensure quick help
               during accidents or threats.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -274,9 +265,6 @@ const Bike = () => {
               Real-time tracking improves routes, reduces downtime, and boosts
               productivity for fleets and trucks.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -291,9 +279,6 @@ const Bike = () => {
             <div className="mining-benefit-desc">
               Let us guide you live over video and answer all of your questions.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -306,9 +291,6 @@ const Bike = () => {
               Talk one on one with a Specialist to set up your device and
               discover new features.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -323,9 +305,6 @@ const Bike = () => {
             <div className="mining-benefit-desc">
               Use the app to find personal workshops and more.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
         </div>
       </div>

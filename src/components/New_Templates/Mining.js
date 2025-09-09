@@ -333,9 +333,6 @@ function Mining() {
               commercial and public transport vehicles to meet government
               standards.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -351,9 +348,6 @@ function Mining() {
               Live location and travel data are automatically shared with state
               and national control centers.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -370,9 +364,6 @@ function Mining() {
               SOS button enables instant emergency alerts to ensure quick help
               during accidents or threats.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -385,9 +376,6 @@ function Mining() {
               Real-time tracking improves routes, reduces downtime, and boosts
               productivity for fleets and trucks.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -402,9 +390,6 @@ function Mining() {
             <div className="mining-benefit-desc">
               Let us guide you live over video and answer all of your questions.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -417,9 +402,6 @@ function Mining() {
               Talk one on one with a Specialist to set up your device and
               discover new features.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
           <div className="mining-benefit-card">
             <div className="mining-benefit-icon">
@@ -434,9 +416,6 @@ function Mining() {
             <div className="mining-benefit-desc">
               Use the app to find personal workshops and more.
             </div>
-            <button className="mining-benefit-plus">
-              <span>+</span>
-            </button>
           </div>
         </div>
       </div>
@@ -456,64 +435,34 @@ function Mining() {
         </div>
         <div className="mining-solutions-grid">
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="Govt Approved"
-              className="mining-solutions-icon"
-            />
             <span>
               Govt Approved (AIS-140 Certified) – Mandatory for all mining
               vehicles.
             </span>
           </div>
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="Real-Time Tracking"
-              className="mining-solutions-icon"
-            />
             <span>
               Real-Time Tracking & Route Playback – Always know where your
               vehicle is.
             </span>
           </div>
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="Dual eSIM"
-              className="mining-solutions-icon"
-            />
             <span>
               Dual eSIM Support – Continuous connectivity without interruptions.
             </span>
           </div>
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="SOS/Panic"
-              className="mining-solutions-icon"
-            />
             <span>
               SOS/Panic Button – Instant emergency alerts to control centers.
             </span>
           </div>
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="Waterproof"
-              className="mining-solutions-icon"
-            />
             <span>
               Even in rain or wet environments, waterproof GPS ensures
               uninterrupted real-time tracking of mining vehicles.
             </span>
           </div>
           <div className="mining-solutions-card">
-            <img
-              src="/images/emergency_share.png"
-              alt="Backup Battery"
-              className="mining-solutions-icon"
-            />
             <span>4 Hours Backup Battery – Works even during power cuts.</span>
           </div>
         </div>
