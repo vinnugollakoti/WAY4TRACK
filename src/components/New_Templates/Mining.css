@@ -517,7 +517,7 @@ body, html {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding-right: 2%;
 }
 
@@ -715,6 +715,7 @@ body, html {
   font-size: 25px;
   color: #222;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  font-size: 20px;
 }
 
 .mining-solutions-icon {
@@ -762,4 +763,557 @@ body, html {
 .mining-product-overview-header h2{
   font-size: 56px;
   color: #60A442;
+}
+
+/* Responsive additions to existing CSS */
+@media (max-width: 1200px) {
+  .mining-intro-heading h1 {
+    font-size: 28px;
+    line-height: 1.4;
+  }
+  
+  .mining-intro-text p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .mining-feature-title p,
+  .mining-feature-top-title p,
+  .mining-feature-card-title p {
+    font-size: 22px;
+  }
+  
+  .mining-product h2 {
+    font-size: 32px;
+  }
+  
+  .mining-product-features li {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 992px) {
+  .mining-intro {
+    padding: 0 8%;
+  }
+  
+  .mining-features {
+    flex-direction: column;
+  }
+  
+  .mining-feature-left,
+  .mining-feature-right {
+    width: 100%;
+  }
+  
+  .mining-feature-top {
+    flex-direction: column;
+    padding: 30px;
+  }
+  
+  .mining-feature-bottom {
+    flex-direction: column;
+  }
+  
+  .mining-props {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .mining-prop-left,
+  .mining-prop-middle,
+  .mining-prop-right {
+    min-height: auto;
+    padding: 25px;
+  }
+  
+  .mining-product {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .mining-product-img {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .mining-product-img img {
+    max-width: 80%;
+    height: auto;
+  }
+  
+  .mining-product-quantity-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .mining-product-cart-btn,
+  .mining-product-buy-btn {
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .mining-product-cart-btn button,
+  .mining-product-buy-btn button {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .mining-truck-info-section {
+    flex-direction: column;
+  }
+  
+  .mining-truck-info-left {
+    margin-bottom: 30px;
+  }
+  
+  .mining-benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .mining-benefit-card {
+    height: auto;
+    padding: 30px;
+  }
+  
+  .mining-solutions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mining-product-overview-content {
+    flex-direction: column;
+  }
+  
+  .mining-product-overview-text {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  .mining-product-overview-image {
+    text-align: center;
+  }
+  
+  .mining-product-overview-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .footer-top {
+    flex-wrap: wrap;
+  }
+  
+  .footer-column {
+    flex: 1 0 50%;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mining-intro-heading h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+  
+  .mining-intro-text p {
+    font-size: 16px;
+  }
+  
+  .mining-feature-left,
+  .mining-feature-top,
+  .mining-feature-card {
+    padding: 20px;
+  }
+  
+  .mining-feature-title p,
+  .mining-feature-top-title p,
+  .mining-feature-card-title p {
+    font-size: 20px;
+  }
+  
+  .mining-product h2 {
+    font-size: 28px;
+  }
+  
+  .mining-product-features li {
+    font-size: 16px;
+  }
+  
+  .mining-product-order {
+    padding: 20px 15px;
+  }
+  
+  .mining-product-network-btns {
+    flex-wrap: wrap;
+  }
+  
+  .mining-truck-info-block {
+    font-size: 18px;
+    padding: 15px;
+  }
+  
+  .mining-benefits-header {
+    font-size: 26px;
+    margin-left: 5%;
+  }
+  
+  .mining-benefit-title h3 {
+    font-size: 22px;
+  }
+  
+  .mining-benefit-desc {
+    font-size: 16px;
+  }
+  
+  .mining-solutions-title {
+    font-size: 32px;
+  }
+  
+  .mining-solutions-card {
+    font-size: 18px;
+    padding: 20px;
+  }
+  
+  .mining-product-overview-header h2 {
+    font-size: 40px;
+  }
+  
+  .mining-product-overview-text h3 {
+    font-size: 26px;
+  }
+  
+  .mining-product-overview-text p {
+    font-size: 16px;
+  }
+  
+  .footer-column {
+    flex: 1 0 100%;
+  }
+  .mining-props {
+    display: none;
+  }
+  
+  .mining-prop-footer {
+    display: none;
+  }
+  .mining-feature-top {
+    flex-direction: column;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .mining-hero-img {
+    padding: 0 2%;
+  }
+  
+  .mining-intro {
+    padding: 0 5%;
+    margin-top: 2rem;
+  }
+  
+  .mining-intro-heading h1 {
+    font-size: 16px;
+    line-height: 1.2;
+  }
+  
+  .mining-intro-text p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  
+  .mining-features {
+    margin-top: 3rem;
+    padding: 0 7%;
+  }
+  
+  .mining-feature-title p,
+  .mining-feature-top-title p,
+  .mining-feature-card-title p {
+    font-size: 15px;
+  }
+  
+  .mining-feature-desc p,
+  .mining-feature-top-desc p,
+  .mining-feature-card-desc p {
+    font-size: 12px;
+  }
+  
+  .mining-gps-img {
+    margin-top: 3rem;
+  }
+  
+  .mining-props {
+    display: none;
+  }
+  
+  .mining-prop-footer {
+    display: none;
+  }
+  
+  .mining-product {
+    margin-top: 3rem;
+    padding: 15px;
+  }
+  
+  .mining-product h2 {
+    font-size: 24px;
+  }
+  
+  .mining-product-price p {
+    font-size: 12px;
+  }
+  
+  .mining-product-features li {
+    font-size: 12px;
+  }
+  
+  .mining-product-final-price {
+    font-size: 18px;
+  }
+  
+  .mining-product-quantity-selector {
+    width: 90px;
+    height: 60px;
+  }
+  
+  .mining-product-quantity-value p {
+    font-size: 20px;
+  }
+  
+  .mining-truck-info-section {
+    padding: 0 3%;
+    margin-top: 3rem;
+  }
+  
+  .mining-truck-info-block {
+    font-size: 14px;
+  }
+  
+  .mining-benefits-section {
+    padding: 60px 0;
+    margin-top: 2rem;
+  }
+  
+  .mining-benefits-header {
+    font-size: 15px;
+    margin-left: 3%;
+    margin-bottom: 30px;
+    text-align: left;
+  }
+  
+  .mining-benefits-grid {
+    margin-left: 3%;
+    gap: 15px;
+  }
+  
+  .mining-benefit-card {
+    padding: 20px;
+    min-width: 380px;
+  }
+  
+  .mining-benefit-title h3 {
+    font-size: 15px;
+  }
+  
+  .mining-benefit-desc {
+    font-size: 12px;
+  }
+  
+  .mining-benefit-icon{
+    width: 30px;
+  }
+  .mining-solutions-section {
+    padding: 40px 3%;
+  }
+  
+  .mining-solutions-subtitle {
+    font-size: 16px;
+  }
+  
+  .mining-solutions-title {
+    font-size: 14px;
+  }
+  
+  .mining-solutions-card {
+    font-size: 12px;
+    padding: 15px;
+  }
+  
+  .mining-product-overview {
+    padding: 60px 3%;
+    margin-top: 3rem;
+  }
+  
+  .mining-product-overview-header h2 {
+    font-size: 16px;
+  }
+  
+  .mining-product-overview-text h3 {
+    font-size: 14px;
+  }
+  
+  .mining-product-overview-text p {
+    font-size: 12px;
+  }
+  
+  .footer-top {
+    flex-direction: column;
+  }
+  
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-toggle {
+    display: block;
+  }
+  .mining-feature-left{
+    gap: 1rem;
+  }
+  .mining-product h2 {
+    font-size: 15px;
+  }
+  .mining-product p{
+    font-size: 13px;
+  }
+  .mining-product-network-btn button {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+  .footer-logo h1{
+    font-size: 24px;
+  }
+  .footer-bottom p{
+    font-size: 12px;
+  }
+  .mining-feature-icon{
+    width: 30px;
+  }
+  .mining-feature-top-icon{
+    width: 35px;
+  }
+  .mining-feature-card-icon{
+    width: 30px;
+  }
+  .mining-product-overview-text{
+    gap: 1rem;
+  }
+  .mining-product-overview{
+    gap: 1rem;
+  }
+  .iphone-truck{
+    width: 160px;
+  }
+}
+
+/* Mobile menu toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .nav-toggle {
+    display: block;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    z-index: 1000;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (max-width: 992px) {
+  .mining-truck-info-block {
+    padding: 20px 15px;
+    min-height: auto;
+  }
+  
+  .mining-product-cart-btn button,
+  .mining-product-buy-btn button {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .mining-benefit-plus {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+}
+
+/* High-resolution displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .mining-feature-icon img,
+  .mining-feature-top-icon img,
+  .mining-feature-card-icon img,
+  .mining-benefit-icon img,
+  .mining-solutions-icon {
+    transform: translateZ(0);
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Print styles */
+@media print {
+  .mining-body {
+    background: white;
+  }
+  
+  .navbar,
+  .mining-product-cart-btn,
+  .mining-product-buy-btn,
+  .mining-benefit-plus {
+    display: none !important;
+  }
+  
+  .mining-hero-img,
+  .mining-gps-img,
+  .mining-truck-info-right img,
+  .mining-product-img img,
+  .mining-solutions-hero img,
+  .mining-product-overview-image img {
+    filter: grayscale(100%);
+  }
+  
+  .mining-intro-heading h1,
+  .mining-feature-title p,
+  .mining-feature-top-title p,
+  .mining-feature-card-title p,
+  .mining-product-title h2,
+  .mining-benefit-title h3,
+  .mining-solutions-title,
+  .mining-product-overview-header h2,
+  .mining-product-overview-text h3 {
+    color: black !important;
+  }
 }

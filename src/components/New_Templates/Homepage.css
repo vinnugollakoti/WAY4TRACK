@@ -801,4 +801,11 @@
   }
   
 
-  
+@media (max-width: 576px) { 
+ .footer-logo h1{
+    font-size: 70px;
+ } 
+ .footer-top{
+    display: none;
+  }
+}
