@@ -70,7 +70,12 @@ function Mining() {
           <div className="mining-feature-top">
             <div className="mining-feature-top-content">
               <div className="mining-feature-top-icon">
-                <img src="/images/ambulance.png" alt="Real-Time Tracking" />
+                <div>
+                  <img src="/images/ambulance.png" alt="Real-Time Tracking" />
+                </div>
+                <div className="mining-feature-top-title">
+                  <p>Real-Time Tracking & Route Playback</p>
+                </div>
               </div>
               <div className="mining-feature-top-desc">
                 <p>
@@ -80,9 +85,6 @@ function Mining() {
                   in control with every trip, past or present."
                 </p>
               </div>
-            </div>
-            <div className="mining-feature-top-title">
-              <p>Real-Time Tracking & Route Playback</p>
             </div>
           </div>
 

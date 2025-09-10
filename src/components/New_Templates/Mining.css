@@ -765,6 +765,12 @@ body, html {
   color: #60A442;
 }
 
+.mining-feature-top-icon{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 /* Responsive additions to existing CSS */
 @media (max-width: 1200px) {
   .mining-intro-heading h1 {
