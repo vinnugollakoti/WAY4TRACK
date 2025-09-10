@@ -6,6 +6,7 @@ import "./App.css"
 import Bike from "./components/New_Templates/Bike"
 import Homepage from "./components/New_Templates/Home"
 import Mining from "./components/New_Templates/Mining"
+import ProductsOverview from "./components/New_Templates/ProductsOverview";
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -73,6 +74,10 @@ const App = () => {
         <Route
           path="/theme4/:id"
           element={<Mining websiteData={websiteData} />}
+        />
+        <Route
+          path="/product"
+          element={<ProductsOverview/>}
         />
       </Routes>
     </Router>
