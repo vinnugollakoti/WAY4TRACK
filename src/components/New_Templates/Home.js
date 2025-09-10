@@ -1,38 +1,97 @@
 import React, { useState, useEffect } from "react";
 import "./Homepage.css";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import Navbar from "./Navbar";
 
-function Homepage() {
+
+function Home({ websiteData }) {
   // Carousel state management
+  const [promotions, setPromotions] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
-  const images = [
-    "/images/mining1.png",
-    "/images/Rectangle 16.png",
-    "/images/Rectangle 17.png",
-    "/images/Rectangle 18.png",
-    "/images/Rectangle 19.png",
-  ];
+  // New session states
+  const [session1, setSession1] = useState([]);
+  const [session2, setSession2] = useState([]);
+  const [session3, setSession3] = useState([]);
+  const [session4, setSession4] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPromotions = async () => {
+      try {
+        const payload = {
+          companyCode: "WAY4TRACK",
+          unitCode: "WAY4",
+        };
+
+        const response = await axios.post(
+          "https://sharontelematics.org/api/promotion/getAllPromotions",
+          payload
+        );
+        const data = response.data.data;
+        setPromotions(data);
+
+        // Helper to get latest promotion by theme
+        const getLatestListByTheme = (theme) => {
+          const latest = data
+            .filter(item => item.theme === theme)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+          return latest?.list || [];
+        };
+
+        setSession1(getLatestListByTheme("Session-1"));
+        setSession2(getLatestListByTheme("Session-2"));
+        setSession3(getLatestListByTheme("Session-3"));
+        setSession4(getLatestListByTheme("Session-4"));
+
+      } catch (error) {
+        console.error("Error fetching promotions:", error);
+      }
+    };
+
+    fetchPromotions();
+  }, []);
+
+  useEffect(() => {
+    console.log("Promotions data:", promotions);
+    console.log("Session 1:", session1);
+    console.log("Session 2:", session2);
+    console.log("Session 3:", session3);
+    console.log("Session 4:", session4);;
+  }, [promotions]);
+
+  useEffect(() => {
+    console.log("Website Data:", websiteData);
+  }, [websiteData]);
+
 
   // Auto-advance carousel
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % websiteData.length);
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [websiteData.length]);
+
+  const handleSlideClick = (item) => {
+    navigate(`/${item.layoutType}/${item.id}`);
+  };
 
   // Manual navigation functions
   const goToNextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % websiteData.length);
   };
+
+
 
   const goToPrevSlide = () => {
     setCurrentSlide(
-      (prevSlide) => (prevSlide - 1 + images.length) % images.length
+      (prevSlide) => (prevSlide - 1 + websiteData.length) % websiteData.length
     );
   };
 
@@ -58,17 +117,16 @@ function Homepage() {
           >
             &#8249; {/* Left arrow character */}
           </button>
-          {images.map((image, index) => (
+          {websiteData.map((item, index) => (
             <div
               key={index}
-              className={`carousel-slide ${
-                index === currentSlide ? "active" : ""
-              }`}
+              className={`carousel-slide ${index === currentSlide ? "active" : ""}`}
             >
               <img
                 className="homepage-intro-img"
-                src={image}
+                src={item.blogImage ? item.blogImage : "/images/Rectangle 16.png"}
                 alt={`Slide ${index + 1}`}
+                onClick={() => handleSlideClick(item)}
               />
             </div>
           ))}
@@ -82,70 +140,22 @@ function Homepage() {
       </div>
 
       <div className="homepage-products">
-        <div className="homepage-product-card">
-          <img
-            src="/images/home-product-1.png"
-            alt="AC Monitoring GPS Tracker"
-          />
-          <h3>AC Monitoring GPS Tracker</h3>
-          <p>Real-time AC status, temperature monitoring, alerts</p>
-        </div>
-        <div className="homepage-product-card">
-          <img
-            src="/images/home-product-5.png"
-            alt="Advanced GPS Tracker (4G)"
-          />
-          <h3>Advanced GPS Tracker (4G)</h3>
-          <p>High-speed tracking, geofencing, remote control</p>
-        </div>
-        <div className="homepage-product-card">
-          <img
-            src="/images/home-product-2.png"
-            alt="AIS-140 Mining GPS Tracker"
-          />
-          <h3>AIS-140 Mining GPS Tracker</h3>
-          <p>Rugged design, compliance with mining standards</p>
-        </div>
-        <div className="homepage-product-card">
-          <img src="/images/home-product-3.png" alt="Dashcam GPS Tracker" />
-          <h3>Dashcam GPS Tracker</h3>
-          <p>Video recording, driver behavior analysis, GPS tracking</p>
-        </div>
-        <div className="homepage-product-card">
-          <img
-            src="/images/home-product-4.png"
-            alt="GPS Tracker with Fuel Monitoring"
-          />
-          <h3>GPS Tracker with Fuel Monitoring</h3>
-          <p>Fuel level monitoring, theft alerts, route optimization</p>
-        </div>
+        {session2.slice(-5).map((item, index) => (
+          <div key={index} className="homepage-product-card">
+            <img
+              src={item.photo ? item.photo : ""} // fallback if photo missing
+              alt={item.name || `Product ${index + 1}`}
+            />
+            <h3>{item.name || "Unnamed Product"}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))}
       </div>
 
       <section className="homepage-solutions">
         <h2 className="solutions-title">Our Solutions -</h2>
         <div className="solutions-list">
-          {[
-            {
-              title: "Tire Management",
-              desc: "Tire management systems use sensors to monitor tire pressure, temperature, and wear in real time...",
-              img: "/images/tire-1.png",
-            },
-            {
-              title: "Vehicle Health Management",
-              desc: "Tracks engine temp, oil pressure, and battery status in real time to detect faults early...",
-              img: "/images/vehicle-health.png",
-            },
-            {
-              title: "AIS-140 VLTD",
-              desc: "VLTD GPS trackers provide real-time vehicle tracking, route monitoring, and SOS alerts...",
-              img: "/images/Column.png",
-            },
-            {
-              title: "Smart Waste Management",
-              desc: "IoT-enabled bins monitor waste levels in real time and optimize collection routes...",
-              img: "/images/9-42143900.png",
-            },
-          ].map((card, index) => (
+          {session3.slice(-4).map((item, index) => (
             <motion.div
               key={index}
               className="solution-card"
@@ -155,17 +165,23 @@ function Homepage() {
               viewport={{ once: true, amount: 0.2 }}
             >
               <div className="solution-left">
-                <h3 className="solution-heading">{card.title}</h3>
-                <p className="solution-desc">{card.desc}</p>
+                <h3 className="solution-heading">
+                  {item.name || `Solution ${index + 1}`}
+                </h3>
+                <p className="solution-desc">{item.desc}</p>
                 <button className="solution-cta">Know more</button>
               </div>
               <div className="solution-right">
-                <img src={card.img} alt={card.title} />
+                <img
+                  src={item.photo ? item.photo : "/images/fallback.png"}
+                  alt={item.name || `Solution ${index + 1}`}
+                />
               </div>
             </motion.div>
           ))}
         </div>
       </section>
+
 
       <section className="homepage-why-choose">
         <div className="why-choose-content">
@@ -382,9 +398,15 @@ function Homepage() {
           </div>
         </div>
       </section>
+
       <div className="mining-gps-img">
-        <img src="/images/Rectangle 73.png" alt="" />
+        {session4.length > 0 && session4[session4.length - 1].photo ? (
+          <img src={session4[session4.length - 1].photo} alt="Latest" />
+        ) : (
+          <img src="/images/Rectangle 73.png" alt="Fallback" />
+        )}
       </div>
+
       <div className="demo-section">
         <div className="demo-content">
           <h2>Experience Smarter Tracking in Action</h2>
@@ -476,4 +498,4 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default Home;
