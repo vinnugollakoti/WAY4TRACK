@@ -15,7 +15,7 @@ import Hero from "./components/careers/Hero";
 import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import BlogDetail from "./components/Blogs/BlogDetail";
 import ProductTheme2 from "./components/ProductTheme2/Landingpage2";
-
+import Products from "./components/New_Templates/Products";
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -87,6 +87,10 @@ const App = () => {
         <Route
           path="/product"
           element={<ProductsOverview />}
+        />
+        <Route
+          path="/products"
+          element={<Products/>}
         />
         <Route path="/about" element={<About />} />
         <Route path="/contactus" element={<Contact />} />
