@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import DemoSection from "./DemoSection";
 
 function Home({ websiteData }) {
   // Carousel state management
@@ -460,92 +461,7 @@ function Home({ websiteData }) {
           <img src="/images/Rectangle 73.png" alt="Fallback" />
         )}
       </div>
-
-      <div className="demo-section">
-        <div className="demo-content">
-          <h2>Experience Smarter Tracking in Action</h2>
-          <p>
-            Still unsure if GPS tracking fits your business or personal needs?
-            Join a 15-min live demo call and discover how Way4Track can save you
-            time, money, and stress.
-          </p>
-          <div className="demo-button">
-            <button className="demo-btn">
-              Book A Demo
-              <span className="icon">↗</span>
-            </button>
-          </div>
-        </div>
-        <div className="demo-image">
-          <img src="/images/Rectangle 59.png" alt="" />
-        </div>
-      </div>
-      <footer className="footer">
-        <div className="footer-top">
-          <div className="footer-column">
-            <h4>Company</h4>
-            <p>
-              <a href="#">About</a>
-            </p>
-            <p>
-              <a href="#">Our Products</a>
-            </p>
-            <p>
-              <a href="#">Careers</a>
-            </p>
-            <p>
-              <a href="#">Blogs</a>
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <h4>Support</h4>
-            <p>
-              <a href="#">Contact Us</a>
-            </p>
-            <p>
-              <a href="#">Whatsapp</a>
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <h4>Support</h4>
-            <p>
-              <a href="#">Contact Us</a>
-            </p>
-            <p>
-              <a href="#">Whatsapp</a>
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <h4>Follow Us</h4>
-            <p>
-              <a href="#">Instagram</a>
-            </p>
-            <p>
-              <a href="#">Facebook</a>
-            </p>
-            <p>
-              <a href="#">Twitter</a>
-            </p>
-            <p>
-              <a href="#">Youtube</a>
-            </p>
-          </div>
-        </div>
-
-        <div className="footer-logo">
-          <h1>Way4Track</h1>
-        </div>
-
-        <div className="footer-bottom">
-          <p>
-            ©2025 All Rights Reserved • Terms Of Use • Privacy Policy • Legal
-            Policies
-          </p>
-        </div>
-      </footer>
+      <DemoSection/>
     </div>
   );
 }

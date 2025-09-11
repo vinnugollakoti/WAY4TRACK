@@ -529,63 +529,6 @@
     100% { transform: translateX(-50%); }
 }
 
-/* Footer */
-.footer {
-    background-color: #f8f8f8;
-    padding: 40px 5% 20px;
-    margin-top: 40px;
-}
-
-.footer-top {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-.footer-column {
-    flex: 1;
-    min-width: 150px;
-    margin-bottom: 20px;
-}
-
-.footer-column h4 {
-    color: #60A442;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-.footer-column p {
-    margin: 8px 0;
-}
-
-.footer-column a {
-    color: #282828;
-    text-decoration: none;
-}
-
-.footer-column a:hover {
-    color: #60A442;
-}
-
-.footer-logo {
-    text-align: center;
-    margin: 30px 0;
-}
-
-.footer-logo h1 {
-    color: #60A442;
-    font-size: 2rem;
-}
-
-.footer-bottom {
-    text-align: center;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-    color: #282828;
-    font-size: 0.9rem;
-}
-
 /* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -717,11 +660,6 @@
     .three-card-1 {
         width: 32%;
     }
-    
-    .footer-column {
-        flex: 1;
-        min-width: 200px;
-    }
 }
 
 /* Desktops and larger tablets */
@@ -780,10 +718,6 @@
     
     .testimonial-card {
         min-width: 250px;
-    }
-    
-    .footer-column {
-        min-width: 100%;
     }
     .curios-line{
         font-size: 14px;

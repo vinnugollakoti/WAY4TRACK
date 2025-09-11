@@ -135,12 +135,3 @@
   color: #60A442;
   font-family: "Geist", sans-serif;
 }
-
-
-.footer-top {
-  display: flex;
-  justify-content: center;   /* center the columns */
-  align-items: flex-start;   /* align items from top */
-  gap: 8rem;                /* spacing between columns */
-  margin: 0 0 0 140px;            
-}
