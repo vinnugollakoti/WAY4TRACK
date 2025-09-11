@@ -7,6 +7,7 @@
 
 .school-bus-landing-pic {
     border-radius: 22px;
+    width: 95%;
 }
 
 .school-bus-content {
@@ -49,6 +50,7 @@
     box-shadow: 0 2px 12px rgba(96, 164, 66, 0.08);
     padding: 32px 24px;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     align-items: flex-start;
     height: 250px;
@@ -406,7 +408,7 @@
     border-radius: 24px;
     padding: 14px;
     margin: 0 auto;
-    max-width: 1000px;
+    width: 85%;
 }
 
 .manager-app-advantages-grid {
@@ -414,6 +416,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 14px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .manager-app-advantage-card {
@@ -429,7 +432,6 @@
 
 .manager-app-advantage-img {
     border-radius: 14px;
-    background: #e9f7e4;
     margin-bottom: 0;
     display: flex;
     align-items: center;

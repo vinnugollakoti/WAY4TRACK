@@ -2,12 +2,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+
 import "./App.css"
 import Bike from "./components/New_Templates/Bike"
 import Homepage from "./components/New_Templates/Home"
 import Mining from "./components/New_Templates/Mining"
 import SchoolBus from "./components/New_Templates/school_bus"
 import ProductsOverview from "./components/New_Templates/ProductsOverview";
+import About from "./components/about/AboutUs";
+import Contact from "./components/contact/ContactPage";
+import Hero from "./components/careers/Hero";
+import RelatedBlogs from "./components/Blogs/RelatedBlogs";
+import BlogDetail from "./components/Blogs/BlogDetail";
+import ProductTheme2 from "./components/ProductTheme2/Landingpage2";
+
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -80,7 +88,15 @@ const App = () => {
           path="/product"
           element={<ProductsOverview />}
         />
+        <Route path="/about" element={<About />} />
+        <Route path="/contactus" element={<Contact />} />
+        <Route path="/Careers" element={<Hero />} />
+        <Route path="/blogs" element={<RelatedBlogs />} />
+        <Route path="/blogdetails" element={<BlogDetail />} />
+        <Route path="/product-theme-2" element={<ProductTheme2 />} />
       </Routes>
+
+
     </Router>
   )
 }

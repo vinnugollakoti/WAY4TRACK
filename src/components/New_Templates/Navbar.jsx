@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -26,11 +29,13 @@ const Navbar = () => {
         {/* Main Navigation Content */}
         <div className={`nav-content ${isMenuOpen ? 'active' : ''}`}>
           <ul className="menu-list">
+
             <li className="menu-item">Home</li>
-            <li className="menu-item">About</li>
-            <li className="menu-item">Contact</li>
-            <li className="menu-item">Blog</li>
-            <li className="menu-item">Career</li>
+
+            <li className="menu-item" onClick={() => navigate("/about")}>About</li>
+            <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li>
+            <li className="menu-item" onClick={() => navigate("/blogs")}>Blog</li>
+            <li className="menu-item" onClick={() => navigate("/Careers")}>Career</li>
             <li className="menu-item dropdown">
               Products <span className="arrow">▼</span>
               <ul className="dropdown-menu">
