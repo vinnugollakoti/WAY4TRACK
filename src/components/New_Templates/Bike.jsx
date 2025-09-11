@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import "./Bike.css"
+import Navbar from "./Navbar";
 
 const Bike = ({ websiteData }) => {
   const { id } = useParams();
@@ -46,6 +47,8 @@ const Bike = ({ websiteData }) => {
 
   return (
     <div className="body">
+            <Navbar />
+
       <img src={stateData?.blogImage || ''} alt="" className="hero-bike" />
       <center>
         <h1 className="heading">{`Curious to know about our ${stateData?.name || ''} ?`}</h1>

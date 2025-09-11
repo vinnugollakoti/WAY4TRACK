@@ -233,8 +233,10 @@ SmartBus simplifies it all with optimized routes, real-time tracking, and apps f
           <div className="manager-app-advantages-grid-bg">
             <div className="manager-app-advantages-grid">
               {appContent.advantages_grid.map((advantage, index) => (
+                
                 <div className="manager-app-advantage-card" key={index}>
                   <div className="manager-app-advantage-img">
+                    
                     <img src={advantage.img} alt={advantage.alt} />
                   </div>
                   <div className="manager-app-advantage-content">
