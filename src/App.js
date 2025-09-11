@@ -6,6 +6,7 @@ import "./App.css"
 import Bike from "./components/New_Templates/Bike"
 import Homepage from "./components/New_Templates/Home"
 import Mining from "./components/New_Templates/Mining"
+import SchoolBus from "./components/New_Templates/school_bus"
 import ProductsOverview from "./components/New_Templates/ProductsOverview";
 
 const App = () => {
@@ -69,15 +70,15 @@ const App = () => {
         {/* Add routes for other themes as needed */}
         <Route
           path="/theme3/:id"
-          element={<Mining websiteData={websiteData} />}
+          element={<SchoolBus websiteData={websiteData} />}
         />
-        <Route
+        {/* <Route
           path="/theme4/:id"
-          element={<Mining websiteData={websiteData} />}
-        />
+          element={<SchoolBus websiteData={websiteData} />}
+        /> */}
         <Route
           path="/product"
-          element={<ProductsOverview/>}
+          element={<ProductsOverview />}
         />
       </Routes>
     </Router>
