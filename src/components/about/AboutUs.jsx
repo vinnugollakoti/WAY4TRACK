@@ -10,6 +10,7 @@ import Technology from './Technology'
 import History from './History'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import Navbar from '../New_Templates/Navbar'
 
 
 const AboutUs = () => {
@@ -26,9 +27,10 @@ const AboutUs = () => {
       mirror: true
     })
   }, [])
-  
+
   return (
     <div className="about-us">
+      <Navbar />
       <Hero />
       <Mission />
       <Services />

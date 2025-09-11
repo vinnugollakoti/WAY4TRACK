@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className={`nav-content ${isMenuOpen ? 'active' : ''}`}>
           <ul className="menu-list">
 
-            <li className="menu-item">Home</li>
+            <li className="menu-item" onClick={() => navigate("/")}>Home</li>
 
             <li className="menu-item" onClick={() => navigate("/about")}>About</li>
             <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li>

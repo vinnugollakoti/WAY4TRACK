@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // ✅ Include AOS styles
+import { Navbar } from 'react-bootstrap';
 
 const ContactPage = () => {
   const location = useLocation();
@@ -24,8 +25,9 @@ const ContactPage = () => {
 
   return (
     <div className="contact-page">
+      <Navbar />
       <ContactHero />
-      
+
       <div className="container my-5">
         <div className="row g-5">
           <div className="col-lg-7" data-aos="fade-right">
@@ -36,15 +38,15 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
-      
+
       <div data-aos="fade-up">
         <ProductShowcase />
       </div>
-      
+
       <div data-aos="zoom-in">
         <MapSection />
       </div>
-      
+
       <ChatWidget />
     </div>
   );
