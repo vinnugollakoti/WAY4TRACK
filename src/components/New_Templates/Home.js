@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Homepage.css";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-
 
 function Home({ websiteData }) {
   // Carousel state management
@@ -19,6 +18,7 @@ function Home({ websiteData }) {
   const [session4, setSession4] = useState([]);
 
   const navigate = useNavigate();
+  const cardsContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchPromotions = async () => {
@@ -38,7 +38,7 @@ function Home({ websiteData }) {
         // Helper to get latest promotion by theme
         const getLatestListByTheme = (theme) => {
           const latest = data
-            .filter(item => item.theme === theme)
+            .filter((item) => item.theme === theme)
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
           return latest?.list || [];
         };
@@ -47,7 +47,6 @@ function Home({ websiteData }) {
         setSession2(getLatestListByTheme("Session-2"));
         setSession3(getLatestListByTheme("Session-3"));
         setSession4(getLatestListByTheme("Session-4"));
-
       } catch (error) {
         console.error("Error fetching promotions:", error);
       }
@@ -61,13 +60,12 @@ function Home({ websiteData }) {
     console.log("Session 1:", session1);
     console.log("Session 2:", session2);
     console.log("Session 3:", session3);
-    console.log("Session 4:", session4);;
+    console.log("Session 4:", session4);
   }, [promotions]);
 
   useEffect(() => {
     console.log("Website Data:", websiteData);
   }, [websiteData]);
-
 
   // Auto-advance carousel
   useEffect(() => {
@@ -78,6 +76,65 @@ function Home({ websiteData }) {
     return () => clearInterval(interval);
   }, [websiteData.length]);
 
+  // Setup scroll animation for solutions section
+  useEffect(() => {
+    if (session3.length === 0 || !cardsContainerRef.current) return;
+
+    const cardsContainer = cardsContainerRef.current;
+    const cards = cardsContainer.querySelectorAll('.solution-card-sticky');
+    
+    // Set CSS custom properties
+    cardsContainer.style.setProperty('--cards-count', cards.length);
+    if (cards.length > 0) {
+      cardsContainer.style.setProperty('--card-height', `${cards[0].clientHeight}px`);
+    }
+
+    // Add padding to create the staggered effect
+    Array.from(cards).forEach((card, index) => {
+      const offsetTop = 30 + index * 80;
+      card.style.paddingTop = `${offsetTop}px`;
+      
+      if (index === cards.length - 1) return;
+      
+      const toScale = 1 - (cards.length - 1 - index) * 0.07;
+      const nextCard = cards[index + 1];
+      const cardInner = card.querySelector('.solution-card-inner');
+      
+      // Create scroll observer for each card
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const percentageY = 1 - entry.intersectionRatio;
+            
+            cardInner.style.transform = `scale(${
+              valueAtPercentage({
+                from: 1,
+                to: toScale,
+                percentage: percentageY
+              })
+            })`;
+            
+            cardInner.style.filter = `brightness(${valueAtPercentage({
+              from: 1,
+              to: 0.8,
+              percentage: percentageY
+            })})`;
+          });
+        },
+        {
+          threshold: Array.from({ length: 100 }, (_, i) => i / 100)
+        }
+      );
+      
+      observer.observe(nextCard);
+    });
+  }, [session3]);
+
+  // Helper function for value interpolation
+  const valueAtPercentage = ({ from, to, percentage }) => {
+    return from + (to - from) * percentage;
+  };
+
   const handleSlideClick = (item) => {
     navigate(`/${item.layoutType}/${item.id}`);
   };
@@ -86,8 +143,6 @@ function Home({ websiteData }) {
   const goToNextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % websiteData.length);
   };
-
-
 
   const goToPrevSlide = () => {
     setCurrentSlide(
@@ -120,11 +175,13 @@ function Home({ websiteData }) {
           {websiteData.map((item, index) => (
             <div
               key={index}
-              className={`carousel-slide ${index === currentSlide ? "active" : ""}`}
+              className={`carousel-slide ${
+                index === currentSlide ? "active" : ""
+              }`}
             >
               <img
                 className="homepage-intro-img"
-                src={item.blogImage ? item.blogImage : "/images/Rectangle 16.png"}
+                src={item.blogImage ? item.blogImage : ""}
                 alt={`Slide ${index + 1}`}
                 onClick={() => handleSlideClick(item)}
               />
@@ -154,38 +211,35 @@ function Home({ websiteData }) {
 
       <section className="homepage-solutions">
         <h2 className="solutions-title">Our Solutions -</h2>
-        <div className="solutions-list">
+        <div className="solutions-sticky-cards" ref={cardsContainerRef}>
           {session3.slice(-4).map((item, index) => (
-            <motion.div
+            <div
               key={index}
-              className="solution-card"
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.2 }}
+              className="solution-card-sticky"
+              data-index={index}
             >
-              <div className="solution-left">
-                <h3 className="solution-heading">
-                  {item.name || `Solution ${index + 1}`}
-                </h3>
-                <p className="solution-desc">{item.desc}</p>
-                <button className="solution-cta">Know more</button>
+              <div className="solution-card-inner">
+                <div className="solution-card-image-container">
+                  <img
+                    src={item.photo ? item.photo : "/images/fallback.png"}
+                    alt={item.name || `Solution ${index + 1}`}
+                  />
+                </div>
+                <div className="solution-card-content">
+                  <h3 className="solution-card-title">
+                    {item.name || `Solution ${index + 1}`}
+                  </h3>
+                  <p className="solution-card-description">{item.desc}</p>
+                  <button className="solution-cta">Know more</button>
+                </div>
               </div>
-              <div className="solution-right">
-                <img
-                  src={item.photo ? item.photo : "/images/fallback.png"}
-                  alt={item.name || `Solution ${index + 1}`}
-                />
-              </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
 
-
       <section className="homepage-why-choose">
         <div className="why-choose-content">
-          <button className="benefits-button">BENEFITS</button>
           <h2 className="why-choose-title">Why Choose Us?</h2>
           <p className="why-choose-desc">
             Because reliability, innovation, and safety drive everything
@@ -482,9 +536,7 @@ function Home({ websiteData }) {
         </div>
 
         <div className="footer-logo">
-          <h1>
-            Way4Track
-          </h1>
+          <h1>Way4Track</h1>
         </div>
 
         <div className="footer-bottom">
