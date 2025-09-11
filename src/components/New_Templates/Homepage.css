@@ -139,6 +139,12 @@
   max-width: 1100px;
 }
 
+.homepage-intro-img {
+  width: 95%;
+  margin-left: 2.5%;
+  border-radius: 20px;
+}
+
 .solution-left {
     display: flex;
     justify-content: space-between;
@@ -245,6 +251,7 @@
 /* Why Choose Us Section */
 .homepage-why-choose {
   padding: 80px 10% 100px;
+  margin-top: 12%;
   background-color: #f8f9fa;
 }
 
@@ -807,5 +814,95 @@
  } 
  .footer-top{
     display: none;
+  }
+}
+
+
+/* Sticky Cards Animation */
+.solutions-sticky-cards {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: repeat(var(--cards-count), var(--card-height));
+  gap: 60px 0;
+}
+
+.solution-card-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.solution-card-inner {
+  will-change: transform;
+  background: white;
+  padding: 5%;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px hsla(265.3, 20%, 10%, 35%);
+  background: linear-gradient(to right, #60A442 8px, white 8px);
+  transform-origin: center top;
+  border-radius: 20px;
+}
+
+.solution-card-image-container {
+  display: flex;
+  width: 40%;
+  flex-shrink: 0;
+}
+
+.solution-card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.solution-card-content {
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.solution-card-title {
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+  font-weight: 600;
+  color: #16263a;
+}
+
+.solution-card-description {
+  line-height: 1.4;
+  font-size: 18px;
+  margin-top: 10%;
+  color: #16263a;
+  margin-bottom: 20px;
+}
+
+/* Responsive styles for sticky cards */
+@media (max-width: 600px) {
+  .solution-card-inner {
+    flex-direction: column;
+  }
+
+  .solution-card-image-container {
+    width: 100%;
+  }
+
+  .solution-card-image-container img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .solution-card-title {
+    font-size: 32px;
+  }
+
+  .solution-card-description {
+    font-size: 16px;
+  }
+
+  .solution-card-content {
+    padding: 30px 20px;
   }
 }
