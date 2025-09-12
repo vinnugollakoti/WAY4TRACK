@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 
 .root {
   margin: 0;
@@ -57,9 +58,10 @@
 }
 
 .product-description {
-  font-size: 12px;
+  font-size: 13px;
   color: #121712;
   margin-bottom: 15px;
+  font-family: 'IBM Plex Sans', sans-serif;
   flex-grow: 1;
   text-align: left;
 }
@@ -71,13 +73,13 @@
 }
 
 .product-price {
-  font-size: 32px;
+  font-size: 20px;
   font-weight: bold;
   margin-right: 10px;
 }
 
 .product-old-price {
-  font-size: 20px;
+  font-size: 12px;
   color: red;
   text-decoration: line-through;
 }
@@ -88,10 +90,11 @@
 }
 
 .buy-btn {
-  background-color: #ccc;
+  background-color: #60A442;
+  color: white;
   border: none;
   padding: 5% 10%;
-  border-radius: 25px;
+  border-radius: 15px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -101,16 +104,18 @@
 }
 
 .buy-btn:hover {
-  background-color: #60A442BF;
-  color: white;
+  background-color: white;
+  color: black;
+  border: #60A442 2px solid;
   transform: translateY(-1px); 
 }
 
 .add-btn{
-    background-color: #ccc;
-  border: none;
+    background-color: white;
+    color: black;
+    border: #60A442 2px solid;
   padding: 5% 10%;
-  border-radius: 25px;
+  border-radius: 15px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -120,7 +125,7 @@
 }
 
 .add-btn:hover {
-  background-color: #60A442BF;
+  background-color: #60A442;
   color: white;
   transform: translateY(-1px); 
 }
@@ -166,7 +171,6 @@
   }
   
   .buy-btn, .add-btn {
-    padding: 8px 12px;
     font-size: 13px;
   }
 }

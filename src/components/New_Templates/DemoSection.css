@@ -100,4 +100,11 @@
     .demo-image{
         display: none;
     }
+    .demo-content h2{
+        font-size: 32px;
+    }
+    .demo-content p{
+        font-size: 16px;
+    }
+    
 }

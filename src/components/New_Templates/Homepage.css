@@ -756,3 +756,238 @@
     padding: 30px 20px;
   }
 }
+
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  .carousel-arrow {
+    font-size: 32px;
+    padding: 10px;
+  }
+  
+  .homepage-product-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .solutions-title {
+    font-size: 28px;
+  }
+  
+  .solution-card {
+    padding: 20px;
+  }
+  
+  .solution-heading {
+    font-size: 20px;
+  }
+  
+  .solution-desc {
+    font-size: 14px;
+  }
+  
+  .homepage-why-choose {
+    margin-top: 70%;
+    padding: 60px 5% 80px;
+  }
+  
+  .why-choose-title {
+    font-size: 36px;
+  }
+  
+  .why-choose-desc {
+    font-size: 18px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .feature-card {
+    padding: 32px 24px;
+    min-height: auto;
+  }
+  
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .feature-icon img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .feature-title {
+    font-size: 20px;
+  }
+  
+  .feature-desc {
+    font-size: 16px;
+  }
+  
+  .mining-product-title h2 {
+    font-size: 20px;
+  }
+  
+  .mining-product-features ul {
+    padding-left: 20px;
+  }
+  
+  .mining-product-quantity-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .mining-product-cart-btn,
+  .mining-product-buy-btn {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .mining-product-cart-btn button,
+  .mining-product-buy-btn button {
+    width: 100%;
+  }
+  
+  .featurees-heading {
+    font-size: 28px;
+  }
+  
+  .featurees-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .featuree-title {
+    font-size: 18px;
+  }
+  
+  .featuree-text {
+    font-size: 14px;
+  }
+  
+  .demo-content h2 {
+    font-size: 40px;
+  }
+  
+  .demo-content p {
+    font-size: 16px;
+  }
+  
+  .footer-top {
+    flex-wrap: wrap;
+  }
+  
+  .footer-column {
+    width: 50%;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-logo h1 {
+    font-size: 120px;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .carousel-arrow {
+    font-size: 24px;
+  }
+  
+  .homepage-products {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem auto 0;
+  }
+  
+  .homepage-product-card h3 {
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  .homepage-product-card p {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .solutions-title {
+    font-size: 24px;
+  }
+  
+  .solution-card {
+    padding: 16px;
+  }
+  
+  .solution-right img {
+    width: 200px;
+  }
+  
+  .why-choose-title {
+    font-size: 28px;
+  }
+  
+  .why-choose-desc {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  
+  .feature-card {
+    padding: 24px 20px;
+  }
+  
+  .mining-product-order {
+    padding: 0 10px;
+  }
+  
+  .mining-product-network-btns {
+    flex-wrap: wrap;
+  }
+  
+  .mining-product-network-btn {
+    margin-bottom: 0.5rem;
+  }
+  
+  .demo-content {
+    padding: 40px 20px;
+  }
+  
+  .demo-content h2 {
+    font-size: 32px;
+  }
+  
+  .demo-btn {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  
+  .demo-btn .icon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  
+  .footer {
+    padding: 30px 20px;
+  }
+  
+  .footer-column {
+    width: 100%;
+  }
+  
+  .footer-logo h1 {
+    font-size: 80px;
+  }
+  
+  .footer-bottom p {
+    font-size: 14px;
+    text-align: center;
+  }
+}
