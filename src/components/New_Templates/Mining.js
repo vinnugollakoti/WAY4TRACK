@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from './Navbar';
+import { useParams } from "react-router-dom";
 import "./Mining.css";
 
-function Mining() {
+function Mining({ websiteData }) {
+  const { id } = useParams();
+
   const [selectedTruckInfo, setSelectedTruckInfo] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [stateData, setData] = useState(null);
+
+  useEffect(() => {
+    const product = websiteData.find((item) => item.id === parseInt(id));
+    setData(product);
+    console.log(product);
+  }, [id, websiteData]);
 
   // Quantity control functions
   const incrementQuantity = () => {
@@ -17,12 +27,12 @@ function Mining() {
 
   return (
     <div className="mining-body">
-      <Navbar/>
+      <Navbar />
       {/* Landing Section */}
       <div className="mining-hero">
         <img
           className="mining-hero-img"
-          src="/images/mining1.png"
+          src={stateData?.blogImage}
           alt="Mining"
         />
       </div>
@@ -30,15 +40,10 @@ function Mining() {
       {/* Header Content */}
       <div className="mining-intro">
         <div className="mining-intro-heading">
-          <h1>Curious to know about AIS-140 GPS Tracker ?</h1>
+          <h1>Curious to know about {`${stateData?.name}`} ?</h1>
         </div>
         <div className="mining-intro-text">
-          <p>
-            AIS-140 is a mandate by the Government of India that requires
-            vehicles to have GPS tracking and an emergency button. In mining
-            vehicles, it is mainly used for real-time tracking and ensuring
-            worker safety within mining zones.
-          </p>
+          <p>{`${stateData?.shortDescription}`}</p>
         </div>
       </div>
 
@@ -47,21 +52,13 @@ function Mining() {
         {/* Left side */}
         <div className="mining-feature-left">
           <div className="mining-feature-icon">
-            <img src="/images/file_map.png" alt="GNSS Precision Tracking" />
+            <img src={stateData?.amenities[0]?.image} alt="GNSS Precision Tracking" />
           </div>
           <div className="mining-feature-title">
-            <p>Advanced GNSS Precision Tracking</p>
+            <p>{stateData?.amenities[0]?.name || ""}</p>
           </div>
           <div className="mining-feature-desc">
-            <p>
-              Navigate with unmatched precision, powered by advanced
-              high-sensitivity GNSS technology. Equipped with GPS, GLONASS, and
-              IRNSS, it ensures seamless regional accuracy at all times. Whether
-              you're driving through bustling city streets, cruising along
-              highways, or exploring remote off-road terrains, reliable tracking
-              stays with you everywhere. Wherever your journey takes you, trust
-              in continuous, precise, and dependable navigation.
-            </p>
+            <p> {stateData?.amenities[0]?.desc || ""} </p>
           </div>
         </div>
 
@@ -71,19 +68,14 @@ function Mining() {
             <div className="mining-feature-top-content">
               <div className="mining-feature-top-icon">
                 <div>
-                  <img src="/images/ambulance.png" alt="Real-Time Tracking" />
+                  <img src={stateData?.amenities[1]?.image} alt="Real-Time Tracking" />
                 </div>
                 <div className="mining-feature-top-title">
-                  <p>Real-Time Tracking & Route Playback</p>
+                  <p>{stateData?.amenities[1]?.name || ""}</p>
                 </div>
               </div>
               <div className="mining-feature-top-desc">
-                <p>
-                  "Monitor your vehicles live with accurate real-time tracking.
-                  Replay complete routes to review past journeys with ease.
-                  Improve planning, safety, and accountability on the move. Stay
-                  in control with every trip, past or present."
-                </p>
+                <p>{stateData?.amenities[1]?.desc || ""}</p>
               </div>
             </div>
           </div>
@@ -91,34 +83,27 @@ function Mining() {
           <div className="mining-feature-bottom">
             <div className="mining-feature-card">
               <div className="mining-feature-card-icon">
-                <img src="/images/target.png" alt="High Accuracy Tracking" />
+                <img src={stateData?.amenities[2]?.image} alt="High Accuracy Tracking" />
               </div>
               <div className="mining-feature-card-title">
                 <p>
-                  High Accuracy Tracking <br /> (≤ 2.5 meters)
+                  {stateData?.amenities[2]?.name || ""}
                 </p>
               </div>
               <div className="mining-feature-card-desc">
-                <p>
-                  Pinpoint location precision with up to 2.5 meters accuracy.
-                  Reliable tracking in cities, highways, and remote areas.
-                </p>
+                <p>{stateData?.amenities[2]?.desc || ""}</p>
               </div>
             </div>
 
             <div className="mining-feature-card">
               <div className="mining-feature-card-icon">
-                <img src="/images/alarm_smart_wake.png" alt="Smart Alerts" />
+                <img src={stateData?.amenities[3]?.image} alt="Smart Alerts" />
               </div>
               <div className="mining-feature-card-title">
-                <p>Smart Alerts for Safer Tracking</p>
+                <p>{stateData?.amenities[3]?.name || ""}</p>
               </div>
               <div className="mining-feature-card-desc">
-                <p>
-                  Get instant alerts for geo-fence breaches, overspeeding, and
-                  route deviations. Stay in control with safer, smarter vehicle
-                  tracking.
-                </p>
+                <p> {stateData?.amenities[3]?.desc || ""} </p>
               </div>
             </div>
           </div>
@@ -127,21 +112,15 @@ function Mining() {
 
       {/* GPS Image */}
       <div className="mining-gps-img">
-        <img src="/images/Rectangle 73.png" alt="GPS Tracker" />
+        <img src={stateData?.banner1} alt="GPS Tracker" />
       </div>
 
       {/* Properties 2 Section (3-column layout) */}
       <div className="mining-props">
         {/* Left */}
         <div className="mining-prop-left">
-          <h3>Panic/SOS Button Support</h3>
-          <p>
-            In the event of an emergency, the system instantly transmits
-            real-time alerts to the control center, enabling immediate awareness
-            and action. This rapid communication ensures faster response times,
-            minimizes risks, and significantly enhances the safety and security
-            of passengers, drivers, and vehicles at all times.
-          </p>
+          <h3>{stateData?.points[0]?.title || ''}</h3>
+          <p>{stateData?.points[0]?.description || ''}</p>
         </div>
 
         {/* Middle */}
@@ -149,42 +128,28 @@ function Mining() {
           <div className="mining-prop-card-1"></div>
           <div className="mining-prop-card-2">
             <div>
-              <h3>Inbuilt eSIM Support</h3>
+              <h3>{stateData?.points[1]?.title || ''}</h3>
             </div>
             <div>
-              <p>
-                Enjoy hassle-free connectivity with inbuilt eSIM (available in
-                select models). Stay connected without the need for physical SIM
-                cards.
-              </p>
+              <p>{stateData?.points[1]?.description || ''}</p>
             </div>
           </div>
           <div className="mining-prop-card-3">
-            <h3>e-SIM Slots for Uninterrupted Tracking</h3>
+            <h3>{stateData?.points[2]?.title || ''}</h3>
           </div>
         </div>
 
         {/* Right */}
         <div className="mining-prop-right">
-          <h3>Cloud Data Storage</h3>
-          <p>
-            Secure and reliable cloud-based storage ensures that all trip data
-            and safety alerts are archived. This provides easy access for
-            audits, compliance, and long-term analysis of vehicle performance
-            and safety.
-          </p>
+          <h3>{stateData?.points[3]?.title || ''}</h3>
+          <p>{stateData?.points[3]?.description || ''}</p>
         </div>
       </div>
+
       <div className="mining-prop-footer">
-        <p>
-          Experience uninterrupted connectivity with built-in dual SIM support,
-          designed to provide <br /> seamless network one SIM loses coverage or
-          fails, the second SIM automatically takes over to <br /> maintain
-          continuous sures reliable communication, minimizes downtime, and
-          guarantees <br /> consistent performance, whether in urban zones,
-          highways, or remote areas.
-        </p>
+        <p>{stateData?.points[2]?.description || ''}</p>
       </div>
+
       <div className="mining-product">
         <div className="mining-product-img">
           <img src="/images/miningProductImage.png" alt="" />
@@ -269,6 +234,7 @@ function Mining() {
           </div>
         </div>
       </div>
+
       {/* Two-column truck info section */}
       <div className="mining-truck-info-section">
         <div className="mining-truck-info-left">
@@ -276,9 +242,8 @@ function Mining() {
             className="mining-truck-info-block"
             onClick={() => setSelectedTruckInfo(1)}
           >
-            <p>
-              Supports a wide range of 9–36V DC, making it compatible with
-              multiple mining vehicles
+            <p className="mining-truck-info-p">
+              {stateData?.amenities?.[4]?.desc || ""}
             </p>
           </div>
           <hr className="mining-truck-info-divider" />
@@ -286,9 +251,8 @@ function Mining() {
             className="mining-truck-info-block"
             onClick={() => setSelectedTruckInfo(2)}
           >
-            <p>
-              Equipped with 4 hours battery, ensuring uninterrupted operation
-              with a minimum of 4 hours backup as mandated by AIS-140 standards.
+            <p className="mining-truck-info-p">
+              {stateData?.amenities?.[5]?.desc || ""}
             </p>
           </div>
           <hr className="mining-truck-info-divider" />
@@ -296,176 +260,95 @@ function Mining() {
             className="mining-truck-info-block"
             onClick={() => setSelectedTruckInfo(3)}
           >
-            <p>
-              Water-resistant AIS-140 devices with an IP67 rating are ideal for
-              mining vehicles, as they withstand dust, mud, and water, ensuring
-              reliable real-time tracking even in tough environments.
+            <p className="mining-truck-info-p">
+              {stateData?.amenities?.[6]?.desc || ""}
             </p>
           </div>
         </div>
+
         <div className="mining-truck-info-right">
           <img
             className={
               selectedTruckInfo === 3 ? "iphone-truck" : "default-truck"
             }
             src={
-              selectedTruckInfo === 3
-                ? "/images/iphone-mine.png"
-                : "/images/mining-page-truck.png"
+              selectedTruckInfo === 1
+                ? stateData?.amenities?.[4]?.image
+                : selectedTruckInfo === 2
+                  ? stateData?.amenities?.[5]?.image
+                  : selectedTruckInfo === 3
+                    ? stateData?.amenities?.[6]?.image
+                    : stateData?.amenities?.[4]?.image
             }
-            alt="Mining Trucks"
+            alt=""
           />
         </div>
       </div>
+
       {/* Benefits Section */}
       <div className="mining-benefits-section">
         <h2 className="mining-benefits-header">
-          Benefits of AIS-140 GPS Tracker
+          Benefits of {`${stateData?.name || ''}`}
         </h2>
         <div className="mining-benefits-grid">
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/legal.png" alt="Legal Compliance" />
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div className="mining-benefit-card" key={i}>
+              <div className="mining-benefit-icon">
+                <img src={stateData?.application?.[i]?.image} alt="" />
+              </div>
+              <div className="mining-benefit-title">
+                <h3>{stateData?.application?.[i]?.name || ""}</h3>
+              </div>
+              <div className="mining-benefit-desc">
+                {stateData?.application?.[i]?.desc || ""}
+              </div>
             </div>
-            <div className="mining-benefit-title">
-              <h3>Legal Compliance</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              AIS-140 certified GPS devices are mandatory in India for
-              commercial and public transport vehicles to meet government
-              standards.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/government-integration.png"
-                alt="Government Integration"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Government Integration</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Live location and travel data are automatically shared with state
-              and national control centers.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                className="mining-benefit-icon-passenger"
-                src="/images/delivery-truck.png"
-                alt="Passenger Safety"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Passenger Safety</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              SOS button enables instant emergency alerts to ensure quick help
-              during accidents or threats.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/fleet.png" alt="Fleet Efficiency" />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Fleet Efficiency</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Real-time tracking improves routes, reduces downtime, and boosts
-              productivity for fleets and trucks.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/shop-specialist-icon.png"
-                alt="Shop Specialist"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Shop live with a Specialist</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Let us guide you live over video and answer all of your questions.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/personal-setup-icon.png" alt="Personal Setup" />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Join an online Personal Setup session</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Talk one on one with a Specialist to set up your device and
-              discover new features.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/explore-experience-icon.png"
-                alt="Explore Experience"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Explore new experiences around you</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Use the app to find personal workshops and more.
-            </div>
-          </div>
+          ))}
         </div>
       </div>
+
       {/* Solutions Section */}
       <div className="mining-solutions-section">
         <div className="mining-solutions-header">
           <p className="mining-solutions-subtitle">Our solutions</p>
           <h2 className="mining-solutions-title">
-            AIS-140 IRNSS Certified GPS Tracker!
+            {`${stateData?.name || ''}`}
           </h2>
         </div>
         <div className="mining-solutions-hero">
           <img
-            src="/images/leadxpo_Expand_the_background_into_a_clean_seamless_white_studi_6f786aeb-e9ae-42a0-81d0-c4cecc5f93d5 1.png"
+            src={stateData?.banner2}
             alt="AIS-140 Vehicles"
           />
         </div>
         <div className="mining-solutions-grid">
           <div className="mining-solutions-card">
             <span>
-              Govt Approved (AIS-140 Certified) – Mandatory for all mining
-              vehicles.
+              {`${stateData?.steps[0]?.description || 'Key point 1'}`}
             </span>
           </div>
           <div className="mining-solutions-card">
             <span>
-              Real-Time Tracking & Route Playback – Always know where your
-              vehicle is.
+              {`${stateData?.steps[1]?.description || 'Key point 2'}`}
             </span>
           </div>
           <div className="mining-solutions-card">
             <span>
-              Dual eSIM Support – Continuous connectivity without interruptions.
+              {`${stateData?.steps[2]?.description || 'Key point 3'}`}
             </span>
           </div>
           <div className="mining-solutions-card">
             <span>
-              SOS/Panic Button – Instant emergency alerts to control centers.
+              {`${stateData?.steps[3]?.description || 'Key point 4'}`}
             </span>
           </div>
           <div className="mining-solutions-card">
             <span>
-              Even in rain or wet environments, waterproof GPS ensures
-              uninterrupted real-time tracking of mining vehicles.
+              {`${stateData?.steps[4]?.description || 'Key point 5'}`}
             </span>
           </div>
           <div className="mining-solutions-card">
-            <span>4 Hours Backup Battery – Works even during power cuts.</span>
+            <span>{`${stateData?.steps[5]?.description || 'Key point 6'}`}.</span>
           </div>
         </div>
       </div>
@@ -479,35 +362,14 @@ function Mining() {
         <div className="mining-product-overview-content">
           <div className="mining-product-overview-text">
             <div>
-              <h3>AIS-140 Mining GPS Tracker</h3>
+              <h3>{stateData?.name}</h3>
               <p>
-                The AIS-140 GPS Tracker is a government-certified device
-                designed for compliance with MoRTH regulations in India. Built
-                for public transport, mining fleets, and commercial vehicles, it
-                ensures passenger safety, real-time monitoring, and legal
-                compliance. With dual communication support to both government
-                servers and user dashboards, it provides seamless control,
-                safety, and operational efficiency.
-              </p>
-            </div>
-
-            <div className="mining-product-overview-features">
-              <p>
-                Why Choose AIS-140 GPS Tracker?
-                <br /> Government-Approved & Compliant – under AIS-140
-                standards. <br />
-                Enhanced Safety & Control – Equipped with SOS button, route{" "}
-                <br />
-                monitoring, and to prevent theft or misuse.
-                <br />
-                Government-Certified Compliance-The AIS-140 GPS Tracker is
-                <br /> approved for meeting MoRTH regulations in India.
+                {stateData?.description}
               </p>
             </div>
           </div>
-
           <div className="mining-product-overview-image">
-            <img src="/images/product-mining-truck.png" alt="Mining Truck" />
+            <img src={stateData?.banner3} alt="Mining Truck" />
           </div>
         </div>
       </div>

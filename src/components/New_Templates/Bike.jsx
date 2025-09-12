@@ -49,37 +49,30 @@ const Bike = ({ websiteData }) => {
     <div className="body">
       <Navbar />
 
-      <img src={stateData?.blogImage || ""} alt="" className="hero-bike" />
+      <img src={stateData?.blogImage} alt="" className="hero-bike" />
       <center>
-        <h1 className="heading">{`Curious to know about our ${
-          stateData?.name || ""
-        } ?`}</h1>
+        <h1 className="heading">{`Curious to know about our ${stateData?.name
+          } ?`}</h1>
         <p className="curios-line">{`${stateData?.shortDescription}`}</p>
       </center>
       <div className="main-cards">
         <div className="main-cards-1">
-          <h1 className="main-cards-heading">{`${
-            stateData?.points?.[0]?.title || ""
-          }`}</h1>
-          <p className="main-cards-text">{`${
-            stateData?.points?.[0]?.description || ""
-          }`}</p>
+          <h1 className="main-cards-heading">{`${stateData?.points?.[0]?.title
+            }`}</h1>
+          <p className="main-cards-text">{`${stateData?.points?.[0]?.description
+            }`}</p>
         </div>
         <div className="main-cards-2">
-          <h1 className="main-cards-heading">{`${
-            stateData?.points?.[1]?.title || ""
-          }`}</h1>
-          <p className="main-cards-text">{`${
-            stateData?.points?.[1]?.description || ""
-          }`}</p>
+          <h1 className="main-cards-heading">{`${stateData?.points?.[1]?.title
+            }`}</h1>
+          <p className="main-cards-text">{`${stateData?.points?.[1]?.description
+            }`}</p>
         </div>
         <div className="main-cards-3">
-          <h1 className="main-cards-heading">{`${
-            stateData?.points?.[2]?.title || ""
-          }`}</h1>
-          <p className="main-cards-text">{`${
-            stateData?.points?.[2]?.description || ""
-          }`}</p>
+          <h1 className="main-cards-heading">{`${stateData?.points?.[2]?.title
+            }`}</h1>
+          <p className="main-cards-text">{`${stateData?.points?.[2]?.description
+            }`}</p>
         </div>
       </div>
 
@@ -91,7 +84,7 @@ const Bike = ({ websiteData }) => {
             onClick={() => setSelectedTruckInfo(1)}
           >
             <p className="mining-truck-info-p">
-              {stateData?.amenities?.[0]?.desc || ""}
+              {stateData?.amenities?.[0]?.desc}
             </p>
           </div>
           <hr className="mining-truck-info-divider" />
@@ -100,7 +93,7 @@ const Bike = ({ websiteData }) => {
             onClick={() => setSelectedTruckInfo(2)}
           >
             <p className="mining-truck-info-p">
-              {stateData?.amenities?.[1]?.desc || ""}
+              {stateData?.amenities?.[1]?.desc}
             </p>
           </div>
           <hr className="mining-truck-info-divider" />
@@ -109,7 +102,7 @@ const Bike = ({ websiteData }) => {
             onClick={() => setSelectedTruckInfo(3)}
           >
             <p className="mining-truck-info-p">
-              {stateData?.amenities?.[2]?.desc || ""}
+              {stateData?.amenities?.[2]?.desc}
             </p>
           </div>
         </div>
@@ -122,10 +115,10 @@ const Bike = ({ websiteData }) => {
               selectedTruckInfo === 1
                 ? stateData?.amenities?.[0]?.image
                 : selectedTruckInfo === 2
-                ? stateData?.amenities?.[1]?.image
-                : selectedTruckInfo === 3
-                ? stateData?.amenities?.[2]?.image
-                : stateData?.amenities?.[0]?.image
+                  ? stateData?.amenities?.[1]?.image
+                  : selectedTruckInfo === 3
+                    ? stateData?.amenities?.[2]?.image
+                    : stateData?.amenities?.[0]?.image
             }
             alt=""
           />
@@ -137,46 +130,46 @@ const Bike = ({ websiteData }) => {
         <div className="six-cards-1">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[3]?.image || ""}
+              src={stateData?.amenities?.[3]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[3]?.name || ""}{" "}
+            {stateData?.amenities?.[3]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[3]?.desc || ""}
+            {stateData?.amenities?.[3]?.desc}
           </p>
         </div>
         <div className="six-cards-2">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[4]?.image || ""}
+              src={stateData?.amenities?.[4]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[4]?.name || ""}{" "}
+            {stateData?.amenities?.[4]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[4]?.desc || ""}
+            {stateData?.amenities?.[4]?.desc}
           </p>
         </div>
         <div className="six-cards-3">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[5]?.image || ""}
+              src={stateData?.amenities?.[5]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[5]?.name || ""}{" "}
+            {stateData?.amenities?.[5]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[5]?.desc || ""}
+            {stateData?.amenities?.[5]?.desc}
           </p>
         </div>
       </div>
@@ -184,46 +177,46 @@ const Bike = ({ websiteData }) => {
         <div className="six-cards-1">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[6]?.image || ""}
+              src={stateData?.amenities?.[6]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[6]?.name || ""}{" "}
+            {stateData?.amenities?.[6]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[6]?.desc || ""}
+            {stateData?.amenities?.[6]?.desc}
           </p>
         </div>
         <div className="six-cards-2">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[7]?.image || ""}
+              src={stateData?.amenities?.[7]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[7]?.name || ""}{" "}
+            {stateData?.amenities?.[7]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[7]?.desc || ""}
+            {stateData?.amenities?.[7]?.desc}
           </p>
         </div>
         <div className="six-cards-3">
           <div className="six-cards-icon-bg">
             <img
-              src={stateData?.amenities?.[8]?.image || ""}
+              src={stateData?.amenities?.[8]?.image}
               alt=""
               className="six-cards-icon"
             />
           </div>
           <h1 className="six-cards-heading">
-            {stateData?.amenities?.[8]?.name || ""}
+            {stateData?.amenities?.[8]?.name}
           </h1>
           <p className="six-cards-text">
-            {stateData?.amenities?.[8]?.desc || ""}
+            {stateData?.amenities?.[8]?.desc}
           </p>
         </div>
       </div>
@@ -234,7 +227,7 @@ const Bike = ({ websiteData }) => {
         </h1>
         <div className="gps-dashboard-content">
           <img
-            src={stateData?.banner1 || ""}
+            src={stateData?.banner1}
             alt=""
             className="gps-dashboard-img"
           />
@@ -242,54 +235,54 @@ const Bike = ({ websiteData }) => {
             <div className="gps-dashboard-cards-main-1">
               <div className="gps-tracking-card-1-start">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[0]?.title || ""}
+                  {stateData?.steps?.[0]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[0]?.description || ""}
+                  {stateData?.steps?.[0]?.description}
                 </p>
               </div>
               <div className="gps-tracking-card-2-start">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[1]?.title || ""}
+                  {stateData?.steps?.[1]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[1]?.description || ""}
+                  {stateData?.steps?.[1]?.description}
                 </p>
               </div>
             </div>
             <div className="gps-dashboard-cards-main-1">
               <div className="gps-tracking-card-1">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[2]?.title || ""}
+                  {stateData?.steps?.[2]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[2]?.description || ""}
+                  {stateData?.steps?.[2]?.description}
                 </p>
               </div>
               <div className="gps-tracking-card-2">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[3]?.title || ""}
+                  {stateData?.steps?.[3]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[3]?.description || ""}
+                  {stateData?.steps?.[3]?.description}
                 </p>
               </div>
             </div>
             <div className="gps-dashboard-cards-main-1">
               <div className="gps-tracking-card-1">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[4]?.title || ""}
+                  {stateData?.steps?.[4]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[4]?.description || ""}
+                  {stateData?.steps?.[4]?.description}
                 </p>
               </div>
               <div className="gps-tracking-card-2">
                 <h1 className="gps-tracking-card-1-heading">
-                  {stateData?.steps?.[5]?.title || ""}
+                  {stateData?.steps?.[5]?.title}
                 </h1>
                 <p className="gps-tracking-card-1-text">
-                  {stateData?.steps?.[5]?.description || ""}
+                  {stateData?.steps?.[5]?.description}
                 </p>
               </div>
             </div>
@@ -301,19 +294,19 @@ const Bike = ({ websiteData }) => {
       {/* TAKE FROM RAHUL */}
       <div className="mining-benefits-section">
         <h2 className="mining-benefits-header">
-          Benefits of AIS-140 GPS Tracker
+          Benefits of {`${stateData?.name || ''}`}
         </h2>
         <div className="mining-benefits-grid">
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div className="mining-benefit-card" key={i}>
               <div className="mining-benefit-icon">
-                <img src={stateData?.application?.[i]?.image || ""} alt="" />
+                <img src={stateData?.application?.[i]?.image} alt="" />
               </div>
               <div className="mining-benefit-title">
-                <h3>{stateData?.application?.[i]?.name || ""}</h3>
+                <h3>{stateData?.application?.[i]?.name}</h3>
               </div>
               <div className="mining-benefit-desc">
-                {stateData?.application?.[i]?.desc || ""}
+                {stateData?.application?.[i]?.desc}
               </div>
             </div>
           ))}
@@ -322,7 +315,7 @@ const Bike = ({ websiteData }) => {
 
       <div className="points-card-main">
         <img
-          src={stateData?.banner2 || ""}
+          src={stateData?.banner2}
           alt=""
           className="gps-tracking-img"
         />
@@ -338,10 +331,10 @@ const Bike = ({ websiteData }) => {
               </div>
               <div className="point-card-matter">
                 <p className="point-card-heading">
-                  {stateData?.amenities?.[i]?.name || ""}
+                  {stateData?.amenities?.[i]?.name}
                 </p>
                 <p className="point-card-text">
-                  {stateData?.amenities?.[i]?.desc || ""}
+                  {stateData?.amenities?.[i]?.desc}
                 </p>
               </div>
             </div>
@@ -365,7 +358,7 @@ const Bike = ({ websiteData }) => {
               </p>
               <center>
                 <img
-                  src={stateData?.application?.[i]?.image || ""}
+                  src={stateData?.application?.[i]?.image}
                   alt=""
                   className="three-cards-section-img"
                 />
@@ -378,7 +371,7 @@ const Bike = ({ websiteData }) => {
       {/* poster section */}
       <div className="poster-section">
         <img
-          src={stateData?.footerBanner || ""}
+          src={stateData?.footerBanner}
           alt=""
           className="poster-bike-last"
         />
