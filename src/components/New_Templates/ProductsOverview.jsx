@@ -1,11 +1,22 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 import Navbar from "./Navbar";
 import "./ProductOver.css";
 import DemoSection from "./DemoSection"
 
-function ProductsOverview() {
+function ProductsOverview({ websiteData }) {
+  const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const [stateData, setData] = useState(null);
+
+  useEffect(() => {
+    const product = websiteData.find((item) => item.id === parseInt(id));
+    setData(product);
+    console.log(product);
+  }, [id, websiteData]);
+
 
   // Quantity control functions
   const incrementQuantity = () => {
@@ -20,30 +31,30 @@ function ProductsOverview() {
       <Navbar />
       <div className="mining-product">
         <div className="mining-product-img">
-          <img src="/images/miningProductImage.png" alt="" />
+          <img src={stateData?.device[0]?.image} alt="" />
         </div>
         <div className="mining-product-details">
           <div className="mining-product-title">
-            <h2>
+            {/* <h2>
               AIS-140 Mining GPS Tracker – Government Approved | Real-Time
               Tracking | SOS Button | Dual SIM | 4 Hours Backup Battery
-            </h2>
+            </h2> */}
+            <h2>{stateData?.device[0]?.name}  {stateData?.device[0]?.model}</h2>
           </div>
           <div className="mining-product-price">
-            <p>Rs. 3,999.00 - Rs. 4,990.00</p>
+            <p>Rs. {stateData?.device[0]?.amount}</p>
           </div>
           <div className="mining-product-features">
             <ul>
               <li>
-                AIS-140 Certified & Govt Approved – Mandatory for commercial
-                vehicles
+                {stateData?.device[0]?.description}
               </li>
-              <li>
+              {/* <li>
                 Real-Time Tracking & SOS Alerts – Safer rides, instant
                 notifications
               </li>
               <li>Dual SIM / 2G & 4G Connectivity – Always stay connected</li>
-              <li>4 Hours Backup Battery – Reliable even during power cuts</li>
+              <li>4 Hours Backup Battery – Reliable even during power cuts</li> */}
             </ul>
           </div>
           <div className="mining-product-order">
@@ -109,7 +120,7 @@ function ProductsOverview() {
         </div>
       </div>
       <div className="mining-specification-title">
-        <h1>Mining GPS Tracker - Specification</h1>
+        <h1>{stateData?.device[0]?.name}</h1>
       </div>
       <div className="mining-features">
         {/* Left side */}
@@ -340,7 +351,7 @@ function ProductsOverview() {
           <p className="image-heading">Fuel Monitoring Tracker</p>
         </div>
       </div>
-      <DemoSection/>
+      <DemoSection />
     </div>
   );
 }

@@ -85,8 +85,8 @@ const App = () => {
           element={<SchoolBus websiteData={websiteData} />}
         /> */}
         <Route
-          path="/product"
-          element={<ProductsOverview />}
+          path="/product/:id"
+          element={<ProductsOverview websiteData={websiteData} />}
         />
         <Route
           path="/products"

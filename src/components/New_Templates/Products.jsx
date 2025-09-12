@@ -2,10 +2,11 @@ import "./Products.css";
 import Footer from "./Footer";
 import DemoSection from "./DemoSection";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Products({ websiteData }) {
   console.log("Products component rendered", websiteData);
-
+  const Navigate = useNavigate();
   // Filter out dummy products and ensure we only show products with valid device data
   const validProducts = websiteData.filter(
     (product) =>
@@ -25,7 +26,9 @@ function Products({ websiteData }) {
         {validProducts.map((product, index) => {
           const device = product.device[0];
           return (
-            <div key={index} className="product-card">
+            <div key={index} className="product-card" onClick={() => {
+              Navigate(`/product/${product.id}`);
+            }}>
               <div className="product-image-container">
                 <img
                   src={device.image}
