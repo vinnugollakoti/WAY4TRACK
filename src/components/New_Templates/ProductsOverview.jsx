@@ -124,87 +124,109 @@ function ProductsOverview({ websiteData }) {
       <div className="mining-specification-title">
         <h1>{stateData?.device[0]?.name}</h1>
       </div>
+
       <div className="mining-features">
-        {/* Left side */}
-        <div className="mining-feature-left">
-          <div className="mining-feature-icon">
-            <img src="/images/file_map.png" alt="GNSS Precision Tracking" />
-          </div>
-          <div className="mining-feature-title">
-            <p>Advanced GNSS Precision Tracking</p>
-          </div>
-          <div className="mining-feature-desc">
-            <p>
-              Navigate with unmatched precision, powered by advanced
-              high-sensitivity GNSS technology. Equipped with GPS, GLONASS, and
-              IRNSS, it ensures seamless regional accuracy at all times. Whether
-              you're driving through bustling city streets, cruising along
-              highways, or exploring remote off-road terrains, reliable tracking
-              stays with you everywhere. Wherever your journey takes you, trust
-              in continuous, precise, and dependable navigation.
-            </p>
-          </div>
-        </div>
+        {/* Determine starting index based on layoutType */}
+        {(() => {
+          const startIndex = stateData?.layoutType === "theme1" ? 3 : 0;
 
-        {/* Right side */}
-        <div className="mining-feature-right">
-          <div className="mining-feature-top">
-            <div className="mining-feature-top-content">
-              <div className="mining-feature-top-icon">
-                <div>
-                  <img src="/images/ambulance.png" alt="Real-Time Tracking" />
+          return (
+            <>
+              {/* Left side */}
+              {stateData?.amenities?.[startIndex] && (
+                <div className="mining-feature-left">
+                  <div className="mining-feature-icon">
+                    <img
+                      src={stateData.amenities[startIndex].image}
+                      alt={stateData.amenities[startIndex].name || "Feature"}
+                      onError={(e) => {
+                        e.target.src = "/images/placeholder-icon.png";
+                      }}
+                    />
+                  </div>
+                  <div className="mining-feature-title">
+                    <p>{stateData.amenities[startIndex].name || "Advanced Feature"}</p>
+                  </div>
+                  <div className="mining-feature-desc">
+                    <p>{stateData.amenities[startIndex].desc}</p>
+                  </div>
                 </div>
-                <div className="mining-feature-top-title">
-                  <p>Real-Time Tracking & Route Playback</p>
+              )}
+
+              {/* Right side */}
+              <div className="mining-feature-right">
+                {stateData?.amenities?.[startIndex + 1] && (
+                  <div className="mining-feature-top">
+                    <div className="mining-feature-top-content">
+                      <div className="mining-feature-top-icon">
+                        <div>
+                          <img
+                            src={stateData.amenities[startIndex + 1].image}
+                            alt={stateData.amenities[startIndex + 1].name}
+                            onError={(e) => {
+                              e.target.src = "/images/placeholder-icon.png";
+                            }}
+                          />
+                        </div>
+                        <div className="mining-feature-top-title">
+                          <p>{stateData.amenities[startIndex + 1].name}</p>
+                        </div>
+                      </div>
+                      <div className="mining-feature-top-desc">
+                        <p>{stateData.amenities[startIndex + 1].desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mining-feature-bottom">
+                  {stateData?.amenities?.[startIndex + 2] && (
+                    <div className="mining-feature-card">
+                      <div className="mining-feature-card-icon">
+                        <img
+                          src={stateData.amenities[startIndex + 2].image}
+                          alt={stateData.amenities[startIndex + 2].name}
+                          onError={(e) => {
+                            e.target.src = "/images/placeholder-icon.png";
+                          }}
+                        />
+                      </div>
+                      <div className="mining-feature-card-title">
+                        <p>{stateData.amenities[startIndex + 2].name}</p>
+                      </div>
+                      <div className="mining-feature-card-desc">
+                        <p>{stateData.amenities[startIndex + 2].desc}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {stateData?.amenities?.[startIndex + 3] && (
+                    <div className="mining-feature-card">
+                      <div className="mining-feature-card-icon">
+                        <img
+                          src={stateData.amenities[startIndex + 3].image}
+                          alt={stateData.amenities[startIndex + 3].name}
+                          onError={(e) => {
+                            e.target.src = "/images/placeholder-icon.png";
+                          }}
+                        />
+                      </div>
+                      <div className="mining-feature-card-title">
+                        <p>{stateData.amenities[startIndex + 3].name}</p>
+                      </div>
+                      <div className="mining-feature-card-desc">
+                        <p>{stateData.amenities[startIndex + 3].desc}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="mining-feature-top-desc">
-                <p>
-                  "Monitor your vehicles live with accurate real-time tracking.
-                  Replay complete routes to review past journeys with ease.
-                  Improve planning, safety, and accountability on the move. Stay
-                  in control with every trip, past or present."
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mining-feature-bottom">
-            <div className="mining-feature-card">
-              <div className="mining-feature-card-icon">
-                <img src="/images/target.png" alt="High Accuracy Tracking" />
-              </div>
-              <div className="mining-feature-card-title">
-                <p>
-                  High Accuracy Tracking <br /> (≤ 2.5 meters)
-                </p>
-              </div>
-              <div className="mining-feature-card-desc">
-                <p>
-                  Pinpoint location precision with up to 2.5 meters accuracy.
-                  Reliable tracking in cities, highways, and remote areas.
-                </p>
-              </div>
-            </div>
-
-            <div className="mining-feature-card">
-              <div className="mining-feature-card-icon">
-                <img src="/images/alarm_smart_wake.png" alt="Smart Alerts" />
-              </div>
-              <div className="mining-feature-card-title">
-                <p>Smart Alerts for Safer Tracking</p>
-              </div>
-              <div className="mining-feature-card-desc">
-                <p>
-                  Get instant alerts for geo-fence breaches, overspeeding, and
-                  route deviations. Stay in control with safer, smarter vehicle
-                  tracking.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+            </>
+          );
+        })()}
       </div>
+
+
       <div className="mining-benefits-section">
         <h2 className="mining-benefits-header">
           Benefits of {stateData?.device[0]?.name}
