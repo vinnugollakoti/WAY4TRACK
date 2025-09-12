@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
 import "./ProductOver.css";
@@ -10,6 +11,7 @@ function ProductsOverview({ websiteData }) {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [stateData, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const product = websiteData.find((item) => item.id === parseInt(id));
@@ -72,7 +74,7 @@ function ProductsOverview({ websiteData }) {
               </div>
             </div>
             <div className="mining-product-final-price">
-              <p>Rs. 3,999.00</p>
+              <p>Rs. {stateData?.device[0]?.amount}</p>
             </div>
             <div className="mining-product-quantity">
               <div className="mining-product-quantity-label">
@@ -205,114 +207,29 @@ function ProductsOverview({ websiteData }) {
       </div>
       <div className="mining-benefits-section">
         <h2 className="mining-benefits-header">
-          Benefits of AIS-140 GPS Tracker
+          Benefits of {stateData?.device[0]?.name}
         </h2>
         <div className="mining-benefits-grid">
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/legal.png" alt="Legal Compliance" />
+          {stateData?.application?.slice(0, 6).map((app, index) => (
+            <div key={app.id || index} className="mining-benefit-card">
+              <div className="mining-benefit-icon">
+                <img
+                  src={app.image}
+                  alt={app.name}
+                  onError={(e) => {
+                    e.target.src = "/images/placeholder-icon.png";
+                  }}
+                />
+              </div>
+              <div className="mining-benefit-title">
+                <h3>{app.name}</h3>
+              </div>
+              <div className="mining-benefit-desc">
+                {app.desc}
+              </div>
             </div>
-            <div className="mining-benefit-title">
-              <h3>Legal Compliance</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              AIS-140 certified GPS devices are mandatory in India for
-              commercial and public transport vehicles to meet government
-              standards.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/government-integration.png"
-                alt="Government Integration"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Government Integration</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Live location and travel data are automatically shared with state
-              and national control centers.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                className="mining-benefit-icon-passenger"
-                src="/images/delivery-truck.png"
-                alt="Passenger Safety"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Passenger Safety</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              SOS button enables instant emergency alerts to ensure quick help
-              during accidents or threats.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/fleet.png" alt="Fleet Efficiency" />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Fleet Efficiency</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Real-time tracking improves routes, reduces downtime, and boosts
-              productivity for fleets and trucks.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/shop-specialist-icon.png"
-                alt="Shop Specialist"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Shop live with a Specialist</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Let us guide you live over video and answer all of your questions.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img src="/images/personal-setup-icon.png" alt="Personal Setup" />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Join an online Personal Setup session</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Talk one on one with a Specialist to set up your device and
-              discover new features.
-            </div>
-          </div>
-          <div className="mining-benefit-card">
-            <div className="mining-benefit-icon">
-              <img
-                src="/images/explore-experience-icon.png"
-                alt="Explore Experience"
-              />
-            </div>
-            <div className="mining-benefit-title">
-              <h3>Explore new experiences around you</h3>
-            </div>
-            <div className="mining-benefit-desc">
-              Use the app to find personal workshops and more.
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
-      <div className="mining-know-more">
-        <button className="know-more-btn">
-          <span>Know more</span>
-          <div className="know-more-icon">
-            <img src="/images/Arrow 11.png" alt="arrow" />
-          </div>
-        </button>
       </div>
       <div className="mining-view-more-section">
         <div className="mining-view-more-text">
@@ -322,7 +239,7 @@ function ProductsOverview({ websiteData }) {
           </h1>
         </div>
         <div className="mining-view-more">
-          <button className="view-more-btn">
+          <button className="view-more-btn" onClick={() => { navigate('/products') }}>
             <span>View more</span>
             <div className="view-more-icon">
               <img src="/images/Arrow 11.png" alt="arrow" />
