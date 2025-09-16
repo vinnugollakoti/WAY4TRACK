@@ -4,6 +4,7 @@ function Footer() {
   return (
     <div>
       <footer className="footer">
+        <div className='footer-content'>
         <div className="footer-top">
           <div className="footer-column">
             <h4>Company</h4>
@@ -18,16 +19,6 @@ function Footer() {
             </p>
             <p>
               <a href="#">Blogs</a>
-            </p>
-          </div>
-
-          <div className="footer-column">
-            <h4>Support</h4>
-            <p>
-              <a href="#">Contact Us</a>
-            </p>
-            <p>
-              <a href="#">Whatsapp</a>
             </p>
           </div>
 
@@ -61,9 +52,10 @@ function Footer() {
         <div className="footer-logo">
           <h1>Way4Track</h1>
         </div>
+        </div>
 
         <div className="footer-bottom">
-          <p>
+          <p className='copyright'>
             ©2025 All Rights Reserved • Terms Of Use • Privacy Policy • Legal
             Policies
           </p>
