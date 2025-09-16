@@ -1,13 +1,21 @@
 .footer {
     background: #60A442;
     color: white;
-    padding: 40px 60px;
+    padding: 2% 0% 1% 0%;
   }
   
   .footer-top {
     display: flex;
     justify-content: space-around;
     text-align: center;
+    width: 50%;
+  }
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2%;
+    padding-right: 2%;
   }
 
   .footer-column {
@@ -19,7 +27,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     color: white;
-    font-size: 25px;
+    font-size: 20px;
   }
   
   .footer-column a {
@@ -40,7 +48,7 @@
   }
 
   .footer-logo h1{
-    font-size: 250px;
+    font-size: 100px;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
     color: white;
@@ -51,6 +59,9 @@
     justify-content: center;
     font-size: 18px;
     color: #FFFFFF82;
+  }
+  .copyright {
+    font-size: 15px;
   }
 @media (max-width: 768px) {
   .footer-top {

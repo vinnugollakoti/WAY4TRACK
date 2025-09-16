@@ -179,6 +179,10 @@
   min-height: 440px;
 }
 
+.cards-image {
+  width: 60%;
+}
+
 @media (max-width: 1200px) {
   .solutions-list .solution-card:nth-child(1),
   .solutions-list .solution-card:nth-child(2),
@@ -280,8 +284,8 @@
 
 .why-choose-title {
   color: #60A442;
-  font-size: 48px;
-  font-weight: 700;
+  font-size: 40px;
+  font-weight: 600;
   margin: 0 0 24px 0;
   font-family: "Inter", sans-serif;
   letter-spacing: -0.5px;
@@ -289,11 +293,12 @@
 
 .why-choose-desc {
   color: #121712;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.6;
   margin: 0 0 60px 0;
   font-family: "Inter", sans-serif;
   font-weight: 400;
+  width: 100%;
 }
 
 /* Features Grid */
@@ -308,11 +313,10 @@
 .feature-card {
   background: #F2F2F2;
   border-radius: 16px;
-  padding: 48px 32px;
+  padding: 40px 32px;
   text-align: left;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 300px;
 }
 
 .feature-card::before{
@@ -350,7 +354,7 @@
 
 .feature-title {
   color: #60A442;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 600;
   margin: 0 0 12px 0;
   font-family: "Inter", sans-serif;
@@ -358,7 +362,7 @@
 
 .feature-desc {
   color: #666;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.5;
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -691,7 +695,6 @@
   overflow: hidden;
   box-shadow: 0 25px 50px -12px hsla(265.3, 20%, 10%, 35%);
   background: linear-gradient(to right, #60A442 8px, white 8px);
-  transform-origin: center top;
   border-radius: 20px;
 }
 
@@ -729,7 +732,6 @@
   color: #16263a;
   margin-bottom: 20px;
 }
-
 /* Responsive styles for sticky cards */
 @media (max-width: 600px) {
   .solution-card-inner {
@@ -823,11 +825,11 @@
   }
   
   .feature-title {
-    font-size: 20px;
+    font-size: 15px;
   }
   
   .feature-desc {
-    font-size: 16px;
+    font-size: 12px;
   }
   
   .mining-product-title h2 {

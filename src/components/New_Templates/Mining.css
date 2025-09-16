@@ -303,38 +303,41 @@ body, html {
 }
 
 .mining-product-features li{
-  font-weight: 600;
-  font-size: 20px;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
 .mining-product p{
   font-family: "Nunito", sans-serif;
 }
-
+.quantity-p {
+  font-size: 18px;
+}
 .mining-product-img {
   width: 100%;
 }
 
 .mining-product-img img {
-    max-width: 130%;
+    max-width: 100%;
 }
 
 .mining-product-order {
   background-color: #F8FEF2;
-  padding: 30px 10px 30px 30px;
+  padding: 2% 2% 3% 2%;
   border-radius: 15px;
 }
 
 .mining-product-network-btns {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-bottom: 1rem;
 }
 
 .mining-product-network-btn button {
   background-color: white;
   border: none;
-  padding: 15px;
+  padding: 40%;
   border-radius: 10px;
   box-shadow: 1px 1px 11px rgba(55, 55, 55, 0.25);
   color: inherit; 
@@ -362,7 +365,7 @@ body, html {
   justify-content: space-between;
   gap: 1rem; 
   margin-top: 1rem;
-  width: 97%;
+  width: 100%;
 }
 
 .mining-product-quantity-selector {
@@ -373,8 +376,8 @@ body, html {
   box-shadow: 0 2px 8px rgba(96, 164, 66, 0.08);
   border: 1px solid #e6e6e6;
   overflow: hidden;
-  width: 120px;   /* slightly wider */
-  height: 70px;   /* matches screenshot proportions */
+  width: 20%;   /* slightly wider */
+  height: 6vh;
 }
 
 .mining-product-quantity-value {
@@ -382,14 +385,14 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;   /* big bold number */
+  font-size: 20px;
   font-weight: 500;
   color: #000;
   border-right: 1px solid #f0f0f0; /* divider */
 }
 
 .mining-product-quantity-value p {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   margin: 0;
   color: #111;
@@ -419,24 +422,15 @@ body, html {
 }
 
 .arrow-up, .arrow-down {
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 15px;
 }
 
-.mining-product-cart-btn button {
-  background-color: #60A442;
-  color: white;
-  font-weight: 600;
-  border: none;
+.buy-it-now-btn {
+  border: 1.5px solid black;
+  padding: 2% 5% 2% 5%;
+  background-color: #28282800;
   border-radius: 10px;
-  padding: 12px 120px;
-  font-size: 18px;
-  margin-right: 1rem;
-  box-shadow: 0px 2px 8px rgba(96, 164, 66, 0.12);
-  transition: background 0.2s;
-  width: 100%;   /* slightly wider */
-  height: 70px;
-
 }
 
 .mining-product-cart-btn button:hover {
@@ -449,12 +443,11 @@ body, html {
   font-weight: 600;
   border: 1px solid black;
   border-radius: 12px;
-  padding: 12px 48px;
+  padding: 10% 5%;
   font-size: 18px;
   box-shadow: 0px 2px 8px rgba(96, 164, 66, 0.08);
   transition: background 0.2s, color 0.2s;
-  width: 100%;   /* slightly wider */
-  height: 70px;
+  width: 150%;   /* slightly wider */
 }
 
 .mining-product-buy-btn button:hover {
@@ -776,6 +769,12 @@ body, html {
   align-items: flex-end;
 }
 
+.mining-product h2 {
+  font-size: 21px;
+}
+.mining-product-details {
+  margin-top: 2%;
+}
 /* Responsive additions to existing CSS */
 @media (max-width: 1200px) {
   .mining-intro-heading h1 {
@@ -795,11 +794,11 @@ body, html {
   }
   
   .mining-product h2 {
-    font-size: 32px;
+    font-size: 20px;
   }
   
   .mining-product-features li {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -943,7 +942,7 @@ body, html {
   }
   
   .mining-product h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
   
   .mining-product-features li {
@@ -1068,7 +1067,7 @@ body, html {
   }
   
   .mining-product h2 {
-    font-size: 24px;
+    font-size: 17px;
   }
   
   .mining-product-price p {
@@ -1076,7 +1075,7 @@ body, html {
   }
   
   .mining-product-features li {
-    font-size: 12px;
+    font-size: 8px;
   }
   
   .mining-product-final-price {

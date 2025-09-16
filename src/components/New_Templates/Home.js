@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer"
 import DemoSection from "./DemoSection";
 
 function Home({ websiteData }) {
@@ -211,7 +212,9 @@ function Home({ websiteData }) {
       </div>
 
       <section className="homepage-solutions">
-        <h2 className="solutions-title">Our Solutions -</h2>
+        <center>
+        <h2 className="solutions-title why-choose-title">Our Solutions</h2>
+        </center>
         <div className="solutions-sticky-cards" ref={cardsContainerRef}>
           {session3.slice(-4).map((item, index) => (
             <div
@@ -244,7 +247,6 @@ function Home({ websiteData }) {
           <h2 className="why-choose-title">Why Choose Us?</h2>
           <p className="why-choose-desc">
             Because reliability, innovation, and safety drive everything
-            <br />
             we do.
           </p>
         </div>
@@ -321,7 +323,7 @@ function Home({ websiteData }) {
         </div>
         <div className="mining-product-details">
           <div className="mining-product-title">
-            <h2>
+            <h2 className="mining-product-title-h2">
               AIS-140 Mining GPS Tracker – Government Approved | Real-Time
               Tracking | SOS Button | Dual SIM | 4 Hours Backup Battery
             </h2>
@@ -350,10 +352,10 @@ function Home({ websiteData }) {
               </div>
               <div className="mining-product-network-btns">
                 <div className="mining-product-network-btn">
-                  <button>2G</button>
+                  <button className="mining-product-network-btn-1">2G</button>
                 </div>
                 <div className="mining-product-network-btn">
-                  <button>4G</button>
+                  <button className="mining-product-network-btn-1">4G</button>
                 </div>
               </div>
             </div>
@@ -361,9 +363,6 @@ function Home({ websiteData }) {
               <p>Rs. 3,999.00</p>
             </div>
             <div className="mining-product-quantity">
-              <div className="mining-product-quantity-label">
-                <p>Quantity</p>
-              </div>
               <div className="mining-product-quantity-controls">
                 <div className="mining-product-quantity-selector">
                   <div className="mining-product-quantity-value">
@@ -394,12 +393,8 @@ function Home({ websiteData }) {
                     </div>
                   </div>
                 </div>
-                <div className="mining-product-cart-btn">
-                  <button>Add to Cart</button>
-                </div>
-                <div className="mining-product-buy-btn">
-                  <button>Buy it now</button>
-                </div>
+                <button className="add-to-cart-btn">Add to Cart</button>
+                <button className="buy-it-now-btn">Buy it now</button>
               </div>
             </div>
           </div>
@@ -462,6 +457,9 @@ function Home({ websiteData }) {
         )}
       </div>
       <DemoSection/>
+      <Footer />
+
+
     </div>
   );
 }
