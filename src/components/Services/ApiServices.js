@@ -15,7 +15,7 @@ const ApiService = (() => {
     baseURL:
       process.env.REACT_APP_API_BASE_URL || 'https://sharontelematics.org/api/', // Replace with your API base URL
     // process.env.REACT_APP_API_BASE_URL || "http://localhost:3000/api/", // Replace with your API base URL
-    timeout: 10000000, // Request timeout in milliseconds
+    // timeout: 10000000, // Request timeout in milliseconds
   });
 
   // Interceptor for handling requests
