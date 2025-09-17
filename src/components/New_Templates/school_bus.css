@@ -200,6 +200,7 @@
     box-shadow: 0 4px 24px rgba(96, 164, 66, 0.13);
     padding: 20px;
     align-items: center;
+    word-break: break-all;
 }
 
 .school-bus-demo-left {
@@ -319,6 +320,7 @@
     display: flex;
     flex-direction: column;
     gap: 36px;
+    word-break: break-all;
 }
 
 .manager-app-title {
@@ -342,14 +344,15 @@
     display: flex;
     font-size: 1.08rem;
     color: #eafbe2;
-    /* margin-top: 18px; */
     line-height: 1.6;
+    width:50%;
 }
 
 .manager-app-features-list {
     display: flex;
     flex-direction: column;
     gap: 22px;
+    width: 50%;
 }
 
 .manager-app-feature {
@@ -408,7 +411,6 @@
     border-radius: 24px;
     padding: 14px;
     margin: 0 auto;
-    width: 85%;
 }
 
 .manager-app-advantages-grid {
@@ -814,12 +816,13 @@
         gap: 24px;
     }
     .school-bus-demo-grid {
-        grid-template-columns: 1fr;
         padding: 24px 12px;
+        flex-direction: column;
+        width: 100%;
     }
     .school-bus-demo-form {
-        min-width: unset;
         margin-top: 24px;
+        width: 100%;
     }
     .school-bus-demo-title {
         font-size: 2rem;
@@ -845,6 +848,15 @@
     .manager-app-reports,
     .manager-app-emergency {
         flex: unset;
+        width: 100%;
+    }
+    
+    /* .manager-app-advantage-img{
+        width: 80%;
+    } */
+    
+    .manager-app-advantages-grid{
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
@@ -936,8 +948,9 @@
     }
     .manager-app-apis-fees-card {
         border-right: none;
-        border-bottom: 1.5px dashed #b6e2b6;
-        min-height: 120px;
+        border-bottom: 1.5px dashed black;
+        padding-bottom: 3%;
+        min-height: 200px;
     }
     .manager-app-apis-fees-card:last-child {
         border-bottom: none;

@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../contexts/CartContext";
 
 import Navbar from "./Navbar";
 import "./ProductOver.css";
@@ -11,7 +12,9 @@ function ProductsOverview({ websiteData }) {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [stateData, setData] = useState(null);
+  const [selectedNetwork, setSelectedNetwork] = useState("4G"); // Default network
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const product = websiteData.find((item) => item.id === parseInt(id));
@@ -19,6 +22,39 @@ function ProductsOverview({ websiteData }) {
     console.log(product);
   }, [id, websiteData]);
 
+
+  const handleAddToCart = () => {
+    if (!stateData || !stateData.device || stateData.device.length === 0) return;
+
+    const device = stateData?.device[0];
+    const price = Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100));
+    console.log(device.id)
+    if (!device.id) {
+      alert("Invalid device. Please try again.");
+      return;
+    }
+
+    const cartItem = {
+      deviceId: device.id,
+      product: stateData,
+      quantity: quantity,
+      clientId: localStorage.getItem("client_db_id"),
+      totalAmount: price * quantity,
+      network: selectedNetwork,
+      name: device.name,
+      price: price,
+      model: device.model,
+      discount: device.discount || 0
+    };
+
+    addToCart(cartItem);
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    // Navigate to checkout or cart page
+    navigate('/cart');
+  };
 
   // Quantity control functions
   const incrementQuantity = () => {
@@ -37,26 +73,24 @@ function ProductsOverview({ websiteData }) {
         </div>
         <div className="mining-product-details">
           <div className="mining-product-title">
-            {/* <h2>
-              AIS-140 Mining GPS Tracker – Government Approved | Real-Time
-              Tracking | SOS Button | Dual SIM | 4 Hours Backup Battery
-            </h2> */}
             <h2>{stateData?.device[0]?.name}  {stateData?.device[0]?.model}</h2>
           </div>
-          <div className="mining-product-price">
-            <p>Rs. {stateData?.device[0]?.amount}</p>
+          <div className="product-price-section">
+            <span className="product-price">
+              ₹{Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}
+            </span>
+
+            {stateData?.device[0]?.discount > 0 && (
+              <span className="product-old-price">
+                ₹{stateData?.device[0]?.amount || 100}
+              </span>
+            )}
           </div>
           <div className="mining-product-features">
             <ul>
               <li>
                 {stateData?.device[0]?.description}
               </li>
-              {/* <li>
-                Real-Time Tracking & SOS Alerts – Safer rides, instant
-                notifications
-              </li>
-              <li>Dual SIM / 2G & 4G Connectivity – Always stay connected</li>
-              <li>4 Hours Backup Battery – Reliable even during power cuts</li> */}
             </ul>
           </div>
           <div className="mining-product-order">
@@ -74,7 +108,8 @@ function ProductsOverview({ websiteData }) {
               </div>
             </div>
             <div className="mining-product-final-price">
-              <p>Rs. {stateData?.device[0]?.amount}</p>
+              {/* <p>Rs. {stateData?.device[0]?.amount}</p> */}
+              <p>Rs. {Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}</p>
             </div>
             <div className="mining-product-quantity">
               <div className="mining-product-quantity-label">
@@ -111,10 +146,10 @@ function ProductsOverview({ websiteData }) {
                   </div>
                 </div>
                 <div className="mining-product-cart-btn">
-                  <button>Add to Cart</button>
+                  <button onClick={handleAddToCart}>Add to Cart</button>
                 </div>
                 <div className="mining-product-buy-btn">
-                  <button>Buy it now</button>
+                  <button onClick={handleBuyNow}>Buy it now</button>
                 </div>
               </div>
             </div>
@@ -126,7 +161,6 @@ function ProductsOverview({ websiteData }) {
       </div>
 
       <div className="mining-features">
-        {/* Determine starting index based on layoutType */}
         {(() => {
           const startIndex = stateData?.layoutType === "theme1" ? 3 : 0;
 

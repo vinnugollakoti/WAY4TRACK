@@ -83,7 +83,7 @@ function Home({ websiteData }) {
 
     const cardsContainer = cardsContainerRef.current;
     const cards = cardsContainer.querySelectorAll('.solution-card-sticky');
-    
+
     // Set CSS custom properties
     cardsContainer.style.setProperty('--cards-count', cards.length);
     if (cards.length > 0) {
@@ -94,27 +94,26 @@ function Home({ websiteData }) {
     Array.from(cards).forEach((card, index) => {
       const offsetTop = 30 + index * 80;
       card.style.paddingTop = `${offsetTop}px`;
-      
+
       if (index === cards.length - 1) return;
-      
+
       const toScale = 1 - (cards.length - 1 - index) * 0.07;
       const nextCard = cards[index + 1];
       const cardInner = card.querySelector('.solution-card-inner');
-      
+
       // Create scroll observer for each card
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             const percentageY = 1 - entry.intersectionRatio;
-            
-            cardInner.style.transform = `scale(${
-              valueAtPercentage({
-                from: 1,
-                to: toScale,
-                percentage: percentageY
-              })
-            })`;
-            
+
+            cardInner.style.transform = `scale(${valueAtPercentage({
+              from: 1,
+              to: toScale,
+              percentage: percentageY
+            })
+              })`;
+
             cardInner.style.filter = `brightness(${valueAtPercentage({
               from: 1,
               to: 0.8,
@@ -126,7 +125,7 @@ function Home({ websiteData }) {
           threshold: Array.from({ length: 100 }, (_, i) => i / 100)
         }
       );
-      
+
       observer.observe(nextCard);
     });
   }, [session3]);
@@ -176,9 +175,8 @@ function Home({ websiteData }) {
           {websiteData.map((item, index) => (
             <div
               key={index}
-              className={`carousel-slide ${
-                index === currentSlide ? "active" : ""
-              }`}
+              className={`carousel-slide ${index === currentSlide ? "active" : ""
+                }`}
             >
               <img
                 className="homepage-intro-img"
@@ -461,7 +459,7 @@ function Home({ websiteData }) {
           <img src="/images/Rectangle 73.png" alt="Fallback" />
         )}
       </div>
-      <DemoSection/>
+      <DemoSection />
     </div>
   );
 }
