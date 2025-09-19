@@ -129,6 +129,11 @@
   color: #60A442;
 }
 
+.cart-quantity {
+  font-weight: 600;
+  padding-left: 10%;
+}
+
 /* Hamburger menu - hidden by default on desktop */
 .hamburger {
   display: none;
