@@ -25,6 +25,9 @@ import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import { CartProvider } from "./contexts/CartContext";
 
+import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
+
+
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,6 +93,7 @@ const App = () => {
           <Route path="/address-page" element={<AddressPage />} />
           <Route path="/order-details" element={<OrderDetailsPage />} />
           <Route path="/old-cart" element={<OldCartPage />} />
+          <Route path="/order-item/:orderId/:deviceId" element={<OrderItemDetails />} />
         </Routes>
       </Router>
     </CartProvider>

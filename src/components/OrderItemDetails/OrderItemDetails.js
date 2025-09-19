@@ -81,11 +81,12 @@ const OrderItemDetails = () => {
             );
             const currentDevice = Array.isArray(currentOrder.deviceDetails)
               ? currentOrder.deviceDetails.find(
-                  (d) => d.deviceId.toString() === deviceId
-                )
+                (d) => d.deviceId.toString() === deviceId
+              )
               : null;
 
             setOrder(currentOrder);
+            console.log("C-Order: ", currentOrder)
             setItem(currentItem);
             setDevice(currentDevice);
           }
@@ -148,7 +149,7 @@ const OrderItemDetails = () => {
         rating: value,
       };
 
-      console.log(reviews,"reeviews")
+      console.log(reviews, "reeviews")
 
       if (reviews && reviews.id) {
         payload.id = reviews.id;
@@ -438,14 +439,14 @@ const OrderItemDetails = () => {
             <p className="OrderItemDetails-returnInfo">
               {isDelivered
                 ? `Return policy ends on ${formatDate(
-                    new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
-                  )}`
+                  new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+                )}`
                 : status === OrderStatus.request_raised ||
                   status === OrderStatus.request_approved ||
                   status === OrderStatus.request_reject ||
                   status === OrderStatus.request_sucess
-                ? ""
-                : `Expected delivery: ${formatDate(order.delivaryDate)}`}
+                  ? ""
+                  : `Expected delivery: ${formatDate(order.delivaryDate)}`}
             </p>
 
             {canCancel && item.status !== OrderStatus.CANCELED && (
@@ -598,9 +599,8 @@ const OrderItemDetails = () => {
                 return (
                   <span
                     key={i}
-                    className={`OrderItemDetails-star ${
-                      starValue <= (hoverRating || rating) ? "filled" : ""
-                    }`}
+                    className={`OrderItemDetails-star ${starValue <= (hoverRating || rating) ? "filled" : ""
+                      }`}
                     onClick={() => handleStarClick(starValue)}
                     onMouseEnter={() => setHoverRating(starValue)}
                     onMouseLeave={() => setHoverRating(0)}
@@ -630,7 +630,7 @@ const OrderItemDetails = () => {
                     ×
                   </button>
                   <ProductReviewForm
-                  item={item}
+                    item={item}
                     review={reviews}
                     initialRating={rating}
                   />

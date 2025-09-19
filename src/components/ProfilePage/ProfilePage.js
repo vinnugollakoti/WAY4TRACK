@@ -45,6 +45,7 @@ const ProfilePage = () => {
     payload.append("clientId", clientId);
     payload.append("name", editProfileData.name);
     payload.append("phoneNumber", editProfileData.phoneNumber);
+    payload.append("email", editProfileData.email)
 
     try {
       const response = await ApiService.post(
@@ -59,7 +60,7 @@ const ProfilePage = () => {
         alert("Client updated successfully!");
         fetchProfile(); // refresh data
       } else {
-       alert("Please update at least one item. Try again.");
+        alert("Please update at least one item. Try again.");
 
       }
     } catch (error) {
@@ -140,17 +141,15 @@ const ProfilePage = () => {
         <div className="col-md-8">
           <div className="mb-3 d-flex gap-3 flex-wrap">
             <button
-              className={`btn ${
-                activeTab === "profile" ? "btn-dark" : "btn-outline-dark"
-              }`}
+              className={`btn ${activeTab === "profile" ? "btn-dark" : "btn-outline-dark"
+                }`}
               onClick={() => setActiveTab("profile")}
             >
               Profile
             </button>
             <button
-              className={`btn ${
-                activeTab === "orders" ? "btn-dark" : "btn-outline-dark"
-              }`}
+              className={`btn ${activeTab === "orders" ? "btn-dark" : "btn-outline-dark"
+                }`}
               onClick={() => setActiveTab("orders")}
             >
               Order History
@@ -159,62 +158,62 @@ const ProfilePage = () => {
 
           {activeTab === "profile" && (
             <div className="row g-3">
-            <div className="col-12">
-  <div className="card p-4 shadow-sm">
-    <div className="d-flex justify-content-between align-items-center mb-3">
-      <h5 className="fw-bold mb-0">Account Information</h5>
-      <button className="btn btn-sm btn-success" onClick={handleSubmit}>
-        Update
-      </button>
-    </div>
-    <form>
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label className="form-label fw-semibold">Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={editProfileData.name}
-            onChange={(e) =>
-              setEditProfileData({
-                ...editProfileData,
-                name: e.target.value,
-              })
-            }
-          />
-        </div>
-        <div className="col-md-6 mb-3">
-          <label className="form-label fw-semibold">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={editProfileData.email}
-            onChange={(e) =>
-              setEditProfileData({
-                ...editProfileData,
-                email: e.target.value,
-              })
-            }
-          />
-        </div>
-        <div className="col-md-6 mb-3">
-          <label className="form-label fw-semibold">Phone Number</label>
-          <input
-            type="text"
-            className="form-control"
-            value={editProfileData.phoneNumber}
-            onChange={(e) =>
-              setEditProfileData({
-                ...editProfileData,
-                phoneNumber: e.target.value,
-              })
-            }
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+              <div className="col-12">
+                <div className="card p-4 shadow-sm">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className="fw-bold mb-0">Account Information</h5>
+                    <button className="btn btn-sm btn-success" onClick={handleSubmit}>
+                      Update
+                    </button>
+                  </div>
+                  <form>
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label fw-semibold">Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={editProfileData.name}
+                          onChange={(e) =>
+                            setEditProfileData({
+                              ...editProfileData,
+                              name: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label fw-semibold">Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          value={editProfileData.email}
+                          onChange={(e) =>
+                            setEditProfileData({
+                              ...editProfileData,
+                              email: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label fw-semibold">Phone Number</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={editProfileData.phoneNumber}
+                          onChange={(e) =>
+                            setEditProfileData({
+                              ...editProfileData,
+                              phoneNumber: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
 
 
               <div className="col-12">
@@ -328,7 +327,7 @@ const ProfilePage = () => {
         </div>
       )}
       <div className="footer-div-profile-page">
-      <Footer />
+        <Footer />
       </div>
     </div>
   );
