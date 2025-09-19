@@ -12,7 +12,7 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
   const dbId = localStorage.getItem("client_db_id");
-  const phone = localStorage.getItem("client_phone");
+  const phoneNumber = localStorage.getItem("client_phone");
 
   const [form, setForm] = useState({
     email: "",
@@ -26,8 +26,9 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
     city: "",
     state: "Andhra Pradesh",
     pincode: "",
-    phone: "",
+    phoneNumber: "",
     saveInfo: false,
+    addressLineOne: "",
   });
 
   useEffect(() => {
@@ -45,8 +46,9 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
         city: address.city || "",
         state: address.state || "Andhra Pradesh",
         pincode: address.pincode || "",
-        phone: address.phoneNumber || "",
+        phoneNumber: address.phoneNumber || "",
         saveInfo: false,
+        addressLineOne: address.addressLineOne || "",
       });
     } else {
       // Add mode: try to fetch existing addresses
@@ -83,7 +85,7 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
       await ApiService.post("/client/handleClientDetails", {
         companyCode,
         unitCode,
-        phoneNumber: phone,
+        phoneNumber: form.phoneNumber,
         name: form.firstName,
         id: dbId,
         clientId,
@@ -103,7 +105,7 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
         companyCode,
         unitCode,
         clientId: Number(dbId),
-        phoneNumber: phone,
+        phoneNumber: form.phoneNumber,
         name: form.firstName,
       };
 
@@ -193,18 +195,18 @@ const AddressPopupPage = ({ address = null, onClose, onSuccess }) => {
 
         <input
           type="text"
-          name="address"
+          name="addressLineOne"
           placeholder="Address"
-          value={form.address}
+          value={form.addressLineOne}
           onChange={handleChange}
           required
         />
 
         <input
           type="tel"
-          name="phone"
-          placeholder="Phone"
-          value={form.phone}
+          name="phoneNumber"
+          placeholder="Phone Number"
+          value={form.phoneNumber}
           onChange={handleChange}
           required
         />
