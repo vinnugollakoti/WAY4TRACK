@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Products.css";
@@ -6,11 +6,15 @@ import Footer from "./Footer";
 import DemoSection from "./DemoSection";
 import Navbar from "./Navbar";
 import { CartContext } from "../../contexts/CartContext";
+import ProductPopupPage from "../ProductPopupPage/ProductPopupPage";
 
 function Products({ websiteData }) {
   console.log("Products component rendered", websiteData);
-  const Navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  const { cartItems, addToCart } = useContext(CartContext);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   // Filter out dummy products and ensure we only show products with valid device data
   const validProducts = websiteData.filter(
@@ -21,17 +25,23 @@ function Products({ websiteData }) {
       product.device[0].image
   );
 
-  const handleAddToCart = (product, device) => {
-    const cartItem = {
-      deviceId: device.id,
-      product: product,
-      name: device.name,
-      quantity: 1,
-      clientId: localStorage.getItem("client_db_id"),
-      totalAmount: Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100))
-    };
+  console.log("Cart Items:", cartItems);
+  console.log("Products: ", validProducts);
 
-    addToCart(cartItem);
+  const handleAddToCart = (product, device) => {
+    setSelectedProduct({
+      ...device,
+      productDetails: product // Include product details for the popup
+    });
+    setShowProductModal(true);
+  };
+
+  const handleBuyNow = (product, device) => {
+    setSelectedProduct({
+      ...device,
+      productDetails: product // Include product details for the popup
+    });
+    setShowProductModal(true);
   };
 
 
@@ -44,10 +54,23 @@ function Products({ websiteData }) {
       <div className="products-container">
         {validProducts.map((product, index) => {
           const device = product.device[0];
+          const discountedPrice = Math.round(
+            (device.amount || 100) * (1 - (device.discount || 0) / 100)
+          );
+
+          // Check if this device is already in the cart
+          const matchedItem = cartItems.find(
+            (item) => item.device?.id === device.id
+          );
+
           return (
-            <div key={index} className="product-card" onClick={() => {
-              Navigate(`/product/${product.id}`);
-            }}>
+            <div
+              key={index}
+              className="product-card"
+              onClick={() => {
+                navigate(`/product/${product.id}`);
+              }}
+            >
               <div className="product-image-container">
                 <img
                   src={device.image}
@@ -63,9 +86,7 @@ function Products({ websiteData }) {
                 {device.description || "No description available"}
               </p>
               <div className="product-price-section">
-                <span className="product-price">
-                  ₹{Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100))}
-                </span>
+                <span className="product-price">₹{discountedPrice}</span>
 
                 {device.discount > 0 && (
                   <span className="product-old-price">
@@ -74,19 +95,65 @@ function Products({ websiteData }) {
                 )}
               </div>
               <div className="product-buttons">
-                <button className="buy-btn">Buy now</button>
-                <button className="add-btn"
+                <button
+                  className="buy-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAddToCart(product, device);
-                  }}>
-                  Add to cart
+                    handleBuyNow(product, device);
+                  }}
+                >
+                  Buy now
                 </button>
+
+                {matchedItem ? (
+                  <button
+                    className="add-btn added"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToCart(product, device);
+                    }}
+                    onMouseEnter={() => setHovered(device.id)}
+                    onMouseLeave={() => setHovered(false)}
+                  >
+                    {hovered === device.id ? "Update Cart" : "Added"}
+                  </button>
+                ) : (
+                  <button
+                    className="add-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToCart(product, device);
+                    }}
+                  >
+                    Add to cart
+                  </button>
+                )}
               </div>
             </div>
           );
         })}
       </div>
+
+      {showProductModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowProductModal(false)}
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setShowProductModal(false)}
+            >
+              ×
+            </button>
+            <ProductPopupPage
+              device={selectedProduct}
+              isOpen={showProductModal}
+            />
+          </div>
+        </div>
+      )}
+
       <DemoSection />
       <Footer />
     </div>

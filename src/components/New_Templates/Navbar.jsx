@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from "../../contexts/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartQuantity, setQuantity] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { cartItems } = useContext(CartContext || { cartItems: [] });
 
   const navigate = useNavigate();
 
@@ -15,6 +17,12 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  console.log(cartItems)
+
+  useEffect(() => {
+    setQuantity(cartItems.length);
+  }, [cartItems]);
 
   return (
     <nav className="navbar">
@@ -43,15 +51,15 @@ const Navbar = () => {
           </ul>
 
           <div className="actions">
-            <div className="cart" onClick={() => navigate("/ncart")}>
+            <div className="cart" onClick={() => navigate("/cart")}>
               🛒 <p className='cart-quantity'>{cartQuantity}</p>
             </div>
 
             {isLoggedIn ? (
               <div className="profile" onClick={() => navigate("/my-profile")}>
-                <img 
-                  src="/images/profile-logo.png" 
-                  alt="Profile" 
+                <img
+                  src="/images/profile-logo.png"
+                  alt="Profile"
                   className="profile-icon"
                 />
               </div>

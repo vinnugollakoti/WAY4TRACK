@@ -33,6 +33,15 @@ function OrderDetailsPage() {
     deliveryAddress
   );
 
+  const calculateItemTotal = (item) => {
+    if (!item) return 0;
+    const price =
+      (item?.device?.amount || 0) -
+      ((item?.device?.amount || 0) * (item?.device?.discount || 0)) / 100;
+    return (price * (item?.quantity || 1)).toFixed(2);
+  };
+
+
   const displayedItems = isBuyNow ? orderItems : cartItems;
 
   const displayedItemsNormalized = displayedItems.map((item) => {
@@ -126,7 +135,7 @@ function OrderDetailsPage() {
     const orderItems = displayedItemsNormalized.map((item) => ({
       name: item.device.name,
       qty: item.quantity,
-      amount: item.totalAmount,
+      amount: calculateItemTotal(item),
       deviceId: item.device.id,
       is_relay: item.isRelay,
       network: item.network,
@@ -303,8 +312,7 @@ function OrderDetailsPage() {
                     </p>
                     <p>Subscription: {item.subscription} subscription</p>
                     <p>Network: {item.network}</p>
-                    <p>Rs. {item.totalAmount}</p>
-                    {/* {!isBuyNow && ( */}
+                    <p>Rs. {calculateItemTotal(item)}</p>
                     <div className="quantity-controls">
                       <button
                         className="qty-btn"

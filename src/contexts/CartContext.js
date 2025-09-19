@@ -105,10 +105,11 @@ export const CartProvider = ({ children }) => {
 
   const getTotal = () => {
     return cartItems.reduce((total, item) => {
-      const itemCost = Number(item.totalAmount) || 0;
-      // const itemQuantity = Number(item.quantity) || 1;
-      // return total + itemCost * itemQuantity;
-      return itemCost;
+      const basePrice = Number(item?.device?.amount) || 0;
+      const discount = Number(item?.device?.discount) || 0;
+      const priceAfterDiscount = basePrice - (basePrice * discount) / 100;
+
+      return total + priceAfterDiscount * (Number(item.quantity) || 1);
     }, 0);
   };
 

@@ -19,7 +19,7 @@ import BlogDetail from "./components/Blogs/BlogDetail";
 import ProductTheme2 from "./components/ProductTheme2/Landingpage2";
 import Products from "./components/New_Templates/Products";
 import CartPage from "./components/New_Templates/CartPage";
-import NewCartPage from "./components/New_Templates/CartPage";
+import OldCartPage from "./components/Cart/Cart";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
 import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
@@ -89,7 +89,7 @@ const App = () => {
           <Route path="/my-profile" element={<ProfilePage />} />
           <Route path="/address-page" element={<AddressPage />} />
           <Route path="/order-details" element={<OrderDetailsPage />} />
-          <Route path="/ncart" element={<NewCartPage />} />
+          <Route path="/old-cart" element={<OldCartPage />} />
         </Routes>
       </Router>
     </CartProvider>
