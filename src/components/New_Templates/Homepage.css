@@ -138,11 +138,32 @@
 }
 
 .homepage-intro-img {
-  width: 90%;
-  margin-left: 5%;
+  width: 100%;
+  max-width: 1423px;
+  height: auto;
   border-radius: 20px;
+  display: block;
+  margin: 0 auto; /* centers the image */
 }
 
+/* Adjust height ratio if you want fixed aspect ratio like 1423x800 */
+.homepage-intro-img {
+  aspect-ratio: 1423 / 800;
+  object-fit: cover;
+}
+
+/* Optional fine-tuning for smaller screens */
+@media (max-width: 768px) {
+  .homepage-intro-img {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage-intro-img {
+    border-radius: 8px;
+  }
+}
 .solution-left {
     display: flex;
     justify-content: space-between;
