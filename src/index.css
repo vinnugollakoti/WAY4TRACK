@@ -63,6 +63,7 @@ code {
 p {
   line-height: 1.6;
   margin-bottom: 0rem;
+  font-weight: 600;
 }
 
 .text-primary {

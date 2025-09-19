@@ -114,6 +114,11 @@
   width: 80%;
 }
 
+.cart-quantity {
+  color: black;
+  font-weight: 600;
+}
+
 /* Cart styling */
 .cart-link {
   position: relative;
