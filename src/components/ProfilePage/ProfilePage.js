@@ -241,7 +241,7 @@ const ProfilePage = () => {
                               )}
                               <p className="mb-1 fw-bold">{addr.name}</p>
                               <p className="mb-1">
-                                {addr.houseNo}, {addr.street}, {addr.locality}
+                                {addr.phoneNumber}, {addr.street}, {addr.locality}
                               </p>
                               <p className="mb-1">
                                 {addr.city}, {addr.state}, {addr.pinCode}

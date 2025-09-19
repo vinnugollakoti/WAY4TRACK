@@ -4,7 +4,6 @@
 body, html {
   margin: 0;
   padding: 0;
-  font-family: "Inter", sans-serif;
 }
 .mining-body {
   background-color: white;
@@ -310,6 +309,7 @@ body, html {
 
 .mining-product p{
   font-family: "Nunito", sans-serif;
+  padding-bottom: 2%;
 }
 .quantity-p {
   font-size: 18px;
@@ -536,7 +536,8 @@ body, html {
 
 .mining-benefits-section {
   background: #f7f8fa;
-  padding: 80px 0 80px 0;
+  padding: 3% 0 3% 0;
+  margin-top: 4%;
 }
 
 .mining-benefits-section h3{
@@ -583,10 +584,9 @@ body, html {
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  padding: 56px 48px 48px 48px;
-  min-width: 440px;
-  max-width: 440px;
-  height: 380px;
+  padding: 2% 3% 2% 3%;
+  min-width: 30%;
+  height: 35vh;
   display: flex;
   flex-direction: column;
   position: relative;

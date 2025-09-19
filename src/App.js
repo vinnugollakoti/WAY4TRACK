@@ -1,13 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
-import "./App.css"
-import Bike from "./components/New_Templates/Bike"
-import Homepage from "./components/New_Templates/Home"
-import Mining from "./components/New_Templates/Mining"
-import SchoolBus from "./components/New_Templates/school_bus"
+import "./App.css";
+import Bike from "./components/New_Templates/Bike";
+import Homepage from "./components/New_Templates/Home";
+import Mining from "./components/New_Templates/Mining";
+import SchoolBus from "./components/New_Templates/school_bus";
 import ProductsOverview from "./components/New_Templates/ProductsOverview";
 import About from "./components/about/AboutUs";
 import AddressPage from "./components/AddressPage/AddressPage";
@@ -19,8 +18,8 @@ import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import BlogDetail from "./components/Blogs/BlogDetail";
 import ProductTheme2 from "./components/ProductTheme2/Landingpage2";
 import Products from "./components/New_Templates/Products";
-import CartPage from "./components/Cart/Cart";
-import NewCartPage from './components/New_Templates/CartPage';
+import CartPage from "./components/New_Templates/CartPage";
+import NewCartPage from "./components/New_Templates/CartPage";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
 import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
@@ -30,7 +29,6 @@ const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   useEffect(() => {
     const fetchWebsiteData = async () => {
@@ -71,7 +69,6 @@ const App = () => {
 
   return (
     <CartProvider>
-
       <Router>
         <Routes>
           <Route path="/" element={<Homepage websiteData={websiteData} />} />
@@ -94,12 +91,9 @@ const App = () => {
           <Route path="/order-details" element={<OrderDetailsPage />} />
           <Route path="/ncart" element={<NewCartPage />} />
         </Routes>
-
-
       </Router>
     </CartProvider>
+  );
+};
 
-  )
-}
-
-export default App
+export default App;
