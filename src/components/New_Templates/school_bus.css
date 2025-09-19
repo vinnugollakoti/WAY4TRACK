@@ -175,8 +175,6 @@
 }
 
 .school-bus-app-img {
-    width: 210px;
-    height: 300px;
     margin: 0 auto;
     margin-top: 12px;
     display: flex;
@@ -186,6 +184,11 @@
     background: #fff;
     box-shadow: 0 2px 12px rgba(96, 164, 66, 0.10);
     overflow: hidden;
+}
+
+.school-bus-app-img img{
+    width: 210px;
+    height: 300px;
 }
 
 .school-bus-demo-section {
@@ -954,10 +957,10 @@
     .school-bus-app-desc {
         font-size: 1rem;
     }
-    .school-bus-app-img {
+    /* .school-bus-app-img {
         width: 160px;
         height: 180px;
-    }
+    } */
 }
 
 @media (max-width: 900px) {
