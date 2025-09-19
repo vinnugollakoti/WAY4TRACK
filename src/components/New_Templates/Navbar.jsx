@@ -48,8 +48,9 @@ const Navbar = () => {
 
           <div className="actions">
             <div className="cart">🛒</div>
-            <button className="login-btn">Login</button>
-            <button className="get-started-btn">Get Started</button>
+            <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
+            <button className="get-started-btn" onClick={() => navigate("/login")}>Sign Up</button>
+            {/* <button className="get-started-btn">Get Started</button> */}
           </div>
         </div>
       </div>

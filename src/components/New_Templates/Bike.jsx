@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./Bike.css";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Bike = ({ websiteData }) => {
   const { id } = useParams();
@@ -394,6 +395,7 @@ const Bike = ({ websiteData }) => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

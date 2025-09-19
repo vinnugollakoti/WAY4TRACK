@@ -17,6 +17,8 @@ import BlogDetail from "./components/Blogs/BlogDetail";
 import ProductTheme2 from "./components/ProductTheme2/Landingpage2";
 import Products from "./components/New_Templates/Products";
 import CartPage from "./components/New_Templates/CartPage";
+import LoginPage from "./components/Login/Login";
+import ProfilePage from "./components/ProfilePage/ProfilePage";
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -100,6 +102,8 @@ const App = () => {
         <Route path="/blogdetails" element={<BlogDetail />} />
         <Route path="/product-theme-2" element={<ProductTheme2 />} />
         <Route path="/cartpage" element={<CartPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="my-profile" element={<ProfilePage />} />
       </Routes>
 
 
