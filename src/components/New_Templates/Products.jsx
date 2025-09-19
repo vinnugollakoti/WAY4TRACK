@@ -1,12 +1,17 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Products.css";
 import Footer from "./Footer";
 import DemoSection from "./DemoSection";
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../contexts/CartContext";
 
 function Products({ websiteData }) {
   console.log("Products component rendered", websiteData);
   const Navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+
   // Filter out dummy products and ensure we only show products with valid device data
   const validProducts = websiteData.filter(
     (product) =>
@@ -15,6 +20,20 @@ function Products({ websiteData }) {
       product.device.length > 0 &&
       product.device[0].image
   );
+
+  const handleAddToCart = (product, device) => {
+    const cartItem = {
+      deviceId: device.id,
+      product: product,
+      name: device.name,
+      quantity: 1,
+      clientId: localStorage.getItem("client_db_id"),
+      totalAmount: Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100))
+    };
+
+    addToCart(cartItem);
+  };
+
 
   return (
     <div className="root">
@@ -56,7 +75,13 @@ function Products({ websiteData }) {
               </div>
               <div className="product-buttons">
                 <button className="buy-btn">Buy now</button>
-                <button className="add-btn">Add to cart</button>
+                <button className="add-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToCart(product, device);
+                  }}>
+                  Add to cart
+                </button>
               </div>
             </div>
           );

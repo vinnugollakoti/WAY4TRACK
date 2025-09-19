@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
             unitCode,
           }
         );
-        console.log("response :", response.data)
+        // console.log("response :", response.data)
         if (response.status) {
           setCartItems(response.data);
         } else {
@@ -47,12 +47,12 @@ export const CartProvider = ({ children }) => {
   }, [companyCode, unitCode]);
 
   const addToCart = async (item) => {
-    const clientID=localStorage.getItem("client_db_id");
-    console.log("clientID :",clientID,"===",item?.clientId)
-    console.log("rrr :",clientID!==null && Number(clientID)===Number(item?.clientId))
-    console.log("item:",item)
+    const clientID = localStorage.getItem("client_db_id");
+    console.log("clientID :", clientID, "===", item?.clientId)
+    console.log("rrr :", clientID !== null && Number(clientID) === Number(item?.clientId))
+    console.log("item:", item)
 
-    if (clientID!==null && Number(clientID)===Number(item?.clientId) ) {
+    if (clientID !== null && Number(clientID) === Number(item?.clientId)) {
       try {
         const cartData = {
           ...item,
@@ -63,13 +63,13 @@ export const CartProvider = ({ children }) => {
           "/cart/handleCreateCart",
           cartData
         );
-  
+
         if (response.status) {
           alert("Item added to carts");
           const guestCartItems = JSON.parse(
             localStorage.getItem("guestCartItems") || "[]"
           );
-  
+
           guestCartItems.push(item);
           localStorage.setItem("guestCartItems", JSON.stringify(guestCartItems));
           fetchCartItems();
@@ -79,8 +79,8 @@ export const CartProvider = ({ children }) => {
       } catch (error) {
         console.error("Error adding item to cart:", error);
       }
-  
-    }else{
+
+    } else {
       const guestCartItems = JSON.parse(
         localStorage.getItem("guestCartItems") || "[]"
       );
