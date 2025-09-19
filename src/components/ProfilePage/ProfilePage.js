@@ -9,7 +9,8 @@ import EditProfilePopup from "../EditPorfilePopup/EdtProfilePopup";
 import "./ProfilePage.css";
 import MyOrders from "../MyOrders/MyOrders";
 import Navbar from "../New_Templates/Navbar";
-import { Nav } from "react-bootstrap";
+import Footer from "../New_Templates/Footer"
+
 
 const ProfilePage = () => {
   const [user, setUser] = useState({});
@@ -326,6 +327,9 @@ const ProfilePage = () => {
           </div>
         </div>
       )}
+      <div className="footer-div-profile-page">
+      <Footer />
+      </div>
     </div>
   );
 };

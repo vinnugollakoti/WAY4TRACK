@@ -50,7 +50,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <div className="profile" onClick={() => navigate("/my-profile")}>
                 <img 
-                  src="/profile-icon.png" 
+                  src="/images/profile-logo.png" 
                   alt="Profile" 
                   className="profile-icon"
                 />
