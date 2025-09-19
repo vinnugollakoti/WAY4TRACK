@@ -1,3 +1,6 @@
+html {
+  background-color: white;
+}
 .profilePage-layout {
   display: flex;
   padding: 40px;
@@ -8,6 +11,15 @@
 }
 .profile-page-content {
   margin-top: 1%;
+}
+.container-fluid {
+  background-color: white;
+  padding: 0px;
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.py-4 {
+  padding-bottom: 0px;
 }
 .profilePage-left {
   width: 300px;
@@ -345,6 +357,16 @@
   background-color: #60A442;
 }
 
+.footer-div-profile-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 62vh; /* full viewport height */
+}
+
+/* Push footer to bottom */
+.footer-div-profile-page > :last-child {
+  margin-top: auto;
+}
 /* mobile */
 
 
