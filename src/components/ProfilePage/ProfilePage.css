@@ -6,7 +6,9 @@
   min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
 }
-
+.profile-page-content {
+  margin-top: 1%;
+}
 .profilePage-left {
   width: 300px;
   background: white;

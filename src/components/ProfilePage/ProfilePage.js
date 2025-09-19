@@ -8,6 +8,8 @@ import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
 import EditProfilePopup from "../EditPorfilePopup/EdtProfilePopup";
 import "./ProfilePage.css";
 import MyOrders from "../MyOrders/MyOrders";
+import Navbar from "../New_Templates/Navbar";
+import { Nav } from "react-bootstrap";
 
 const ProfilePage = () => {
   const [user, setUser] = useState({});
@@ -103,7 +105,8 @@ const ProfilePage = () => {
 
   return (
     <div className="container-fluid py-4">
-      <div className="row g-4">
+      <Navbar />
+      <div className="row g-4 profile-page-content">
         <div className="col-md-4 text-center">
           <div className="card p-4 shadow-sm">
             {user.image ? (
