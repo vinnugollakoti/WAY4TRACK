@@ -73,7 +73,9 @@ function ProductsOverview({ websiteData }) {
         </div>
         <div className="mining-product-details">
           <div className="mining-product-title">
-            <h2>{stateData?.device[0]?.name}  {stateData?.device[0]?.model}</h2>
+            <h2 className="mining-product-title-h2">
+              {stateData?.device[0]?.name}  {stateData?.device[0]?.model}
+            </h2>
           </div>
           <div className="product-price-section">
             <span className="product-price">
@@ -112,9 +114,9 @@ function ProductsOverview({ websiteData }) {
               <p>Rs. {Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}</p>
             </div>
             <div className="mining-product-quantity">
-              <div className="mining-product-quantity-label">
+              {/* <div className="mining-product-quantity-label">
                 <p>Quantity</p>
-              </div>
+              </div> */}
               <div className="mining-product-quantity-controls">
                 <div className="mining-product-quantity-selector">
                   <div className="mining-product-quantity-value">
@@ -145,12 +147,8 @@ function ProductsOverview({ websiteData }) {
                     </div>
                   </div>
                 </div>
-                <div className="mining-product-cart-btn">
-                  <button onClick={handleAddToCart}>Add to Cart</button>
-                </div>
-                <div className="mining-product-buy-btn">
-                  <button onClick={handleBuyNow}>Buy it now</button>
-                </div>
+                <button onClick={handleAddToCart} className="add-to-cart-btn">Add to Cart</button>
+                <button onClick={handleBuyNow} className="buy-it-now-btn">Buy it now</button>
               </div>
             </div>
           </div>

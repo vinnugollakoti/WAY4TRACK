@@ -212,7 +212,7 @@ function Home({ websiteData }) {
 
       <section className="homepage-solutions">
         <center>
-        <h2 className="solutions-title why-choose-title">Our Solutions</h2>
+          <h2 className="solutions-title why-choose-title">Our Solutions</h2>
         </center>
         <div className="solutions-sticky-cards" ref={cardsContainerRef}>
           {session3.slice(-4).map((item, index) => (
