@@ -1,266 +1,142 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./CartPage.css";
 import Navbar from "./Navbar";
+import { CartContext } from "../../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 function CartPage() {
+  const navigate = useNavigate();
+  const { cartItems, removeFromCart, getTotal, addToCart } = useContext(CartContext);
+
+
+  const updateQuantity = async (itemId, change) => {
+    const cartItem = cartItems.find((item) => item.id === itemId);
+    if (!cartItem) return;
+
+    const updatedQuantity = (cartItem?.quantity || 1) + change;
+    if (updatedQuantity < 1) return;
+
+    const updatedCartData = {
+      ...cartItem,
+      id: itemId,
+      quantity: updatedQuantity,
+      clientId: cartItem.client.id,
+      deviceId: cartItem.device.id,
+    };
+
+    try {
+      await addToCart(updatedCartData);
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
+  };
+
+  const handleDelete = (itemId) => {
+    removeFromCart(itemId);
+  };
+
   return (
     <div>
-        <Navbar/>
+      <Navbar />
       <div className="cart-container">
         <div className="cart-details">
           <div className="cart-items-container">
-            <div className="cart-item">
-              <img src="/images/image 6.png" alt="Item" />
-              <div className="cart-item-text">
-                <div className="cart-item-header">
-                  <span className="cart-header">
-                    Fuel Monitoring System with GPS Tracker
-                  </span>
-                  <span className="cart-price">₹100</span>
-                </div>
-                <div className="cart-item-details">
-                  <p>
-                    Our mission is to deliver reliable and cutting-edge GPS
-                    tracking solutions that meet the diverse needs of our
-                    clients.
-                  </p>
-                </div>
-                <div className="cart-item-actions">
-                  <div className="cart-item-buttons">
-                    <button>+</button>
-                    <span>1</span>
-                    <button>-</button>
-                  </div>
-                  <div className="trashbin-button">
-                    <button className="trashbin">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        xmlSpace="preserve"
-                      >
-                        <path
-                          fill="#EFE7D2"
-                          d="M119.032 145.698h-37.4c-6.2 0-11.3-5.1-11.3-11.3v-50.7c0-1.1.9-2 2-2h56c1.1 0 2 .9 2 2v50.7c0 6.2-5.1 11.3-11.3 11.3z..."
-                        />
-                        <path
-                          fill="#EFE7D2"
-                          d="M138.332 85.598h-76c-1.1 0-2-.9-2-2s.9-2 2-2h76c1.1 0 2 .9 2 2s-.9 2-2 2z..."
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+            {cartItems.length === 0 ? (
+              <div className="empty-cart">
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything yet.</p>
               </div>
-            </div>
-            <div className="cart-item">
-              <img src="/images/dash.png" alt="Item" />
-              <div className="cart-item-text">
-                <div className="cart-item-header">
-                  <span className="cart-header">Dashcam GPS Tracker</span>
-                  <span className="cart-price">₹100</span>
-                </div>
-                <div className="cart-item-details">
-                  <p>
-                    Combines vehicle tracking with real-time fuel level
-                    monitoring. Track consumption, refueling, and theft events
-                    effortlessly. Stay in control via web platform or mobile
-                    app.
-                  </p>
-                </div>
-                <div className="cart-item-actions">
-                  <div className="cart-item-buttons">
-                    <button>+</button>
-                    <span>1</span>
-                    <button>-</button>
-                  </div>
-                  <div className="trashbin-button">
-                    <button className="trashbin">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        xmlSpace="preserve"
-                      >
-                        <path
-                          fill="#EFE7D2"
-                          d="M119.032 145.698h-37.4c-6.2 0-11.3-5.1-11.3-11.3v-50.7c0-1.1.9-2 2-2h56c1.1 0 2 .9 2 2v50.7c0 6.2-5.1 11.3-11.3 11.3z..."
-                        />
-                        <path
-                          fill="#EFE7D2"
-                          d="M138.332 85.598h-76c-1.1 0-2-.9-2-2s.9-2 2-2h76c1.1 0 2 .9 2 2s-.9 2-2 2z..."
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="cart-item">
-              <img src="/images/23.png" alt="Item" />
-              <div className="cart-item-text">
-                <div className="cart-item-header">
-                  <span className="cart-header">Advanced GPS Tracker</span>
-                  <span className="cart-price">₹100</span>
-                </div>
-                <div className="cart-item-details">
-                  <p>
-                    A compact, rugged, and power efficient tracker for vehicles,
-                    assets, and equipment. Provides real-time location data via
-                    cellular networks with cloud monitoring. Features remote
-                    immobilization to cut off the engine instantly for enhanced
-                    security.
-                  </p>
-                </div>
-                <div className="cart-item-actions">
-                  <div className="cart-item-buttons">
-                    <button>+</button>
-                    <span>1</span>
-                    <button>-</button>
-                  </div>
-                  <div className="trashbin-button">
-                    <button className="trashbin">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        xmlSpace="preserve"
-                      >
-                        <path
-                          fill="#EFE7D2"
-                          d="M119.032 145.698h-37.4c-6.2 0-11.3-5.1-11.3-11.3v-50.7c0-1.1.9-2 2-2h56c1.1 0 2 .9 2 2v50.7c0 6.2-5.1 11.3-11.3 11.3z..."
-                        />
-                        <path
-                          fill="#EFE7D2"
-                          d="M138.332 85.598h-76c-1.1 0-2-.9-2-2s.9-2 2-2h76c1.1 0 2 .9 2 2s-.9 2-2 2z..."
-                        />
-                      </svg>
-                    </button>
+            ) : (
+              cartItems.map((item) => (
+                <div className="cart-item" key={item.id}>
+                  <img
+                    src={item?.device?.image || "/images/default.jpg"}
+                    alt={item?.device?.name}
+                  />
+                  <div className="cart-item-text">
+                    <div className="cart-item-header">
+                      <span className="cart-header">{item?.device?.name}</span>
+                      <span className="cart-price">₹{((item?.device?.amount - (item?.device?.amount * item?.device?.discount) / 100) * item.quantity)}
+                      </span>
+                    </div>
+                    <div className="cart-item-details">
+                      {/* <p>
+                        Accessories: {item.isRelay ? "With Relay" : "Without Relay"}
+                      </p>
+                      <p>Subscription: {item.subscription} subscription</p>
+                      <p>Network: {item.network}</p> */}
+                      <p>{item?.device?.description}</p>
+                    </div>
+                    <div className="cart-item-actions">
+                      <div className="cart-item-buttons">
+                        <button onClick={() => updateQuantity(item.id, 1)}>
+                          <FaPlus />
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, -1)}>
+                          <FaMinus />
+                        </button>
+                      </div>
+                      <div className="trashbin-button">
+                        <button
+                          className="trashbin"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="cart-item">
-              <img src="/images/home-product-2.png" alt="Item" />
-              <div className="cart-item-text">
-                <div className="cart-item-header">
-                  <span className="cart-header">
-                    AIS-140 Mining GPS Tracker
-                  </span>
-                  <span className="cart-price">₹100</span>
-                </div>
-                <div className="cart-item-details">
-                  <p>
-                    Government-approved tracker as per AIS-140 standards,
-                    mandated by MoRTH. Ensures vehicle safety, passenger
-                    security,and real-time monitoring with transport centers
-                  </p>
-                </div>
-                <div className="cart-item-actions">
-                  <div className="cart-item-buttons">
-                    <button>+</button>
-                    <span>1</span>
-                    <button>-</button>
-                  </div>
-                  <div className="trashbin-button">
-                    <button className="trashbin">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        xmlSpace="preserve"
-                      >
-                        <path
-                          fill="#EFE7D2"
-                          d="M119.032 145.698h-37.4c-6.2 0-11.3-5.1-11.3-11.3v-50.7c0-1.1.9-2 2-2h56c1.1 0 2 .9 2 2v50.7c0 6.2-5.1 11.3-11.3 11.3z..."
-                        />
-                        <path
-                          fill="#EFE7D2"
-                          d="M138.332 85.598h-76c-1.1 0-2-.9-2-2s.9-2 2-2h76c1.1 0 2 .9 2 2s-.9 2-2 2z..."
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="cart-item">
-              <img src="/images/magnetoic.png" alt="Item" />
-              <div className="cart-item-text">
-                <div className="cart-item-header">
-                  <span className="cart-header">Magnetic GPS Tracker</span>
-                  <span className="cart-price">₹100</span>
-                </div>
-                <div className="cart-item-details">
-                  <p>
-                    Compact and portable tracker with rechargeable battery and
-                    strong magnets for easy attachment. Ideal for covert
-                    tracking, temporary monitoring, and asset security without
-                    wiring
-                  </p>
-                </div>
-                <div className="cart-item-actions">
-                  <div className="cart-item-buttons">
-                    <button>+</button>
-                    <span>1</span>
-                    <button>-</button>
-                  </div>
-                  <div className="trashbin-button">
-                    <button className="trashbin">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 200 200"
-                        xmlSpace="preserve"
-                      >
-                        <path
-                          fill="#EFE7D2"
-                          d="M119.032 145.698h-37.4c-6.2 0-11.3-5.1-11.3-11.3v-50.7c0-1.1.9-2 2-2h56c1.1 0 2 .9 2 2v50.7c0 6.2-5.1 11.3-11.3 11.3z..."
-                        />
-                        <path
-                          fill="#EFE7D2"
-                          d="M138.332 85.598h-76c-1.1 0-2-.9-2-2s.9-2 2-2h76c1.1 0 2 .9 2 2s-.9 2-2 2z..."
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+              ))
+            )}
           </div>
         </div>
 
-        <div className="bill-container">
-          <div className="bill-header">
-            <span className="diamond-line left">
-              <span className="diamond-shape" />
-              <span className="line-shape" />
-            </span>
-            <h1>Bill</h1>
-            <span className="diamond-line right">
-              <span className="line-shape" />
-              <span className="diamond-shape" />
-            </span>
-          </div>
-
-          <div className="bill-content">
-            <div className="bill-item">
-              <span>Fuel Monitoring System with GPS Tracker x1</span>
-              <div className="ckcjc7">
-                <div className="c1az4bwh"></div>
-              </div>
-              <span>₹100</span>
+        {cartItems.length > 0 && (
+          <div className="bill-container">
+            <div className="bill-header">
+              <span className="diamond-line left">
+                <span className="diamond-shape" />
+                <span className="line-shape" />
+              </span>
+              <h1>Bill</h1>
+              <span className="diamond-line right">
+                <span className="line-shape" />
+                <span className="diamond-shape" />
+              </span>
             </div>
 
-            <div className="bill-total">
-              <span>Total</span>
-              <div className="ckcjc7">
-                <div className="c1az4bwh"></div>
+            <div className="bill-content">
+              {cartItems.map((item) => (
+                <div className="bill-item" key={item.id}>
+                  <span>
+                    {item?.device?.name} x{item.quantity}
+                  </span>
+                  <div className="ckcjc7">
+                    <div className="c1az4bwh"></div>
+                  </div>
+                  <span>  ₹{((item?.device?.amount - (item?.device?.amount * item?.device?.discount) / 100) * item.quantity)}
+                  </span>
+                </div>
+              ))}
+
+              <div className="bill-total">
+                <span>Total</span>
+                <div className="ckcjc7">
+                  <div className="c1az4bwh"></div>
+                </div>
+                <span>₹{getTotal()}</span>
               </div>
-              <span>₹100</span>
-            </div>
-            <div className="proceed-to-payment">
-              <button className="proceed-to-payment-button">
-                Proceed to Payment
-              </button>
+              <div className="proceed-to-payment">
+                <button className="proceed-to-payment-button" onClick={() => { navigate('/old-cart') }}>
+                  Proceed to Payment
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -15,10 +15,7 @@ function ProductsPage() {
   const [showProductModal, setShowProductModal] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-
-  console.log(cartItems,"cart items product pages")
-
-
+  console.log(cartItems, "cart items product pages")
 
   const [filters, setFilters] = useState({
     names: [],
@@ -51,25 +48,14 @@ function ProductsPage() {
     fetchAllProducts();
   }, []);
 
-  // const productCounts = allProducts.reduce((acc, product) => {
-  //   const name = product.name;
-  //   const deviceCount = product.device?.length || 0;
-  //   acc[name] = (acc[name] || 0) + deviceCount;
-  //   return acc;
-  // }, {});
-
   const productCounts = allProducts.reduce((acc, product) => {
     const name = product.name;
 
     // Filter devices like in code1
     const validDevices = Array.isArray(product.device)
       ? product.device.filter(
-          (device) => device && device.id && device.name
-          // &&
-          // typeof device.amount === "number" &&
-          // typeof device.subscriptionMonthlyAmt === "number" &&
-          // typeof device.discount === "number"
-        )
+        (device) => device && device.id && device.name
+      )
       : [];
 
     const deviceCount = validDevices.length;
@@ -133,49 +119,10 @@ function ProductsPage() {
       </div>
       <div className="products-sidebar-container">
         <div className="sidebar-wrapper">
-          {/* <div className="location-filter-wrapper">
-            <label className="state-select-label" htmlFor="state-select">
-              Select State
-            </label>
-            <select
-              id="state-select"
-              onChange={(e) => setSelectedState(e.target.value)}
-              className="state-select-dropdown"
-              value={selectedState}
-            >
-              <option value="">Select State</option>
-              {states.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-
-            <label className="city-select-label" htmlFor="city-select">
-              Select City
-            </label>
-            <select
-              id="city-select"
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className={`city-select-dropdown ${
-                !selectedState ? "disabled-dropdown" : ""
-              }`}
-              value={selectedCity}
-              disabled={!selectedState}
-            >
-              <option value="">Select City</option>
-              {cities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div> */}
-
           <div className="filter-group product-filter-group">
             <h2 className="subsection-heading">Products</h2>
             {uniqueProductNames.map((productName) => (
-              <label
+              < label
                 key={productName}
                 className="checkbox-label product-checkbox-label"
               >
@@ -241,10 +188,6 @@ function ProductsPage() {
                   .filter(
                     (device) =>
                       device && device.id && device.name
-                    // &&
-                    // typeof device.amount === "number" &&
-                    // typeof device.subscriptionMonthlyAmt === "number" &&
-                    // typeof device.discount === "number"
                   )
                   .map((device) => {
                     const startPrice =
@@ -255,6 +198,8 @@ function ProductsPage() {
                     const matchedItem = cartItems.find(
                       (item) => item.device?.id === device.id
                     );
+
+                    console.log("Matched Item: ", matchedItem)
 
                     return (
                       <div
@@ -330,26 +275,28 @@ function ProductsPage() {
         </div>
       </div>
 
-      {showProductModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowProductModal(false)}
-        >
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              onClick={() => setShowProductModal(false)}
-            >
-              ×
-            </button>
-            <ProductPopupPage
-              device={selectedProduct}
-              isOpen={showProductModal}
-            />
+      {
+        showProductModal && (
+          <div
+            className="modal-overlay"
+            onClick={() => setShowProductModal(false)}
+          >
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <button
+                className="modal-close"
+                onClick={() => setShowProductModal(false)}
+              >
+                ×
+              </button>
+              <ProductPopupPage
+                device={selectedProduct}
+                isOpen={showProductModal}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }
 

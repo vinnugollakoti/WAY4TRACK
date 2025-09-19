@@ -5,10 +5,11 @@ import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
 import { CartContext } from "../../contexts/CartContext";
 import AddressPage from "../AddressPage/AddressPage";
 import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import "./Cart.css";
 
 function CartPage() {
-  const { cartItems, updateQuantity, getTotal } = useContext(CartContext);
+  const { cartItems, addToCart, getTotal } = useContext(CartContext);
   const [addresses, setAddresses] = useState([]);
   const [billingAddress, setBillingAddress] = useState(null);
   const [isBillingSame, setIsBillingSame] = useState(true);
@@ -28,10 +29,44 @@ function CartPage() {
 
   console.log(buyNowItem, "localstorage item");
 
-  const handleQuantityChange = (id, type) => {
-    updateQuantity(id, type === "inc" ? 1 : -1);
+  const calculateItemTotal = (item) => {
+    const price =
+      item?.device?.amount -
+      (item?.device?.amount * (item?.device?.discount || 0)) / 100;
+    return (price * item.quantity).toFixed(2);
   };
 
+  // ✅ Calculate cart total dynamically
+  const calculateTotal = () => {
+    if (isBuyNow) {
+      return calculateItemTotal(buyNowItem);
+    }
+    return cartItems
+      .reduce((sum, item) => sum + Number(calculateItemTotal(item)), 0)
+      .toFixed(2);
+  };
+
+  const updateQuantity = async (itemId, change) => {
+    const cartItem = cartItems.find((item) => item.id === itemId);
+    if (!cartItem) return;
+
+    const updatedQuantity = (cartItem?.quantity || 1) + change;
+    if (updatedQuantity < 1) return;
+
+    const updatedCartData = {
+      ...cartItem,
+      id: itemId,
+      quantity: updatedQuantity,
+      clientId: cartItem.client.id,
+      deviceId: cartItem.device.id,
+    };
+
+    try {
+      await addToCart(updatedCartData);
+    } catch (error) {
+      console.error("Failed to update quantity:", error);
+    }
+  };
   const totalAmount = isBuyNow ? buyNowItem.totalAmount : getTotal();
 
   useEffect(() => {
@@ -81,7 +116,7 @@ function CartPage() {
   };
 
   return (
-    <div className="cart-container">
+    <div className="old-cart-container">
       <CheckoutSteps currentStep={1} />
       <div className="cart-address-container">
         {/* <AddressPage /> */}
@@ -121,9 +156,8 @@ function CartPage() {
                 {addresses.map((addr, index) => (
                   <div
                     key={index}
-                    className={`cart-page-address-card ${
-                      deliveryAddress?.id === addr.id ? "cart-page-active" : ""
-                    }`}
+                    className={`cart-page-address-card ${deliveryAddress?.id === addr.id ? "cart-page-active" : ""
+                      }`}
                     onClick={() => {
                       handleAddressSelect(addr);
                       setIsChangingAddress(false);
@@ -231,11 +265,10 @@ function CartPage() {
                       .map((addr, index) => (
                         <div
                           key={index}
-                          className={`cart-page-address-card ${
-                            billingAddress?.id === addr.id
-                              ? "cart-page-active"
-                              : ""
-                          }`}
+                          className={`cart-page-address-card ${billingAddress?.id === addr.id
+                            ? "cart-page-active"
+                            : ""
+                            }`}
                           onClick={() => {
                             setBillingAddress(addr);
                             setIsBillingChanging(false);
@@ -313,7 +346,7 @@ function CartPage() {
                         Subscription: {buyNowItem.subscription} subscription
                       </p>
                       <p>Network: {buyNowItem.network}</p>
-                      <p>Rs. {buyNowItem.totalAmount}</p>
+                      <p>Rs. {calculateItemTotal(buyNowItem)}</p>
                       <p>Quantity: {buyNowItem.quantity}</p>
                     </div>
                   </div>
@@ -337,20 +370,20 @@ function CartPage() {
                         </p>
                         <p>Subscription: {item.subscription} subscription</p>
                         <p>Network: {item.network}</p>
-                        <p>Rs. {item.totalAmount}</p>
+                        <p>Rs. {calculateItemTotal(item)}</p>
                         <div className="quantity-controls">
                           <button
                             className="qty-btn"
-                            onClick={() => handleQuantityChange(item.id, "dec")}
+                            onClick={() => updateQuantity(item.id, -1)}
                           >
-                            -
+                            <FaMinus />
                           </button>
                           <span className="qty-number">{item.quantity}</span>
                           <button
                             className="qty-btn"
-                            onClick={() => handleQuantityChange(item.id, "inc")}
+                            onClick={() => updateQuantity(item.id, 1)}
                           >
-                            +
+                            <FaPlus />
                           </button>
                         </div>
                       </div>
@@ -361,7 +394,7 @@ function CartPage() {
             </div>
           )}
           <div className="cart-summary">
-            <h2>Total: Rs.{totalAmount}/-</h2>
+            <h2>Total: Rs.{calculateTotal()}/-</h2>
             <button
               type="button"
               // className="checkout"
