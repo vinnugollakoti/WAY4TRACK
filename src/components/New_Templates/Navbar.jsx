@@ -34,16 +34,17 @@ const Navbar = () => {
 
             <li className="menu-item" onClick={() => navigate("/about")}>About</li>
             <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li>
-            <li className="menu-item" onClick={() => navigate("/blogs")}>Blog</li>
+            {/* <li className="menu-item" onClick={() => navigate("/blogs")}>Blog</li> */}
             <li className="menu-item" onClick={() => navigate("/Careers")}>Career</li>
-            <li className="menu-item dropdown">
+            <li className="menu-item" onClick={() => navigate("/products")}> Products </li>
+            {/* <li className="menu-item dropdown">
               Products <span className="arrow">▼</span>
               <ul className="dropdown-menu">
                 <li>GPS Cameras</li>
                 <li>Mining Trackers</li>
                 <li>General GPS Trackers</li>
               </ul>
-            </li>
+            </li> */}
           </ul>
 
           <div className="actions">
