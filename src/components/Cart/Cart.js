@@ -154,12 +154,14 @@ function CartPage() {
                   {deliveryAddress.phoneNumber}
                 </p>
               </div>
+              <center>
               <button
                 className="cart-page-change-button"
                 onClick={() => setIsChangingAddress(true)}
               >
                 Change Address
               </button>
+              </center>
             </div>
           ) : (
             <div>
@@ -190,12 +192,14 @@ function CartPage() {
                   </div>
                 ))}
               </div>
+              <center>
               <button
-                className="cart-page-add-button"
+                className="cart-page-change-button"
                 onClick={() => setShowForm(true)}
               >
                 + Add New Delivery Address
               </button>
+              </center>
             </div>
           )}
           {/* </div> */}
@@ -263,12 +267,14 @@ function CartPage() {
                       {billingAddress.phoneNumber}
                     </p>
                   </div>
+                  <center>
                   <button
                     className="cart-page-change-button"
                     onClick={() => setIsBillingChanging(true)}
                   >
                     Change Billing Address
                   </button>
+                  </center>
                 </div>
               )}
 
@@ -301,13 +307,14 @@ function CartPage() {
                         </div>
                       ))}
                   </div>
-
+                  <center>
                   <button
-                    className="cart-page-add-button"
+                    className="cart-page-change-button"
                     onClick={() => setShowForm(true)}
                   >
                     + Add New Billing Address
                   </button>
+                  </center>
                 </>
               )}
             </div>
@@ -331,17 +338,19 @@ function CartPage() {
           </div>
         </div>
 
-        <div className="cart-sub-main-container">
+
+        {/* start commenting */}
+        {/* <div className="cart-sub-main-container">
           <h1 className="cart-title">Order Items</h1>
 
           {!isBuyNow && cartItems.length === 0 ? (
             <p className="empty-cart">Your cart is empty.</p>
           ) : (
-            <div className="cart-grid">
+            <div className="cart-grid"> */}
               {/* <Link to="/" className="back-btn">
                 Continue Shopping
               </Link> */}
-              {isBuyNow ? (
+              {/* {isBuyNow ? (
                 <div className="cart-card">
                   <div className="cart-card-inner">
                     <div className="cart-image-wrapper">
@@ -408,8 +417,10 @@ function CartPage() {
               )}
             </div>
           )}
+        </div> */}
+            {/* end commenting */}
           <div className="cart-summary">
-            <h2>Total: Rs.{calculateTotal()}/-</h2>
+            <h2 className="cart-total-bill">Total: Rs.{calculateTotal()}/-</h2>
             <button
               type="button"
               // className="checkout"
@@ -420,7 +431,6 @@ function CartPage() {
               Proceed to Checkout
             </button>
           </div>
-        </div>
       </div>
     </div>
   );

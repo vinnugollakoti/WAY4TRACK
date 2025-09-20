@@ -6,6 +6,8 @@ import { LiaFileInvoiceSolid } from "react-icons/lia";
 import ProductReviewForm from "../ProductReviewForm/ProductReviewForm";
 import jsPDF from "jspdf";
 import "./OrderItemDetails.css";
+import Navbar from "../New_Templates/Navbar";
+import toast, { Toaster } from "react-hot-toast";
 
 const OrderStatus = {
   PENDING: "pending",
@@ -381,6 +383,8 @@ const OrderItemDetails = () => {
   console.log(item, "item");
 
   return (
+    <div>
+      <Navbar />
     <div className="OrderItemDetails-container">
       <div className="OrderItemDetails-main">
         <div className="OrderItemDetails-left">
@@ -693,6 +697,7 @@ const OrderItemDetails = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

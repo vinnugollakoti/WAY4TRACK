@@ -10,6 +10,7 @@ import "./ProfilePage.css";
 import MyOrders from "../MyOrders/MyOrders";
 import Navbar from "../New_Templates/Navbar";
 import Footer from "../New_Templates/Footer"
+import toast, { Toaster } from "react-hot-toast";
 
 
 const ProfilePage = () => {
@@ -57,15 +58,14 @@ const ProfilePage = () => {
       );
 
       if (response.status) {
-        alert("Client updated successfully!");
+        toast.success("Client updated successfully!");
         fetchProfile(); // refresh data
       } else {
-        alert("Please update at least one item. Try again.");
-
+        toast.error("Please update at least one item. Try again.");
       }
     } catch (error) {
       console.error("Error updating client details:", error);
-      alert("Failed to update. Please try again.");
+      toast.error("Error updating client details:")
     } finally {
       setLoading(false);
     }
@@ -107,6 +107,7 @@ const ProfilePage = () => {
 
   return (
     <div className="container-fluid py-4">
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <div className="row g-4 profile-page-content">
         <div className="col-md-4 text-center">
