@@ -10,7 +10,7 @@ import Navbar from "../New_Templates/Navbar";
 
 function OrderDetailsPage() {
   const location = useLocation();
-  const { cartItems, removeFromCart, addToCart } = useContext(CartContext);
+  const { cartItems, setCartItems, removeFromCart, addToCart } = useContext(CartContext);
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [selectedPromoDetails, setSelectedPromoDetails] = useState(null);
   console.log(selectedPromoDetails, "promo details of selecting");
@@ -195,9 +195,9 @@ function OrderDetailsPage() {
   };
 
 
-  const handlePaymentVerify = async (data) => {
+const handlePaymentVerify = async (data) => {
   const options = {
-    key: process.env.KEY_ID || 'rzp_test_NPT4UOaHTgxvZj',
+    key: process.env.KEY_ID || "rzp_test_NPT4UOaHTgxvZj",
     amount: data.amount,
     currency: data.currency,
     name: "Mahesh",
@@ -214,37 +214,42 @@ function OrderDetailsPage() {
       if (!finalPayload) return;
 
       try {
-        const res = await ApiService.post(`/order/OrderVerify`, {
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(finalPayload)
-        });
+        const verifyData = await ApiService.post(`/order/OrderVerify`, finalPayload);
 
-        const verifyData = await res.json();
+        if (verifyData.status) {
+          toast.success("Payment successful");
 
-        if (verifyData.message) {
-          toast.success(verifyData.message);
+          // ✅ Delete all cart items for this client one by one
+          const clientCartItems = cartItems.filter(
+            (item) => Number(item.client.id) === Number(clientId)
+          );
 
-          // ✅ Clear the cart of this client
-          await clearClientCart(clientId);
+          for (const item of clientCartItems) {
+            await ApiService.post("/cart/deleteCartDetails", { id: item.id });
+          }
 
-          // Update local state
-          cartItems.forEach(async (item) => {
-            await removeFromCart(item.id);
-          });
-
+          // Clear local state
+          setCartItems([]);
           localStorage.removeItem("guestCartItems");
+
+          // Navigate to orders page
           navigate("/orders", { state: { order: verifyData.data } });
+        } else {
+          toast.error(verifyData.message || "Payment verification failed");
         }
       } catch (error) {
-        console.log(error);
+        console.error("Payment verification error:", error);
+        toast.error("Something went wrong after payment");
       }
     },
-    theme: { color: "#5f63b8" }
+    theme: { color: "#5f63b8" },
   };
 
   const rzp1 = new window.Razorpay(options);
   rzp1.open();
 };
+
+
 
 // Utility to clear client cart
 const clearClientCart = async (clientId) => {

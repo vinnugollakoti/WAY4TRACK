@@ -18,39 +18,31 @@ export const CartProvider = ({ children }) => {
   console.log(cartItems, "cart context cart items");
 
   const fetchCartItems = async () => {
-  if (clientDbId) {
-    try {
-      const response = await ApiService.post(
-        "/cart/getCartsByCompanyAndUnit",
-        { companyCode, unitCode }
-      );
-
-      if (response.status) {
-        const storedClientId = localStorage.getItem("client_id"); 
-
-        const filteredData = response.data.filter((item) => {
-          return (
-            String(item?.client?.id) === String(storedClientId) ||
-            String(item?.client?.clientId) === String(storedClientId)
-          );
-        });
-
-        setCartItems(filteredData);
-      } else {
-        console.error("Failed to fetch cart items:", response.message);
+    if (clientDbId) {
+      try {
+        const response = await ApiService.post(
+          "/cart/getCartsByCompanyAndUnit",
+          {
+            companyCode,
+            unitCode,
+          }
+        );
+        // console.log("response :", response.data)
+        if (response.status) {
+          setCartItems(response.data);
+        } else {
+          console.error("Failed to fetch cart items:", response.message);
+        }
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
       }
-    } catch (error) {
-      console.error("Error fetching cart items:", error);
+    } else {
+      const localItems = JSON.parse(
+        localStorage.getItem("guestCartItems") || "[]"
+      );
+      setCartItems(localItems);
     }
-  } else {
-    const localItems = JSON.parse(
-      localStorage.getItem("guestCartItems") || "[]"
-    );
-    setCartItems(localItems);
-  }
-};
-
-
+  };
 
   useEffect(() => {
     fetchCartItems();
@@ -125,9 +117,10 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
-    >
-      {children}
-    </CartContext.Provider>
+    value={{ cartItems, setCartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
+  >
+    {children}
+  </CartContext.Provider>
+
   );
 };
