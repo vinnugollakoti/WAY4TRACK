@@ -7,6 +7,7 @@ import AddressPage from "../AddressPage/AddressPage";
 import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 import "./Cart.css";
+import Navbar from "../New_Templates/Navbar";
 
 function CartPage() {
   const { cartItems, addToCart, getTotal } = useContext(CartContext);
@@ -87,8 +88,14 @@ function CartPage() {
 
       if (response.status) {
         const data = response.data;
-        console.log(data, "addressknjfidfh");
         setAddresses(data.customerAddress);
+
+        if (data.customerAddress.length > 0) {
+          setDeliveryAddress(data.customerAddress[0]); // default delivery
+          setBillingAddress(data.customerAddress[0]);  // default billing = delivery
+        } else {
+          setShowForm(true);
+        }
       } else {
         setShowForm(true);
       }
@@ -98,9 +105,16 @@ function CartPage() {
     }
   };
 
+
   const handleAddressSelect = (addr) => {
     setDeliveryAddress(addr);
   };
+
+  useEffect(() => {
+    if (isBillingSame && deliveryAddress) {
+      setBillingAddress(deliveryAddress);
+    }
+  }, [deliveryAddress, isBillingSame]);
 
   const handleProceed = () => {
     if (deliveryAddress) {
@@ -117,6 +131,7 @@ function CartPage() {
 
   return (
     <div className="old-cart-container">
+      <Navbar />
       <CheckoutSteps currentStep={1} />
       <div className="cart-address-container">
         {/* <AddressPage /> */}
