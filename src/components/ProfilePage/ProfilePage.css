@@ -11,6 +11,8 @@ html {
 }
 .profile-page-content {
   margin-top: 1%;
+  width: 98%;
+  margin-left: 1%;
 }
 .container-fluid {
   background-color: white;
@@ -360,7 +362,7 @@ html {
 .footer-div-profile-page {
   display: flex;
   flex-direction: column;
-  min-height: 62vh; /* full viewport height */
+  min-height: 65vh; /* full viewport height */
 }
 
 /* Push footer to bottom */

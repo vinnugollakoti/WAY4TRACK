@@ -2,9 +2,10 @@
   /* max-width: 1200px; */
   /* margin: 20px auto; */
   padding: 20px;
-  margin-left: 100px;
+  padding-left: 100px;
   margin-right: 100px;
   font-family: Arial, sans-serif;
+  background-color: white;
 }
 
 .OrderItemDetails-main {
