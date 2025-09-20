@@ -6,6 +6,7 @@ import ApiService, { initialAuthState } from "../Services/ApiServices";
 import PromoCode from "../Promocode/Promocode";
 import toast, { Toaster } from "react-hot-toast";
 import "./OrderDetailsPage.css";
+import Navbar from "../New_Templates/Navbar";
 
 function OrderDetailsPage() {
   const location = useLocation();
@@ -167,18 +168,22 @@ function OrderDetailsPage() {
   };
 
   const placeOrder = async () => {
+    // ✅ Check addresses before payment
+    if (!deliveryAddress || !billingAddress) {
+      alert("Please provide both delivery and billing addresses before payment.");
+      return; // stop here if missing
+    }
+
     setIsLoading(true);
 
     const payload = { totalAmount: finalAmount };
 
     try {
-      const response = await ApiService.post(
-        "/order/CreateOrder",
-        payload
-      );
+      const response = await ApiService.post("/order/CreateOrder", payload);
+
       if (response.status) {
         console.log("Order placed successfully:", response);
-        handlePaymentVerify(response.data);
+        handlePaymentVerify(response.data); // ✅ start Razorpay only after validation
       } else {
         throw new Error("Failed to place order");
       }
@@ -189,48 +194,68 @@ function OrderDetailsPage() {
     }
   };
 
-  const handlePaymentVerify = async (data) => {
 
-    const options = {
-      key: process.env.KEY_ID || 'rzp_test_NPT4UOaHTgxvZj',
-      amount: data.amount,
-      currency: data.currency,
-      name: "Mahesh",
-      description: "Test Mode",
-      image: "/images/logo.png",
-      order_id: data.id,
-      handler: async (response) => {
-        const finalPayload = createOrderPayload({
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
+  const handlePaymentVerify = async (data) => {
+  const options = {
+    key: process.env.KEY_ID || 'rzp_test_NPT4UOaHTgxvZj',
+    amount: data.amount,
+    currency: data.currency,
+    name: "Mahesh",
+    description: "Test Mode",
+    image: "/images/logo.png",
+    order_id: data.id,
+    handler: async (response) => {
+      const finalPayload = createOrderPayload({
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+      });
+
+      if (!finalPayload) return;
+
+      try {
+        const res = await ApiService.post(`/order/OrderVerify`, {
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(finalPayload)
         });
 
-        if (!finalPayload) return; // return if payload creation failed
-        try {
-          const res = await ApiService.post(`/order/OrderVerify`, {
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify(finalPayload)
-          })
+        const verifyData = await res.json();
 
-          const verifyData = await res.json();
+        if (verifyData.message) {
+          toast.success(verifyData.message);
 
-          if (verifyData.message) {
-            toast.success(verifyData.message)
-          }
-        } catch (error) {
-          console.log(error);
+          // ✅ Clear the cart of this client
+          await clearClientCart(clientId);
+
+          // Update local state
+          cartItems.forEach(async (item) => {
+            await removeFromCart(item.id);
+          });
+
+          localStorage.removeItem("guestCartItems");
+          navigate("/orders", { state: { order: verifyData.data } });
         }
-      },
-      theme: {
-        color: "#5f63b8"
+      } catch (error) {
+        console.log(error);
       }
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+    },
+    theme: { color: "#5f63b8" }
+  };
+
+  const rzp1 = new window.Razorpay(options);
+  rzp1.open();
+};
+
+// Utility to clear client cart
+const clearClientCart = async (clientId) => {
+  try {
+    await ApiService.post("/cart/clearCartByClientId", { clientId });
+    console.log("Client cart cleared successfully");
+  } catch (error) {
+    console.error("Failed to clear client cart:", error);
   }
+};
+
 
   const verificationPayment = async (data) => {
     setIsLoading(true);
@@ -287,6 +312,7 @@ function OrderDetailsPage() {
 
   return (
     <div className="order-details-container">
+      <Navbar />
       <CheckoutSteps currentStep={3} />
       <h1 className="title">Order Confirmation</h1>
 

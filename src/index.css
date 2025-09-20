@@ -20,6 +20,7 @@ body {
 }
 
 :root {
+  background-color: white;
   --primary-color: #0B3D91;
   --secondary-color: #1E88E5;
   --accent-color: #73ff50;

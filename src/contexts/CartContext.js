@@ -13,34 +13,44 @@ export const CartProvider = ({ children }) => {
 
   const clientDbId = localStorage.getItem("client_db_id");
 
+
+  console.log("PRINTING HERE!!!")
   console.log(cartItems, "cart context cart items");
 
   const fetchCartItems = async () => {
-    if (clientDbId) {
-      try {
-        const response = await ApiService.post(
-          "/cart/getCartsByCompanyAndUnit",
-          {
-            companyCode,
-            unitCode,
-          }
-        );
-        // console.log("response :", response.data)
-        if (response.status) {
-          setCartItems(response.data);
-        } else {
-          console.error("Failed to fetch cart items:", response.message);
-        }
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    } else {
-      const localItems = JSON.parse(
-        localStorage.getItem("guestCartItems") || "[]"
+  if (clientDbId) {
+    try {
+      const response = await ApiService.post(
+        "/cart/getCartsByCompanyAndUnit",
+        { companyCode, unitCode }
       );
-      setCartItems(localItems);
+
+      if (response.status) {
+        const storedClientId = localStorage.getItem("client_id"); 
+
+        const filteredData = response.data.filter((item) => {
+          return (
+            String(item?.client?.id) === String(storedClientId) ||
+            String(item?.client?.clientId) === String(storedClientId)
+          );
+        });
+
+        setCartItems(filteredData);
+      } else {
+        console.error("Failed to fetch cart items:", response.message);
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
     }
-  };
+  } else {
+    const localItems = JSON.parse(
+      localStorage.getItem("guestCartItems") || "[]"
+    );
+    setCartItems(localItems);
+  }
+};
+
+
 
   useEffect(() => {
     fetchCartItems();
