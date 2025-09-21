@@ -1,0 +1,77 @@
+.order-placed-container {
+  height: 78vh; /* Full screen height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff; /* Light background */
+}
+
+.order-placed-content {
+  max-width: 600px;
+  width: 100%;
+  background: #60A442;
+  border-radius: 10px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.checkmark-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+.text-success {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+.lead {
+    color: white;
+}
+.order-summary {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.checkmark-wrapper {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px auto;
+}
+
+.order-placed-btn {
+    background-color: white;
+    color: #60A442;
+}
+
+.checkmark {
+  stroke: #ffffff; /* Bootstrap success green */
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw 1s ease forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.checkmark-circle {
+  stroke: #ffffff;
+  stroke-width: 4;
+  fill: none;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: drawCircle 1s ease forwards;
+}
+
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
