@@ -24,6 +24,7 @@ import CartSidebar from "./components/CartSidebar/CartSidebar";
 import VerifyOtp from "./components/VerifyOtp/VerifyOtp";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import { CartProvider } from "./contexts/CartContext";
+import OrderPlaced from "./components/New_Templates/OrderPlaced";
 
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
 
@@ -94,6 +95,7 @@ const App = () => {
           <Route path="/order-details" element={<OrderDetailsPage />} />
           <Route path="/old-cart" element={<OldCartPage />} />
           <Route path="/order-item/:orderId/:deviceId" element={<OrderItemDetails />} />
+          <Route path="/order-placed" element={<OrderPlaced />} />
         </Routes>
       </Router>
     </CartProvider>

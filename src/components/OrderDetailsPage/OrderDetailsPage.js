@@ -234,7 +234,7 @@ const handlePaymentVerify = async (data) => {
           localStorage.removeItem("guestCartItems");
 
           // Navigate to orders page
-          navigate("/my-profile", { state: { activeTab: "orders" } });
+          navigate("/order-placed");
         } else {
           toast.error(verifyData.message || "Payment verification failed");
         }
