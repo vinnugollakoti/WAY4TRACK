@@ -111,12 +111,15 @@ const PromoCode = ({ totalAmount, onApply }) => {
         </button>
       </div>
 
+      <center>
       <button onClick={() => setShowModal(true)} className="PromoCode-showBtn">
         Show Promo Cards
       </button>
+      
 
+      
       {message && <p className="PromoCode-message">{message}</p>}
-
+      </center>
       {showModal && (
         <div className="PromoCode-modal">
           <div className="PromoCode-modalContent">

@@ -28,26 +28,43 @@
 
 .PromoCode-applyBtn {
   padding: 10px 16px;
-  background-color: #28a745;
+  background-color: #60A442;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  border: 1px solid #60A442;
 }
+.PromoCode-applyBtn:hover {
+  background-color: white;
+  border: 1px solid #60A442;
+  color: #60A442;
+
+}
+
 
 .PromoCode-showBtn {
   padding: 10px 16px;
-  background-color: #007bff;
+  background-color: #60A442;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 10px;
+    border: 1px solid #60A442;
+    margin-top: 3%;
 }
 
+.PromoCode-showBtn:hover {
+  background-color: white;
+  border: 1px solid #60A442;
+  color: #60A442;
+}
+
+
+
 .PromoCode-message {
-  margin-top: 10px;
-  color: green;
+  color: #60A442;
   font-weight: 500;
 }
 

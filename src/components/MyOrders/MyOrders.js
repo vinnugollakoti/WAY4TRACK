@@ -104,7 +104,7 @@ const MyOrders = () => {
       {filteredOrders.length === 0 ? (
         <p className="text-muted">No orders found.</p>
       ) : (
-        filteredOrders.map((order) => (
+        [...filteredOrders].reverse().map((order) => (
           <div className="card mb-4" key={order.id}>
             <div className="card-header bg-light">
               <h5 className="mb-0">Order #{order.id}</h5>
@@ -199,6 +199,7 @@ const MyOrders = () => {
                           {order.orderStatus === "cancelled" && (
                             <p className="mb-0">
                               ❌ Order was cancelled. Contact support if needed.
+                              <br></br><Link to="/contactus" >Contact here 👈</Link>
                             </p>
                           )}
                           {order.orderStatus === "success" && (

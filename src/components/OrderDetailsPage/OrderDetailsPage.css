@@ -1,6 +1,4 @@
 .order-details-container {
-  padding: 40px 20px;
-  max-width: 1200px;
   margin: auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff;
@@ -16,15 +14,19 @@
 
 .order-details-grid {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center; /* center both left and right blocks */
+  align-items: flex-start;
+  gap: 30px; /* spacing between columns */
+  flex-wrap: wrap; /* optional: stack on small screens */
+  padding: 20px;
+  padding-bottom: 3%;
 }
 
 /* Left: Items */
 .order-left {
-  flex: 2;
+    width: 60%;
   min-width: 300px;
+  max-width: 800px;
 }
 
 .order-item {
@@ -48,11 +50,16 @@
   min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+    width: 35%;
+  min-width: 280px;
+  max-width: 500px;
 }
-
+.cart-card {
+  margin-top: 2%;
+}
 .order-section {
-  background-color: #edf2f7;
+  background-color: #edf7ee;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
@@ -72,21 +79,27 @@
 
 .summary .place-order {
   margin-top: 1.5rem;
-  background-color: #388e3c;
+  background-color: #60A442;
   color: white;
-  border: none;
+  border: 1px solid #60A442;
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
+  font-weight: 600;
+  letter-spacing: 2px;
   transition: background-color 0.3s ease;
 }
 
 
 
 .summary .place-order:hover {
-  background-color: #0f766e;
+  background-color: #ffff;
+  border: 1px solid #60A442;
+  color: #60A442;
+  font-weight: 600;
+  letter-spacing: 5px;
 }
 
 @media screen and (max-width: 768px) {
