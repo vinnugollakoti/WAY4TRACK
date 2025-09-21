@@ -7,6 +7,7 @@ import PromoCode from "../Promocode/Promocode";
 import toast, { Toaster } from "react-hot-toast";
 import "./OrderDetailsPage.css";
 import Navbar from "../New_Templates/Navbar";
+import Footer from "../New_Templates/Footer";
 
 function OrderDetailsPage() {
   const location = useLocation();
@@ -233,7 +234,7 @@ const handlePaymentVerify = async (data) => {
           localStorage.removeItem("guestCartItems");
 
           // Navigate to orders page
-          navigate("/orders", { state: { order: verifyData.data } });
+          navigate("/my-profile", { state: { activeTab: "orders" } });
         } else {
           toast.error(verifyData.message || "Payment verification failed");
         }
@@ -435,6 +436,7 @@ const clearClientCart = async (clientId) => {
         </div>
       </div>
       <Toaster />
+      <Footer />
     </div>
   );
 }

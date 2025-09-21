@@ -11,11 +11,15 @@ import MyOrders from "../MyOrders/MyOrders";
 import Navbar from "../New_Templates/Navbar";
 import Footer from "../New_Templates/Footer"
 import toast, { Toaster } from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+
 
 
 const ProfilePage = () => {
   const [user, setUser] = useState({});
-  const [activeTab, setActiveTab] = useState("profile");
+  const location = useLocation();
+const initialTab = location.state?.activeTab || "profile";
+const [activeTab, setActiveTab] = useState(initialTab);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -25,6 +29,10 @@ const ProfilePage = () => {
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [editProfileData, setEditProfileData] = useState({
     name: user.name || "",

@@ -50,6 +50,17 @@ body {
   background-color: white;
 }
 
+a {
+    text-decoration: none;
+  color: #60A442;
+  font-weight: 600;
+}
+
+
+a:hover {
+  text-decoration: underline;
+  color: #60A442;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 600;
