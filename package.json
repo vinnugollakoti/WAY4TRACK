@@ -15,7 +15,7 @@
     "bootstrap": "^5.3.5",
     "bootstrap-icons": "^1.13.1",
     "canvas-confetti": "^1.9.3",
-    "framer-motion": "^12.11.0",
+    "framer-motion": "^12.23.16",
     "gsap": "^3.13.0",
     "jspdf": "^3.0.1",
     "leaflet": "^1.9.4",

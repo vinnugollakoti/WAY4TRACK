@@ -19,7 +19,9 @@
   justify-content: center;
   align-items: center;
 }
-
+.product-overview-body {
+  background-color: white;
+}
 .know-more-btn {
   display: flex;
   align-items: center;

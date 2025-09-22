@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 
 import Navbar from "./Navbar";
-import "./ProductOver.css";
+import "./ProductOverview.css";
 import DemoSection from "./DemoSection"
 
 function ProductsOverview({ websiteData }) {
@@ -65,7 +65,7 @@ function ProductsOverview({ websiteData }) {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
   return (
-    <div>
+    <div className="product-overview-body">
       <Navbar />
       <div className="mining-product">
         <div className="mining-product-img">

@@ -27,6 +27,7 @@ import { CartProvider } from "./contexts/CartContext";
 import OrderPlaced from "./components/New_Templates/OrderPlaced";
 
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
+import Loader from "./components/New_Templates/Loader";
 
 
 const App = () => {
@@ -64,7 +65,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <Loader />
   }
 
   if (error) {

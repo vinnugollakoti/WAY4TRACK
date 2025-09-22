@@ -50,7 +50,7 @@ function Footer() {
         </div>
 
         <div className="footer-logo">
-          <h1>Way4Track</h1>
+          <h1>Way4track</h1>
         </div>
         </div>
 
