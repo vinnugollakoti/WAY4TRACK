@@ -13,7 +13,6 @@ export const CartProvider = ({ children }) => {
 
   const clientDbId = localStorage.getItem("client_db_id");
 
-
   console.log("PRINTING HERE!!!")
   console.log(cartItems, "cart context cart items");
 

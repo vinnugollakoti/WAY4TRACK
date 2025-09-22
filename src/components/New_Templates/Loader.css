@@ -1,0 +1,50 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Radar Ripples */
+.ripple {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 3px solid #60A442;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.ripple1 {
+  z-index: 1;
+}
+.ripple2 {
+  z-index: 0;
+}
+
+/* Center Dot */
+.gps-dot {
+  width: 20px;
+  height: 20px;
+  background-color: #60A442;
+  border-radius: 50%;
+  z-index: 2;
+  position: relative;
+}
+
+/* Text */
+.loading-text {
+  margin-top: 140px;
+  font-size: 1.2rem;
+  color: #60A442;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}

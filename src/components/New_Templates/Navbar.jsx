@@ -29,8 +29,9 @@ const Navbar = () => {
       <div className="nav-container">
 
         {/* Logo */}
-        <div className="nav-logo">
-          <span className="logo">Way4Track</span>
+        
+        <div className="nav-logo" onClick={() => navigate("/")}>
+          <span className="logo">Way4track</span>
         </div>
 
         {/* Hamburger Menu Icon */}

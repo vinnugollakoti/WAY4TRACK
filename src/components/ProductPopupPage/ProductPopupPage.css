@@ -29,7 +29,7 @@
 .ProductPopupPage-title {
   font-size: 15px;
   font-weight: bold;
-  color: #2e7d32;
+  color: #60A442;
   text-transform: uppercase; 
   letter-spacing: 1px; 
   transition: color 0.3s ease;
@@ -59,13 +59,13 @@
 
 .ProductPopupPage-price-discounted {
   font-size: 15px;
-  color: #2e7d32; /* dark green */
+  color: #60A442; /* dark green */
   font-weight: bold;
   transition: color 0.3s ease;
 }
 
 .ProductPopupPage-price-discounted:hover {
-  color: #004d40; /* darker green on hover */
+  color: #60A442; /* darker green on hover */
 }
 
 .ProductPopupPage-tax-info {
@@ -96,9 +96,9 @@
 
 .ProductPopupPage-button {
   padding: 8px 15px;
-  border: 1px solid #4caf50;
+  border: 1px solid #60A442;
   background-color: #fff;
-  color: #2e7d32;
+  color: #60A442;
   cursor: pointer;
   border-radius: 4px;
   font-size: 11px;
@@ -108,7 +108,7 @@
 }
 
 .ProductPopupPage-button:hover {
-  background-color: #4caf50;
+  background-color: #60A442;
   color: #fff;
   transform: scale(1.05); 
 }
@@ -119,7 +119,7 @@
   border: 1px solid #4caf50;
   background-color: #fff;
   margin: 5px 5px;
-  color: #2e7d32;
+  color: #60A442;
   cursor: pointer;
   font-size: 11px;
   border-radius: 4px;
@@ -128,21 +128,21 @@
 }
 
 .ProductPopupPage-subscription-button:hover {
-  background-color: #2e7d32;
+  background-color: #60A442;
   color: #fff;
   transform: scale(1.05);
 }
 
 /* Styling for selected items */
 .ProductPopupPage-selected {
-  border-color: #2e7d32;
-  background-color: #2e7d32;
+  border-color: #60A442;
+  background-color: #60A442;
   color: #fff;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .ProductPopupPage-selected:hover {
-  background-color: #2e7d32;
+  background-color: #60A442;
   transform: scale(1.02);
 }
 
@@ -156,7 +156,7 @@
 }
 
 .ProductPopupPage-quantity-input:focus {
-  border-color: #2e7d32;
+  border-color: #60A442;
   outline: none;
 }
 
@@ -171,7 +171,7 @@
 
 .ProductPopupPage-add-cart-button {
   flex: 1;
-  background-color: #2e7d32;
+  background-color: #60A442;
   color: #fff;
   padding: 8px 10px;
   font-size: 16px;
@@ -182,14 +182,14 @@
 }
 
 .ProductPopupPage-add-cart-button:hover {
-  background-color: #2e7d32; /* darker green */
+  background-color: #60A442; /* darker green */
   transform: scale(1.05);
 }
 
 .ProductPopupPage-buy-now-button {
   flex: 1;
-  border: 1px solid #2e7d32;
-  color: #2e7d32;
+  border: 1px solid #60A442;
+  color: #60A442;
   background-color: #fff;
   padding: 8px 10px;
   font-size: 16px;
@@ -199,7 +199,7 @@
 }
 
 .ProductPopupPage-buy-now-button:hover {
-  background-color: #2e7d32;
+  background-color: #60A442;
   color: #fff;
   transform: scale(1.05);
 }

@@ -138,7 +138,7 @@ function SchoolBus() {
                 The Manager App
               </div>
               <div className="school-bus-app-desc">
-                The Manager App is a web portal designed for school administrators and transportation managers to oversee the entire system. It provides real-time bus tracking on a map, tools to create and assign trips, and features to plan and optimize routes. Managers can monitor student attendance, receive instant alerts and notifications, and generate reports with detailed analytics. The portal also enables user management, including parents and drivers, ensuring full control and smooth operation of school transport.
+                The Manager App is a web and App portal designed for school administrators and transportation managers to oversee the entire system. It provides real-time bus tracking on a map, tools to create and assign trips, and features to plan and optimize routes. Managers can monitor student attendance, receive instant alerts and notifications, and generate reports with detailed analytics. The portal also enables user management, including parents and drivers, ensuring full control and smooth operation of school transport.
               </div>
               <div className="school-bus-app-btn">
                 <button onClick={() => setSelectedApp('managerApp')}>
