@@ -531,7 +531,7 @@ body, html {
 }
 
 .iphone-truck{
-  width: 350px;
+  width: 740px;
 }
 
 .mining-benefits-section {
@@ -1084,7 +1084,7 @@ body, html {
   
   .mining-product-quantity-selector {
     width: 90px;
-    height: 60px;
+    height: 50px;
   }
   
   .mining-product-quantity-value p {
@@ -1197,11 +1197,11 @@ body, html {
     font-size: 15px;
   }
   .mining-product p{
-    font-size: 13px;
+    font-size: 15px;
   }
   .mining-product-network-btn button {
     padding: 10px 12px;
-    font-size: 10px;
+    font-size: 11px;
   }
   .footer-logo h1{
     font-size: 24px;
