@@ -26,6 +26,7 @@ const Navbar = () => {
   }, [cartItems]);
 
   return (
+    <div>
     <nav className="navbar">
       <div className="nav-container">
 
@@ -75,6 +76,8 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+    <div className="navbar-spacer"></div>
+  </div>
   );
 };
 
