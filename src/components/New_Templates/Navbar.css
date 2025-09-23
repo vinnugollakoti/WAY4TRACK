@@ -12,6 +12,7 @@
   top: 0;
   left: 0;
   right: 0;
+  height: 70px;
 
 
  background: rgba(255, 255, 255, 0.6); /* transparent white */
@@ -19,7 +20,9 @@
   -webkit-backdrop-filter: blur(10px);  /* Safari support */
   border-bottom: 1px solid rgba(255, 255, 255, 0.3); /* subtle border */
 }
-
+.navbar-spacer {
+  height: 70px;
+}
 
 .nav-container {
   display: flex;
