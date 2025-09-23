@@ -3,6 +3,7 @@ import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from "../../contexts/CartContext";
 
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartQuantity, setQuantity] = useState(0);
