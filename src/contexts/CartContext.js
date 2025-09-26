@@ -28,7 +28,10 @@ export const CartProvider = ({ children }) => {
         );
         // console.log("response :", response.data)
         if (response.status) {
-          setCartItems(response.data);
+          const filteredCartItems = response.data.filter(
+            (item) => Number(item?.client?.id) === Number(clientDbId)
+          );
+          setCartItems(filteredCartItems);
         } else {
           console.error("Failed to fetch cart items:", response.message);
         }
@@ -116,10 +119,10 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-    value={{ cartItems, setCartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
-  >
-    {children}
-  </CartContext.Provider>
+      value={{ cartItems, setCartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
+    >
+      {children}
+    </CartContext.Provider>
 
   );
 };
