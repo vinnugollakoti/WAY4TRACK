@@ -27,57 +27,57 @@ const Navbar = () => {
 
   return (
     <div>
-    <nav className="navbar">
-      <div className="nav-container">
+      <nav className="navbar">
+        <div className="nav-container">
 
-        {/* Logo */}
-        
-        <div className="nav-logo" onClick={() => navigate("/")}>
-          <span className="logo">Way4track</span>
-        </div>
+          {/* Logo */}
 
-        {/* Hamburger Menu Icon */}
-        <div className="hamburger" onClick={toggleMenu}>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-        </div>
+          <div className="nav-logo" onClick={() => navigate("/")}>
+            <span className="logo">way4track</span>
+          </div>
 
-        {/* Main Navigation */}
-        <div className={`nav-content ${isMenuOpen ? 'active' : ''}`}>
-          <ul className="menu-list">
-            <li className="menu-item" onClick={() => navigate("/")}>Home</li>
-            <li className="menu-item" onClick={() => navigate("/about")}>About</li>
-            <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li>
-            <li className="menu-item" onClick={() => navigate("/Careers")}>Career</li>
-            <li className="menu-item" onClick={() => navigate("/products")}>Products</li>
-          </ul>
+          {/* Hamburger Menu Icon */}
+          <div className="hamburger" onClick={toggleMenu}>
+            <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
+            <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
+            <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
+          </div>
 
-          <div className="actions">
-            <div className="cart" onClick={() => navigate("/cart")}>
-              🛒 <p className='cart-quantity'>{cartQuantity}</p>
-            </div>
+          {/* Main Navigation */}
+          <div className={`nav-content ${isMenuOpen ? 'active' : ''}`}>
+            <ul className="menu-list">
+              <li className="menu-item" onClick={() => navigate("/")}>Home</li>
+              <li className="menu-item" onClick={() => navigate("/about")}>About</li>
+              <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li>
+              <li className="menu-item" onClick={() => navigate("/Careers")}>Career</li>
+              <li className="menu-item" onClick={() => navigate("/products")}>Products</li>
+            </ul>
 
-            {isLoggedIn ? (
-              <div className="profile" onClick={() => navigate("/my-profile")}>
-                <img
-                  src="/images/profile-logo.png"
-                  alt="Profile"
-                  className="profile-icon"
-                />
+            <div className="actions">
+              <div className="cart" onClick={() => navigate("/cart")}>
+                🛒 <p className='cart-quantity'>{cartQuantity}</p>
               </div>
-            ) : (
-              <>
-                <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
-                <button className="get-started-btn" onClick={() => navigate("/signup")}>Sign Up</button>
-              </>
-            )}
+
+              {isLoggedIn ? (
+                <div className="profile" onClick={() => navigate("/my-profile")}>
+                  <img
+                    src="/images/profile-logo.png"
+                    alt="Profile"
+                    className="profile-icon"
+                  />
+                </div>
+              ) : (
+                <>
+                  <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
+                  <button className="get-started-btn" onClick={() => navigate("/signup")}>Sign Up</button>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
-    <div className="navbar-spacer"></div>
-  </div>
+      </nav>
+      <div className="navbar-spacer"></div>
+    </div>
   );
 };
 
