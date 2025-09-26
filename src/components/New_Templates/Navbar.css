@@ -70,6 +70,11 @@
   color: #60A442;
 }
 
+.menu-item.active {
+  color: #60A442; 
+  font-weight: bold;
+}
+
 .dropdown .arrow {
   font-size: 10px;
   margin-left: 4px;

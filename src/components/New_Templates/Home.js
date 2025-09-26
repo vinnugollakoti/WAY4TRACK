@@ -74,7 +74,7 @@ function Home({ websiteData }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % websiteData.length);
-    }, 10000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [websiteData.length]);
