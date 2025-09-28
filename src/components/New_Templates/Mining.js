@@ -77,10 +77,10 @@ function Mining({ websiteData }) {
                     alt="Real-Time Tracking"
                   />
                 </div>
-                <div className="mining-feature-top-title">
+              </div>
+              <div className="mining-feature-top-title">
                   <p>{stateData?.amenities[1]?.name || ""}</p>
                 </div>
-              </div>
               <div className="mining-feature-top-desc">
                 <p>{stateData?.amenities[1]?.desc || ""}</p>
               </div>

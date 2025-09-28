@@ -54,6 +54,14 @@ body, html {
   padding: 0 5%;
 }
 
+.mining-feature-left, .mining-feature-top, .mining-feature-card{
+  transition: box-shadow 0.3s ease; 
+}
+
+.mining-feature-left:hover, .mining-feature-top:hover, .mining-feature-card:hover{
+  box-shadow: 0 2px 22px rgba(201, 234, 186, 0.7);
+}
+
 .mining-feature-left {
   display: flex;
   flex-direction: column;
@@ -716,8 +724,15 @@ body, html {
   font-family: 'Inter', sans-serif;
   font-size: 25px;
   color: #222;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   font-size: 20px;
+}
+
+.mining-solutions-card{
+  transition: box-shadow 0.3s ease; 
+}
+
+.mining-solutions-card:hover{
+  box-shadow:  0 2px 22px rgba(201, 234, 186, 0.7);
 }
 
 .mining-solutions-icon {
