@@ -64,6 +64,10 @@
   padding: 0 1% 0 5%;
   margin: 3rem auto 0;
   max-width: 1500px;
+  overflow-x: scroll;
+}
+.homepage-products::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
 }
 
 .homepage-product-card {

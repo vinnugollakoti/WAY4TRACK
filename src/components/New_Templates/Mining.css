@@ -534,6 +534,10 @@ body, html {
   width: 740px;
 }
 
+.extra-class{
+  width: 340px;
+}
+
 .mining-benefits-section {
   background: #f7f8fa;
   padding: 3% 0 3% 0;
