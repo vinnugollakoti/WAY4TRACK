@@ -15,7 +15,7 @@ function ProductsOverview({ websiteData }) {
   const [stateData, setData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   
-  const [selectedNetwork, setSelectedNetwork] = useState("4G"); // Default network
+  const [selectedNetwork, setSelectedNetwork] = useState(null); // Default network
   const [selectedRelayer, setSelectedRelayer] = useState(null);
   const [selectedSubscription, setSelectedSubscription] = useState(null);
 
