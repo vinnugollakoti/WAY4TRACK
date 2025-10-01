@@ -138,6 +138,106 @@
   font-family: "Geist", sans-serif;
 }
 
+/* Container for gallery */
+.mining-product-gallery {
+  display: flex;
+  gap: 20px;
+  width: 30%;
+  align-items: flex-start;
+}
+
+/* Thumbnails list */
+.mining-product-thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.mining-product-thumbnails .thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.mining-product-thumbnails .thumbnail:hover {
+  border: 2px solid #60A442;
+}
+
+.mining-product-thumbnails .thumbnail.active {
+  border: 2px solid #60A442;
+  box-shadow: 0 0 6px rgba(96, 164, 66, 0.6);
+}
+
+.option-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.option-btn {
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.option-btn:hover {
+  background: #f2f2f2;
+}
+
+.option-btn.active {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.option-headings {
+  font-size: 15px;
+}
+.extra-detail-card {
+  padding-top: 2%;
+}
+.mining-product-final-price {
+  padding-left: 0.5%;
+  
+  
+}
+.productoverview-price {
+  font-weight: 600;
+  padding: 2% 0% 0% 0%;
+  padding-bottom: 0px !important;
+}
+.total-price {
+  letter-spacing: 0.5px;
+}
+/* Main Image */
+.mining-product-main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mining-product-main .main-image {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: contain;
+  border: 1px solid #eee;
+}
+
+
 @media (max-width: 576px) {
 
   .mining-product h2{
@@ -214,4 +314,21 @@
   .mining-product-features li{
     font-size: 13px;
   }
+  .mining-product-gallery {
+  flex-direction: column;
+  align-items: center;
+}
+
+.mining-product-thumbnails {
+  flex-direction: row;
+  justify-content: center;
+  max-height: none;
+  overflow-y: visible;
+}
+
+.mining-product-thumbnails .thumbnail {
+  width: 50px;
+  height: 50px;
+}
+
 }

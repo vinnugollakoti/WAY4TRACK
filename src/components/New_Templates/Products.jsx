@@ -73,11 +73,11 @@ function Products({ websiteData }) {
             >
               <div className="product-image-container">
                 <img
-                  src={device.image}
+                  src={device.image[0]}
                   alt={device.name}
                   className="product-image"
                   onError={(e) => {
-                    e.target.src = "/images/placeholder-product.png"; // Fallback image
+                    e.target.src = "/images/placeholder-product.png"; // fallback
                   }}
                 />
               </div>

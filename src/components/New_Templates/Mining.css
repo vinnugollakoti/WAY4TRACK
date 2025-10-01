@@ -294,9 +294,10 @@ body, html {
 .mining-product {
   background-color: #F5F5F7;
   display: flex;
+  justify-content: space-around;
   width: 100%;
   margin-top: 4rem;
-  padding: 30px 80px 30px 30px ;
+  padding: 30px 30px 30px 30px ;
 }
 
 .mining-product h2{
@@ -436,7 +437,7 @@ body, html {
 
 .buy-it-now-btn {
   border: 1.5px solid black;
-  padding: 2% 5% 2% 5%;
+  padding: 1.5% 5% 1.5% 5%;
   background-color: #28282800;
   border-radius: 10px;
 }
@@ -792,7 +793,7 @@ body, html {
   font-size: 21px;
 }
 .mining-product-details {
-  margin-top: 2%;
+  width: 60%;
 }
 /* Responsive additions to existing CSS */
 @media (max-width: 1200px) {
