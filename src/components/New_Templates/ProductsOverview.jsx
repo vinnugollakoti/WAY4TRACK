@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 import Navbar from "./Navbar";
 import "./ProductOverview.css";
@@ -12,7 +13,13 @@ function ProductsOverview({ websiteData }) {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [stateData, setData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  
   const [selectedNetwork, setSelectedNetwork] = useState("4G"); // Default network
+  const [selectedRelayer, setSelectedRelayer] = useState(null);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
@@ -23,32 +30,49 @@ function ProductsOverview({ websiteData }) {
   }, [id, websiteData]);
 
 
-  const handleAddToCart = () => {
-    if (!stateData || !stateData.device || stateData.device.length === 0) return;
+const handleAddToCart = () => {
+  if (!stateData || !stateData.device || stateData.device.length === 0) return;
 
-    const device = stateData?.device[0];
-    const price = Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100));
-    console.log(device.id)
-    if (!device.id) {
-      alert("Invalid device. Please try again.");
-      return;
-    }
+  const device = stateData?.device[0];
 
-    const cartItem = {
-      deviceId: device.id,
-      product: stateData,
-      quantity: quantity,
-      clientId: localStorage.getItem("client_db_id"),
-      totalAmount: price * quantity,
-      network: selectedNetwork,
-      name: device.name,
-      price: price,
-      model: device.model,
-      discount: device.discount || 0
-    };
+  // Validation: If network option is required
+  if (device.isNetwork && !selectedNetwork) {
+    toast.error("Please select a network option before adding to cart");
+    return;
+  }
 
-    addToCart(cartItem);
+  // Validation: If subscription option is required
+  if (device.isSubscription && !selectedSubscription) {
+    toast.error("Please select a subscription option before adding to cart");
+    return;
+  }
+
+  const price = getFinalPrice();
+
+  if (!device.id) {
+    toast.error("Invalid device. Please try again.");
+    return;
+  }
+
+  const cartItem = {
+    deviceId: device.id,
+    product: stateData,
+    quantity,
+    clientId: localStorage.getItem("client_db_id"),
+    totalAmount: price * quantity,
+    price,
+    name: device.name,
+    model: device.model,
+    discount: device.discount || 0,
+    network: selectedNetwork,
+    relayer: selectedRelayer, // may be null (optional)
+    subscription: selectedSubscription
   };
+
+  addToCart(cartItem);
+  toast.success("Product added to cart!");
+};
+
 
   const handleBuyNow = () => {
     handleAddToCart();
@@ -64,30 +88,73 @@ function ProductsOverview({ websiteData }) {
   const decrementQuantity = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
+
+  const getFinalPrice = () => {
+  if (!stateData?.device?.[0]) return 0;
+  const device = stateData.device[0];
+
+  let price = Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100));
+
+  // Add relayer
+  if (selectedRelayer) {
+    price += parseInt(selectedRelayer) || 0;
+  }
+
+  // Add network
+  if (selectedNetwork === "2G") {
+    price += parseInt(device.network2gAmt) || 0;
+  } else if (selectedNetwork === "4G") {
+    price += parseInt(device.network4gAmt) || 0;
+  }
+
+  // Add subscription
+  if (selectedSubscription === "monthly") {
+    price += parseInt(device.subscriptionMonthlyAmt) || 0;
+  } else if (selectedSubscription === "yearly") {
+    price += parseInt(device.subscriptionYearlyAmt) || 0;
+  }
+
+  return price;
+};
+
   return (
     <div className="product-overview-body">
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <div className="mining-product">
-        <div className="mining-product-img">
-          <img src={stateData?.device[0]?.image} alt="" />
+        <div className="mining-product-gallery">
+          {/* Thumbnails */}
+          <div className="mining-product-thumbnails">
+            {stateData?.device[0]?.image?.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Thumbnail ${index}`}
+                className={`thumbnail ${selectedImage === img ? "active" : ""}`}
+                onClick={() => setSelectedImage(img)}
+                onError={(e) => (e.target.src = "/images/placeholder-product.png")}
+              />
+            ))}
+          </div>
+
+          {/* Main Image */}
+          <div className="mining-product-main">
+            <img
+              src={selectedImage || stateData?.device[0]?.image?.[0]}
+              alt="Main product"
+              className="main-image"
+              onError={(e) => (e.target.src = "/images/placeholder-product.png")}
+            />
+          </div>
         </div>
+
         <div className="mining-product-details">
           <div className="mining-product-title">
             <h2 className="mining-product-title-h2">
               {stateData?.device[0]?.name}  {stateData?.device[0]?.model}
             </h2>
           </div>
-          <div className="product-price-section">
-            <span className="product-price">
-              ₹{Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}
-            </span>
-
-            {stateData?.device[0]?.discount > 0 && (
-              <span className="product-old-price">
-                ₹{stateData?.device[0]?.amount || 100}
-              </span>
-            )}
-          </div>
+          
           <div className="mining-product-features">
             <ul>
               <li>
@@ -97,7 +164,76 @@ function ProductsOverview({ websiteData }) {
           </div>
           <div className="mining-product-order">
             <div className="mining-product-option">
-              <div className="mining-product-network-label">
+              <div className="extra-product-details">
+
+              {/* Relayer */}
+              {stateData?.device[0]?.isRelay && (
+              <div className="extra-detail-card">
+                <h3 className="option-headings">Relayer Option</h3>
+                <div className="option-btns">
+                  <button
+                    className={`option-btn ${
+                      selectedRelayer === stateData?.device[0]?.relayAmt ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setSelectedRelayer(prev =>
+                        prev === stateData?.device[0]?.relayAmt ? null : stateData?.device[0]?.relayAmt
+                      )
+                    }
+                  >
+                    Relayer – ₹{stateData?.device[0]?.relayAmt}
+                  </button>
+                </div>
+              </div>
+            )}
+
+
+
+              {/* Network */}
+              {stateData?.device[0]?.isNetwork && (
+                <div className="extra-detail-card">
+                  <h3  className="option-headings">Network Options</h3>
+                  <div className="option-btns">
+                    <button
+                      className={`option-btn ${selectedNetwork === "2G" ? "active" : ""}`}
+                      onClick={() => setSelectedNetwork("2G")}
+                    >
+                      2G – ₹{stateData?.device[0]?.network2gAmt}
+                    </button>
+                    <button
+                      className={`option-btn ${selectedNetwork === "4G" ? "active" : ""}`}
+                      onClick={() => setSelectedNetwork("4G")}
+                    >
+                      4G – ₹{stateData?.device[0]?.network4gAmt}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Subscription */}
+              {stateData?.device[0]?.isSubscription && (
+                <div className="extra-detail-card">
+                  <h3  className="option-headings">Subscription</h3>
+                  <div className="option-btns">
+                    <button
+                      className={`option-btn ${selectedSubscription === "monthly" ? "active" : ""}`}
+                      onClick={() => setSelectedSubscription("monthly")}
+                    >
+                      Monthly – ₹{stateData?.device[0]?.subscriptionMonthlyAmt}
+                    </button>
+                    <button
+                      className={`option-btn ${selectedSubscription === "yearly" ? "active" : ""}`}
+                      onClick={() => setSelectedSubscription("yearly")}
+                    >
+                      Yearly – ₹{stateData?.device[0]?.subscriptionYearlyAmt}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+              {/* <div className="mining-product-network-label">
                 <p>Network Support SIM:</p>
               </div>
               <div className="mining-product-network-btns">
@@ -107,12 +243,12 @@ function ProductsOverview({ websiteData }) {
                 <div className="mining-product-network-btn">
                   <button>4G</button>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="mining-product-final-price">
-              {/* <p>Rs. {stateData?.device[0]?.amount}</p> */}
-              <p>Rs. {Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}</p>
-            </div>
+            <p className="productoverview-price">Total Price : ₹ <strong className="total-price">{getFinalPrice()}</strong></p>
+          </div>
+
             <div className="mining-product-quantity">
               {/* <div className="mining-product-quantity-label">
                 <p>Quantity</p>
