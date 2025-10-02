@@ -305,18 +305,18 @@ const handleAddToCart = () => {
                 <div className="mining-feature-left">
                   <div className="mining-feature-icon">
                     <img
-                      src={stateData.amenities[startIndex].image}
-                      alt={stateData.amenities[startIndex].name || "Feature"}
+                      src={stateData?.device[0]?.points[0]?.file}
+                      alt={stateData?.device[0]?.points[0]?.title || "Feature"}
                       onError={(e) => {
                         e.target.src = "/images/placeholder-icon.png";
                       }}
                     />
                   </div>
                   <div className="mining-feature-title">
-                    <p>{stateData.amenities[startIndex].name || "Advanced Feature"}</p>
+                    <p>{stateData?.device[0]?.points[0]?.title || "Advanced Feature"}</p>
                   </div>
                   <div className="mining-feature-desc">
-                    <p>{stateData.amenities[startIndex].desc}</p>
+                    <p>{stateData?.device[0]?.points[0]?.desc}</p>
                   </div>
                 </div>
               )}
@@ -329,19 +329,19 @@ const handleAddToCart = () => {
                       <div className="mining-feature-top-icon">
                         <div>
                           <img
-                            src={stateData.amenities[startIndex + 1].image}
-                            alt={stateData.amenities[startIndex + 1].name}
+                            src={stateData?.device[0]?.points[1]?.file}
+                            alt={stateData?.device[0]?.points[1]?.title}
                             onError={(e) => {
                               e.target.src = "/images/placeholder-icon.png";
                             }}
                           />
                         </div>
                         <div className="mining-feature-top-title">
-                          <p>{stateData.amenities[startIndex + 1].name}</p>
+                          <p>{stateData?.device[0]?.points[1]?.title}</p>
                         </div>
                       </div>
                       <div className="mining-feature-top-desc">
-                        <p>{stateData.amenities[startIndex + 1].desc}</p>
+                        <p>{stateData?.device[0]?.points[1]?.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -352,18 +352,18 @@ const handleAddToCart = () => {
                     <div className="mining-feature-card">
                       <div className="mining-feature-card-icon">
                         <img
-                          src={stateData.amenities[startIndex + 2].image}
-                          alt={stateData.amenities[startIndex + 2].name}
+                          src={stateData?.device[0]?.points[2]?.file}
+                          alt={stateData?.device[0]?.points[2]?.title}
                           onError={(e) => {
                             e.target.src = "/images/placeholder-icon.png";
                           }}
                         />
                       </div>
                       <div className="mining-feature-card-title">
-                        <p>{stateData.amenities[startIndex + 2].name}</p>
+                        <p>{stateData?.device[0]?.points[2]?.title}</p>
                       </div>
                       <div className="mining-feature-card-desc">
-                        <p>{stateData.amenities[startIndex + 2].desc}</p>
+                        <p>{stateData?.device[0]?.points[2]?.desc}</p>
                       </div>
                     </div>
                   )}
@@ -372,18 +372,18 @@ const handleAddToCart = () => {
                     <div className="mining-feature-card">
                       <div className="mining-feature-card-icon">
                         <img
-                          src={stateData.amenities[startIndex + 3].image}
-                          alt={stateData.amenities[startIndex + 3].name}
+                          src={stateData?.device[0]?.points[3]?.file}
+                          alt={stateData?.device[0]?.points[3]?.title}
                           onError={(e) => {
                             e.target.src = "/images/placeholder-icon.png";
                           }}
                         />
                       </div>
                       <div className="mining-feature-card-title">
-                        <p>{stateData.amenities[startIndex + 3].name}</p>
+                        <p>{stateData?.device[0]?.points[3]?.title}</p>
                       </div>
                       <div className="mining-feature-card-desc">
-                        <p>{stateData.amenities[startIndex + 3].desc}</p>
+                        <p>{stateData?.device[0]?.points[3]?.desc}</p>
                       </div>
                     </div>
                   )}
@@ -399,27 +399,28 @@ const handleAddToCart = () => {
         <h2 className="mining-benefits-header">
           Benefits of {stateData?.device[0]?.name}
         </h2>
-        <div className="mining-benefits-grid">
-          {stateData?.application?.slice(0, 6).map((app, index) => (
-            <div key={app.id || index} className="mining-benefit-card">
-              <div className="mining-benefit-icon">
-                <img
-                  src={app.image}
-                  alt={app.name}
-                  onError={(e) => {
-                    e.target.src = "/images/placeholder-icon.png";
-                  }}
-                />
-              </div>
-              <div className="mining-benefit-title">
-                <h3>{app.name}</h3>
-              </div>
-              <div className="mining-benefit-desc">
-                {app.desc}
-              </div>
-            </div>
-          ))}
+       <div className="mining-benefits-grid">
+      {stateData?.device?.[0]?.points?.slice(4, 10).map((point, index) => (
+        <div key={index} className="mining-benefit-card">
+          <div className="mining-benefit-icon">
+            <img
+              src={point.file}
+              alt={point.title}
+              onError={(e) => {
+                e.target.src = "/images/placeholder-icon.png";
+              }}
+            />
+          </div>
+          <div className="mining-benefit-title">
+            <h3>{point.title}</h3>
+          </div>
+          <div className="mining-benefit-desc">
+            {point.desc}
+          </div>
         </div>
+      ))}
+    </div>
+
       </div>
       <div className="mining-view-more-section">
         <div className="mining-view-more-text">
