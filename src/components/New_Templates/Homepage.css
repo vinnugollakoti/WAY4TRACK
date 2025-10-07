@@ -86,16 +86,6 @@
   margin-bottom: 1rem;
 }
 
-.homepage-product-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #121712;
-  margin: 0 0 0.5rem 0;
-  max-width: 20ch;
-  text-wrap: balance;
-  word-break: normal;
-  hyphens: auto;
-}
 
 .homepage-product-card p {
   margin: 0;
@@ -740,6 +730,31 @@
   height: 120px;
   object-fit: contain;
   border-radius: 8px;
+}
+.home-product-heading {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 16px !important;
+}
+.home-product-p {
+  font-family: "IBM Plex Sans", sans-serif !important;
+  line-height: normal !important;
+  font-size: 14px !important;
+}
+.homepage-product-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+
+.center-wrapper {
+  display: flex;
+  justify-content: center;   /* centers horizontally */
+  align-items: center;       /* centers vertically */           /* make sure the div has height */
+  text-align: center;        /* optional, centers inline text */
+  flex-direction: column;    /* stack heading and paragraph vertically */
 }
 
 /* Sticky Cards Animation */
