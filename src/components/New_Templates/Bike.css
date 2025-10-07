@@ -360,7 +360,7 @@
 .mining-benefit-title h3 {
     font-size: 1.2rem;
     color: #60A442;
-    text-align: center;
+    /* text-align: center; */
     margin: 10px 0;
 }
 
