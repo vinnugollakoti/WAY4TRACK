@@ -92,15 +92,16 @@
 }
 
 .product-title {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 600;
-  margin: 5px 0;
-  text-align: center;
+  margin: 15px 0 0 0;
+  text-align: left;
 }
 
 .product-description {
   font-size: 13px;
   color: #121712;
+  margin-top: 5px;
   margin-bottom: 15px;
   font-family: 'IBM Plex Sans', sans-serif;
   flex-grow: 1;
@@ -196,7 +197,8 @@
   }
   
   .product-title {
-    font-size: 16px;
+    font-size: 17px;
+    margin-top: 15px;
   }
   
   .product-description {

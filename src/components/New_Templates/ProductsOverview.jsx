@@ -336,10 +336,10 @@ const handleAddToCart = () => {
                             }}
                           />
                         </div>
-                        <div className="mining-feature-top-title">
+                      </div>
+                      <div className="mining-feature-top-title">
                           <p>{stateData?.device[0]?.points[1]?.title}</p>
                         </div>
-                      </div>
                       <div className="mining-feature-top-desc">
                         <p>{stateData?.device[0]?.points[1]?.desc}</p>
                       </div>
