@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Homepage.css";
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -198,19 +199,24 @@ function Home({ websiteData }) {
       </div>
 
       <div className="homepage-products">
-        <div className="homepage-products-scroll">
-          {session2.map((item, index) => (
-            <div key={index} className="homepage-product-card">
+      <div className="homepage-products-scroll">
+        {session2.map((item, index) => (
+          <div key={index} className="homepage-product-card">
+            <Link to={item.link || "#"} className="homepage-product-card-link">
               <img
-                src={item.photo ? item.photo : ""}
+                src={item.photo || ""}
                 alt={item.name || `Product ${index + 1}`}
               />
-              <h3>{item.name || "Unnamed Product"}</h3>
-              <p>{item.desc}</p>
-            </div>
-          ))}
-        </div>
+              <div className="center-wrapper">
+                <h3 className="home-product-heading">{item.name || "Unnamed Product"}</h3>
+                <p className="home-product-p">{item.desc}</p>
+              </div>
+            </Link>
+          </div>
+        ))}
       </div>
+    </div>
+
 
 
       <section className="homepage-solutions">
