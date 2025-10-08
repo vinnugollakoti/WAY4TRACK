@@ -7,8 +7,8 @@ import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, getTotal, addToCart } = useContext(CartContext);
-
+  const { cartItems, removeFromCart, getTotal, addToCart } =
+    useContext(CartContext);
 
   const updateQuantity = async (itemId, change) => {
     const cartItem = cartItems.find((item) => item.id === itemId);
@@ -36,6 +36,8 @@ function CartPage() {
     removeFromCart(itemId);
   };
 
+  console.log("CART ITEMS : ", cartItems);
+
   return (
     <div>
       <Navbar />
@@ -57,17 +59,36 @@ function CartPage() {
                   <div className="cart-item-text">
                     <div className="cart-item-header">
                       <span className="cart-header">{item?.device?.name}</span>
-                      <span className="cart-price">₹{((item?.device?.amount - (item?.device?.amount * item?.device?.discount) / 100) * item.quantity)}
+                      <span className="cart-price">
+                        ₹
+                        {(item?.device?.amount -
+                          (item?.device?.amount * item?.device?.discount) /
+                            100) *
+                          item.quantity}
                       </span>
                     </div>
                     <div className="cart-item-details">
-                      {/* <p>
-                        Accessories: {item.isRelay ? "With Relay" : "Without Relay"}
-                      </p>
-                      <p>Subscription: {item.subscription} subscription</p>
-                      <p>Network: {item.network}</p> */}
-                      <p>{item?.device?.description}</p>
-                    </div>
+                    {item.device.isRelay && item.device.relayAmt > 0 && (
+                      <p>Accessories: {item.isRelay ? "With Relay" : "Without Relay"}</p>
+                    )}
+
+                    {item.device.isNetwork &&
+                      (item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                        <p>Network: {item.network ? item.network : "N/A"}</p>
+                      )}
+
+                    {item.device.isSubscription &&
+                      (item.device.subscriptionMonthlyAmt > 0 ||
+                        item.device.subscriptionYearlyAmt > 0) && (
+                        <p>
+                          Subscription:{" "}
+                          {item.subscription ? `${item.subscription} subscription` : "N/A"}
+                        </p>
+                      )}
+
+                    <p>{item?.device?.description}</p>
+                  </div>
+
                     <div className="cart-item-actions">
                       <div className="cart-item-buttons">
                         <button onClick={() => updateQuantity(item.id, 1)}>
@@ -117,7 +138,12 @@ function CartPage() {
                   <div className="ckcjc7">
                     <div className="c1az4bwh"></div>
                   </div>
-                  <span>  ₹{((item?.device?.amount - (item?.device?.amount * item?.device?.discount) / 100) * item.quantity)}
+                  <span>
+                    {" "}
+                    ₹
+                    {(item?.device?.amount -
+                      (item?.device?.amount * item?.device?.discount) / 100) *
+                      item.quantity}
                   </span>
                 </div>
               ))}
@@ -130,7 +156,12 @@ function CartPage() {
                 <span>₹{getTotal()}</span>
               </div>
               <div className="proceed-to-payment">
-                <button className="proceed-to-payment-button" onClick={() => { navigate('/old-cart') }}>
+                <button
+                  className="proceed-to-payment-button"
+                  onClick={() => {
+                    navigate("/old-cart");
+                  }}
+                >
                   Proceed to Payment
                 </button>
               </div>
