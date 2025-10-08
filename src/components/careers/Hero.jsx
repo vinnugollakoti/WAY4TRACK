@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import Navbar from '../New_Templates/Navbar';
+import Footer from '../New_Templates/Footer';
 import AddHiring from './AddHiring';
 
 const Hero = () => {
@@ -35,6 +36,7 @@ const Hero = () => {
       <div ref={addHiringRef}>
         <AddHiring />
       </div>
+      <Footer />
     </>
   );
 };
