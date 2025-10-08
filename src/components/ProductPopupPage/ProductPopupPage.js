@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import "./ProductPopupPage.css";
 import AIS140Availability from "../../contexts/AIS140Availabilities";
 
@@ -20,10 +21,9 @@ const ProductPopupPage = ({ device }) => {
   const [selectedCity, setSelectedCity] = useState("");
   const [isAIS, setIsAIS] = useState(false);
 
-useEffect(() => {
-  setIsAIS(device.name.includes("AIS"));
-}, [device.name]);
-
+  useEffect(() => {
+    setIsAIS(device.name.includes("AIS"));
+  }, [device.name]);
 
   useEffect(() => {
     if (cartItem) {
@@ -52,11 +52,13 @@ useEffect(() => {
   const calculateTotalAmount = () => {
     let price = device.amount || 0;
 
-    if (device.isRelay && selectedRelayer) price += parseInt(selectedRelayer) || 0;
+    if (device.isRelay && selectedRelayer)
+      price += parseInt(selectedRelayer) || 0;
 
     if (device.isNetwork && selectedNetwork) {
       if (selectedNetwork === "2G") price += parseInt(device.network2gAmt) || 0;
-      else if (selectedNetwork === "4G") price += parseInt(device.network4gAmt) || 0;
+      else if (selectedNetwork === "4G")
+        price += parseInt(device.network4gAmt) || 0;
     }
 
     if (device.isSubscription && selectedSubscription) {
@@ -66,13 +68,30 @@ useEffect(() => {
         price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
-    // apply discount
     if (device.discount) price = price * (1 - device.discount / 100);
 
     return price * quantity;
   };
 
   const handleAddToCart = async () => {
+    const allNetworkZero =
+      (!device.network2gAmt || device.network2gAmt === 0) &&
+      (!device.network4gAmt || device.network4gAmt === 0);
+
+    const allSubscriptionZero =
+      (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
+      (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
+
+    if (device.isNetwork && !allNetworkZero && !selectedNetwork) {
+      toast.error("Please select a network option before adding to cart");
+      return;
+    }
+
+    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+      toast.error("Please select a subscription option before adding to cart");
+      return;
+    }
+
     const totalAmount = calculateTotalAmount();
 
     const cartData = {
@@ -90,8 +109,10 @@ useEffect(() => {
 
     try {
       await addToCart(cartData);
+      toast.success("Product added to cart!");
     } catch (error) {
       console.error("Failed to add to cart:", error);
+      toast.error("Failed to add product to cart");
     }
   };
 
@@ -100,10 +121,10 @@ useEffect(() => {
     navigate("/cart");
   };
 
-  console.log("DEVICES :", device)
-
   return (
     <div className="ProductPopupPage-container">
+      <Toaster position="top-center" reverseOrder={false} />
+
       <div className="ProductPopupPage-header">
         <img
           src={device.image[0]}
@@ -125,13 +146,16 @@ useEffect(() => {
         </div>
       </div>
 
-      {device.isRelay && (
+      {/* === RELAYER === */}
+      {device.isRelay && device.relayAmt > 0 && (
         <div className="ProductPopupPage-section">
           <label className="ProductPopupPage-label">Relayer Option:</label>
           <div className="ProductPopupPage-options">
             <button
               className={`ProductPopupPage-button ${
-                selectedRelayer === device.relayAmt ? "ProductPopupPage-selected" : ""
+                selectedRelayer === device.relayAmt
+                  ? "ProductPopupPage-selected"
+                  : ""
               }`}
               onClick={() =>
                 setSelectedRelayer((prev) =>
@@ -139,36 +163,46 @@ useEffect(() => {
                 )
               }
             >
-              {selectedRelayer === device.relayAmt ? "Relayer Selected" : "Select Relayer"} – ₹{device.relayAmt}
+              {selectedRelayer === device.relayAmt
+                ? "Relayer Selected"
+                : "Select Relayer"}{" "}
+              – ₹{device.relayAmt}
             </button>
           </div>
         </div>
       )}
 
-      {device.isNetwork && (
-        <div className="ProductPopupPage-section">
-          <label className="ProductPopupPage-label">Network Options:</label>
-          <div className="ProductPopupPage-options">
-            <button
-              className={`ProductPopupPage-button ${
-                selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
-              }`}
-              onClick={() => setSelectedNetwork("2G")}
-            >
-              2G – ₹{device.network2gAmt}
-            </button>
-            <button
-              className={`ProductPopupPage-button ${
-                selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
-              }`}
-              onClick={() => setSelectedNetwork("4G")}
-            >
-              4G – ₹{device.network4gAmt}
-            </button>
+      {/* === NETWORK === */}
+      {device.isNetwork &&
+        (device.network2gAmt > 0 || device.network4gAmt > 0) && (
+          <div className="ProductPopupPage-section">
+            <label className="ProductPopupPage-label">Network Options:</label>
+            <div className="ProductPopupPage-options">
+              {device.network2gAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() => setSelectedNetwork("2G")}
+                >
+                  2G – ₹{device.network2gAmt}
+                </button>
+              )}
+              {device.network4gAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() => setSelectedNetwork("4G")}
+                >
+                  4G – ₹{device.network4gAmt}
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
+      {/* === LOCATION (AIS ONLY) === */}
       {isAIS && (
         <div className="ProductPopupPage-section">
           <label className="ProductPopupPage-label">Location:</label>
@@ -216,30 +250,42 @@ useEffect(() => {
         </div>
       )}
 
-      {device.isSubscription && (
-        <div className="ProductPopupPage-section">
-          <label className="ProductPopupPage-label">Subscription:</label>
-          <div className="ProductPopupPage-subscription-options">
-            <button
-              className={`ProductPopupPage-subscription-button ${
-                selectedSubscription === "monthly" ? "ProductPopupPage-selected" : ""
-              }`}
-              onClick={() => setSelectedSubscription("monthly")}
-            >
-              Monthly – ₹{device.subscriptionMonthlyAmt}
-            </button>
-            <button
-              className={`ProductPopupPage-subscription-button ${
-                selectedSubscription === "yearly" ? "ProductPopupPage-selected" : ""
-              }`}
-              onClick={() => setSelectedSubscription("yearly")}
-            >
-              Yearly – ₹{device.subscriptionYearlyAmt}
-            </button>
+      {/* === SUBSCRIPTION === */}
+      {device.isSubscription &&
+        (device.subscriptionMonthlyAmt > 0 ||
+          device.subscriptionYearlyAmt > 0) && (
+          <div className="ProductPopupPage-section">
+            <label className="ProductPopupPage-label">Subscription:</label>
+            <div className="ProductPopupPage-subscription-options">
+              {device.subscriptionMonthlyAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-subscription-button ${
+                    selectedSubscription === "monthly"
+                      ? "ProductPopupPage-selected"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedSubscription("monthly")}
+                >
+                  Monthly – ₹{device.subscriptionMonthlyAmt}
+                </button>
+              )}
+              {device.subscriptionYearlyAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-subscription-button ${
+                    selectedSubscription === "yearly"
+                      ? "ProductPopupPage-selected"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedSubscription("yearly")}
+                >
+                  Yearly – ₹{device.subscriptionYearlyAmt}
+                </button>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
+      {/* === QUANTITY === */}
       <div className="ProductPopupPage-section">
         <label className="ProductPopupPage-label">Quantity:</label>
         <input
@@ -251,6 +297,7 @@ useEffect(() => {
         />
       </div>
 
+      {/* === ACTIONS === */}
       <div className="ProductPopupPage-actions">
         <button
           onClick={handleAddToCart}

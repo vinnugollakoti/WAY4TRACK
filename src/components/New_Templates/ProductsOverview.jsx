@@ -34,40 +34,49 @@ function ProductsOverview({ websiteData }) {
   }, [id, deviceId, websiteData]);
 
   const handleAddToCart = () => {
-    if (!stateData?.selectedDevice) return;
+  if (!stateData?.selectedDevice) return;
 
-    const device = stateData.selectedDevice;
+  const device = stateData.selectedDevice;
 
-    if (device.isNetwork && !selectedNetwork) {
-      toast.error("Please select a network option before adding to cart");
-      return;
-    }
+  const allNetworkZero =
+    (!device.network2gAmt || device.network2gAmt === 0) &&
+    (!device.network4gAmt || device.network4gAmt === 0);
 
-    if (device.isSubscription && !selectedSubscription) {
-      toast.error("Please select a subscription option before adding to cart");
-      return;
-    }
+  const allSubscriptionZero =
+    (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
+    (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
 
-    const price = getFinalPrice();
+  if (device.isNetwork && !allNetworkZero && !selectedNetwork) {
+    toast.error("Please select a network option before adding to cart");
+    return;
+  }
 
-    const cartItem = {
-      deviceId: device.id,
-      product: stateData,
-      quantity,
-      clientId: localStorage.getItem("client_db_id"),
-      totalAmount: price * quantity,
-      price,
-      name: device.name,
-      model: device.model,
-      discount: device.discount || 0,
-      network: selectedNetwork,
-      relayer: selectedRelayer,
-      subscription: selectedSubscription,
-    };
+  if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+    toast.error("Please select a subscription option before adding to cart");
+    return;
+  }
 
-    addToCart(cartItem);
-    toast.success("Product added to cart!");
+  const price = getFinalPrice();
+
+  const cartItem = {
+    deviceId: device.id,
+    product: stateData,
+    quantity,
+    clientId: localStorage.getItem("client_db_id"),
+    totalAmount: price * quantity,
+    price,
+    name: device.name,
+    model: device.model,
+    discount: device.discount || 0,
+    network: selectedNetwork,
+    relayer: selectedRelayer,
+    subscription: selectedSubscription,
   };
+
+  addToCart(cartItem);
+  toast.success("Product added to cart!");
+};
+
 
   const handleBuyNow = () => {
     handleAddToCart();
@@ -150,7 +159,8 @@ function ProductsOverview({ websiteData }) {
 
           <div className="mining-product-order">
             <div className="extra-product-details">
-              {device?.isRelay && (
+              {/* Relayer Option */}
+              {device?.isRelay && device?.relayAmt > 0 && (
                 <div className="extra-detail-card">
                   <h3 className="option-headings">Relayer Option</h3>
                   <div className="option-btns">
@@ -170,53 +180,65 @@ function ProductsOverview({ websiteData }) {
                 </div>
               )}
 
-              {device?.isNetwork && (
-                <div className="extra-detail-card">
-                  <h3 className="option-headings">Network Options</h3>
-                  <div className="option-btns">
-                    <button
-                      className={`option-btn ${
-                        selectedNetwork === "2G" ? "active" : ""
-                      }`}
-                      onClick={() => setSelectedNetwork("2G")}
-                    >
-                      2G – ₹{device?.network2gAmt}
-                    </button>
-                    <button
-                      className={`option-btn ${
-                        selectedNetwork === "4G" ? "active" : ""
-                      }`}
-                      onClick={() => setSelectedNetwork("4G")}
-                    >
-                      4G – ₹{device?.network4gAmt}
-                    </button>
+              {device?.isNetwork &&
+                (device?.network2gAmt > 0 || device?.network4gAmt > 0) && (
+                  <div className="extra-detail-card">
+                    <h3 className="option-headings">Network Options</h3>
+                    <div className="option-btns">
+                      {device?.network2gAmt > 0 && (
+                        <button
+                          className={`option-btn ${
+                            selectedNetwork === "2G" ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedNetwork("2G")}
+                        >
+                          2G – ₹{device?.network2gAmt}
+                        </button>
+                      )}
+                      {device?.network4gAmt > 0 && (
+                        <button
+                          className={`option-btn ${
+                            selectedNetwork === "4G" ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedNetwork("4G")}
+                        >
+                          4G – ₹{device?.network4gAmt}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {device?.isSubscription && (
-                <div className="extra-detail-card">
-                  <h3 className="option-headings">Subscription</h3>
-                  <div className="option-btns">
-                    <button
-                      className={`option-btn ${
-                        selectedSubscription === "monthly" ? "active" : ""
-                      }`}
-                      onClick={() => setSelectedSubscription("monthly")}
-                    >
-                      Monthly – ₹{device?.subscriptionMonthlyAmt}
-                    </button>
-                    <button
-                      className={`option-btn ${
-                        selectedSubscription === "yearly" ? "active" : ""
-                      }`}
-                      onClick={() => setSelectedSubscription("yearly")}
-                    >
-                      Yearly – ₹{device?.subscriptionYearlyAmt}
-                    </button>
+              {device?.isSubscription &&
+                (device?.subscriptionMonthlyAmt > 0 ||
+                  device?.subscriptionYearlyAmt > 0) && (
+                  <div className="extra-detail-card">
+                    <h3 className="option-headings">Subscription</h3>
+                    <div className="option-btns">
+                      {device?.subscriptionMonthlyAmt > 0 && (
+                        <button
+                          className={`option-btn ${
+                            selectedSubscription === "monthly" ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedSubscription("monthly")}
+                        >
+                          Monthly – ₹{device?.subscriptionMonthlyAmt}
+                        </button>
+                      )}
+                      {device?.subscriptionYearlyAmt > 0 && (
+                        <button
+                          className={`option-btn ${
+                            selectedSubscription === "yearly" ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedSubscription("yearly")}
+                        >
+                          Yearly – ₹{device?.subscriptionYearlyAmt}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+
             </div>
 
             <div className="mining-product-final-price">

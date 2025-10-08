@@ -162,6 +162,13 @@ function Home({ websiteData }) {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: Adds smooth scrolling
+    });
+  };
+
   return (
     <div className="homepage-root">
       <Navbar />
@@ -202,7 +209,11 @@ function Home({ websiteData }) {
       <div className="homepage-products-scroll">
         {session2.map((item, index) => (
           <div key={index} className="homepage-product-card">
-            <Link to={item.link || "#"} className="homepage-product-card-link">
+            <Link 
+              to={item.link || "#"} 
+              className="homepage-product-card-link"
+              onClick={scrollToTop} // Scroll to top on click
+            >
               <img
                 src={item.photo || ""}
                 alt={item.name || `Product ${index + 1}`}
