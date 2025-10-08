@@ -239,6 +239,7 @@ function Home({ websiteData }) {
             <Link
               to={item.link || "/"}
               key={index}
+               onClick={() => window.scrollTo(0, 0)}
               className="solution-card-sticky"
               data-index={index}
               style={{ textDecoration: "none", color: "inherit" }}
