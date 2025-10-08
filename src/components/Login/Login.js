@@ -46,7 +46,7 @@ function LoginPage() {
       <div className="Login-card-glass">
         <div className="Login-image-side">
           <img
-            src="https://res.cloudinary.com/dabzdwxet/image/upload/v1749645288/login_xkxs2t.avif"
+            src={"/images/login-image.png"}
             alt="Login Illustration"
             className="Login-image"
           />
@@ -72,7 +72,6 @@ function LoginPage() {
         </div>
       </div>
     </div>
-    <Footer />
     </div>
   );
 }
