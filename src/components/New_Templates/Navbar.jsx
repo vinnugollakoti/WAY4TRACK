@@ -31,9 +31,10 @@ const Navbar = () => {
         <div className="nav-container">
           {/* Logo */}
 
-          <div className="nav-logo" onClick={() => navigate("/")}>
+          <div className="nav-logo" onClick={() => window.location.href = "/"}>
             <span className="logo">way4track</span>
           </div>
+
 
           {/* Hamburger Menu Icon */}
           <div className="hamburger" onClick={toggleMenu}>
