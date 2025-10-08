@@ -53,7 +53,7 @@ function CartPage() {
               cartItems.map((item) => (
                 <div className="cart-item" key={item.id}>
                   <img
-                    src={item?.device?.image || "/images/default.jpg"}
+                    src={item?.device?.image[0] || "/images/default.jpg"}
                     alt={item?.device?.name}
                   />
                   <div className="cart-item-text">

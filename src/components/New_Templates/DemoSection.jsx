@@ -18,10 +18,14 @@ function DemoSection() {
               </p>
             </div>
             <div className="demo-button">
-              <button className="demo-btn">
+              <button
+                className="demo-btn"
+                onClick={() => window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank")}
+              >
                 Book A Demo
                 <span className="icon">↗</span>
               </button>
+
             </div>
           </div>
           <div className="demo-image">

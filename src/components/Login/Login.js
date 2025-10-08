@@ -2,6 +2,8 @@ import React, { useState,useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import "./Login.css";
+import Navbar from "../New_Templates/Navbar";
+import Footer from "../New_Templates/Footer";
 import { CartContext } from "../../contexts/CartContext";
 
 function LoginPage() {
@@ -38,6 +40,8 @@ function LoginPage() {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="Login-wrapper">
       <div className="Login-card-glass">
         <div className="Login-image-side">
@@ -67,6 +71,8 @@ function LoginPage() {
           </div>
         </div>
       </div>
+    </div>
+    <Footer />
     </div>
   );
 }
