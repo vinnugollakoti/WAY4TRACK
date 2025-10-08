@@ -236,10 +236,12 @@ function Home({ websiteData }) {
         </center>
         <div className="solutions-sticky-cards" ref={cardsContainerRef}>
           {session3.slice(-4).map((item, index) => (
-            <div
+            <Link
+              to={item.link || "/"}
               key={index}
               className="solution-card-sticky"
               data-index={index}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
               <div className="solution-card-inner">
                 <div className="solution-card-image-container">
@@ -253,10 +255,12 @@ function Home({ websiteData }) {
                     {item.name || `Solution ${index + 1}`}
                   </h3>
                   <p className="solution-card-description">{item.desc}</p>
-                  <button className="solution-cta">Know more</button>
+                  <p className="solution-card-hint" style={{ fontSize: "0.9rem", color: "#555" }}>
+                    Click anywhere to view details
+                  </p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
