@@ -100,11 +100,13 @@ useEffect(() => {
     navigate("/cart");
   };
 
+  console.log("DEVICES :", device)
+
   return (
     <div className="ProductPopupPage-container">
       <div className="ProductPopupPage-header">
         <img
-          src={device.image}
+          src={device.image[0]}
           alt={device.name}
           className="ProductPopupPage-image"
         />
