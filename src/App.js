@@ -8,7 +8,8 @@ import Homepage from "./components/New_Templates/Home";
 import Mining from "./components/New_Templates/Mining";
 import SchoolBus from "./components/New_Templates/school_bus";
 import ProductsOverview from "./components/New_Templates/ProductsOverview";
-import About from "./components/about/AboutUs";
+// import About from "./components/about/AboutUs";
+import About from "./components/New_Templates/About";
 import AddressPage from "./components/AddressPage/AddressPage";
 import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
@@ -27,6 +28,7 @@ import { CartProvider } from "./contexts/CartContext";
 import OrderPlaced from "./components/New_Templates/OrderPlaced";
 
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
+import Loader from "./components/New_Templates/Loader";
 
 
 const App = () => {
@@ -64,7 +66,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <Loader />
   }
 
   if (error) {

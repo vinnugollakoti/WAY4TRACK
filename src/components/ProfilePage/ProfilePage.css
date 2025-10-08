@@ -466,9 +466,3 @@ html {
     padding: 0.5rem 0.75rem;
   }
 }
-
-
-body, html {
-  overflow-x: hidden;
-}
-

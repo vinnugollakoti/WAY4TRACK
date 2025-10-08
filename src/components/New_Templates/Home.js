@@ -74,7 +74,7 @@ function Home({ websiteData }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % websiteData.length);
-    }, 10000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [websiteData.length]);
@@ -198,17 +198,20 @@ function Home({ websiteData }) {
       </div>
 
       <div className="homepage-products">
-        {session2.slice(-5).map((item, index) => (
-          <div key={index} className="homepage-product-card">
-            <img
-              src={item.photo ? item.photo : ""}
-              alt={item.name || `Product ${index + 1}`}
-            />
-            <h3>{item.name || "Unnamed Product"}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
+        <div className="homepage-products-scroll">
+          {session2.map((item, index) => (
+            <div key={index} className="homepage-product-card">
+              <img
+                src={item.photo ? item.photo : ""}
+                alt={item.name || `Product ${index + 1}`}
+              />
+              <h3>{item.name || "Unnamed Product"}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
+
 
       <section className="homepage-solutions">
         <center>

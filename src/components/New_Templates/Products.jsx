@@ -52,87 +52,92 @@ function Products({ websiteData }) {
         <img className="product-hero-img" src="/images/FAM 1.png" alt="Hero" />
       </div>
       <div className="products-container">
-        {validProducts.map((product, index) => {
-          const device = product.device[0];
-          const discountedPrice = Math.round(
-            (device.amount || 100) * (1 - (device.discount || 0) / 100)
-          );
+  {validProducts.map((product, index) =>
+    product.device.map((device, dIndex) => {
+      const discountedPrice = Math.round(
+        (device.amount || 100) * (1 - (device.discount || 0) / 100)
+      );
 
-          // Check if this device is already in the cart
-          const matchedItem = cartItems.find(
-            (item) => item.device?.id === device.id
-          );
+      const matchedItem = cartItems.find(
+        (item) => item.device?.id === device.id
+      );
 
-          return (
-            <div
-              key={index}
-              className="product-card"
-              onClick={() => {
-                navigate(`/product/${product.id}`);
+      return (
+        <div
+          key={`${index}-${dIndex}`}
+          className="product-card"
+          onClick={() => {
+            navigate(`/product/${product.id}?deviceId=${device.id}`);
+          }}
+
+        >
+          <div className="product-image-container">
+            <img
+              src={device.image?.[0]}
+              alt={device.name || device.webProductName}
+              className="product-image"
+              onError={(e) => {
+                e.target.src = "/images/placeholder-product.png";
+              }}
+            />
+          </div>
+          <h3 className="product-title">
+            {device.name || device.webProductName}
+          </h3>
+          <p className="product-description">
+            {device.description || "No description available"}
+          </p>
+
+          <div className="product-price-section">
+            <span className="product-price">₹{discountedPrice}</span>
+            {device.discount > 0 && (
+              <span className="product-old-price">
+                ₹{device.amount || 100}
+              </span>
+            )}
+          </div>
+
+          <div className="product-buttons">
+            <button
+              className="buy-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleBuyNow(product, device);
               }}
             >
-              <div className="product-image-container">
-                <img
-                  src={device.image}
-                  alt={device.name}
-                  className="product-image"
-                  onError={(e) => {
-                    e.target.src = "/images/placeholder-product.png"; // Fallback image
-                  }}
-                />
-              </div>
-              <h3 className="product-title">{device.name}</h3>
-              <p className="product-description">
-                {device.description || "No description available"}
-              </p>
-              <div className="product-price-section">
-                <span className="product-price">₹{discountedPrice}</span>
+              Buy now
+            </button>
 
-                {device.discount > 0 && (
-                  <span className="product-old-price">
-                    ₹{device.amount || 100}
-                  </span>
-                )}
-              </div>
-              <div className="product-buttons">
-                <button
-                  className="buy-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleBuyNow(product, device);
-                  }}
-                >
-                  Buy now
-                </button>
+            {matchedItem ? (
+              <button
+                className="add-btn added"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddToCart(product, device);
+                }}
+                onMouseEnter={() => setHovered(device.id)}
+                onMouseLeave={() => setHovered(false)}
+              >
+                {hovered === device.id ? "Update Cart" : "Added"}
+              </button>
+            ) : (
+              <button
+                className="add-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddToCart(product, device);
+                }}
+              >
+                Add to cart
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    })
+  )}
+</div>
 
-                {matchedItem ? (
-                  <button
-                    className="add-btn added"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product, device);
-                    }}
-                    onMouseEnter={() => setHovered(device.id)}
-                    onMouseLeave={() => setHovered(false)}
-                  >
-                    {hovered === device.id ? "Update Cart" : "Added"}
-                  </button>
-                ) : (
-                  <button
-                    className="add-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product, device);
-                    }}
-                  >
-                    Add to cart
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
 
       {showProductModal && (
         <div

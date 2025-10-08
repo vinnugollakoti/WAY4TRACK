@@ -54,13 +54,22 @@
 .main-cards-1,
 .main-cards-2,
 .main-cards-3 {
-    width: 100%;
-    background-color: #F2F2F2;
-    border-radius: 10px;
-    padding: 2% 3% 2% 3%;
-    box-sizing: border-box;
-    margin-bottom: 20px;
+  width: 100%;
+  background-color: #F2F2F2;
+  border-radius: 10px;
+  padding: 2% 3% 2% 3%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  transition: all 0.3s ease; /* smooth hover for bg, color, and shadow */
 }
+
+.main-cards-1:hover,
+.main-cards-2:hover,
+.main-cards-3:hover {
+  box-shadow: 0 2px 22px rgba(96, 164, 66, 0.5); /* #60A442 with 70% opacity */
+}
+
+
 
 .main-cards-heading {
     font-size: 1.3rem;
@@ -169,14 +178,24 @@
     gap: 2%;
 }
 
-.six-cards-1, .six-cards-2, .six-cards-3 {
-    min-height: auto;
-    background-color: #F2F2F2;
-    width: 100%;
-    padding: 2% 3% 2% 3%;
-    border-radius: 10px;
-    margin-bottom: 20px;
+.six-cards-1,
+.six-cards-2,
+.six-cards-3 {
+  min-height: auto;
+  background-color: #F2F2F2;
+  width: 100%;
+  padding: 2% 3% 2% 3%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease; /* smooth hover effect */
 }
+
+.six-cards-1:hover,
+.six-cards-2:hover,
+.six-cards-3:hover {
+  box-shadow: 0 2px 22px rgba(201, 234, 186, 0.7);
+}
+
 
 .six-cards-heading {
     color: #60A442;
@@ -252,6 +271,17 @@
     border-radius: 10px;
     padding: 5%;
     margin-top: 3%;
+}
+
+.gps-tracking-card-1-start, .gps-tracking-card-2-start, .gps-tracking-card-1, .gps-tracking-card-2 {
+  transition: box-shadow 0.3s ease; 
+}
+
+.gps-tracking-card-1-start:hover,
+.gps-tracking-card-2-start:hover,
+.gps-tracking-card-1:hover,
+.gps-tracking-card-2:hover {
+  box-shadow: 0 2px 22px rgba(201, 234, 186, 0.7);
 }
 
 .gps-tracking-card-1-heading,

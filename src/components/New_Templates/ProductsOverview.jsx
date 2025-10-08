@@ -1,122 +1,232 @@
-import React from "react";
-import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 import Navbar from "./Navbar";
-import "./ProductOver.css";
-import DemoSection from "./DemoSection"
+import "./ProductOverview.css";
+import DemoSection from "./DemoSection";
 
 function ProductsOverview({ websiteData }) {
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const deviceId = queryParams.get("deviceId");
+
   const [quantity, setQuantity] = useState(1);
   const [stateData, setData] = useState(null);
-  const [selectedNetwork, setSelectedNetwork] = useState("4G"); // Default network
-  const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedNetwork, setSelectedNetwork] = useState(null);
+  const [selectedRelayer, setSelectedRelayer] = useState(null);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
+
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const product = websiteData.find((item) => item.id === parseInt(id));
-    setData(product);
-    console.log(product);
-  }, [id, websiteData]);
-
+    if (product) {
+      const selectedDevice =
+        product.device.find((d) => d.id === parseInt(deviceId)) ||
+        product.device[0];
+      setData({ ...product, selectedDevice });
+    }
+  }, [id, deviceId, websiteData]);
 
   const handleAddToCart = () => {
-    if (!stateData || !stateData.device || stateData.device.length === 0) return;
+    if (!stateData?.selectedDevice) return;
 
-    const device = stateData?.device[0];
-    const price = Math.round((device.amount || 100) * (1 - (device.discount || 0) / 100));
-    console.log(device.id)
-    if (!device.id) {
-      alert("Invalid device. Please try again.");
+    const device = stateData.selectedDevice;
+
+    if (device.isNetwork && !selectedNetwork) {
+      toast.error("Please select a network option before adding to cart");
       return;
     }
+
+    if (device.isSubscription && !selectedSubscription) {
+      toast.error("Please select a subscription option before adding to cart");
+      return;
+    }
+
+    const price = getFinalPrice();
 
     const cartItem = {
       deviceId: device.id,
       product: stateData,
-      quantity: quantity,
+      quantity,
       clientId: localStorage.getItem("client_db_id"),
       totalAmount: price * quantity,
-      network: selectedNetwork,
+      price,
       name: device.name,
-      price: price,
       model: device.model,
-      discount: device.discount || 0
+      discount: device.discount || 0,
+      network: selectedNetwork,
+      relayer: selectedRelayer,
+      subscription: selectedSubscription,
     };
 
     addToCart(cartItem);
+    toast.success("Product added to cart!");
   };
 
   const handleBuyNow = () => {
     handleAddToCart();
-    // Navigate to checkout or cart page
-    navigate('/cart');
+    navigate("/cart");
   };
 
-  // Quantity control functions
-  const incrementQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const decrementQuantity = () => {
+  const incrementQuantity = () => setQuantity((prev) => prev + 1);
+  const decrementQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const getFinalPrice = () => {
+    const device = stateData?.selectedDevice;
+    if (!device) return 0;
+
+    let price = Math.round(
+      (device.amount || 100) * (1 - (device.discount || 0) / 100)
+    );
+
+    if (selectedRelayer) price += parseInt(selectedRelayer) || 0;
+
+    if (selectedNetwork === "2G") {
+      price += parseInt(device.network2gAmt) || 0;
+    } else if (selectedNetwork === "4G") {
+      price += parseInt(device.network4gAmt) || 0;
+    }
+
+    if (selectedSubscription === "monthly") {
+      price += parseInt(device.subscriptionMonthlyAmt) || 0;
+    } else if (selectedSubscription === "yearly") {
+      price += parseInt(device.subscriptionYearlyAmt) || 0;
+    }
+
+    return price;
   };
+
+  const device = stateData?.selectedDevice;
+
   return (
-    <div>
+    <div className="product-overview-body">
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
+
       <div className="mining-product">
-        <div className="mining-product-img">
-          <img src={stateData?.device[0]?.image} alt="" />
+        <div className="mining-product-gallery">
+          <div className="mining-product-thumbnails">
+            {device?.image?.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Thumbnail ${index}`}
+                className={`thumbnail ${selectedImage === img ? "active" : ""}`}
+                onClick={() => setSelectedImage(img)}
+                onError={(e) => (e.target.src = "/images/placeholder-product.png")}
+              />
+            ))}
+          </div>
+
+          <div className="mining-product-main">
+            <img
+              src={selectedImage || device?.image?.[0]}
+              alt="Main product"
+              className="main-image"
+              onError={(e) => (e.target.src = "/images/placeholder-product.png")}
+            />
+          </div>
         </div>
+
         <div className="mining-product-details">
           <div className="mining-product-title">
             <h2 className="mining-product-title-h2">
-              {stateData?.device[0]?.name}  {stateData?.device[0]?.model}
+              {device?.name} {device?.model}
             </h2>
           </div>
-          <div className="product-price-section">
-            <span className="product-price">
-              ₹{Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}
-            </span>
 
-            {stateData?.device[0]?.discount > 0 && (
-              <span className="product-old-price">
-                ₹{stateData?.device[0]?.amount || 100}
-              </span>
-            )}
-          </div>
           <div className="mining-product-features">
             <ul>
-              <li>
-                {stateData?.device[0]?.description}
-              </li>
+              <li>{device?.description}</li>
             </ul>
           </div>
+
           <div className="mining-product-order">
-            <div className="mining-product-option">
-              <div className="mining-product-network-label">
-                <p>Network Support SIM:</p>
-              </div>
-              <div className="mining-product-network-btns">
-                <div className="mining-product-network-btn">
-                  <button>2G</button>
+            <div className="extra-product-details">
+              {device?.isRelay && (
+                <div className="extra-detail-card">
+                  <h3 className="option-headings">Relayer Option</h3>
+                  <div className="option-btns">
+                    <button
+                      className={`option-btn ${
+                        selectedRelayer === device?.relayAmt ? "active" : ""
+                      }`}
+                      onClick={() =>
+                        setSelectedRelayer((prev) =>
+                          prev === device?.relayAmt ? null : device?.relayAmt
+                        )
+                      }
+                    >
+                      Relayer – ₹{device?.relayAmt}
+                    </button>
+                  </div>
                 </div>
-                <div className="mining-product-network-btn">
-                  <button>4G</button>
+              )}
+
+              {device?.isNetwork && (
+                <div className="extra-detail-card">
+                  <h3 className="option-headings">Network Options</h3>
+                  <div className="option-btns">
+                    <button
+                      className={`option-btn ${
+                        selectedNetwork === "2G" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedNetwork("2G")}
+                    >
+                      2G – ₹{device?.network2gAmt}
+                    </button>
+                    <button
+                      className={`option-btn ${
+                        selectedNetwork === "4G" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedNetwork("4G")}
+                    >
+                      4G – ₹{device?.network4gAmt}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {device?.isSubscription && (
+                <div className="extra-detail-card">
+                  <h3 className="option-headings">Subscription</h3>
+                  <div className="option-btns">
+                    <button
+                      className={`option-btn ${
+                        selectedSubscription === "monthly" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedSubscription("monthly")}
+                    >
+                      Monthly – ₹{device?.subscriptionMonthlyAmt}
+                    </button>
+                    <button
+                      className={`option-btn ${
+                        selectedSubscription === "yearly" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedSubscription("yearly")}
+                    >
+                      Yearly – ₹{device?.subscriptionYearlyAmt}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="mining-product-final-price">
-              {/* <p>Rs. {stateData?.device[0]?.amount}</p> */}
-              <p>Rs. {Math.round((stateData?.device[0]?.amount || 100) * (1 - (stateData?.device[0]?.discount || 0) / 100))}</p>
+              <p className="productoverview-price">
+                Total Price : ₹{" "}
+                <strong className="total-price">{getFinalPrice()}</strong>
+              </p>
             </div>
+
             <div className="mining-product-quantity">
-              {/* <div className="mining-product-quantity-label">
-                <p>Quantity</p>
-              </div> */}
               <div className="mining-product-quantity-controls">
                 <div className="mining-product-quantity-selector">
                   <div className="mining-product-quantity-value">
@@ -124,10 +234,7 @@ function ProductsOverview({ websiteData }) {
                   </div>
                   <div className="mining-product-quantity-btns">
                     <div className="mining-product-quantity-btns-container">
-                      <button
-                        className="quantity-up"
-                        onClick={incrementQuantity}
-                      >
+                      <button className="quantity-up" onClick={incrementQuantity}>
                         <img
                           className="arrow-up"
                           src="/images/up-arrows.png"
@@ -147,110 +254,88 @@ function ProductsOverview({ websiteData }) {
                     </div>
                   </div>
                 </div>
-                <button onClick={handleAddToCart} className="add-to-cart-btn">Add to Cart</button>
-                <button onClick={handleBuyNow} className="buy-it-now-btn">Buy it now</button>
+                <button onClick={handleAddToCart} className="add-to-cart-btn">
+                  Add to Cart
+                </button>
+                <button onClick={handleBuyNow} className="buy-it-now-btn">
+                  Buy it now
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <div className="mining-specification-title">
-        <h1>{stateData?.device[0]?.name}</h1>
+        <h1>{device?.name}</h1>
       </div>
 
       <div className="mining-features">
         {(() => {
           const startIndex = stateData?.layoutType === "theme1" ? 3 : 0;
-
           return (
             <>
-              {/* Left side */}
-              {stateData?.amenities?.[startIndex] && (
+              {device?.points?.[0] && (
                 <div className="mining-feature-left">
                   <div className="mining-feature-icon">
                     <img
-                      src={stateData.amenities[startIndex].image}
-                      alt={stateData.amenities[startIndex].name || "Feature"}
-                      onError={(e) => {
-                        e.target.src = "/images/placeholder-icon.png";
-                      }}
+                      src={device?.points[0]?.file}
+                      alt={device?.points[0]?.title}
+                      onError={(e) => (e.target.src = "/images/placeholder-icon.png")}
                     />
                   </div>
                   <div className="mining-feature-title">
-                    <p>{stateData.amenities[startIndex].name || "Advanced Feature"}</p>
+                    <p>{device?.points[0]?.title}</p>
                   </div>
                   <div className="mining-feature-desc">
-                    <p>{stateData.amenities[startIndex].desc}</p>
+                    <p>{device?.points[0]?.desc}</p>
                   </div>
                 </div>
               )}
 
-              {/* Right side */}
               <div className="mining-feature-right">
-                {stateData?.amenities?.[startIndex + 1] && (
+                {device?.points?.[1] && (
                   <div className="mining-feature-top">
                     <div className="mining-feature-top-content">
                       <div className="mining-feature-top-icon">
-                        <div>
-                          <img
-                            src={stateData.amenities[startIndex + 1].image}
-                            alt={stateData.amenities[startIndex + 1].name}
-                            onError={(e) => {
-                              e.target.src = "/images/placeholder-icon.png";
-                            }}
-                          />
-                        </div>
+                        <img
+                          src={device?.points[1]?.file}
+                          alt={device?.points[1]?.title}
+                          onError={(e) =>
+                            (e.target.src = "/images/placeholder-icon.png")
+                          }
+                        />
                         <div className="mining-feature-top-title">
-                          <p>{stateData.amenities[startIndex + 1].name}</p>
+                          <p>{device?.points[1]?.title}</p>
                         </div>
                       </div>
                       <div className="mining-feature-top-desc">
-                        <p>{stateData.amenities[startIndex + 1].desc}</p>
+                        <p>{device?.points[1]?.desc}</p>
                       </div>
                     </div>
                   </div>
                 )}
 
                 <div className="mining-feature-bottom">
-                  {stateData?.amenities?.[startIndex + 2] && (
-                    <div className="mining-feature-card">
+                  {device?.points?.slice(2, 4).map((point, i) => (
+                    <div key={i} className="mining-feature-card">
                       <div className="mining-feature-card-icon">
                         <img
-                          src={stateData.amenities[startIndex + 2].image}
-                          alt={stateData.amenities[startIndex + 2].name}
-                          onError={(e) => {
-                            e.target.src = "/images/placeholder-icon.png";
-                          }}
+                          src={point.file}
+                          alt={point.title}
+                          onError={(e) =>
+                            (e.target.src = "/images/placeholder-icon.png")
+                          }
                         />
                       </div>
                       <div className="mining-feature-card-title">
-                        <p>{stateData.amenities[startIndex + 2].name}</p>
+                        <p>{point.title}</p>
                       </div>
                       <div className="mining-feature-card-desc">
-                        <p>{stateData.amenities[startIndex + 2].desc}</p>
+                        <p>{point.desc}</p>
                       </div>
                     </div>
-                  )}
-
-                  {stateData?.amenities?.[startIndex + 3] && (
-                    <div className="mining-feature-card">
-                      <div className="mining-feature-card-icon">
-                        <img
-                          src={stateData.amenities[startIndex + 3].image}
-                          alt={stateData.amenities[startIndex + 3].name}
-                          onError={(e) => {
-                            e.target.src = "/images/placeholder-icon.png";
-                          }}
-                        />
-                      </div>
-                      <div className="mining-feature-card-title">
-                        <p>{stateData.amenities[startIndex + 3].name}</p>
-                      </div>
-                      <div className="mining-feature-card-desc">
-                        <p>{stateData.amenities[startIndex + 3].desc}</p>
-                      </div>
-                    </div>
-                  )}
+                  ))}
                 </div>
               </div>
             </>
@@ -258,33 +343,27 @@ function ProductsOverview({ websiteData }) {
         })()}
       </div>
 
-
       <div className="mining-benefits-section">
-        <h2 className="mining-benefits-header">
-          Benefits of {stateData?.device[0]?.name}
-        </h2>
+        <h2 className="mining-benefits-header">Benefits of {device?.name}</h2>
         <div className="mining-benefits-grid">
-          {stateData?.application?.slice(0, 6).map((app, index) => (
-            <div key={app.id || index} className="mining-benefit-card">
+          {device?.points?.slice(4, 10).map((point, index) => (
+            <div key={index} className="mining-benefit-card">
               <div className="mining-benefit-icon">
                 <img
-                  src={app.image}
-                  alt={app.name}
-                  onError={(e) => {
-                    e.target.src = "/images/placeholder-icon.png";
-                  }}
+                  src={point.file}
+                  alt={point.title}
+                  onError={(e) => (e.target.src = "/images/placeholder-icon.png")}
                 />
               </div>
               <div className="mining-benefit-title">
-                <h3>{app.name}</h3>
+                <h3>{point.title}</h3>
               </div>
-              <div className="mining-benefit-desc">
-                {app.desc}
-              </div>
+              <div className="mining-benefit-desc">{point.desc}</div>
             </div>
           ))}
         </div>
       </div>
+
       <div className="mining-view-more-section">
         <div className="mining-view-more-text">
           <h1>
@@ -293,7 +372,7 @@ function ProductsOverview({ websiteData }) {
           </h1>
         </div>
         <div className="mining-view-more">
-          <button className="view-more-btn" onClick={() => { navigate('/products') }}>
+          <button className="view-more-btn" onClick={() => navigate("/products")}>
             <span>View more</span>
             <div className="view-more-icon">
               <img src="/images/Arrow 11.png" alt="arrow" />
@@ -301,12 +380,10 @@ function ProductsOverview({ websiteData }) {
           </button>
         </div>
       </div>
+
       <div className="mining-product-images">
         <div className="mining-product-image-card">
-          <img
-            src="/images/Rectangle 89.png"
-            alt="AIS-140 GPS mining tracker"
-          />
+          <img src="/images/Rectangle 89.png" alt="AIS-140 GPS mining tracker" />
           <p className="image-heading">AIS-140 GPS mining tracker</p>
         </div>
         <div className="mining-product-image-card">
@@ -322,6 +399,7 @@ function ProductsOverview({ websiteData }) {
           <p className="image-heading">Fuel Monitoring Tracker</p>
         </div>
       </div>
+
       <DemoSection />
     </div>
   );
