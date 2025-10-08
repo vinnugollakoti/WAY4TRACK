@@ -333,7 +333,7 @@ function Home({ websiteData }) {
         <div className="featurees-container">
           <div className="featuree-box">
             <img
-              src="/images/image-38.png"
+              src="/images/Gemini_Generated_Image_pwxowdpwxowdpwxo.png"
               alt="Government GPS"
               className="featuree-img"
             />
@@ -348,7 +348,7 @@ function Home({ websiteData }) {
 
           <div className="featuree-box">
             <img
-              src="/images/image-37.png"
+              src="/images/homepaage 2img.png"
               alt="Safety Monitoring"
               className="featuree-img"
             />
@@ -361,7 +361,7 @@ function Home({ websiteData }) {
 
           <div className="featuree-box">
             <img
-              src="/images/image-39.png"
+              src="/images/homepage-3img.png"
               alt="Custom Tracking"
               className="featuree-img"
             />
