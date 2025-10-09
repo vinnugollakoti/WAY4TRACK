@@ -4,6 +4,7 @@ import { CartContext } from "../../contexts/CartContext";
 import toast, { Toaster } from "react-hot-toast";
 
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import "./ProductOverview.css";
 import DemoSection from "./DemoSection";
 
@@ -423,6 +424,7 @@ function ProductsOverview({ websiteData }) {
       </div>
 
       <DemoSection />
+      <Footer />
     </div>
   );
 }

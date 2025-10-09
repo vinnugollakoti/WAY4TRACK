@@ -62,6 +62,7 @@ function VerifyOtp() {
 
       if (response.status) {
         const { id,name,clientId,phoneNumber} = response.data;
+
         localStorage.setItem("client_id", clientId);
         localStorage.setItem("client_db_id", id);
         localStorage.setItem("client_name", name);
