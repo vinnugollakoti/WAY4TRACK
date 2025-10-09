@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Navbar.css";
-import { useNavigate, useLocation } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 
 const Navbar = () => {
@@ -10,7 +10,7 @@ const Navbar = () => {
   const { cartItems } = useContext(CartContext || { cartItems: [] });
 
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("client_id");
@@ -23,27 +23,31 @@ const Navbar = () => {
     setQuantity(cartItems.length);
   }, [cartItems]);
 
-  const isActive = (path) => location.pathname === path; 
+  const isActive = (path) => location.pathname === path;
+
+  const handleLogout = () => {
+    localStorage.removeItem("client_id");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <div>
       <nav className="navbar">
         <div className="nav-container">
           {/* Logo */}
-
           <div className="nav-logo" onClick={() => window.location.href = "/"}>
             <span className="logo">way4track</span>
           </div>
 
-
-          {/* Hamburger Menu Icon */}
+          {/* Hamburger Menu */}
           <div className="hamburger" onClick={toggleMenu}>
             <span className={`bar ${isMenuOpen ? "active" : ""}`}></span>
             <span className={`bar ${isMenuOpen ? "active" : ""}`}></span>
             <span className={`bar ${isMenuOpen ? "active" : ""}`}></span>
           </div>
 
-          {/* Main Navigation */}
+          {/* Navigation */}
           <div className={`nav-content ${isMenuOpen ? "active" : ""}`}>
             <ul className="menu-list">
               <li
@@ -52,8 +56,6 @@ const Navbar = () => {
               >
                 Home
               </li>
-              {/* <li className="menu-item" onClick={() => navigate("/about")}>About</li> */}
-              {/* <li className="menu-item" onClick={() => navigate("/contactus")}>Contact</li> */}
               <li
                 className={`menu-item ${isActive("/Careers") ? "active" : ""}`}
                 onClick={() => navigate("/Careers")}
@@ -66,6 +68,30 @@ const Navbar = () => {
               >
                 Products
               </li>
+
+              {/* In mobile view, show profile & logout as simple list items */}
+              {isLoggedIn && (
+                <div className="mobile-profile-actions">
+                  <li
+                    className="menu-item"
+                    onClick={() => {
+                      navigate("/my-profile");
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    Profile
+                  </li>
+                  <li
+                    className="menu-item"
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    Logout
+                  </li>
+                </div>
+              )}
             </ul>
 
             <div className="actions">
@@ -73,32 +99,23 @@ const Navbar = () => {
                 🛒 <p className="cart-quantity">{cartQuantity}</p>
               </div>
 
+              {/* Desktop-only profile icon */}
               {isLoggedIn ? (
-                <div
-                  className="profile"
-                  onClick={() => navigate("/my-profile")}
-                >
+                <div className="profile-container desktop-only">
                   <img
                     src="/images/profile-logo.png"
                     alt="Profile"
                     className="profile-icon"
                   />
+                  <div className="profile-dropdown">
+                    <p onClick={() => navigate("/my-profile")}>Profile</p>
+                    <p onClick={handleLogout}>Logout</p>
+                  </div>
                 </div>
               ) : (
-                <>
-                  <button
-                    className="login-btn"
-                    onClick={() => navigate("/login")}
-                  >
-                    Login
-                  </button>
-                  <button
-                    className="get-started-btn"
-                    onClick={() => navigate("/signup")}
-                  >
-                    Sign Up
-                  </button>
-                </>
+                <button className="login-btn" onClick={() => navigate("/login")}>
+                  Login
+                </button>
               )}
             </div>
           </div>
