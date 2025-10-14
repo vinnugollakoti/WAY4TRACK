@@ -442,6 +442,7 @@ import Navbar from './Navbar';
 
 // Import your JSON data (you might need to adjust the path)
 import appsData from './schoolbus.json';
+import { point } from "leaflet";
 
 function SchoolBus({ websiteData }) {
   const { id } = useParams();
@@ -674,16 +675,14 @@ function SchoolBus({ websiteData }) {
             </div>
 
             {/* 6th Div: Manager App Image Section */}
-            {appContent?.manager_app_image_section && (
-              <div className="manager-app-image-section">
-                <div className="manager-app-image-wrapper">
-                  <img
-                    src={appContent.manager_app_image_section.img}
-                    alt={appContent.manager_app_image_section.alt}
-                  />
-                </div>
+            <div className="manager-app-image-section">
+              <div className="manager-app-image-wrapper">
+                <img
+                  src={appContent?.points[16]?.file}
+                  alt={appContent?.points[16]?.alt}
+                />
               </div>
-            )}
+            </div>
 
             {/* 7th Div: Attendance and Alerts Section */}
             <div className="manager-app-attendance-alerts-section">
@@ -692,20 +691,20 @@ function SchoolBus({ websiteData }) {
                 {/* Attendance Management */}
                 <div className="manager-app-attendance-management">
                   <div className="manager-app-attendance-title">
-                    {appContent?.points[16]?.title}
+                    {appContent?.points[17]?.title}
                   </div>
                   <div className="manager-app-attendance-desc">
-                    {appContent?.points[16]?.desc}
+                    {appContent?.points[17]?.desc}
                   </div>
                 </div>
 
                 {/* Driver & Attendant Management */}
                 <div className="manager-app-driver-management">
                   <div className="manager-app-driver-title">
-                    {appContent?.points[17]?.title}
+                    {appContent?.points[18]?.title}
                   </div>
                   <div className="manager-app-driver-desc">
-                    {appContent?.points[17]?.desc}
+                    {appContent?.points[18]?.desc}
                   </div>
                 </div>
               </div>
@@ -714,10 +713,10 @@ function SchoolBus({ websiteData }) {
               <div className="manager-app-alerts">
                 <div className="manager-app-alerts-content">
                   <div className="manager-app-alerts-title">
-                    {appContent?.points[18]?.title}
+                    {appContent?.points[19]?.title}
                   </div>
                   <div className="manager-app-alerts-desc">
-                    {appContent?.points[18]?.desc}
+                    {appContent?.points[19]?.desc}
                   </div>
                 </div>
                 <div className="manager-app-alerts-button">
@@ -739,27 +738,27 @@ function SchoolBus({ websiteData }) {
               {/* Detailed Reports */}
               <div className="manager-app-reports">
                 <div className="manager-app-reports-title">
-                  {appContent?.points[19]?.title}
+                  {appContent?.points[20]?.title}
                 </div>
                 <div className="manager-app-reports-desc">
-                  {appContent?.points[19]?.desc}
+                  {appContent?.points[20]?.desc}
                 </div>
               </div>
 
               {/* Emergency Handling */}
               <div className="manager-app-emergency">
                 <div className="manager-app-emergency-title">
-                  {appContent?.points[20]?.title}
+                  {appContent?.points[21]?.title}
                 </div>
                 <div className="manager-app-emergency-desc">
-                  {appContent?.points[20]?.desc}
+                  {appContent?.points[21]?.desc}
                 </div>
               </div>
             </div>
 
             {/* 9th Div: APIs, Fees, Resource, Safety */}
             <div className="manager-app-apis-fees-section">
-              {appContent?.points.slice(21, 25).map((item, index) => (
+              {appContent?.points.slice(22, 26).map((item, index) => (
                 <div className="manager-app-apis-fees-card" key={index}>
                   <div className="manager-app-apis-fees-img">
                     <img src={item.file} alt={item.alt} />
