@@ -443,6 +443,9 @@ import Navbar from './Navbar';
 // Import your JSON data (you might need to adjust the path)
 import appsData from './schoolbus.json';
 import { point } from "leaflet";
+import HomepageProducts from "./HomepageProducts";
+import DemoSection from "./DemoSection";
+import Footer from "./Footer";
 
 function SchoolBus({ websiteData }) {
   const { id } = useParams();
@@ -786,9 +789,8 @@ function SchoolBus({ websiteData }) {
         )}
 
         {/* Demo Section */}
-        <div className="school-bus-demo-section">
-          <div className="school-bus-demo-grid">
-            {/* Left Side */}
+        {/* <div className="school-bus-demo-section"> */}
+          {/* <div className="school-bus-demo-grid">
             <div className="school-bus-demo-left">
               <div className="school-bus-demo-title">
                 Schedule a Live <br /> Demo with Our Team
@@ -809,9 +811,9 @@ function SchoolBus({ websiteData }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Right Side - Form */}
-            <div className="school-bus-demo-form">
+            {/* <div className="school-bus-demo-form">
               <form>
                 <label htmlFor="demo-name">Name</label>
                 <input
@@ -835,8 +837,17 @@ function SchoolBus({ websiteData }) {
               </form>
             </div>
           </div>
+        </div> */}
+      <div className="mining-view-more-text">
+          <h1>
+            Want to see more ? <br />
+            Check our remaining products...
+          </h1>
         </div>
       </div>
+      <HomepageProducts />
+      <DemoSection />
+      <Footer />
     </div>
   );
 }

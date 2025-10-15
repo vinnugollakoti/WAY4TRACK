@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer"
 import DemoSection from "./DemoSection";
 import SpecialProduct from "./SpecialProduct";
+import HomepageProducts from "./HomepageProducts";
 
 function Home({ websiteData }) {
   // Carousel state management
@@ -205,28 +206,7 @@ function Home({ websiteData }) {
         </div>
       </div>
 
-      <div className="homepage-products">
-      <div className="homepage-products-scroll">
-        {session2.map((item, index) => (
-          <div key={index} className="homepage-product-card">
-            <Link 
-              to={item.link || "#"} 
-              className="homepage-product-card-link"
-              onClick={scrollToTop} // Scroll to top on click
-            >
-              <img
-                src={item.photo || ""}
-                alt={item.name || `Product ${index + 1}`}
-              />
-              <div className="center-wrapper">
-                <h3 className="home-product-heading">{item.name || "Unnamed Product"}</h3>
-                <p className="home-product-p">{item.desc}</p>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
+     <HomepageProducts />
 
 
 

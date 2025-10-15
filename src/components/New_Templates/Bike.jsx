@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./Bike.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import HomepageProducts from "./HomepageProducts";
 
 const Bike = ({ websiteData }) => {
   const { id } = useParams();
@@ -377,6 +378,16 @@ const Bike = ({ websiteData }) => {
           className="poster-bike-last"
         />
       </div>
+
+      <div className="wrapper-mining-view-more-text">
+      <div className="mining-view-more-text">
+          <h1>
+            Want to see more ? <br />
+            Check our remaining products...
+          </h1>
+        </div>
+        </div>
+      <HomepageProducts />
 
       <div className="testimonials-container">
         <div className="testimonials-scroll">
