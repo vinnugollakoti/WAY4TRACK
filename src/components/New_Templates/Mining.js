@@ -3,6 +3,9 @@ import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import "./Mining.css";
 import SpecialProduct from "./SpecialProduct";
+import HomepageProducts from "./HomepageProducts";
+import Footer from "./Footer";
+import DemoSection from "./DemoSection";
 
 function Mining({ websiteData }) {
   const { id } = useParams();
@@ -297,6 +300,19 @@ function Mining({ websiteData }) {
           </div>
         </div>
       </div>
+
+      <div className="wrapper-mining-view-more-text">
+      <div className="mining-view-more-text">
+          <h1>
+            Want to see more ? <br />
+            Check our remaining products...
+          </h1>
+        </div>
+        </div>
+        <HomepageProducts />
+
+        <DemoSection />
+        <Footer />
     </div>
   );
 }

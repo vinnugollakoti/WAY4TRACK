@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./ProductOverview.css";
 import DemoSection from "./DemoSection";
+import HomepageProducts from "./HomepageProducts";
 
 function ProductsOverview({ websiteData }) {
   const { id } = useParams();
@@ -404,24 +405,7 @@ function ProductsOverview({ websiteData }) {
         </div>
       </div>
 
-      <div className="mining-product-images">
-        <div className="mining-product-image-card">
-          <img src="/images/Rectangle 89.png" alt="AIS-140 GPS mining tracker" />
-          <p className="image-heading">AIS-140 GPS mining tracker</p>
-        </div>
-        <div className="mining-product-image-card">
-          <img src="/images/Rectangle 90.png" alt="Lite GPS Tracker" />
-          <p className="image-heading">Lite GPS Tracker</p>
-        </div>
-        <div className="mining-product-image-card">
-          <img src="/images/Rectangle 91.png" alt="Magnetic GPS tracker" />
-          <p className="image-heading">Magnetic GPS tracker</p>
-        </div>
-        <div className="mining-product-image-card">
-          <img src="/images/Rectangle 92.png" alt="Fuel Monitoring Tracker" />
-          <p className="image-heading">Fuel Monitoring Tracker</p>
-        </div>
-      </div>
+      <HomepageProducts />
 
       <DemoSection />
       <Footer />
