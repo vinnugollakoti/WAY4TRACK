@@ -79,8 +79,8 @@ function Mining({ websiteData }) {
                 </div>
               </div>
               <div className="mining-feature-top-title">
-                  <p>{stateData?.amenities[1]?.name || ""}</p>
-                </div>
+                <p>{stateData?.amenities[1]?.name || ""}</p>
+              </div>
               <div className="mining-feature-top-desc">
                 <p>{stateData?.amenities[1]?.desc || ""}</p>
               </div>
@@ -122,41 +122,48 @@ function Mining({ websiteData }) {
       <div className="mining-gps-img">
         <img src={stateData?.banner1} alt="GPS Tracker" />
       </div>
-
-      {/* Properties 2 Section (3-column layout) */}
+{/* 
+      CHANGE TO DYNAMIC
       <div className="mining-props">
-        {/* Left */}
+        Left
         <div className="mining-prop-left">
+          <div className="mining-prop-image-container">
+            <img
+              className="mining-prop-image"
+              src={stateData?.points[0]?.image}
+              alt={stateData?.points[0]?.title || ""}
+            />
+          </div>
           <h3>{stateData?.points[0]?.title || ""}</h3>
           <p>{stateData?.points[0]?.description || ""}</p>
         </div>
 
-        {/* Middle */}
+        Middle
         <div className="mining-prop-middle">
-          <div className="mining-prop-card-1"></div>
-          <div className="mining-prop-card-2">
-            <div>
-              <h3>{stateData?.points[1]?.title || ""}</h3>
-            </div>
-            <div>
-              <p>{stateData?.points[1]?.description || ""}</p>
-            </div>
+          <div className="mining-prop-image-container">
+            <img
+              className="mining-prop-image"
+              src={stateData?.points[1]?.image || "/images/miningProp2.png"}
+              alt={stateData?.points[1]?.title || ""}
+            />
           </div>
-          <div className="mining-prop-card-3">
-            <h3>{stateData?.points[2]?.title || ""}</h3>
-          </div>
+          <h3>{stateData?.points[1]?.title || ""}</h3>
+          <p>{stateData?.points[1]?.description || ""}</p>
         </div>
 
-        {/* Right */}
+        Right
         <div className="mining-prop-right">
-          <h3>{stateData?.points[3]?.title || ""}</h3>
-          <p>{stateData?.points[3]?.description || ""}</p>
+          <div className="mining-prop-image-container">
+            <img
+              className="mining-prop-image"
+              src={stateData?.points[2]?.image || "/images/miningProp4.png"}
+              alt={stateData?.points[2]?.title || ""}
+            />
+          </div>
+          <h3>{stateData?.points[2]?.title || ""}</h3>
+          <p>{stateData?.points[2]?.description || ""}</p>
         </div>
-      </div>
-
-      <div className="mining-prop-footer">
-        <p>{stateData?.points[2]?.description || ""}</p>
-      </div>
+      </div> */}
 
       <SpecialProduct />
 
