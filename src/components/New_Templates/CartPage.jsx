@@ -7,8 +7,56 @@ import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, getTotal, addToCart } =
-    useContext(CartContext);
+  const { cartItems, removeFromCart, addToCart } = useContext(CartContext);
+
+  // Helper to parse number safely
+  const toNumber = (val) => Number(val) || 0;
+
+  // Helper function to check if relay is included based on totalAmount difference
+  const isRelaySelected = (item) => {
+    if (!item || !item.device) return false;
+
+    const baseAmount = toNumber(item.device.amount);
+    const discount = toNumber(item.device.discount);
+    const relayAmt = toNumber(item.device.relayAmt);
+    const network2gAmt = toNumber(item.device.network2gAmt);
+    const network4gAmt = toNumber(item.device.network4gAmt);
+    const subscriptionMonthlyAmt = toNumber(item.device.subscriptionMonthlyAmt);
+    const subscriptionYearlyAmt = toNumber(item.device.subscriptionYearlyAmt);
+
+    // Calculate base price with discount
+    let basePrice = baseAmount;
+    if (discount > 0) {
+      basePrice -= (baseAmount * discount) / 100;
+    }
+
+    // Add network amount according to selected network
+    if (item.network === "2G") {
+      basePrice += network2gAmt;
+    } else if (item.network === "4G") {
+      basePrice += network4gAmt;
+    }
+
+    // Add subscription amount according to selected subscription
+    if (item.subscription === "monthly") {
+      basePrice += subscriptionMonthlyAmt;
+    } else if (item.subscription === "yearly") {
+      basePrice += subscriptionYearlyAmt;
+    }
+
+    // Multiply by quantity
+    basePrice *= toNumber(item.quantity);
+
+    const totalAmount = toNumber(item.totalAmount);
+
+    // If totalAmount includes relayAmt * quantity, then relay is selected
+    return totalAmount >= basePrice + relayAmt * toNumber(item.quantity);
+  };
+
+  // We will use totalAmount from backend for price display instead of calculating
+  const getTotalAmount = () => {
+    return cartItems.reduce((acc, item) => acc + toNumber(item.totalAmount), 0);
+  };
 
   const updateQuantity = async (itemId, change) => {
     const cartItem = cartItems.find((item) => item.id === itemId);
@@ -36,8 +84,6 @@ function CartPage() {
     removeFromCart(itemId);
   };
 
-  console.log("CART ITEMS : ", cartItems);
-
   return (
     <div>
       <Navbar />
@@ -50,67 +96,66 @@ function CartPage() {
                 <p>Looks like you haven't added anything yet.</p>
               </div>
             ) : (
-              cartItems.map((item) => (
-                <div className="cart-item" key={item.id}>
-                  <img
-                    src={item?.device?.image[0] || "/images/default.jpg"}
-                    alt={item?.device?.name}
-                  />
-                  <div className="cart-item-text">
-                    <div className="cart-item-header">
-                      <span className="cart-header">{item?.device?.name}</span>
-                      <span className="cart-price">
-                        ₹
-                        {(item?.device?.amount -
-                          (item?.device?.amount * item?.device?.discount) /
-                            100) *
-                          item.quantity}
-                      </span>
-                    </div>
-                    <div className="cart-item-details">
-                    {item.device.isRelay && item.device.relayAmt > 0 && (
-                      <p>Accessories: {item.isRelay ? "With Relay" : "Without Relay"}</p>
-                    )}
-
-                    {item.device.isNetwork &&
-                      (item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
-                        <p>Network: {item.network ? item.network : "N/A"}</p>
-                      )}
-
-                    {item.device.isSubscription &&
-                      (item.device.subscriptionMonthlyAmt > 0 ||
-                        item.device.subscriptionYearlyAmt > 0) && (
-                        <p>
-                          Subscription:{" "}
-                          {item.subscription ? `${item.subscription} subscription` : "N/A"}
-                        </p>
-                      )}
-
-                    <p>{item?.device?.description}</p>
-                  </div>
-
-                    <div className="cart-item-actions">
-                      <div className="cart-item-buttons">
-                        <button onClick={() => updateQuantity(item.id, 1)}>
-                          <FaPlus />
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, -1)}>
-                          <FaMinus />
-                        </button>
+              cartItems.map((item) => {
+                const relaySelected = isRelaySelected(item);
+                return (
+                  <div className="cart-item" key={item.id}>
+                    <img
+                      src={item?.device?.image[0] || "/images/default.jpg"}
+                      alt={item?.device?.name}
+                    />
+                    <div className="cart-item-text">
+                      <div className="cart-item-header">
+                        <span className="cart-header">{item?.device?.name}</span>
+                        <span className="cart-price">₹{toNumber(item.totalAmount)}</span>
                       </div>
-                      <div className="trashbin-button">
-                        <button
-                          className="trashbin"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          <FaTrash />
-                        </button>
+                      <div className="cart-item-details">
+                        {item.device.isRelay && item.device.relayAmt > 0 && (
+                          <p>
+                            Accessories: {relaySelected ? "With Relay" : "Without Relay"}
+                          </p>
+                        )}
+
+                        {item.device.isNetwork &&
+                          (item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                            <p>Network: {item.network ? item.network : "N/A"}</p>
+                          )}
+
+                        {item.device.isSubscription &&
+                          (item.device.subscriptionMonthlyAmt > 0 ||
+                            item.device.subscriptionYearlyAmt > 0) && (
+                            <p>
+                              Subscription:{" "}
+                              {item.subscription ? `${item.subscription} subscription` : "N/A"}
+                            </p>
+                          )}
+
+                        <p>{item?.device?.description}</p>
+                      </div>
+
+                      <div className="cart-item-actions">
+                        <div className="cart-item-buttons">
+                          <button onClick={() => updateQuantity(item.id, 1)}>
+                            <FaPlus />
+                          </button>
+                          <span>{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, -1)}>
+                            <FaMinus />
+                          </button>
+                        </div>
+                        <div className="trashbin-button">
+                          <button
+                            className="trashbin"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
@@ -138,13 +183,7 @@ function CartPage() {
                   <div className="ckcjc7">
                     <div className="c1az4bwh"></div>
                   </div>
-                  <span>
-                    {" "}
-                    ₹
-                    {(item?.device?.amount -
-                      (item?.device?.amount * item?.device?.discount) / 100) *
-                      item.quantity}
-                  </span>
+                  <span>₹{toNumber(item.totalAmount)}</span>
                 </div>
               ))}
 
@@ -153,7 +192,7 @@ function CartPage() {
                 <div className="ckcjc7">
                   <div className="c1az4bwh"></div>
                 </div>
-                <span>₹{getTotal()}</span>
+                <span>₹{getTotalAmount()}</span>
               </div>
               <div className="proceed-to-payment">
                 <button

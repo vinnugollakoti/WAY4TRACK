@@ -3,6 +3,8 @@ import ApiService, {
   initialAuthState,
 } from "../components/Services/ApiServices";
 
+import toast, { Toaster } from "react-hot-toast";
+
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
@@ -101,9 +103,11 @@ export const CartProvider = ({ children }) => {
     const response = await ApiService.post("/cart/deleteCartDetails", payload);
     if (response.status) {
       console.log("Item deleted Successfully");
+      toast.success("Item deleted Successfully");
       fetchCartItems();
     } else {
       console.log("Failed to delete cart item");
+      toast.success("Failed to delete cart item");
     }
   };
 
@@ -122,6 +126,7 @@ export const CartProvider = ({ children }) => {
       value={{ cartItems, setCartItems, addToCart, fetchCartItems, removeFromCart, getTotal }}
     >
       {children}
+      <Toaster position="top-center" reverseOrder={false} />
     </CartContext.Provider>
 
   );
