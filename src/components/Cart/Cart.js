@@ -221,8 +221,10 @@ function CartPage() {
               >
                 <AddressPopupPage
                   onClose={() => setShowForm(false)}
+                  onSuccess={() => {
+                    window.location.reload();
+                  }}
                   onSave={(newAddr) => {
-                    // you’d merge newAddr into your `addresses` and close
                     handleAddressSelect(newAddr);
                     setShowForm(false);
                   }}
@@ -230,6 +232,7 @@ function CartPage() {
               </div>
             </div>
           )}
+
 
           {deliveryAddress && (
             <div className="billing-address-section">
