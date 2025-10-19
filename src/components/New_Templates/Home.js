@@ -320,7 +320,7 @@ function Home({ websiteData }) {
           </div>
         </div>
       </section>
-      <SpecialProduct />
+      <SpecialProduct websiteData={websiteData} />
       <section className="featurees-section">
         <div className="featurees-heading-container">
           <h2 className="featurees-heading">What's New With Way4track</h2>
