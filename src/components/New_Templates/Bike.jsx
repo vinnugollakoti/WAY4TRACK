@@ -288,7 +288,6 @@ const Bike = ({ websiteData }) => {
                 </p>
               </div>
             </div>
-            <button className="gps-know-more-btn">Know more →</button>
           </div>
         </div>
       </div>

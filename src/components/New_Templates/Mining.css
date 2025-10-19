@@ -175,120 +175,65 @@ body, html {
 .mining-props {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; 
-  gap: 1rem;
+  gap: 2rem;
   padding: 0 5%;
   margin-top: 5rem;
   align-items: stretch;
+  margin-bottom: 5rem;
 }
 
-.mining-prop-left {
-  background-image: url("/public/images/miningProp1.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  padding: 35px;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-  gap: 1rem;
-  min-height: 910px;  
-}
-
-.mining-prop-left h3 {
-  color: white;
-}
-
-.mining-prop-middle {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.mining-prop-card-1 {
-  background-image: url("/public/images/miningProp2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  min-height: 390px;
-}
-
-.mining-prop-card-2 {
-  background-image: url("/public/images/miningProp3.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 20px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 15rem;
-}
-
-.mining-prop-card-2 h3 {
-  color: white;
-  font-weight: 600;
-  font-size: 22px;
-  margin: 0;
-}
-
-.mining-prop-card-2 p {
-  font-size: 16px;
-  color: white;
-  margin: 0;
-}
-
-.mining-prop-card-3 {
-  text-align: center;
-}
-
+.mining-prop-left,
+.mining-prop-middle,
 .mining-prop-right {
-  background-image: url("/public/images/miningProp4.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-color: #f2f2f2;
   border-radius: 20px;
   padding: 35px;
-  color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
-  gap: 1rem;
+  justify-content: flex-start; 
+  gap: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mining-prop-right h3 {
-  color: white;
-  font-weight: 600;
-  font-size: 22px;
-  margin: 0;
+.mining-prop-left:hover,
+.mining-prop-middle:hover,
+.mining-prop-right:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(96, 164, 66, 0.15);
 }
 
-.mining-prop-right p {
-  font-size: 16px;
-  color: white;
-  margin: 0;
-}
-
-.mining-prop-footer {
-  background-image: url("/public/images/miningProp5.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 20px;
-  padding: 30px;
+.mining-prop-image-container {
+  width: 100%;
+  height: 300px; /* Fixed height like the middle image */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  margin: 0 5%; 
-  box-sizing: border-box;
-  min-height: 300px;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.mining-prop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* or use 'contain' based on your preference */
+  border-radius: 12px;
+}
+
+.mining-props h3 {
+  color: #60A342;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.mining-props p {
+  color: #00000069;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  opacity: 0.8;
 }
 
 .mining-product {
@@ -706,6 +651,7 @@ body, html {
 
 .mining-solutions-hero img {
   border-radius: 16px;
+  width: 100%;
 }
 
 .mining-solutions-grid {
@@ -793,7 +739,7 @@ body, html {
   font-size: 21px;
 }
 .mining-product-details {
-  width: 60%;
+  /* width: 60%; */
 }
 /* Responsive additions to existing CSS */
 @media (max-width: 1200px) {

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
-/* Bike.css - Responsive Version */
 .body {
     background-color: white;
     overflow-x: hidden;
@@ -13,6 +12,7 @@
   font-variation-settings:
     "wdth" 100;
 }
+
 .hero-bike {
     width: 90%;
     border-radius: 10px;
@@ -40,7 +40,6 @@
     margin: 0 auto;
 }
 
-/* Main Cards Section */
 .main-cards {
     margin-top: 3%;
     width: 90%;
@@ -60,13 +59,13 @@
   padding: 2% 3% 2% 3%;
   box-sizing: border-box;
   margin-bottom: 20px;
-  transition: all 0.3s ease; /* smooth hover for bg, color, and shadow */
+  transition: all 0.3s ease; 
 }
 
 .main-cards-1:hover,
 .main-cards-2:hover,
 .main-cards-3:hover {
-  box-shadow: 0 2px 22px rgba(96, 164, 66, 0.5); /* #60A442 with 70% opacity */
+  box-shadow: 0 2px 22px rgba(96, 164, 66, 0.5); 
 }
 
 
@@ -84,7 +83,6 @@
     line-height: 1.4;
 }
 
-/* Mining Truck Info Section */
 .mining-truck-info-section {
     display: flex;
     flex-direction: column;
@@ -165,7 +163,6 @@
     color: #60A442;
 }
 
-/* Six Cards Section */
 .six-cards-main,
 .six-cards-main-2 {
     width: 90%;
@@ -187,7 +184,7 @@
   padding: 2% 3% 2% 3%;
   border-radius: 10px;
   margin-bottom: 20px;
-  transition: box-shadow 0.3s ease; /* smooth hover effect */
+  transition: box-shadow 0.3s ease; 
 }
 
 .six-cards-1:hover,
@@ -224,7 +221,6 @@
     height: auto;
 }
 
-/* GPS Dashboard Section */
 .gps-dashboard-div {
     width: 90%;
     margin-left: 5%;
@@ -298,20 +294,6 @@
     font-size: 1rem;
 }
 
-.gps-know-more-btn {
-    margin-top: 3%;
-    background-color: #60A442;
-    color: white;
-    border-radius: 25px;
-    padding: 10px 20px;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    display: block;
-    margin: 20px auto;
-}
-
-/* Mining Benefits Section */
 .mining-benefits-section {
     padding: 40px 5%;
 }
@@ -360,7 +342,6 @@
 .mining-benefit-title h3 {
     font-size: 1.2rem;
     color: #60A442;
-    /* text-align: center; */
     margin: 10px 0;
 }
 
@@ -386,7 +367,6 @@
     cursor: pointer;
 }
 
-/* Points Card Section */
 .points-card-main {
     width: 90%;
     margin-left: 5%;
@@ -453,10 +433,10 @@
     margin-top: 0.5%;
 }
 
-/* Three Cards Section */
 .three-cards-section {
     width: 90%;
     margin-left: 5%;
+    margin-top: 5%;
 }
 
 .gps-communications-heading {
@@ -498,7 +478,6 @@
     margin: 20px auto;
 }
 
-/* Poster Section */
 .poster-section {
     width: 90%;
     margin-left: 5%;
@@ -512,7 +491,6 @@
     height: auto;
 }
 
-/* Testimonials */
 .testimonials-container {
     width: 100%;
     margin: 40px auto 0;
@@ -573,7 +551,6 @@
     100% { transform: translateX(-50%); }
 }
 
-/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -589,9 +566,6 @@
     to   { width: 60px; }
 }
 
-/* Media Queries for Responsiveness */
-
-/* Tablets and larger phones */
 @media (min-width: 768px) {
     .heading {
         font-size: 2rem;
@@ -708,7 +682,6 @@
     }
 }
 
-/* Desktops and larger tablets */
 @media (min-width: 1024px) {
     .main-cards-1,
     .main-cards-2,
@@ -739,10 +712,9 @@
     }
 }
 
-/* Very small devices */
 @media (max-width: 480px) {
     .heading {
-        font-size: 15px;
+        font-size: 14px;
         font-family: "IBM Plex Sans", sans-serif;
     }
     
