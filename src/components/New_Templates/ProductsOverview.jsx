@@ -27,28 +27,46 @@ function ProductsOverview({ websiteData }) {
 
   useEffect(() => {
     const product = websiteData.find((item) => item.id === parseInt(id));
-    if (product) {
-      const selectedDevice =
-        product.device.find((d) => d.id === parseInt(deviceId)) ||
-        product.device[0];
-      setData({ ...product, selectedDevice });
-    }
+    if (!product) return;
+
+    const selectedDevice =
+      product.device.find((d) => d.id === parseInt(deviceId)) ||
+      product.device[0];
+
+    setData({ ...product, selectedDevice });
+
+    // Moved AFTER setData to avoid race condition
+    const { network2gAmt, network4gAmt } = selectedDevice;
+    let defaultNetwork = null;
+    if (network2gAmt === 0) defaultNetwork = "2G";
+    else if (network4gAmt === 0) defaultNetwork = "4G";
+
+    setSelectedNetwork(defaultNetwork);
   }, [id, deviceId, websiteData]);
+
 
   const handleAddToCart = () => {
   if (!stateData?.selectedDevice) return;
 
   const device = stateData.selectedDevice;
 
-  const allNetworkZero =
-    (!device.network2gAmt || device.network2gAmt === 0) &&
-    (!device.network4gAmt || device.network4gAmt === 0);
+  // 👇 Force-fallback if no selection was made but a default is implied
+  let resolvedNetwork = selectedNetwork;
+
+  if (!resolvedNetwork) {
+    if (device.network2gAmt === 0) resolvedNetwork = "2G";
+    else if (device.network4gAmt === 0) resolvedNetwork = "4G";
+  }
+
+  const allNetworkZeroOrExcluded =
+    (device.network2gAmt === undefined || device.network2gAmt === -1) &&
+    (device.network4gAmt === undefined || device.network4gAmt === -1);
 
   const allSubscriptionZero =
     (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
     (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
 
-  if (device.isNetwork && !allNetworkZero && !selectedNetwork) {
+  if (device.isNetwork && !allNetworkZeroOrExcluded && !resolvedNetwork) {
     toast.error("Please select a network option before adding to cart");
     return;
   }
@@ -58,7 +76,7 @@ function ProductsOverview({ websiteData }) {
     return;
   }
 
-  const price = getFinalPrice();
+  const price = getFinalPrice(resolvedNetwork);
 
   const cartItem = {
     deviceId: device.id,
@@ -70,7 +88,7 @@ function ProductsOverview({ websiteData }) {
     name: device.name,
     model: device.model,
     discount: device.discount || 0,
-    network: selectedNetwork,
+    network: resolvedNetwork,
     relayer: selectedRelayer,
     subscription: selectedSubscription,
   };
@@ -89,7 +107,7 @@ function ProductsOverview({ websiteData }) {
   const decrementQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  const getFinalPrice = () => {
+  const getFinalPrice = (networkOverride = selectedNetwork) => {
     const device = stateData?.selectedDevice;
     if (!device) return 0;
 
@@ -99,9 +117,9 @@ function ProductsOverview({ websiteData }) {
 
     if (selectedRelayer) price += parseInt(selectedRelayer) || 0;
 
-    if (selectedNetwork === "2G") {
+    if (networkOverride === "2G") {
       price += parseInt(device.network2gAmt) || 0;
-    } else if (selectedNetwork === "4G") {
+    } else if (networkOverride === "4G") {
       price += parseInt(device.network4gAmt) || 0;
     }
 
@@ -113,6 +131,7 @@ function ProductsOverview({ websiteData }) {
 
     return price;
   };
+
 
   const device = stateData?.selectedDevice;
 
@@ -182,35 +201,57 @@ function ProductsOverview({ websiteData }) {
                 </div>
               )}
 
-              {device?.isNetwork &&
-                (device?.network2gAmt > 0 || device?.network4gAmt > 0) && (
-                  <div className="extra-detail-card">
-                    <h3 className="option-headings">Network Options</h3>
-                    <div className="option-btns">
-                      {device?.network2gAmt > 0 && (
-                        <button
-                          className={`option-btn ${
-                            selectedNetwork === "2G" ? "active" : ""
-                          }`}
-                          onClick={() => setSelectedNetwork("2G")}
-                        >
-                          2G – ₹{device?.network2gAmt}
-                        </button>
-                      )}
-                      {device?.network4gAmt > 0 && (
-                        <button
-                          className={`option-btn ${
-                            selectedNetwork === "4G" ? "active" : ""
-                          }`}
-                          onClick={() => setSelectedNetwork("4G")}
-                        >
-                          4G – ₹{device?.network4gAmt}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
+              {/* Network Options */}
+              {device?.isNetwork && (
+                <div className="extra-detail-card">
+                  <h3 className="option-headings">Network Options</h3>
+                  <div className="option-btns">
+                    {/* 2G Option */}
+                    {device?.network2gAmt !== -1 && (
+                      <button
+                        className={`option-btn ${
+                          selectedNetwork === "2G" ? "active" : ""
+                        }`}
+                        onClick={() =>
+                          device.network2gAmt > 0 &&
+                          setSelectedNetwork((prev) =>
+                            prev === "2G" ? null : "2G"
+                          )
+                        }
+                        disabled={device.network2gAmt === 0}
+                      >
+                        2G – ₹
+                        {device.network2gAmt === 0
+                          ? "Included"
+                          : device.network2gAmt}
+                      </button>
+                    )}
 
+                    {/* 4G Option */}
+                    {device?.network4gAmt !== -1 && (
+                      <button
+                        className={`option-btn ${
+                          selectedNetwork === "4G" ? "active" : ""
+                        }`}
+                        onClick={() =>
+                          device.network4gAmt > 0 &&
+                          setSelectedNetwork((prev) =>
+                            prev === "4G" ? null : "4G"
+                          )
+                        }
+                        disabled={device.network4gAmt === 0}
+                      >
+                        4G – ₹
+                        {device.network4gAmt === 0
+                          ? "Included"
+                          : device.network4gAmt}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Subscription Options */}
               {device?.isSubscription &&
                 (device?.subscriptionMonthlyAmt > 0 ||
                   device?.subscriptionYearlyAmt > 0) && (
@@ -240,7 +281,6 @@ function ProductsOverview({ websiteData }) {
                     </div>
                   </div>
                 )}
-
             </div>
 
             <div className="mining-product-final-price">

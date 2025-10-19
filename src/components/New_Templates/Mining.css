@@ -294,7 +294,7 @@ body, html {
 .mining-product {
   background-color: #F5F5F7;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   margin-top: 2rem;
   padding: 30px 30px 30px 30px ;
@@ -324,7 +324,7 @@ body, html {
   font-size: 18px;
 }
 .mining-product-img {
-  width: 100%;
+  width: 70%;
 }
 
 .mining-product-img img {

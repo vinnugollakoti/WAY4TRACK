@@ -17,8 +17,8 @@ const ProductPopupPage = ({ device }) => {
   const [quantity, setQuantity] = useState(1);
   const clientDbId = localStorage.getItem("client_db_id");
 
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
   const [isAIS, setIsAIS] = useState(false);
 
   useEffect(() => {
@@ -74,6 +74,9 @@ const ProductPopupPage = ({ device }) => {
   };
 
   const handleAddToCart = async () => {
+    if (isAIS && !selectedState && !selectedCity) {
+      toast("Please select your state and city");
+    }
     const allNetworkZero =
       (!device.network2gAmt || device.network2gAmt === 0) &&
       (!device.network4gAmt || device.network4gAmt === 0);
@@ -87,7 +90,11 @@ const ProductPopupPage = ({ device }) => {
       return;
     }
 
-    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+    if (
+      device.isSubscription &&
+      !allSubscriptionZero &&
+      !selectedSubscription
+    ) {
       toast.error("Please select a subscription option before adding to cart");
       return;
     }
@@ -123,7 +130,7 @@ const ProductPopupPage = ({ device }) => {
 
   return (
     <div className="ProductPopupPage-container">
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-left" reverseOrder={false} />
 
       <div className="ProductPopupPage-header">
         <img
@@ -183,7 +190,9 @@ const ProductPopupPage = ({ device }) => {
                   className={`ProductPopupPage-button ${
                     selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
                   }`}
-                  onClick={() => setSelectedNetwork("2G")}
+                  onClick={() =>
+                    setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
+                  }
                 >
                   2G – ₹{device.network2gAmt}
                 </button>
@@ -193,7 +202,9 @@ const ProductPopupPage = ({ device }) => {
                   className={`ProductPopupPage-button ${
                     selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
                   }`}
-                  onClick={() => setSelectedNetwork("4G")}
+                  onClick={() =>
+                    setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
+                  }
                 >
                   4G – ₹{device.network4gAmt}
                 </button>
@@ -211,6 +222,7 @@ const ProductPopupPage = ({ device }) => {
               className="ProductPopupPage-select"
               value={selectedState}
               onChange={handleStateChange}
+              required
             >
               <option value="">Select State</option>
               {Object.keys(AIS140Availability).map((state) => (
@@ -225,6 +237,7 @@ const ProductPopupPage = ({ device }) => {
               value={selectedCity}
               onChange={handleCityChange}
               disabled={!selectedState}
+              required
             >
               <option value="">Select City</option>
               {selectedState &&

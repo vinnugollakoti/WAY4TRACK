@@ -69,7 +69,7 @@ export const CartProvider = ({ children }) => {
         );
 
         if (response.status) {
-          alert("Item added to carts");
+          // alert("Item added to carts");
           const guestCartItems = JSON.parse(
             localStorage.getItem("guestCartItems") || "[]"
           );
