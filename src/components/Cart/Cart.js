@@ -11,6 +11,10 @@ import Navbar from "../New_Templates/Navbar";
 
 function CartPage() {
   const { cartItems, addToCart, getTotal } = useContext(CartContext);
+
+  // console.log("LOL : ", cartItems[0].totalAmount)
+  // console.log("LOL : ", cartItems[1].totalAmount)
+  // console.log("LOL : ", cartItems[2].totalAmount)
   const [addresses, setAddresses] = useState([]);
   const [billingAddress, setBillingAddress] = useState(null);
   const [isBillingSame, setIsBillingSame] = useState(true);
@@ -39,13 +43,15 @@ function CartPage() {
 
   // ✅ Calculate cart total dynamically
   const calculateTotal = () => {
-    if (isBuyNow) {
-      return calculateItemTotal(buyNowItem);
-    }
-    return cartItems
-      .reduce((sum, item) => sum + Number(calculateItemTotal(item)), 0)
-      .toFixed(2);
-  };
+  if (isBuyNow) {
+    return buyNowItem?.totalAmount?.toFixed(2);
+  }
+
+  return cartItems
+    .reduce((sum, item) => sum + Number(item.totalAmount || 0), 0)
+    .toFixed(2);
+};
+
 
   const updateQuantity = async (itemId, change) => {
     const cartItem = cartItems.find((item) => item.id === itemId);
