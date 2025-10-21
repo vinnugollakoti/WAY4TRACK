@@ -4,8 +4,9 @@
   align-items: center;
   position: relative;
   margin: 30px auto;
-  max-width: 800px;
+  max-width: 60%;
   flex-wrap: wrap;
+  margin-left: 25%;
 }
 
 .step-container {
