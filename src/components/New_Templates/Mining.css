@@ -311,6 +311,7 @@ body, html {
 
 .mining-product-final-price{
   font-size: 20px;
+  
 }
 
 .mining-product-quantity-controls {
@@ -739,7 +740,7 @@ body, html {
   font-size: 21px;
 }
 .mining-product-details {
-  /* width: 60%; */
+  width: 60%;
 }
 /* Responsive additions to existing CSS */
 @media (max-width: 1200px) {
