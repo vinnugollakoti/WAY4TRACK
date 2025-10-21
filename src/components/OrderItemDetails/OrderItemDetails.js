@@ -193,7 +193,7 @@ const OrderItemDetails = () => {
       25,
       120
     );
-    doc.text(`- Amount: ₹${item?.amount}`, 25, 130);
+    doc.text(`- Amount: ₹${order?.amount}`, 25, 130);
 
     // Footer
     doc.text("Thank you for your purchase!", 20, 150);
@@ -381,323 +381,324 @@ const OrderItemDetails = () => {
 
 
   console.log(item, "item");
+  console.log(order, "order");
 
   return (
     <div>
       <Navbar />
-    <div className="OrderItemDetails-container">
-      <div className="OrderItemDetails-main">
-        <div className="OrderItemDetails-left">
-          <div className="OrderItemDetails-product">
-            <div className="OrderItemDetails-productDetails">
-              <h2 className="OrderItemDetails-title">{item.name}</h2>
-              <p className="OrderItemDetails-subtext">
-                <strong>Network:</strong> {item.network}
-              </p>
-              <p className="OrderItemDetails-subtext">
-                <strong>Subscription:</strong> {item.subscriptionType}
-              </p>
-              <p className="OrderItemDetails-subtext">
-                <strong>Accessories:</strong>{" "}
-                {item.is_relay ? "With Relay" : "Without Relay"}
-              </p>
-              <p className="OrderItemDetails-price">₹{item.amount}</p>
+      <div className="OrderItemDetails-container">
+        <div className="OrderItemDetails-main">
+          <div className="OrderItemDetails-left">
+            <div className="OrderItemDetails-product">
+              <div className="OrderItemDetails-productDetails">
+                <h2 className="OrderItemDetails-title">{item.name}</h2>
+                <p className="OrderItemDetails-subtext">
+                  <strong>Network:</strong> {item.network}
+                </p>
+                <p className="OrderItemDetails-subtext">
+                  <strong>Subscription:</strong> {item.subscriptionType}
+                </p>
+                <p className="OrderItemDetails-subtext">
+                  <strong>Accessories:</strong>{" "}
+                  {item.is_relay ? "With Relay" : "Without Relay"}
+                </p>
+                <p className="OrderItemDetails-price">₹{order?.totalAmount}</p>
+              </div>
+              <img
+                src={device?.image || "https://via.placeholder.com/100"}
+                alt={item.name}
+                className="OrderItemDetails-image"
+              />
             </div>
-            <img
-              src={device?.image || "https://via.placeholder.com/100"}
-              alt={item.name}
-              className="OrderItemDetails-image"
-            />
-          </div>
 
-          <div className="OrderItemDetails-statusTimeline">
-            <p>
-              <strong>
-                {isDelivered
-                  ? `Delivered on ${formatDate(order.delivaryDate)}`
-                  : `Order Status: ${status}`}
-              </strong>
-            </p>
-            <div className="OrderItemDetails-timeline">
-              {status !== OrderStatus.ABORTED &&
-                status !== OrderStatus.CANCELED && (
+            <div className="OrderItemDetails-statusTimeline">
+              <p>
+                <strong>
+                  {isDelivered
+                    ? `Delivered on ${formatDate(order.delivaryDate)}`
+                    : `Order Status: ${status}`}
+                </strong>
+              </p>
+              <div className="OrderItemDetails-timeline">
+                {status !== OrderStatus.ABORTED &&
+                  status !== OrderStatus.CANCELED && (
+                    <div className="OrderItemDetails-timelineItem">
+                      <span className="OrderItemDetails-icon">✔</span>
+                      <span>Order Placed</span>
+                    </div>
+                  )}
+
+                {isDispatched && (
                   <div className="OrderItemDetails-timelineItem">
                     <span className="OrderItemDetails-icon">✔</span>
-                    <span>Order Placed</span>
+                    <span>Dispatched</span>
                   </div>
                 )}
-
-              {isDispatched && (
-                <div className="OrderItemDetails-timelineItem">
-                  <span className="OrderItemDetails-icon">✔</span>
-                  <span>Dispatched</span>
-                </div>
-              )}
-              {isDelivered && (
-                <div className="OrderItemDetails-timelineItem">
-                  <span className="OrderItemDetails-icon">✔</span>
-                  <span>Delivered</span>
-                </div>
-              )}
-            </div>
-            <p className="OrderItemDetails-returnInfo">
-              {isDelivered
-                ? `Return policy ends on ${formatDate(
-                  new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
-                )}`
-                : status === OrderStatus.request_raised ||
-                  status === OrderStatus.request_approved ||
-                  status === OrderStatus.request_reject ||
-                  status === OrderStatus.request_sucess
-                  ? ""
-                  : `Expected delivery: ${formatDate(order.delivaryDate)}`}
-            </p>
-
-            {canCancel && item.status !== OrderStatus.CANCELED && (
-              <>
-                <button
-                  className="OrderItemDetails-actionBtn"
-                  onClick={() => setShowCancelReason(true)}
-                >
-                  Cancel Order
-                </button>
-
-                {showCancelReason && (
-                  <div className="OrderItemDetails-cancelReasonBox">
-                    <label>
-                      Reason for cancellation:
-                      <select
-                        value={cancelReason}
-                        onChange={(e) => setCancelReason(e.target.value)}
-                      >
-                        <option value="">-- Select a reason --</option>
-                        <option value="Changed my mind">Changed my mind</option>
-                        <option value="Found a better price">
-                          Found a better price
-                        </option>
-                        <option value="Ordered by mistake">
-                          Ordered by mistake
-                        </option>
-                        <option value="Item not required">
-                          Item not required
-                        </option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </label>
-                    <button
-                      className="OrderItemDetails-actionBtn"
-                      onClick={() =>
-                        handleUpdate("cancel", {
-                          reason: cancelReason,
-                        })
-                      }
-                    >
-                      Submit Cancellation
-                    </button>
+                {isDelivered && (
+                  <div className="OrderItemDetails-timelineItem">
+                    <span className="OrderItemDetails-icon">✔</span>
+                    <span>Delivered</span>
                   </div>
                 )}
-              </>
-            )}
-
-            {canReturn && !isReturnRequested && (
-              <button
-                className="OrderItemDetails-actionBtn"
-                // onClick={() =>
-                //   handleUpdate("replace", {
-                //     reason: "Return requested by user",
-                //     orderStatus: OrderStatus.request_raised,
-                //   })
-                // }
-                onClick={() => setShowReplaceForm(true)}
-              >
-                Request Replace
-              </button>
-            )}
-
-            {showReplaceForm && (
-              <div className="OrderItemDetails-replaceForm">
-                <label>
-                  Reason for replacement:
-                  <select onChange={(e) => setReplaceReason(e.target.value)}>
-                    <option value="">-- Select a reason --</option>
-                    <option value="Defective item">Defective item</option>
-                    <option value="Item damaged during delivery">
-                      Item damaged during delivery
-                    </option>
-                    <option value="Wrong item received">
-                      Wrong item received
-                    </option>
-                    <option value="Other">Other</option>
-                  </select>
-                </label>
-
-                <label>
-                  Additional Description (optional):
-                  <textarea
-                    onChange={(e) => setReplaceDescription(e.target.value)}
-                  />
-                </label>
-
-                <label>
-                  Upload Damage Image (optional):
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </label>
-
-                <button
-                  className="OrderItemDetails-actionBtn"
-                  onClick={() =>
-                    handleUpdate("replace", {
-                      reason: replaceReason,
-                      description: replaceDescription,
-                      damageImage: uploadedImage, // You will set this in handleImageUpload
-                    })
-                  }
-                >
-                  Submit Replacement Request
-                </button>
               </div>
-            )}
-
-            {refundStatus && (
-              <div className="OrderItemDetails-refundStatusMessage">
-                <strong>Replacement Status:</strong>
-                <p>{getRefundStatusMessage(refundStatus)}</p>
-                {refund.description && (
-                  <p>
-                    <strong>Note:</strong> {refund.description}
-                  </p>
-                )}
-              </div>
-            )}
-
-            {isReturnRequested && !refundStatus && (
-              <p className="OrderItemDetails-statusNote">
-                Return request is under review.
+              <p className="OrderItemDetails-returnInfo">
+                {isDelivered
+                  ? `Return policy ends on ${formatDate(
+                    new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+                  )}`
+                  : status === OrderStatus.request_raised ||
+                    status === OrderStatus.request_approved ||
+                    status === OrderStatus.request_reject ||
+                    status === OrderStatus.request_sucess
+                    ? ""
+                    : `Expected delivery: ${formatDate(order.delivaryDate)}`}
               </p>
-            )}
-            {isReturnApproved && (
-              <p className="OrderItemDetails-statusNote">
-                Return approved. Awaiting pickup.
-              </p>
-            )}
-            {isReturnRejected && (
-              <p className="OrderItemDetails-statusNote">
-                Return request was rejected.
-              </p>
-            )}
-            {isReturnSuccess && (
-              <p className="OrderItemDetails-statusNote">
-                Return completed successfully.
-              </p>
-            )}
-          </div>
 
-          <div className="OrderItemDetails-reviewSection">
-            <div className="OrderItemDetails-starDisplay">
-              {[...Array(5)].map((_, i) => {
-                const starValue = i + 1;
-                return (
-                  <span
-                    key={i}
-                    className={`OrderItemDetails-star ${starValue <= (hoverRating || rating) ? "filled" : ""
-                      }`}
-                    onClick={() => handleStarClick(starValue)}
-                    onMouseEnter={() => setHoverRating(starValue)}
-                    onMouseLeave={() => setHoverRating(0)}
-                  >
-                    ★
-                  </span>
-                );
-              })}
-            </div>
-
-            {!showReviewForm && (
-              <button
-                className="OrderItemDetails-actionBtn"
-                onClick={() => setShowReviewForm(true)}
-              >
-                Add Review
-              </button>
-            )}
-
-            {showReviewForm && (
-              <div className="OrderItemDetails-modalOverlay">
-                <div className="OrderItemDetails-modalContent">
+              {canCancel && item.status !== OrderStatus.CANCELED && (
+                <>
                   <button
-                    className="OrderItemDetails-modalClose"
-                    onClick={() => setShowReviewForm(false)}
+                    className="OrderItemDetails-actionBtn"
+                    onClick={() => setShowCancelReason(true)}
                   >
-                    ×
+                    Cancel Order
                   </button>
-                  <ProductReviewForm
-                    item={item}
-                    review={reviews}
-                    initialRating={rating}
-                  />
+
+                  {showCancelReason && (
+                    <div className="OrderItemDetails-cancelReasonBox">
+                      <label>
+                        Reason for cancellation:
+                        <select
+                          value={cancelReason}
+                          onChange={(e) => setCancelReason(e.target.value)}
+                        >
+                          <option value="">-- Select a reason --</option>
+                          <option value="Changed my mind">Changed my mind</option>
+                          <option value="Found a better price">
+                            Found a better price
+                          </option>
+                          <option value="Ordered by mistake">
+                            Ordered by mistake
+                          </option>
+                          <option value="Item not required">
+                            Item not required
+                          </option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </label>
+                      <button
+                        className="OrderItemDetails-actionBtn"
+                        onClick={() =>
+                          handleUpdate("cancel", {
+                            reason: cancelReason,
+                          })
+                        }
+                      >
+                        Submit Cancellation
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {canReturn && !isReturnRequested && (
+                <button
+                  className="OrderItemDetails-actionBtn"
+                  // onClick={() =>
+                  //   handleUpdate("replace", {
+                  //     reason: "Return requested by user",
+                  //     orderStatus: OrderStatus.request_raised,
+                  //   })
+                  // }
+                  onClick={() => setShowReplaceForm(true)}
+                >
+                  Request Replace
+                </button>
+              )}
+
+              {showReplaceForm && (
+                <div className="OrderItemDetails-replaceForm">
+                  <label>
+                    Reason for replacement:
+                    <select onChange={(e) => setReplaceReason(e.target.value)}>
+                      <option value="">-- Select a reason --</option>
+                      <option value="Defective item">Defective item</option>
+                      <option value="Item damaged during delivery">
+                        Item damaged during delivery
+                      </option>
+                      <option value="Wrong item received">
+                        Wrong item received
+                      </option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Additional Description (optional):
+                    <textarea
+                      onChange={(e) => setReplaceDescription(e.target.value)}
+                    />
+                  </label>
+
+                  <label>
+                    Upload Damage Image (optional):
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                    />
+                  </label>
+
+                  <button
+                    className="OrderItemDetails-actionBtn"
+                    onClick={() =>
+                      handleUpdate("replace", {
+                        reason: replaceReason,
+                        description: replaceDescription,
+                        damageImage: uploadedImage, // You will set this in handleImageUpload
+                      })
+                    }
+                  >
+                    Submit Replacement Request
+                  </button>
                 </div>
+              )}
+
+              {refundStatus && (
+                <div className="OrderItemDetails-refundStatusMessage">
+                  <strong>Replacement Status:</strong>
+                  <p>{getRefundStatusMessage(refundStatus)}</p>
+                  {refund.description && (
+                    <p>
+                      <strong>Note:</strong> {refund.description}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {isReturnRequested && !refundStatus && (
+                <p className="OrderItemDetails-statusNote">
+                  Return request is under review.
+                </p>
+              )}
+              {isReturnApproved && (
+                <p className="OrderItemDetails-statusNote">
+                  Return approved. Awaiting pickup.
+                </p>
+              )}
+              {isReturnRejected && (
+                <p className="OrderItemDetails-statusNote">
+                  Return request was rejected.
+                </p>
+              )}
+              {isReturnSuccess && (
+                <p className="OrderItemDetails-statusNote">
+                  Return completed successfully.
+                </p>
+              )}
+            </div>
+
+            <div className="OrderItemDetails-reviewSection">
+              <div className="OrderItemDetails-starDisplay">
+                {[...Array(5)].map((_, i) => {
+                  const starValue = i + 1;
+                  return (
+                    <span
+                      key={i}
+                      className={`OrderItemDetails-star ${starValue <= (hoverRating || rating) ? "filled" : ""
+                        }`}
+                      onClick={() => handleStarClick(starValue)}
+                      onMouseEnter={() => setHoverRating(starValue)}
+                      onMouseLeave={() => setHoverRating(0)}
+                    >
+                      ★
+                    </span>
+                  );
+                })}
               </div>
-            )}
+
+              {!showReviewForm && (
+                <button
+                  className="OrderItemDetails-actionBtn"
+                  onClick={() => setShowReviewForm(true)}
+                >
+                  Add Review
+                </button>
+              )}
+
+              {showReviewForm && (
+                <div className="OrderItemDetails-modalOverlay">
+                  <div className="OrderItemDetails-modalContent">
+                    <button
+                      className="OrderItemDetails-modalClose"
+                      onClick={() => setShowReviewForm(false)}
+                    >
+                      ×
+                    </button>
+                    <ProductReviewForm
+                      item={item}
+                      review={reviews}
+                      initialRating={rating}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* <ProductReviewForm /> */}
           </div>
 
-          {/* <ProductReviewForm /> */}
-        </div>
-
-        <div className="OrderItemDetails-right">
-          <div
-            className="OrderItemDetails-invoice"
-            onClick={handleDownloadInvoice}
-          >
-            <p className="OrderItemDetails-invoice-description">
-              <LiaFileInvoiceSolid size={30} />
-              Download Invoice
-            </p>
-            <IoMdArrowDropright size={30} />
-            {/* <a href="#" download>
+          <div className="OrderItemDetails-right">
+            <div
+              className="OrderItemDetails-invoice"
+              onClick={handleDownloadInvoice}
+            >
+              <p className="OrderItemDetails-invoice-description">
+                <LiaFileInvoiceSolid size={30} />
+                Download Invoice
+              </p>
+              <IoMdArrowDropright size={30} />
+              {/* <a href="#" download>
               Download Invoice
             </a> */}
-            {/* <button className="OrderItemDetails-actionBtn">
+              {/* <button className="OrderItemDetails-actionBtn">
               Download Invoice
             </button> */}
-          </div>
+            </div>
 
-          <div className="OrderItemDetails-shippingBox">
-            <h3>Shipping Address</h3>
-            <h1>{order.deliveryAddress.name}</h1>
+            <div className="OrderItemDetails-shippingBox">
+              <h3>Shipping Address</h3>
+              <h1>{order.deliveryAddress.name}</h1>
 
-            <p>{order.deliveryAddress.city}</p>
-            <p>{order.deliveryAddress.state}</p>
-            <p>{order.deliveryAddress.country}</p>
-            <p>
-              <span>Phone Number:</span> {order.deliveryAddress.phoneNumber}
-            </p>
-          </div>
+              <p>{order.deliveryAddress.city}</p>
+              <p>{order.deliveryAddress.state}</p>
+              <p>{order.deliveryAddress.country}</p>
+              <p>
+                <span>Phone Number:</span> {order.deliveryAddress.phoneNumber}
+              </p>
+            </div>
 
-          <div className="OrderItemDetails-shippingBox">
-            <h3>Billing Address</h3>
-            <h1>{order.deliveryAddress.name}</h1>
+            <div className="OrderItemDetails-shippingBox">
+              <h3>Billing Address</h3>
+              <h1>{order.deliveryAddress.name}</h1>
 
-            <p>{order.addressLine1}</p>
-            <p>{order.addressLine2}</p>
-            <p>{order.deliveryAddress.city}</p>
-            <p>
-              <span>Phone Number:</span> {order.deliveryAddress.phone}
-            </p>
-          </div>
+              <p>{order.addressLine1}</p>
+              <p>{order.addressLine2}</p>
+              <p>{order.deliveryAddress.city}</p>
+              <p>
+                <span>Phone Number:</span> {order.deliveryAddress.phone}
+              </p>
+            </div>
 
-          <div className="OrderItemDetails-priceBox">
-            <h3>Price Details</h3>
-            <p>
-              Quantity: <span>{item.qty}</span>
-            </p>
-            <p>Total: ₹{item.amount}</p>
+            <div className="OrderItemDetails-priceBox">
+              <h3>Price Details</h3>
+              <p>
+                Quantity: <span>{item.qty}</span>
+              </p>
+              <p>Total: ₹{order.totalAmount}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
