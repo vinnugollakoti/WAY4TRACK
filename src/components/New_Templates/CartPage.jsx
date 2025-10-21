@@ -110,18 +110,18 @@ function CartPage() {
                         <span className="cart-price">₹{toNumber(item.totalAmount)}</span>
                       </div>
                       <div className="cart-item-details">
-                        {item.device.isRelay && item.device.relayAmt > 0 && (
+                        {item?.device?.isRelay && item?.device?.relayAmt > 0 && (
                           <p>
                             Accessories: {relaySelected ? "With Relay" : "Without Relay"}
                           </p>
                         )}
 
-                        {item.device.isNetwork &&
-                          (item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                        {item?.device?.isNetwork &&
+                          (item?.device?.network2gAmt > 0 || item?.device?.network4gAmt > 0) && (
                             <p>Network: {item.network ? item.network : "N/A"}</p>
                           )}
 
-                        {item.device.isSubscription &&
+                        {item?.device?.isSubscription &&
                           (item.device.subscriptionMonthlyAmt > 0 ||
                             item.device.subscriptionYearlyAmt > 0) && (
                             <p>

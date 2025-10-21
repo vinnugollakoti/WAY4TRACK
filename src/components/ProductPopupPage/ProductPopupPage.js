@@ -21,6 +21,8 @@ const ProductPopupPage = ({ device }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [isAIS, setIsAIS] = useState(false);
 
+
+  console.log("ProductPopupPage rendered with device:", device);
   useEffect(() => {
     setIsAIS(device.name.includes("AIS"));
   }, [device.name]);
@@ -52,6 +54,8 @@ const ProductPopupPage = ({ device }) => {
   const calculateTotalAmount = () => {
     let price = device.amount || 0;
 
+    if (device.discount) price = price * (1 - device.discount / 100);
+
     if (device.isRelay && selectedRelayer)
       price += parseInt(selectedRelayer) || 0;
 
@@ -68,7 +72,6 @@ const ProductPopupPage = ({ device }) => {
         price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
-    if (device.discount) price = price * (1 - device.discount / 100);
 
     return price * quantity;
   };
@@ -159,11 +162,10 @@ const ProductPopupPage = ({ device }) => {
           <label className="ProductPopupPage-label">Relayer Option:</label>
           <div className="ProductPopupPage-options">
             <button
-              className={`ProductPopupPage-button ${
-                selectedRelayer === device.relayAmt
-                  ? "ProductPopupPage-selected"
-                  : ""
-              }`}
+              className={`ProductPopupPage-button ${selectedRelayer === device.relayAmt
+                ? "ProductPopupPage-selected"
+                : ""
+                }`}
               onClick={() =>
                 setSelectedRelayer((prev) =>
                   prev === device.relayAmt ? null : device.relayAmt
@@ -187,9 +189,8 @@ const ProductPopupPage = ({ device }) => {
             <div className="ProductPopupPage-options">
               {device.network2gAmt > 0 && (
                 <button
-                  className={`ProductPopupPage-button ${
-                    selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
-                  }`}
+                  className={`ProductPopupPage-button ${selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
+                    }`}
                   onClick={() =>
                     setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
                   }
@@ -199,9 +200,8 @@ const ProductPopupPage = ({ device }) => {
               )}
               {device.network4gAmt > 0 && (
                 <button
-                  className={`ProductPopupPage-button ${
-                    selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
-                  }`}
+                  className={`ProductPopupPage-button ${selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
+                    }`}
                   onClick={() =>
                     setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
                   }
@@ -272,24 +272,26 @@ const ProductPopupPage = ({ device }) => {
             <div className="ProductPopupPage-subscription-options">
               {device.subscriptionMonthlyAmt > 0 && (
                 <button
-                  className={`ProductPopupPage-subscription-button ${
-                    selectedSubscription === "monthly"
-                      ? "ProductPopupPage-selected"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedSubscription("monthly")}
+                  className={`ProductPopupPage-subscription-button ${selectedSubscription === "monthly"
+                    ? "ProductPopupPage-selected"
+                    : ""
+                    }`}
+                  onClick={() =>
+                    setSelectedSubscription((prev) => (prev === "monthly" ? null : "monthly"))
+                  }
                 >
                   Monthly – ₹{device.subscriptionMonthlyAmt}
                 </button>
               )}
               {device.subscriptionYearlyAmt > 0 && (
                 <button
-                  className={`ProductPopupPage-subscription-button ${
-                    selectedSubscription === "yearly"
-                      ? "ProductPopupPage-selected"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedSubscription("yearly")}
+                  className={`ProductPopupPage-subscription-button ${selectedSubscription === "yearly"
+                    ? "ProductPopupPage-selected"
+                    : ""
+                    }`}
+                  onClick={() =>
+                    setSelectedSubscription((prev) => (prev === "yearly" ? null : "yearly"))
+                  }
                 >
                   Yearly – ₹{device.subscriptionYearlyAmt}
                 </button>

@@ -124,8 +124,9 @@ const MyOrders = () => {
                   >
                     <div className="row align-items-center border-bottom py-3">
                       <div className="col-3 col-md-2">
+                        {console.log(device, "device")}
                         <img
-                          src={device?.image || "https://via.placeholder.com/60"}
+                          src={device?.image?.[0] || "https://via.placeholder.com/60"}
                           alt={item.name}
                           className="img-fluid rounded"
                         />
@@ -144,16 +145,16 @@ const MyOrders = () => {
                       </div>
                       <div className="col-12 col-md-4 mt-2 mt-md-0">
                         <div className="fw-bold mb-2">
-                          Price: ₹{item.amount}
+                          Price: ₹{order.totalAmount}
                         </div>
                         <div
                           className={`alert p-2 mb-0 text-capitalize alert-${order.orderStatus?.toLowerCase() === "delivered"
-                              ? "success"
-                              : order.orderStatus?.toLowerCase() === "pending"
-                                ? "warning"
-                                : order.orderStatus?.toLowerCase() === "cancelled"
-                                  ? "danger"
-                                  : "secondary"
+                            ? "success"
+                            : order.orderStatus?.toLowerCase() === "pending"
+                              ? "warning"
+                              : order.orderStatus?.toLowerCase() === "cancelled"
+                                ? "danger"
+                                : "secondary"
                             }`}
                         >
                           {order.orderStatus === "delivered" && (
@@ -223,7 +224,7 @@ const MyOrders = () => {
               })}
             </div>
             <div className="card-footer text-end fw-bold">
-              Total: ₹{order?.orderItems[0]?.amount}
+              Total: ₹{order?.totalAmount}
             </div>
           </div>
         ))
