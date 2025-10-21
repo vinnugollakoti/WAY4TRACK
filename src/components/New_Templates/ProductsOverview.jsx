@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 import toast, { Toaster } from "react-hot-toast";
+import AIS140Availability from "../../contexts/AIS140Availabilities"
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -23,6 +24,11 @@ function ProductsOverview({ websiteData }) {
   const [selectedRelayer, setSelectedRelayer] = useState(null);
   const [selectedSubscription, setSelectedSubscription] = useState(null);
 
+  // AIS140 states
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [isAIS, setIsAIS] = useState(false);
+
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -35,7 +41,9 @@ function ProductsOverview({ websiteData }) {
 
     setData({ ...product, selectedDevice });
 
-    // Moved AFTER setData to avoid race condition
+    // check if device name contains AIS
+    setIsAIS(selectedDevice.name.includes("AIS"));
+
     const { network2gAmt, network4gAmt } = selectedDevice;
     let defaultNetwork = null;
     if (network2gAmt === 0) defaultNetwork = "2G";
@@ -44,59 +52,76 @@ function ProductsOverview({ websiteData }) {
     setSelectedNetwork(defaultNetwork);
   }, [id, deviceId, websiteData]);
 
-
-  const handleAddToCart = () => {
-  if (!stateData?.selectedDevice) return;
-
-  const device = stateData.selectedDevice;
-
-  // 👇 Force-fallback if no selection was made but a default is implied
-  let resolvedNetwork = selectedNetwork;
-
-  if (!resolvedNetwork) {
-    if (device.network2gAmt === 0) resolvedNetwork = "2G";
-    else if (device.network4gAmt === 0) resolvedNetwork = "4G";
-  }
-
-  const allNetworkZeroOrExcluded =
-    (device.network2gAmt === undefined || device.network2gAmt === -1) &&
-    (device.network4gAmt === undefined || device.network4gAmt === -1);
-
-  const allSubscriptionZero =
-    (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
-    (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
-
-  if (device.isNetwork && !allNetworkZeroOrExcluded && !resolvedNetwork) {
-    toast.error("Please select a network option before adding to cart");
-    return;
-  }
-
-  if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
-    toast.error("Please select a subscription option before adding to cart");
-    return;
-  }
-
-  const price = getFinalPrice(resolvedNetwork);
-
-  const cartItem = {
-    deviceId: device.id,
-    product: stateData,
-    quantity,
-    clientId: localStorage.getItem("client_db_id"),
-    totalAmount: price * quantity,
-    price,
-    name: device.name,
-    model: device.model,
-    discount: device.discount || 0,
-    network: resolvedNetwork,
-    relayer: selectedRelayer,
-    subscription: selectedSubscription,
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+    setSelectedCity("");
   };
 
-  addToCart(cartItem);
-  toast.success("Product added to cart!");
-};
+  const handleCityChange = (e) => setSelectedCity(e.target.value);
 
+  const selectedCityInfo = AIS140Availability[selectedState]?.find(
+    (city) => city.name === selectedCity
+  );
+
+  const isBuyDisabled = isAIS
+    ? !selectedState || !selectedCity || !selectedCityInfo?.availability
+    : false;
+
+  const handleAddToCart = () => {
+    if (!stateData?.selectedDevice) return;
+    const device = stateData.selectedDevice;
+
+    if (isAIS && (!selectedState || !selectedCity)) {
+      toast.error("Please select your state and city");
+      return;
+    }
+
+    let resolvedNetwork = selectedNetwork;
+    if (!resolvedNetwork) {
+      if (device.network2gAmt === 0) resolvedNetwork = "2G";
+      else if (device.network4gAmt === 0) resolvedNetwork = "4G";
+    }
+
+    const allNetworkZeroOrExcluded =
+      (device.network2gAmt === undefined || device.network2gAmt === -1) &&
+      (device.network4gAmt === undefined || device.network4gAmt === -1);
+
+    const allSubscriptionZero =
+      (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
+      (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
+
+    if (device.isNetwork && !allNetworkZeroOrExcluded && !resolvedNetwork) {
+      toast.error("Please select a network option before adding to cart");
+      return;
+    }
+
+    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+      toast.error("Please select a subscription option before adding to cart");
+      return;
+    }
+
+    const price = getFinalPrice(resolvedNetwork);
+
+    const cartItem = {
+      deviceId: device.id,
+      product: stateData,
+      quantity,
+      clientId: localStorage.getItem("client_db_id"),
+      totalAmount: price * quantity,
+      price,
+      name: device.name,
+      model: device.model,
+      discount: device.discount || 0,
+      network: resolvedNetwork,
+      relayer: selectedRelayer,
+      subscription: selectedSubscription,
+      state: selectedState,   // added
+      city: selectedCity,     // added
+    };
+
+    addToCart(cartItem);
+    toast.success("Product added to cart!");
+  };
 
   const handleBuyNow = () => {
     handleAddToCart();
@@ -129,8 +154,14 @@ function ProductsOverview({ websiteData }) {
       price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
+    // Add city price for AIS devices
+    if (isAIS && selectedCityInfo?.price) {
+      price += parseInt(selectedCityInfo.price) || 0;
+    }
+
     return price;
   };
+
 
 
   const device = stateData?.selectedDevice;
@@ -281,6 +312,54 @@ function ProductsOverview({ websiteData }) {
                     </div>
                   </div>
                 )}
+
+                {/* AIS CONSITIONS */}
+                {isAIS && (
+                    <div className="extra-detail-card">
+                      <h3 className="option-headings">Location (AIS Only)</h3>
+                      <div className="option-btns">
+                        <select
+                          className="ProductPopupPage-select"
+                          value={selectedState || ""}
+                          onChange={handleStateChange}
+                        >
+                          <option value="">Select State</option>
+                          {Object.keys(AIS140Availability).map((state) => (
+                            <option key={state} value={state}>
+                              {state}
+                            </option>
+                          ))}
+                        </select>
+
+                        <select
+                          className="ProductPopupPage-select"
+                          value={selectedCity || ""}
+                          onChange={handleCityChange}
+                          disabled={!selectedState}
+                        >
+                          <option value="">Select City</option>
+                          {selectedState &&
+                            AIS140Availability[selectedState].map((city) => (
+                              <option
+                                key={city.name}
+                                value={city.name}
+                                disabled={!city.availability}
+                              >
+                                {city.name} {city.availability ? "" : "(Unavailable)"}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      {selectedCityInfo && (
+                        <div style={{ marginTop: "10px" }}>
+                          <strong>Price:</strong> ₹{selectedCityInfo.price} <br />
+                          <strong>Available:</strong>{" "}
+                          {selectedCityInfo.availability ? "Yes" : "No"}
+                        </div>
+                      )}
+                    </div>
+                  )}
             </div>
 
             <div className="mining-product-final-price">
