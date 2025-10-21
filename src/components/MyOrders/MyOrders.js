@@ -91,9 +91,8 @@ const MyOrders = () => {
         {statusOptions.map((status) => (
           <button
             key={status}
-            className={`status-pill ${
-              selectedStatuses.includes(status) ? "active" : ""
-            }`}
+            className={`status-pill ${selectedStatuses.includes(status) ? "active" : ""
+              }`}
             onClick={() => handleStatusChange(status)}
           >
             {status.replace("_", " ")}
@@ -113,8 +112,8 @@ const MyOrders = () => {
               {order.orderItems.map((item) => {
                 const device = Array.isArray(order.deviceDetails)
                   ? order.deviceDetails.find(
-                      (d) => Number(d.deviceId) === Number(item.deviceId)
-                    )
+                    (d) => Number(d.deviceId) === Number(item.deviceId)
+                  )
                   : null;
 
                 return (
@@ -148,15 +147,14 @@ const MyOrders = () => {
                           Price: ₹{item.amount}
                         </div>
                         <div
-                          className={`alert p-2 mb-0 text-capitalize alert-${
-                            order.orderStatus?.toLowerCase() === "delivered"
+                          className={`alert p-2 mb-0 text-capitalize alert-${order.orderStatus?.toLowerCase() === "delivered"
                               ? "success"
                               : order.orderStatus?.toLowerCase() === "pending"
-                              ? "warning"
-                              : order.orderStatus?.toLowerCase() === "cancelled"
-                              ? "danger"
-                              : "secondary"
-                          }`}
+                                ? "warning"
+                                : order.orderStatus?.toLowerCase() === "cancelled"
+                                  ? "danger"
+                                  : "secondary"
+                            }`}
                         >
                           {order.orderStatus === "delivered" && (
                             <>
@@ -225,7 +223,7 @@ const MyOrders = () => {
               })}
             </div>
             <div className="card-footer text-end fw-bold">
-              Total: ₹{order.totalAmount}
+              Total: ₹{order?.orderItems[0]?.amount}
             </div>
           </div>
         ))
