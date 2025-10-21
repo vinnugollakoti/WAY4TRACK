@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Bike.css";
 import "./Mining.css";
+import toast, { Toaster } from "react-hot-toast";
+import { CartContext } from "../../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import "./SpecialProduct.css"
 
 const SpecialProduct = ({ websiteData }) => {
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedNetwork, setSelectedNetwork] = useState(null);
+  const [selectedRelayer, setSelectedRelayer] = useState(null);
   const [selectedSubscription, setSelectedSubscription] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!websiteData || !websiteData[3]?.device?.[0]) return;
@@ -15,29 +23,91 @@ const SpecialProduct = ({ websiteData }) => {
     const foundProduct = websiteData[3];
     const selectedDevice = foundProduct.device[0];
 
-    console.log("FOUND:", foundProduct);
-    console.log("SELECTED DEVICE:", selectedDevice);
-
     setProduct({ ...foundProduct, selectedDevice });
     setSelectedImage(selectedDevice.image?.[0]);
+
+    // Auto-select default network if one is included (₹0)
+    const { network2gAmt, network4gAmt } = selectedDevice;
+    if (network2gAmt === 0) setSelectedNetwork("2G");
+    else if (network4gAmt === 0) setSelectedNetwork("4G");
   }, [websiteData]);
 
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  const getFinalPrice = () => {
+  const getFinalPrice = (networkOverride = selectedNetwork) => {
     const device = product?.selectedDevice;
     if (!device) return 0;
+
     let price = Math.round(
       (device.amount || 0) * (1 - (device.discount || 0) / 100)
     );
-    if (selectedNetwork === "2G") price += parseInt(device.network2gAmt) || 0;
-    if (selectedNetwork === "4G") price += parseInt(device.network4gAmt) || 0;
+
+    if (selectedRelayer) price += parseInt(selectedRelayer) || 0;
+
+    if (networkOverride === "2G") price += parseInt(device.network2gAmt) || 0;
+    if (networkOverride === "4G") price += parseInt(device.network4gAmt) || 0;
+
     if (selectedSubscription === "monthly")
       price += parseInt(device.subscriptionMonthlyAmt) || 0;
     if (selectedSubscription === "yearly")
       price += parseInt(device.subscriptionYearlyAmt) || 0;
+
     return price * quantity;
+  };
+
+  const handleAddToCart = () => {
+    const device = product?.selectedDevice;
+    if (!device) return;
+
+    let resolvedNetwork = selectedNetwork;
+    if (!resolvedNetwork) {
+      if (device.network2gAmt === 0) resolvedNetwork = "2G";
+      else if (device.network4gAmt === 0) resolvedNetwork = "4G";
+    }
+
+    const allNetworkZeroOrExcluded =
+      (device.network2gAmt === undefined || device.network2gAmt === -1) &&
+      (device.network4gAmt === undefined || device.network4gAmt === -1);
+
+    const allSubscriptionZero =
+      (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
+      (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
+
+    if (device.isNetwork && !allNetworkZeroOrExcluded && !resolvedNetwork) {
+      toast.error("Please select a network option before adding to cart");
+      return;
+    }
+
+    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+      toast.error("Please select a subscription option before adding to cart");
+      return;
+    }
+
+    const price = getFinalPrice(resolvedNetwork);
+
+    const cartItem = {
+      deviceId: device.id,
+      product,
+      quantity,
+      clientId: localStorage.getItem("client_db_id"),
+      totalAmount: price,
+      price: price / quantity,
+      name: device.name,
+      model: device.model,
+      discount: device.discount || 0,
+      network: resolvedNetwork,
+      relayer: selectedRelayer,
+      subscription: selectedSubscription,
+    };
+
+    addToCart(cartItem);
+    toast.success("Product added to cart!");
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    navigate("/cart");
   };
 
   if (!product) return null;
@@ -45,6 +115,8 @@ const SpecialProduct = ({ websiteData }) => {
 
   return (
     <div className="mining-product">
+      <Toaster position="top-center" reverseOrder={false} />
+
       {/* Image Section */}
       <div className="mining-product-gallery">
         <div className="mining-product-thumbnails">
@@ -56,7 +128,6 @@ const SpecialProduct = ({ websiteData }) => {
               className={`thumbnail ${selectedImage === img ? "active" : ""}`}
               onClick={() => setSelectedImage(img)}
               onError={(e) => (e.target.src = "/images/placeholder-product.png")}
-              style={{ cursor: "pointer" }}
             />
           ))}
         </div>
@@ -73,15 +144,9 @@ const SpecialProduct = ({ websiteData }) => {
 
       {/* Product Details */}
       <div className="mining-product-details">
-        <div className="mining-product-title">
-          <h2 className="mining-product-title-h2">
-            {device?.name} {device?.model}
-          </h2>
-        </div>
-
-        <div className="mining-product-price">
-          <p>₹ {getFinalPrice()}</p>
-        </div>
+        <h2 className="mining-product-title-h2">
+          {device?.name} {device?.model}
+        </h2>
 
         <div className="mining-product-features">
           <ul>
@@ -92,130 +157,148 @@ const SpecialProduct = ({ websiteData }) => {
         </div>
 
 
+        <div className="special-options-css">
         {/* Options */}
-        <div className="mining-product-order">
-
-        {/* Relayer Option */}
-        {device?.isRelay && device?.relayAmt > 0 && (
-          <div className="extra-detail-card">
-            <h3 className="option-headings">Relayer Option</h3>
-            <div className="option-btns">
-              <button
-                className={`option-btn ${
-                  selectedNetwork === "relay" ? "active" : ""
-                }`}
-                onClick={() =>
-                  setSelectedNetwork((prev) => (prev === "relay" ? null : "relay"))
-                }
-              >
-                Relayer – ₹{device.relayAmt}
-              </button>
+        <div className="extra-product-details">
+          {/* Relayer Option */}
+          {device?.isRelay && device?.relayAmt > 0 && (
+            <div className="extra-detail-card">
+              <h3 className="option-headings">Relayer Option</h3>
+              <div className="option-btns">
+                <button
+                  className={`option-btn ${
+                    selectedRelayer === device?.relayAmt ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedRelayer((prev) =>
+                      prev === device?.relayAmt ? null : device?.relayAmt
+                    )
+                  }
+                >
+                  Relayer – ₹{device?.relayAmt}
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
           {/* Network Options */}
-          {(device?.network2gAmt > 0 || device?.network4gAmt > 0) && (
+          {device?.isNetwork && (
             <div className="extra-detail-card">
               <h3 className="option-headings">Network Options</h3>
               <div className="option-btns">
-                {device?.network2gAmt > 0 && (
+                {device?.network2gAmt !== -1 && (
                   <button
                     className={`option-btn ${
                       selectedNetwork === "2G" ? "active" : ""
                     }`}
                     onClick={() =>
+                      device.network2gAmt > 0 &&
                       setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
                     }
+                    disabled={device.network2gAmt === 0}
                   >
-                    2G – ₹{device.network2gAmt}
+                    2G – ₹
+                    {device.network2gAmt === 0
+                      ? "Included"
+                      : device.network2gAmt}
                   </button>
                 )}
-                {device?.network4gAmt > 0 && (
+
+                {device?.network4gAmt !== -1 && (
                   <button
                     className={`option-btn ${
                       selectedNetwork === "4G" ? "active" : ""
                     }`}
                     onClick={() =>
+                      device.network4gAmt > 0 &&
                       setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
                     }
+                    disabled={device.network4gAmt === 0}
                   >
-                    4G – ₹{device.network4gAmt}
+                    4G – ₹
+                    {device.network4gAmt === 0
+                      ? "Included"
+                      : device.network4gAmt}
                   </button>
                 )}
               </div>
             </div>
           )}
 
-
-          {device?.isSubscription && (
-            <div className="extra-detail-card">
-              <h3 className="option-headings">Subscription</h3>
-              <div className="option-btns">
-                {device.subscriptionMonthlyAmt > 0 && (
-                  <button
-                    className={`option-btn ${
-                      selectedSubscription === "monthly" ? "active" : ""
-                    }`}
-                    onClick={() => setSelectedSubscription("monthly")}
-                  >
-                    Monthly – ₹{device.subscriptionMonthlyAmt}
-                  </button>
-                )}
-                {device.subscriptionYearlyAmt > 0 && (
-                  <button
-                    className={`option-btn ${
-                      selectedSubscription === "yearly" ? "active" : ""
-                    }`}
-                    onClick={() => setSelectedSubscription("yearly")}
-                  >
-                    Yearly – ₹{device.subscriptionYearlyAmt}
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Quantity & Actions */}
-          <div className="mining-product-final-price">
-            <p>
-              Total Price: ₹ <strong>{getFinalPrice()}</strong>
-            </p>
-          </div>
-
-          <div className="mining-product-quantity">
-            <div className="mining-product-quantity-controls">
-              <div className="mining-product-quantity-selector">
-                <div className="mining-product-quantity-value">
-                  <p>{quantity}</p>
-                </div>
-                <div className="mining-product-quantity-btns">
-                  <div className="mining-product-quantity-btns-container">
-                    <button className="quantity-up" onClick={incrementQuantity}>
-                      <img
-                        className="arrow-up"
-                        src="/images/up-arrows.png"
-                        alt="Increase quantity"
-                      />
-                    </button>
+          {/* Subscription Options */}
+          {device?.isSubscription &&
+            (device?.subscriptionMonthlyAmt > 0 ||
+              device?.subscriptionYearlyAmt > 0) && (
+              <div className="extra-detail-card">
+                <h3 className="option-headings">Subscription</h3>
+                <div className="option-btns">
+                  {device?.subscriptionMonthlyAmt > 0 && (
                     <button
-                      className="quantity-down"
-                      onClick={decrementQuantity}
+                      className={`option-btn ${
+                        selectedSubscription === "monthly" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedSubscription("monthly")}
                     >
-                      <img
-                        className="arrow-down"
-                        src="/images/arrow-down-sign-to-navigate.png"
-                        alt="Decrease quantity"
-                      />
+                      Monthly – ₹{device?.subscriptionMonthlyAmt}
                     </button>
-                  </div>
+                  )}
+                  {device?.subscriptionYearlyAmt > 0 && (
+                    <button
+                      className={`option-btn ${
+                        selectedSubscription === "yearly" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedSubscription("yearly")}
+                    >
+                      Yearly – ₹{device?.subscriptionYearlyAmt}
+                    </button>
+                  )}
                 </div>
               </div>
-              <button className="add-to-cart-btn">Add to Cart</button>
-              <button className="buy-it-now-btn">Buy it now</button>
+            )}
+        </div>
+
+        {/* Final Price */}
+        <div className="special-product-final-price">
+          <p>
+            Total Price : ₹ <strong>{getFinalPrice()}</strong>
+          </p>
+        </div>
+
+        {/* Quantity & Buttons */}
+        <div className="mining-product-quantity">
+          <div className="mining-product-quantity-controls">
+            <div className="mining-product-quantity-selector">
+              <div className="mining-product-quantity-value">
+                <p>{quantity}</p>
+              </div>
+              <div className="mining-product-quantity-btns">
+                <div className="mining-product-quantity-btns-container">
+                  <button className="quantity-up" onClick={incrementQuantity}>
+                    <img
+                      className="arrow-up"
+                      src="/images/up-arrows.png"
+                      alt="Increase quantity"
+                    />
+                  </button>
+                  <button className="quantity-down" onClick={decrementQuantity}>
+                    <img
+                      className="arrow-down"
+                      src="/images/arrow-down-sign-to-navigate.png"
+                      alt="Decrease quantity"
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+            <button className="buy-it-now-btn" onClick={handleBuyNow}>
+              Buy it now
+            </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
