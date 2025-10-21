@@ -72,9 +72,14 @@ const ProductPopupPage = ({ device }) => {
         price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
+    // Add state/city price for AIS devices
+    if (isAIS && selectedCityInfo?.price) {
+      price += parseInt(selectedCityInfo.price) || 0;
+    }
 
     return price * quantity;
   };
+
 
   const handleAddToCart = async () => {
     if (isAIS && !selectedState && !selectedCity) {
