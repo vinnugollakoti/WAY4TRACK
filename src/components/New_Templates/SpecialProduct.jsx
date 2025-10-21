@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { CartContext } from "../../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 import "./SpecialProduct.css"
+import AIS140Availability from "../../contexts/AIS140Availabilities"
 
 const SpecialProduct = ({ websiteData }) => {
   const [product, setProduct] = useState(null);
@@ -14,26 +15,38 @@ const SpecialProduct = ({ websiteData }) => {
   const [selectedSubscription, setSelectedSubscription] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [isAIS, setIsAIS] = useState(false);
+
+
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!websiteData || !websiteData[3]?.device?.[0]) return;
+  if (!websiteData || !websiteData[3]?.device?.[0]) return;
 
-    const foundProduct = websiteData[3];
-    const selectedDevice = foundProduct.device[0];
+  const foundProduct = websiteData[3];
+  const selectedDevice = foundProduct.device[0];
 
-    setProduct({ ...foundProduct, selectedDevice });
-    setSelectedImage(selectedDevice.image?.[0]);
+  setProduct({ ...foundProduct, selectedDevice });
+  setSelectedImage(selectedDevice.image?.[0]);
 
-    // Auto-select default network if one is included (₹0)
-    const { network2gAmt, network4gAmt } = selectedDevice;
-    if (network2gAmt === 0) setSelectedNetwork("2G");
-    else if (network4gAmt === 0) setSelectedNetwork("4G");
-  }, [websiteData]);
+  // Auto-select default network if one is included (₹0)
+  const { network2gAmt, network4gAmt } = selectedDevice;
+  if (network2gAmt === 0) setSelectedNetwork("2G");
+  else if (network4gAmt === 0) setSelectedNetwork("4G");
+
+  setIsAIS(selectedDevice.name.includes("AIS")); // detect AIS
+}, [websiteData]);
+
 
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  const selectedCityInfo = isAIS
+  ? AIS140Availability[selectedState]?.find(city => city.name === selectedCity)
+  : null;
 
   const getFinalPrice = (networkOverride = selectedNetwork) => {
     const device = product?.selectedDevice;
@@ -48,13 +61,14 @@ const SpecialProduct = ({ websiteData }) => {
     if (networkOverride === "2G") price += parseInt(device.network2gAmt) || 0;
     if (networkOverride === "4G") price += parseInt(device.network4gAmt) || 0;
 
-    if (selectedSubscription === "monthly")
-      price += parseInt(device.subscriptionMonthlyAmt) || 0;
-    if (selectedSubscription === "yearly")
-      price += parseInt(device.subscriptionYearlyAmt) || 0;
+    if (selectedSubscription === "monthly") price += parseInt(device.subscriptionMonthlyAmt) || 0;
+    if (selectedSubscription === "yearly") price += parseInt(device.subscriptionYearlyAmt) || 0;
 
-    return price * quantity;
+    if (selectedCityInfo?.price) price += parseInt(selectedCityInfo.price) || 0;
+
+    return price * quantity; // multiply by quantity
   };
+
 
   const handleAddToCart = () => {
     const device = product?.selectedDevice;
@@ -91,15 +105,18 @@ const SpecialProduct = ({ websiteData }) => {
       product,
       quantity,
       clientId: localStorage.getItem("client_db_id"),
-      totalAmount: price,
-      price: price / quantity,
+      totalAmount: getFinalPrice(),
+      price: getFinalPrice() / quantity,
       name: device.name,
       model: device.model,
       discount: device.discount || 0,
-      network: resolvedNetwork,
+      network: selectedNetwork,
       relayer: selectedRelayer,
       subscription: selectedSubscription,
+      state: selectedState,
+      city: selectedCity,
     };
+
 
     addToCart(cartItem);
     toast.success("Product added to cart!");
@@ -109,6 +126,13 @@ const SpecialProduct = ({ websiteData }) => {
     handleAddToCart();
     navigate("/cart");
   };
+
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+    setSelectedCity(""); // reset city when state changes
+  };
+
+  const handleCityChange = (e) => setSelectedCity(e.target.value);
 
   if (!product) return null;
   const device = product.selectedDevice;
@@ -255,6 +279,49 @@ const SpecialProduct = ({ websiteData }) => {
                 </div>
               </div>
             )}
+
+            {/* AIS CHANGES */}
+            {isAIS && (
+                <div className="extra-detail-card">
+                  <h3 className="option-headings">Location (AIS Only)</h3>
+                  <div className="option-btns">
+                    <select
+                      value={selectedState || ""}
+                      onChange={handleStateChange}
+                    >
+                      <option value="">Select State</option>
+                      {Object.keys(AIS140Availability).map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+
+                    <select
+                      value={selectedCity || ""}
+                      onChange={handleCityChange}
+                      disabled={!selectedState}
+                    >
+                      <option value="">Select City</option>
+                      {selectedState && AIS140Availability[selectedState].map(city => (
+                        <option
+                          key={city.name}
+                          value={city.name}
+                          disabled={!city.availability}
+                        >
+                          {city.name} {city.availability ? "" : "(Unavailable)"}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {selectedCityInfo && (
+                    <div style={{ marginTop: "10px" }}>
+                      <strong>Price:</strong> ₹{selectedCityInfo.price} <br />
+                      <strong>Available:</strong> {selectedCityInfo.availability ? "Yes" : "No"}
+                    </div>
+                  )}
+                </div>
+              )}
+
         </div>
 
         {/* Final Price */}

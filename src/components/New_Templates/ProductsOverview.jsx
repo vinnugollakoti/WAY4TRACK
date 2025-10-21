@@ -154,7 +154,6 @@ function ProductsOverview({ websiteData }) {
       price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
-    // Add city price for AIS devices
     if (isAIS && selectedCityInfo?.price) {
       price += parseInt(selectedCityInfo.price) || 0;
     }
@@ -364,9 +363,9 @@ function ProductsOverview({ websiteData }) {
 
             <div className="mining-product-final-price">
               <p className="productoverview-price">
-                Total Price : ₹{" "}
-                <strong className="total-price">{getFinalPrice()}</strong>
+                Total Price : ₹ <strong className="total-price">{getFinalPrice() * quantity}</strong>
               </p>
+
             </div>
 
             <div className="mining-product-quantity">
