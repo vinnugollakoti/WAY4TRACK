@@ -1194,6 +1194,9 @@ body, html {
   .iphone-truck{
     width: 160px;
   }
+  .mining-product-details{
+    width: 100%;
+  }
 }
 
 /* Mobile menu toggle */
