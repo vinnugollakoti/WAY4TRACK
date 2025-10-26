@@ -489,10 +489,6 @@ body, html {
   width: 740px;
 }
 
-.extra-class{
-  width: 340px;
-}
-
 .mining-benefits-section {
   background: #f7f8fa;
   padding: 3% 0 3% 0;
@@ -652,7 +648,7 @@ body, html {
 
 .mining-solutions-hero img {
   border-radius: 16px;
-  width: 100%;
+  width: 70%;
 }
 
 .mining-solutions-grid {
