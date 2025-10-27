@@ -231,7 +231,7 @@
 .gps-dashboard-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 3%;
 }
 
@@ -623,7 +623,7 @@
     }
     
     .gps-dashboard-img {
-        width: 45%;
+        width: 35%;
     }
     
     .gps-dashboard-cards-main {
