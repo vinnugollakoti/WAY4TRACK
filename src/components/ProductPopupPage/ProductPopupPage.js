@@ -51,6 +51,10 @@ const ProductPopupPage = ({ device }) => {
     ? !selectedState || !selectedCity || !selectedCityInfo?.availability
     : false;
 
+
+
+  console.log(device)
+
   const calculateTotalAmount = () => {
     let price = device.amount || 0;
 
@@ -85,6 +89,10 @@ const ProductPopupPage = ({ device }) => {
     if (isAIS && !selectedState && !selectedCity) {
       toast("Please select your state and city");
     }
+
+    console.log(selectedState)
+    console.log(selectedCity)
+
     const allNetworkZero =
       (!device.network2gAmt || device.network2gAmt === 0) &&
       (!device.network4gAmt || device.network4gAmt === 0);
@@ -118,6 +126,8 @@ const ProductPopupPage = ({ device }) => {
       subscription: device.isSubscription ? selectedSubscription : null,
       totalAmount: totalAmount.toString(),
       clientId: clientDbId,
+      state: isAIS ? selectedState : null,
+      city: isAIS ? selectedCity : null,
     };
 
     if (cartItem && cartItem.id) cartData.id = cartItem.id;

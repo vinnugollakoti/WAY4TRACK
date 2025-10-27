@@ -43,14 +43,14 @@ function CartPage() {
 
   // ✅ Calculate cart total dynamically
   const calculateTotal = () => {
-  if (isBuyNow) {
-    return buyNowItem?.totalAmount?.toFixed(2);
-  }
+    if (isBuyNow) {
+      return buyNowItem?.totalAmount?.toFixed(2);
+    }
 
-  return cartItems
-    .reduce((sum, item) => sum + Number(item.totalAmount || 0), 0)
-    .toFixed(2);
-};
+    return cartItems
+      .reduce((sum, item) => sum + Number(item.totalAmount || 0), 0)
+      .toFixed(2);
+  };
 
 
   const updateQuantity = async (itemId, change) => {
@@ -124,6 +124,7 @@ function CartPage() {
 
   const handleProceed = () => {
     if (deliveryAddress) {
+      console.log(cartItems, "cart items proceeding to order details");
       navigate("/order-details", {
         state: {
           deliveryAddress,
@@ -161,12 +162,12 @@ function CartPage() {
                 </p>
               </div>
               <center>
-              <button
-                className="cart-page-change-button"
-                onClick={() => setIsChangingAddress(true)}
-              >
-                Change Address
-              </button>
+                <button
+                  className="cart-page-change-button"
+                  onClick={() => setIsChangingAddress(true)}
+                >
+                  Change Address
+                </button>
               </center>
             </div>
           ) : (
@@ -199,12 +200,12 @@ function CartPage() {
                 ))}
               </div>
               <center>
-              <button
-                className="cart-page-change-button"
-                onClick={() => setShowForm(true)}
-              >
-                + Add New Delivery Address
-              </button>
+                <button
+                  className="cart-page-change-button"
+                  onClick={() => setShowForm(true)}
+                >
+                  + Add New Delivery Address
+                </button>
               </center>
             </div>
           )}
@@ -277,12 +278,12 @@ function CartPage() {
                     </p>
                   </div>
                   <center>
-                  <button
-                    className="cart-page-change-button"
-                    onClick={() => setIsBillingChanging(true)}
-                  >
-                    Change Billing Address
-                  </button>
+                    <button
+                      className="cart-page-change-button"
+                      onClick={() => setIsBillingChanging(true)}
+                    >
+                      Change Billing Address
+                    </button>
                   </center>
                 </div>
               )}
@@ -317,12 +318,12 @@ function CartPage() {
                       ))}
                   </div>
                   <center>
-                  <button
-                    className="cart-page-change-button"
-                    onClick={() => setShowForm(true)}
-                  >
-                    + Add New Billing Address
-                  </button>
+                    <button
+                      className="cart-page-change-button"
+                      onClick={() => setShowForm(true)}
+                    >
+                      + Add New Billing Address
+                    </button>
                   </center>
                 </>
               )}
@@ -356,10 +357,10 @@ function CartPage() {
             <p className="empty-cart">Your cart is empty.</p>
           ) : (
             <div className="cart-grid"> */}
-              {/* <Link to="/" className="back-btn">
+        {/* <Link to="/" className="back-btn">
                 Continue Shopping
               </Link> */}
-              {/* {isBuyNow ? (
+        {/* {isBuyNow ? (
                 <div className="cart-card">
                   <div className="cart-card-inner">
                     <div className="cart-image-wrapper">
@@ -427,19 +428,19 @@ function CartPage() {
             </div>
           )}
         </div> */}
-            {/* end commenting */}
-          <div className="cart-summary">
-            <h2 className="cart-total-bill">Total: Rs.{calculateTotal()}/-</h2>
-            <button
-              type="button"
-              // className="checkout"
-              className="cart-page-proceed-button"
-              onClick={handleProceed}
-              disabled={!deliveryAddress || (!isBillingSame && !billingAddress)}
-            >
-              Proceed to Checkout
-            </button>
-          </div>
+        {/* end commenting */}
+        <div className="cart-summary">
+          <h2 className="cart-total-bill">Total: Rs.{calculateTotal()}/-</h2>
+          <button
+            type="button"
+            // className="checkout"
+            className="cart-page-proceed-button"
+            onClick={handleProceed}
+            disabled={!deliveryAddress || (!isBillingSame && !billingAddress)}
+          >
+            Proceed to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );

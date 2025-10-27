@@ -44,6 +44,8 @@ function OrderDetailsPage() {
     return item;
   });
 
+  console.log(displayedItems)
+
   const toNumber = (val) => Number(val) || 0;
 
   useEffect(() => {
@@ -80,6 +82,7 @@ function OrderDetailsPage() {
     (sum, item) => sum + Number(item.totalAmount),
     0
   );
+
   const totalOrdersAmount = orders.reduce(
     (sum, item) => sum + Number(item.totalAmount),
     0
@@ -94,10 +97,12 @@ function OrderDetailsPage() {
     const orderItemsPayload = displayedItemsNormalized.map((item) => ({
       name: item.device.name,
       qty: item.quantity,
-      amount: calculateItemTotal(item),
+      amount: item.totalAmount,
       deviceId: item.device.id,
       is_relay: item.isRelay,
       network: item.network,
+      state: item.state,
+      city: item.city,
       subscriptionType: item.subscription,
       desc: item.device.model,
     }));
@@ -195,45 +200,45 @@ function OrderDetailsPage() {
         {/* Left: Cart Product Listing */}
         <div className="order-left">
           {displayedItemsNormalized.length > 0 ? (
-                displayedItemsNormalized.map((item) => {
-                  // Determine if relay is selected
-                  const relaySelected = item.isRelay || false;
+            displayedItemsNormalized.map((item) => {
+              // Determine if relay is selected
+              const relaySelected = item.isRelay || false;
 
-                  // Calculate total price using backend totalAmount if available
-                  const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
+              // Calculate total price using backend totalAmount if available
+              const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
 
-                  return (
-                    <div key={item.id} className="cart-item" style={{ marginBottom: "20px" }}>
-                      <img
-                        src={item.device.image?.[0] || "/images/default.jpg"}
-                        alt={item.device.name}
-                        className="cart-image"
-                      />
-                      <div className="cart-item-text">
-                        <div className="cart-item-header">
-                          <span className="cart-header">{item.device.name}</span>
-                        </div>
-                        <div className="cart-item-details">
-                          {item.device.relayAmt > 0 && (
-                            <p>Accessories: {relaySelected ? "With Relay" : "Without Relay"}</p>
-                          )}
-                          {(item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
-                            <p>Network: {item.network || "N/A"}</p>
-                          )}
-                          {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
-                            <p>Subscription: {item.subscription || "N/A"}</p>
-                          )}
-                          <p>{item.device.model}</p>
-                          <p>Quantity: {item.quantity}</p>
-                          <span className="cart-price">₹{totalPrice}</span>
-                        </div>
-                      </div>
+              return (
+                <div key={item.id} className="cart-item" style={{ marginBottom: "20px" }}>
+                  <img
+                    src={item.device.image?.[0] || "/images/default.jpg"}
+                    alt={item.device.name}
+                    className="cart-image"
+                  />
+                  <div className="cart-item-text">
+                    <div className="cart-item-header">
+                      <span className="cart-header">{item.device.name}</span>
                     </div>
-                  );
-                })
-              ) : (
-                <p>No items in cart.</p>
-              )}
+                    <div className="cart-item-details">
+                      {item.device.relayAmt > 0 && (
+                        <p>Accessories: {relaySelected ? "With Relay" : "Without Relay"}</p>
+                      )}
+                      {(item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                        <p>Network: {item.network || "N/A"}</p>
+                      )}
+                      {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
+                        <p>Subscription: {item.subscription || "N/A"}</p>
+                      )}
+                      <p>{item.device.model}</p>
+                      <p>Quantity: {item.quantity}</p>
+                      <span className="cart-price">₹{totalPrice}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No items in cart.</p>
+          )}
 
         </div>
 

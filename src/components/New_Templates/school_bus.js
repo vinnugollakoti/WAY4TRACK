@@ -632,14 +632,14 @@ function SchoolBus({ websiteData }) {
             </div>
 
             {/* Key Advantages */}
-            <div className="manager-app-advantages">
+            {/* <div className="manager-app-advantages">
               <div className="manager-app-advantages-title">
                 Key advantages of {appContent?.key_advantages?.title}
               </div>
               <div className="manager-app-advantages-desc">
                 Desc: {appContent?.key_advantages?.desc}
               </div>
-            </div>
+            </div> */}
 
             {/* 4th Div: Manager App Advantages Grid */}
             <div className="manager-app-advantages-grid-bg">
@@ -790,7 +790,7 @@ function SchoolBus({ websiteData }) {
 
         {/* Demo Section */}
         {/* <div className="school-bus-demo-section"> */}
-          {/* <div className="school-bus-demo-grid">
+        {/* <div className="school-bus-demo-grid">
             <div className="school-bus-demo-left">
               <div className="school-bus-demo-title">
                 Schedule a Live <br /> Demo with Our Team
@@ -812,8 +812,8 @@ function SchoolBus({ websiteData }) {
                 </div>
               </div>
             </div> */}
-            {/* Right Side - Form */}
-            {/* <div className="school-bus-demo-form">
+        {/* Right Side - Form */}
+        {/* <div className="school-bus-demo-form">
               <form>
                 <label htmlFor="demo-name">Name</label>
                 <input
@@ -838,7 +838,7 @@ function SchoolBus({ websiteData }) {
             </div>
           </div>
         </div> */}
-      <div className="mining-view-more-text">
+        <div className="mining-view-more-text">
           <h1>
             Want to see more ? <br />
             Check our remaining products...

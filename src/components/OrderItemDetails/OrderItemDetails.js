@@ -74,6 +74,8 @@ const OrderItemDetails = () => {
           payload
         );
 
+        console.log("Order Item Details Response: ", response);
+
         if (response.status) {
           const orders = response.data.orders;
           const currentOrder = orders.find((o) => o.id.toString() === orderId);
@@ -86,6 +88,10 @@ const OrderItemDetails = () => {
                 (d) => d.deviceId.toString() === deviceId
               )
               : null;
+
+
+
+            console.log("CO-Device: ", currentItem)
 
             setOrder(currentOrder);
             console.log("C-Order: ", currentOrder)
@@ -391,6 +397,7 @@ const OrderItemDetails = () => {
           <div className="OrderItemDetails-left">
             <div className="OrderItemDetails-product">
               <div className="OrderItemDetails-productDetails">
+                {console.log(item)}
                 <h2 className="OrderItemDetails-title">{item.name}</h2>
                 <p className="OrderItemDetails-subtext">
                   <strong>Network:</strong> {item.network}
