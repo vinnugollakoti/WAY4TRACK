@@ -232,54 +232,55 @@ function ProductsOverview({ websiteData }) {
               )}
 
               {/* Network Options */}
-              {device?.isNetwork && (
-                <div className="extra-detail-card">
-                  <h3 className="option-headings">Network Options</h3>
-                  <div className="option-btns">
-                    {/* 2G Option */}
-                    {device?.network2gAmt !== -1 && (
-                      <button
-                        className={`option-btn ${
-                          selectedNetwork === "2G" ? "active" : ""
-                        }`}
-                        onClick={() =>
-                          device.network2gAmt > 0 &&
-                          setSelectedNetwork((prev) =>
-                            prev === "2G" ? null : "2G"
-                          )
-                        }
-                        disabled={device.network2gAmt === 0}
-                      >
-                        2G – ₹
-                        {device.network2gAmt === 0
-                          ? "Included"
-                          : device.network2gAmt}
-                      </button>
-                    )}
+              {/* Network Options */}
+{device?.isNetwork &&
+  !(
+    device?.network2gAmt === -1 && device?.network4gAmt === -1
+  ) && (
+    <div className="extra-detail-card">
+      <h3 className="option-headings">Network Options</h3>
+      <div className="option-btns">
+        {/* 2G Option */}
+        {device?.network2gAmt !== -1 && (
+          <button
+            className={`option-btn ${
+              selectedNetwork === "2G" ? "active" : ""
+            }`}
+            onClick={() =>
+              device.network2gAmt > 0 &&
+              setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
+            }
+            disabled={device.network2gAmt === 0}
+          >
+            2G – ₹
+            {device.network2gAmt === 0
+              ? "Included"
+              : device.network2gAmt}
+          </button>
+        )}
 
-                    {/* 4G Option */}
-                    {device?.network4gAmt !== -1 && (
-                      <button
-                        className={`option-btn ${
-                          selectedNetwork === "4G" ? "active" : ""
-                        }`}
-                        onClick={() =>
-                          device.network4gAmt > 0 &&
-                          setSelectedNetwork((prev) =>
-                            prev === "4G" ? null : "4G"
-                          )
-                        }
-                        disabled={device.network4gAmt === 0}
-                      >
-                        4G – ₹
-                        {device.network4gAmt === 0
-                          ? "Included"
-                          : device.network4gAmt}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
+        {/* 4G Option */}
+        {device?.network4gAmt !== -1 && (
+          <button
+            className={`option-btn ${
+              selectedNetwork === "4G" ? "active" : ""
+            }`}
+            onClick={() =>
+              device.network4gAmt > 0 &&
+              setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
+            }
+            disabled={device.network4gAmt === 0}
+          >
+            4G – ₹
+            {device.network4gAmt === 0
+              ? "Included"
+              : device.network4gAmt}
+          </button>
+        )}
+      </div>
+    </div>
+  )}
+
 
               {/* Subscription Options */}
               {device?.isSubscription &&
@@ -419,7 +420,7 @@ function ProductsOverview({ websiteData }) {
             <>
               {device?.points?.[0] && (
                 <div className="mining-feature-left">
-                  <div className="mining-feature-icon">
+                  <div className="">
                     <img
                       src={device?.points[0]?.file}
                       alt={device?.points[0]?.title}
@@ -461,7 +462,7 @@ function ProductsOverview({ websiteData }) {
                 <div className="mining-feature-bottom">
                   {device?.points?.slice(2, 4).map((point, i) => (
                     <div key={i} className="mining-feature-card">
-                      <div className="mining-feature-card-icon">
+                      <div className="">
                         <img
                           src={point.file}
                           alt={point.title}

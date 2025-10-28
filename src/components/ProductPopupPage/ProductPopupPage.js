@@ -198,35 +198,49 @@ const ProductPopupPage = ({ device }) => {
 
       {/* === NETWORK === */}
       {device.isNetwork &&
-        (device.network2gAmt > 0 || device.network4gAmt > 0) && (
-          <div className="ProductPopupPage-section">
-            <label className="ProductPopupPage-label">Network Options:</label>
-            <div className="ProductPopupPage-options">
-              {device.network2gAmt > 0 && (
-                <button
-                  className={`ProductPopupPage-button ${selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
-                    }`}
-                  onClick={() =>
-                    setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
-                  }
-                >
-                  2G – ₹{device.network2gAmt}
-                </button>
-              )}
-              {device.network4gAmt > 0 && (
-                <button
-                  className={`ProductPopupPage-button ${selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
-                    }`}
-                  onClick={() =>
-                    setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
-                  }
-                >
-                  4G – ₹{device.network4gAmt}
-                </button>
-              )}
-            </div>
-          </div>
+  !(
+    device.network2gAmt === -1 && device.network4gAmt === -1
+  ) && (
+    <div className="ProductPopupPage-section">
+      <label className="ProductPopupPage-label">Network Options:</label>
+      <div className="ProductPopupPage-options">
+        {device.network2gAmt !== -1 && (
+          <button
+            className={`ProductPopupPage-button ${
+              selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
+            }`}
+            onClick={() =>
+              setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
+            }
+            disabled={device.network2gAmt === 0}
+          >
+            2G – ₹
+            {device.network2gAmt === 0
+              ? "Included"
+              : device.network2gAmt}
+          </button>
         )}
+
+        {device.network4gAmt !== -1 && (
+          <button
+            className={`ProductPopupPage-button ${
+              selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
+            }`}
+            onClick={() =>
+              setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
+            }
+            disabled={device.network4gAmt === 0}
+          >
+            4G – ₹
+            {device.network4gAmt === 0
+              ? "Included"
+              : device.network4gAmt}
+          </button>
+        )}
+      </div>
+    </div>
+  )}
+
 
       {/* === LOCATION (AIS ONLY) === */}
       {isAIS && (
