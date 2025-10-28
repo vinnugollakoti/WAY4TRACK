@@ -49,7 +49,7 @@ function Products({ websiteData }) {
     <div className="root">
       <Navbar />
       <div className="product-hero">
-        <img className="product-hero-img" src="/images/FAM 1.jpeg" alt="Hero" />
+        <img className="product-hero-img" src="/images/FAM1.jpeg" alt="Hero" />
       </div>
       <div className="products-container">
   {validProducts.map((product, index) =>

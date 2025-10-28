@@ -14,7 +14,7 @@ const Hero = () => {
     }
   };
 
-  const backgroundImage = './images/career.jpg';
+  const backgroundImage = './images/career.jpeg';
 
   return (
     <>
