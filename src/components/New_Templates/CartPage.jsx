@@ -84,6 +84,16 @@ function CartPage() {
     removeFromCart(itemId);
   };
 
+  const calculateItemTotal = (item) => {
+    if (!item) return 0;
+    const price =
+      (item?.device?.amount || 0) -
+      ((item?.device?.amount || 0) * (item?.device?.discount || 0)) / 100;
+    return (price * (item?.quantity || 1)).toFixed(2);
+  };
+
+
+
   return (
     <div>
       <Navbar />
@@ -98,6 +108,7 @@ function CartPage() {
             ) : (
               cartItems.map((item) => {
                 const relaySelected = isRelaySelected(item);
+                const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
                 return (
                   <div className="cart-item" key={item.id}>
                     <img
@@ -130,7 +141,18 @@ function CartPage() {
                             </p>
                           )}
 
-                        <p>{item?.device?.description}</p>
+                          
+
+
+                        {item?.state && item?.city && (
+                          <>
+                            <p>State: {item.state}</p>
+                            <p>City: {item.city}</p>
+                          </>
+                        )}
+
+                        <span className="cart-price">Total: ₹{totalPrice}</span>
+
                       </div>
 
                       <div className="cart-item-actions">
@@ -159,7 +181,7 @@ function CartPage() {
             )}
           </div>
         </div>
-
+ 
         {cartItems.length > 0 && (
           <div className="bill-container">
             <div className="bill-header">

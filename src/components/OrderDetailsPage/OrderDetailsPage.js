@@ -177,6 +177,7 @@ function OrderDetailsPage() {
             }
             setCartItems([]);
             localStorage.removeItem("guestCartItems");
+            window.scrollTo(0, 0);
             navigate("/order-placed");
           } else toast.error(verifyData.message || "Payment verification failed");
         } catch (error) {
@@ -228,9 +229,14 @@ function OrderDetailsPage() {
                       {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
                         <p>Subscription: {item.subscription || "N/A"}</p>
                       )}
-                      <p>{item.device.model}</p>
+                      {item?.state && item?.city && (
+                          <>
+                            <p>State: {item.state}</p>
+                            <p>City: {item.city}</p>
+                          </>
+                        )}
                       <p>Quantity: {item.quantity}</p>
-                      <span className="cart-price">₹{totalPrice}</span>
+                      <span className="cart-price">Total: ₹{totalPrice}</span>
                     </div>
                   </div>
                 </div>

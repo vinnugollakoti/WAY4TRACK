@@ -399,20 +399,33 @@ const OrderItemDetails = () => {
               <div className="OrderItemDetails-productDetails">
                 {console.log(item)}
                 <h2 className="OrderItemDetails-title">{item.name}</h2>
-                <p className="OrderItemDetails-subtext">
-                  <strong>Network:</strong> {item.network}
-                </p>
-                <p className="OrderItemDetails-subtext">
-                  <strong>Subscription:</strong> {item.subscriptionType}
-                </p>
-                <p className="OrderItemDetails-subtext">
-                  <strong>Accessories:</strong>{" "}
-                  {item.is_relay ? "With Relay" : "Without Relay"}
-                </p>
+
+                {item?.network && (
+                            <p className="OrderItemDetails-subtext">
+                              <strong>Network:</strong> {item.network}
+                            </p> 
+                          )
+                        }
+                        {item?.subscriptionType && (
+                            <p className="OrderItemDetails-subtext">
+                              <strong>Subscription:</strong> {item.subscriptionType} subscription
+                            </p>
+                          )
+                        }
+                        {item?.state && item?.city && (
+                          <>
+                            <p className="OrderItemDetails-subtext"><strong>State:</strong> {item.state}</p>
+                            <p className="OrderItemDetails-subtext"><strong>City:</strong> {item.city}</p>
+                          </>
+                        )}
+                        <p className="OrderItemDetails-subtext">
+                          <strong>Accessories:</strong>{" "}{item.is_relay ? "With Relay" : "Without Relay"}
+                          
+                        </p>
                 <p className="OrderItemDetails-price">₹{order?.totalAmount}</p>
               </div>
               <img
-                src={device?.image || "https://via.placeholder.com/100"}
+                src={device?.image?.[0] || "https://via.placeholder.com/100"}
                 alt={item.name}
                 className="OrderItemDetails-image"
               />

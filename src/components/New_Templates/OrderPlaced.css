@@ -1,5 +1,5 @@
 .order-placed-container {
-  height: 78vh; /* Full screen height */
+  height: 70vh; /* Full screen height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,40 @@
   padding: 40px 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  margin: 0 auto; /* centers the box horizontally */
 }
+
+/* Medium screens (tablets, ≤1024px) */
+@media (max-width: 1024px) {
+  .order-placed-content {
+    max-width: 500px;
+    padding: 35px 25px;
+  }
+}
+
+/* Small screens (mobile landscape, ≤768px) */
+@media (max-width: 768px) {
+  .order-placed-content {
+    max-width: 90%;
+    padding: 30px 20px;
+    border-radius: 8px;
+  }
+}
+
+/* Extra small screens (mobile portrait, ≤480px) */
+@media (max-width: 480px) {
+  .order-placed-content {
+    max-width: 95%;
+    padding: 25px 15px;
+    border-radius: 6px;
+  }
+
+  .order-placed-content h2,
+  .order-placed-content p {
+    font-size: 0.95rem;
+  }
+}
+
 
 .checkmark-icon {
   font-size: 3.5rem;

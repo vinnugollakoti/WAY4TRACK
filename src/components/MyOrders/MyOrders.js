@@ -133,14 +133,29 @@ const MyOrders = () => {
                       </div>
                       <div className="col-9 col-md-6">
                         <h6>{item.name}</h6>
-                        <p className="mb-1 small">Network: {item.network}</p>
+                        {item?.network && (
+                            <p className="mb-1 small">
+                              Network: {item.network}
+                            </p>
+                          )
+                        }
+                        {item?.subscriptionType && (
+                            <p className="mb-1 small">
+                              Subscription: {item.subscriptionType} subscription
+                            </p>
+                          )
+                        }
+                        {item?.state && item?.city && (
+                          <>
+                            <p className="mb-1 small">State : {item.state}</p>
+                            <p className="mb-1 small">City : {item.city}</p>
+                          </>
+                        )}
                         <p className="mb-1 small">
-                          Subscription: {item.subscriptionType} subscription
+                          Accessories:{" "}{item.is_relay ? "With Relay" : "Without Relay"}
+                          
                         </p>
-                        <p className="mb-1 small">
-                          Accessories:{" "}
-                          {item.is_relay ? "With Relay" : "Without Relay"}
-                        </p>
+                        
                         <p className="mb-1 small">Quantity: {item.qty}</p>
                       </div>
                       <div className="col-12 col-md-4 mt-2 mt-md-0">
