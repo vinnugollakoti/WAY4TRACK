@@ -1063,9 +1063,8 @@ body, html {
   }
   
   .mining-benefits-section {
-    padding: 60px 0;
-    margin-top: 1rem;
-    padding-bottom: 30px;
+    padding: 40px 0;
+    margin-top: 2rem;
   }
   
   .mining-benefits-header {
@@ -1083,15 +1082,18 @@ body, html {
   .mining-benefit-card {
     padding: 20px;
     padding-top: 10px;
-    min-width: 380px;
+    min-width: 300px;
+    margin-bottom: 0px;
   }
   
   .mining-benefit-title h3 {
     font-size: 15px;
+    margin-bottom: 0px;
   }
   
   .mining-benefit-desc {
     font-size: 12px;
+    margin-bottom: 20px;
   }
   
   .mining-benefit-icon{
