@@ -579,7 +579,6 @@ body, html {
   color: #222;
   font-size: 18px;
   font-family: 'Inter', sans-serif;
-  margin-bottom: 32px;
   text-align: left;
   word-break: break-word;
   max-width: 100%;
@@ -1065,7 +1064,8 @@ body, html {
   
   .mining-benefits-section {
     padding: 60px 0;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    padding-bottom: 30px;
   }
   
   .mining-benefits-header {
@@ -1082,6 +1082,7 @@ body, html {
   
   .mining-benefit-card {
     padding: 20px;
+    padding-top: 10px;
     min-width: 380px;
   }
   
@@ -1111,6 +1112,7 @@ body, html {
   .mining-solutions-card {
     font-size: 12px;
     padding: 15px;
+    border-radius: 10px;
   }
   
   .mining-product-overview {
@@ -1186,9 +1188,6 @@ body, html {
   }
   .mining-product-overview{
     gap: 1rem;
-  }
-  .iphone-truck{
-    width: 160px;
   }
   .mining-product-details{
     width: 100%;
