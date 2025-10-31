@@ -12,48 +12,72 @@ function CartPage() {
   // Helper to parse number safely
   const toNumber = (val) => Number(val) || 0;
 
-  // Helper function to check if relay is included based on totalAmount difference
-  const isRelaySelected = (item) => {
-    if (!item || !item.device) return false;
+  // Calculate item price based on selections (without relay)
+  const calculateBaseItemPrice = (item) => {
+    if (!item || !item.device) return 0;
 
     const baseAmount = toNumber(item.device.amount);
     const discount = toNumber(item.device.discount);
-    const relayAmt = toNumber(item.device.relayAmt);
     const network2gAmt = toNumber(item.device.network2gAmt);
     const network4gAmt = toNumber(item.device.network4gAmt);
     const subscriptionMonthlyAmt = toNumber(item.device.subscriptionMonthlyAmt);
     const subscriptionYearlyAmt = toNumber(item.device.subscriptionYearlyAmt);
 
     // Calculate base price with discount
-    let basePrice = baseAmount;
+    let price = baseAmount;
     if (discount > 0) {
-      basePrice -= (baseAmount * discount) / 100;
+      price -= (baseAmount * discount) / 100;
     }
 
-    // Add network amount according to selected network
+    // Add network amount
     if (item.network === "2G") {
-      basePrice += network2gAmt;
+      price += network2gAmt;
     } else if (item.network === "4G") {
-      basePrice += network4gAmt;
+      price += network4gAmt;
     }
 
-    // Add subscription amount according to selected subscription
+    // Add subscription amount
     if (item.subscription === "monthly") {
-      basePrice += subscriptionMonthlyAmt;
+      price += subscriptionMonthlyAmt;
     } else if (item.subscription === "yearly") {
-      basePrice += subscriptionYearlyAmt;
+      price += subscriptionYearlyAmt;
     }
 
-    // Multiply by quantity
-    basePrice *= toNumber(item.quantity);
-
-    const totalAmount = toNumber(item.totalAmount);
-
-    // If totalAmount includes relayAmt * quantity, then relay is selected
-    return totalAmount >= basePrice + relayAmt * toNumber(item.quantity);
+    return price;
   };
 
-  // We will use totalAmount from backend for price display instead of calculating
+  // Calculate final item price including relay if selected
+  const calculateFinalItemPrice = (item) => {
+    const basePrice = calculateBaseItemPrice(item);
+    const relayAmt = toNumber(item.device.relayAmt);
+    
+    // Check if relay is selected by comparing with totalAmount
+    const quantity = toNumber(item.quantity);
+    const totalAmount = toNumber(item.totalAmount);
+    const baseTotal = basePrice * quantity;
+    
+    // If totalAmount is greater than baseTotal, relay is included
+    const relaySelected = totalAmount > baseTotal;
+    
+    if (relaySelected && item.device.isRelay && relayAmt > 0) {
+      return basePrice + relayAmt;
+    }
+    
+    return basePrice;
+  };
+
+  // Check if relay is selected
+  const isRelaySelected = (item) => {
+    if (!item || !item.device) return false;
+
+    const basePrice = calculateBaseItemPrice(item);
+    const quantity = toNumber(item.quantity);
+    const totalAmount = toNumber(item.totalAmount);
+    const baseTotal = basePrice * quantity;
+
+    return totalAmount > baseTotal;
+  };
+
   const getTotalAmount = () => {
     return cartItems.reduce((acc, item) => acc + toNumber(item.totalAmount), 0);
   };
@@ -65,10 +89,27 @@ function CartPage() {
     const updatedQuantity = (cartItem?.quantity || 1) + change;
     if (updatedQuantity < 1) return;
 
+    // Calculate new total amount based on quantity
+    const basePrice = calculateBaseItemPrice(cartItem);
+    const relayAmt = toNumber(cartItem.device.relayAmt);
+    const currentTotal = toNumber(cartItem.totalAmount);
+    const currentQuantity = toNumber(cartItem.quantity);
+    
+    // Determine if relay was selected in the original item
+    const baseTotalForCurrentQty = basePrice * currentQuantity;
+    const relaySelected = currentTotal > baseTotalForCurrentQty;
+    
+    // Calculate new total
+    let newTotalAmount = basePrice * updatedQuantity;
+    if (relaySelected && cartItem.device.isRelay && relayAmt > 0) {
+      newTotalAmount += relayAmt * updatedQuantity;
+    }
+
     const updatedCartData = {
       ...cartItem,
       id: itemId,
       quantity: updatedQuantity,
+      totalAmount: newTotalAmount,
       clientId: cartItem.client.id,
       deviceId: cartItem.device.id,
     };
@@ -84,97 +125,133 @@ function CartPage() {
     removeFromCart(itemId);
   };
 
-  const calculateItemTotal = (item) => {
-    if (!item) return 0;
-    const price =
-      (item?.device?.amount || 0) -
-      ((item?.device?.amount || 0) * (item?.device?.discount || 0)) / 100;
-    return (price * (item?.quantity || 1)).toFixed(2);
-  };
-
-
-
   return (
-    <div>
+    <div className="cart-page">
       <Navbar />
       <div className="cart-container">
         <div className="cart-details">
+          <div className="cart-header-section">
+            <h1>Your Cart</h1>
+            <p>{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart</p>
+          </div>
+          
           <div className="cart-items-container">
             {cartItems.length === 0 ? (
               <div className="empty-cart">
+                <div className="empty-cart-icon">🛒</div>
                 <h2>Your cart is empty</h2>
                 <p>Looks like you haven't added anything yet.</p>
+                <button 
+                  className="continue-shopping-btn"
+                  onClick={() => navigate("/products")}
+                >
+                  Continue Shopping
+                </button>
               </div>
             ) : (
               cartItems.map((item) => {
                 const relaySelected = isRelaySelected(item);
-                const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
+                const itemPrice = calculateFinalItemPrice(item);
+                const totalPrice = toNumber(item.totalAmount);
+
                 return (
                   <div className="cart-item" key={item.id}>
-                    <img
-                      src={item?.device?.image[0] || "/images/default.jpg"}
-                      alt={item?.device?.name}
-                    />
-                    <div className="cart-item-text">
+                    <div className="cart-item-image">
+                      <img
+                        src={item?.device?.image?.[0] || "/images/placeholder-product.png"}
+                        alt={item?.device?.name}
+                        onError={(e) => {
+                          e.target.src = "/images/placeholder-product.png";
+                        }}
+                      />
+                    </div>
+                    
+                    <div className="cart-item-content">
                       <div className="cart-item-header">
-                        <span className="cart-header">{item?.device?.name}</span>
-                        <span className="cart-price">₹{toNumber(item.totalAmount)}</span>
+                        <h3 className="product-name">{item?.device?.name}</h3>
+                        <span className="item-total">₹{totalPrice}</span>
                       </div>
+
                       <div className="cart-item-details">
                         {item?.device?.isRelay && item?.device?.relayAmt > 0 && (
-                          <p>
-                            Accessories: {relaySelected ? "With Relay" : "Without Relay"}
-                          </p>
+                          <div className="detail-item">
+                            <span className="detail-label">Accessories:</span>
+                            <span className="detail-value">
+                              {relaySelected ? "With Relay" : "Without Relay"}
+                            </span>
+                          </div>
                         )}
 
                         {item?.device?.isNetwork &&
                           (item?.device?.network2gAmt > 0 || item?.device?.network4gAmt > 0) && (
-                            <p>Network: {item.network ? item.network : "N/A"}</p>
+                            <div className="detail-item">
+                              <span className="detail-label">Network:</span>
+                              <span className="detail-value">
+                                {item.network || "Not selected"}
+                              </span>
+                            </div>
                           )}
 
                         {item?.device?.isSubscription &&
                           (item.device.subscriptionMonthlyAmt > 0 ||
                             item.device.subscriptionYearlyAmt > 0) && (
-                            <p>
-                              Subscription:{" "}
-                              {item.subscription ? `${item.subscription} subscription` : "N/A"}
-                            </p>
+                            <div className="detail-item">
+                              <span className="detail-label">Subscription:</span>
+                              <span className="detail-value">
+                                {item.subscription ? `${item.subscription} subscription` : "Not selected"}
+                              </span>
+                            </div>
                           )}
-
-                          
-
 
                         {item?.state && item?.city && (
                           <>
-                            <p>State: {item.state}</p>
-                            <p>City: {item.city}</p>
+                            <div className="detail-item">
+                              <span className="detail-label">State:</span>
+                              <span className="detail-value">{item.state}</span>
+                            </div>
+                            <div className="detail-item">
+                              <span className="detail-label">City:</span>
+                              <span className="detail-value">{item.city}</span>
+                            </div>
                           </>
                         )}
 
-                        <span className="cart-price">Total: ₹{totalPrice}</span>
-
+                        <div className="detail-item">
+                          <span className="detail-label">Unit Price:</span>
+                          <span className="detail-value">₹{itemPrice.toFixed(2)}</span>
+                        </div>
+                        
+                        <div className="detail-item">
+                          <span className="detail-label">Quantity:</span>
+                          <span className="detail-value">{item.quantity}</span>
+                        </div>
                       </div>
 
                       <div className="cart-item-actions">
-                        <div className="cart-item-buttons">
-                          
-                         
-                          <button onClick={() => updateQuantity(item.id, -1)}>
+                        <div className="quantity-controls">
+                          <button 
+                            className="quantity-btn"
+                            onClick={() => updateQuantity(item.id, -1)}
+                            disabled={item.quantity <= 1}
+                          >
                             <FaMinus />
                           </button>
-                           <span>{item.quantity}</span>
-                          <button onClick={() => updateQuantity(item.id, 1)}>
+                          <span className="quantity-display">{item.quantity}</span>
+                          <button 
+                            className="quantity-btn"
+                            onClick={() => updateQuantity(item.id, 1)}
+                          >
                             <FaPlus />
                           </button>
                         </div>
-                        <div className="trashbin-button">
-                          <button
-                            className="trashbin"
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
+                        
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDelete(item.id)}
+                          aria-label="Remove item"
+                        >
+                          <FaTrash />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -183,7 +260,7 @@ function CartPage() {
             )}
           </div>
         </div>
- 
+
         {cartItems.length > 0 && (
           <div className="bill-container">
             <div className="bill-header">
@@ -191,7 +268,7 @@ function CartPage() {
                 <span className="diamond-shape" />
                 <span className="line-shape" />
               </span>
-              <h1>Bill</h1>
+              <h2>Order Summary</h2>
               <span className="diamond-line right">
                 <span className="line-shape" />
                 <span className="diamond-shape" />
@@ -199,31 +276,32 @@ function CartPage() {
             </div>
 
             <div className="bill-content">
-              {cartItems.map((item) => (
-                <div className="bill-item" key={item.id}>
-                  <span>
-                    {item?.device?.name} x{item.quantity}
-                  </span>
-                  <div className="ckcjc7">
-                    <div className="c1az4bwh"></div>
+              <div className="bill-items">
+                {cartItems.map((item) => (
+                  <div className="bill-item" key={item.id}>
+                    <span className="item-name">
+                      {item?.device?.name} × {item.quantity}
+                    </span>
+                    <div className="price-dots">
+                      <div className="dots"></div>
+                    </div>
+                    <span className="item-price">₹{toNumber(item.totalAmount)}</span>
                   </div>
-                  <span>₹{toNumber(item.totalAmount)}</span>
-                </div>
-              ))}
+                ))}
+              </div>
 
               <div className="bill-total">
-                <span>Total</span>
-                <div className="ckcjc7">
-                  <div className="c1az4bwh"></div>
+                <span className="total-label">Total Amount</span>
+                <div className="price-dots">
+                  <div className="dots"></div>
                 </div>
-                <span>₹{getTotalAmount()}</span>
+                <span className="total-amount">₹{getTotalAmount()}</span>
               </div>
+              
               <div className="proceed-to-payment">
                 <button
-                  className="proceed-to-payment-button"
-                  onClick={() => {
-                    navigate("/old-cart");
-                  }}
+                  className="proceed-btn"
+                  onClick={() => navigate("/old-cart")}
                 >
                   Proceed to Payment
                 </button>

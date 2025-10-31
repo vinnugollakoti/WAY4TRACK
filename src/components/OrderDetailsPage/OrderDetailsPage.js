@@ -44,8 +44,6 @@ function OrderDetailsPage() {
     return item;
   });
 
-  console.log(displayedItems)
-
   const toNumber = (val) => Number(val) || 0;
 
   useEffect(() => {
@@ -191,108 +189,204 @@ function OrderDetailsPage() {
     rzp1.open();
   };
 
+  const AddressCard = ({ address, title, type }) => (
+    <div className="address-card">
+      <div className="address-header">
+        <h3>{title}</h3>
+        <span className="address-type">{type}</span>
+      </div>
+      {address ? (
+        <div className="address-content">
+          <div className="address-name">
+            <strong>{address.name}</strong>
+          </div>
+          <div className="address-phone">{address.phoneNumber}</div>
+          <div className="address-line">{address.street}, {address.area}</div>
+          <div className="address-line">{address.city}, {address.state}</div>
+          <div className="address-line">{address.country} - {address.pin}</div>
+          {address.landmark && (
+            <div className="address-landmark">Landmark: {address.landmark}</div>
+          )}
+        </div>
+      ) : (
+        <div className="no-address">
+          <p>No {title.toLowerCase()} provided</p>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="order-details-container">
       <Navbar />
       <CheckoutSteps currentStep={3} />
-      <h1 className="title">Order Confirmation</h1>
+
+      
+      <div className="order-header-confirmation">
+        <h1 className="title">Order Confirmation</h1>
+        <p className="order-subtitle">Review your order details before proceeding to payment</p>
+      </div>
 
       <div className="order-details-grid">
         {/* Left: Cart Product Listing */}
         <div className="order-left">
+          <div className="order-left-header">
+            <h2>Order Items</h2>
+            <span className="items-count">{displayedItemsNormalized.length} items</span>
+          </div>
+          
           {displayedItemsNormalized.length > 0 ? (
-            displayedItemsNormalized.map((item) => {
-              // Determine if relay is selected
-              const relaySelected = item.isRelay || false;
+            <div className="items-list">
+              {displayedItemsNormalized.map((item) => {
+                const relaySelected = item.isRelay || false;
+                const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
 
-              // Calculate total price using backend totalAmount if available
-              const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
-
-              return (
-                <div key={item.id} className="cart-item" style={{ marginBottom: "20px" }}>
-                  <img
-                    src={item.device.image?.[0] || "/images/default.jpg"}
-                    alt={item.device.name}
-                    className="cart-image"
-                  />
-                  <div className="cart-item-text">
-                    <div className="cart-item-header">
-                      <span className="cart-header">{item.device.name}</span>
+                return (
+                  <div key={item.id} className="cart-item">
+                    <div className="item-image-container">
+                      <img
+                        src={item.device.image?.[0] || "/images/default.jpg"}
+                        alt={item.device.name}
+                        className="cart-image"
+                      />
                     </div>
-                    <div className="cart-item-details">
-                      {item.device.relayAmt > 0 && (
-                        <p>Accessories: {relaySelected ? "With Relay" : "Without Relay"}</p>
-                      )}
-                      {(item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
-                        <p>Network: {item.network || "N/A"}</p>
-                      )}
-                      {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
-                        <p>Subscription: {item.subscription || "N/A"}</p>
-                      )}
-                      {item?.state && item?.city && (
+                    <div className="cart-item-text">
+                      <div className="cart-item-header">
+                        <span className="cart-header">{item.device.name}</span>
+                        <span className="item-model">{item.device.model}</span>
+                      </div>
+                      
+                      <div className="cart-item-details">
+                        {item.device.relayAmt > 0 && (
+                          <div className="detail-row">
+                            <span className="detail-label">Accessories:</span>
+                            <span className="detail-value">
+                              {relaySelected ? "With Relay" : "Without Relay"}
+                            </span>
+                          </div>
+                        )}
+                        
+                        {(item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                          <div className="detail-row">
+                            <span className="detail-label">Network:</span>
+                            <span className="detail-value">{item.network || "N/A"}</span>
+                          </div>
+                        )}
+                        
+                        {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
+                          <div className="detail-row">
+                            <span className="detail-label">Subscription:</span>
+                            <span className="detail-value">{item.subscription || "N/A"}</span>
+                          </div>
+                        )}
+                        
+                        {item?.state && item?.city && (
                           <>
-                            <p>State: {item.state}</p>
-                            <p>City: {item.city}</p>
+                            <div className="detail-row">
+                              <span className="detail-label">Location:</span>
+                              <span className="detail-value">{item.city}, {item.state}</span>
+                            </div>
                           </>
                         )}
-                      <p>Quantity: {item.quantity}</p>
-                      <span className="cart-price">Total: ₹{totalPrice}</span>
+                        
+                        <div className="detail-row">
+                          <span className="detail-label">Quantity:</span>
+                          <span className="detail-value">{item.quantity}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="item-total">
+                        <span className="cart-price">₹{totalPrice}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })}
+            </div>
           ) : (
-            <p>No items in cart.</p>
+            <div className="empty-cart">
+              <div className="empty-icon">🛒</div>
+              <p>No items in cart</p>
+            </div>
           )}
-
         </div>
-
 
         {/* Right: Address + Summary */}
         <div className="order-right">
-          <PromoCode
-            totalAmount={totalOrdersAmount}
-            onApply={(discount, promoDetails) => {
-              setPromoDiscount(discount);
-              setSelectedPromoDetails(promoDetails);
-            }}
-          />
-          <div className="order-section">
-            <h2>Shipping Address</h2>
-            {deliveryAddress ? (
-              <p>
-                {deliveryAddress.name}
-                <br />
-                {deliveryAddress.phoneNumber}
-                <br />
-                {deliveryAddress.city}, {deliveryAddress.state}, {deliveryAddress.country} - {deliveryAddress.pin}
-              </p>
-            ) : <p>No address provided.</p>}
+          <div className="promo-section">
+            <PromoCode
+              totalAmount={totalOrdersAmount}
+              onApply={(discount, promoDetails) => {
+                setPromoDiscount(discount);
+                setSelectedPromoDetails(promoDetails);
+              }}
+            />
           </div>
 
-          <div className="order-section">
-            <h2>Billing Address</h2>
-            {billingAddress ? (
-              <p>
-                {billingAddress.name}
-                <br />
-                {billingAddress.phoneNumber}
-                <br />
-                {billingAddress.city}, {billingAddress.state}, {billingAddress.country} - {billingAddress.pin}
-              </p>
-            ) : <p>No address provided.</p>}
+          <div className="addresses-section">
+            <AddressCard 
+              address={deliveryAddress} 
+              title="Shipping Address" 
+              type="Delivery"
+            />
+            
+            <AddressCard 
+              address={billingAddress} 
+              title="Billing Address" 
+              type="Billing"
+            />
           </div>
 
           <div className="order-section summary">
-            <h2>Summary</h2>
-            <p>Total Items: {displayedItems.length}</p>
-            <p>Total Price: ₹{total}</p>
-            {promoDiscount > 0 && <p style={{ color: "green" }}>Promo Discount: -₹{promoDiscount.toFixed(2)}</p>}
-            <p><strong>Final Amount: ₹{finalAmount.toFixed(2)}</strong></p>
-            <button className="place-order" onClick={placeOrder} disabled={isLoading}>
-              {isLoading ? "Placing Order..." : "Place Order"}
+            <h2>Order Summary</h2>
+            
+            <div className="summary-content">
+              <div className="summary-row">
+                <span className="summary-label">Items ({displayedItems.length})</span>
+                <span className="summary-value">₹{total.toFixed(2)}</span>
+              </div>
+              
+              <div className="summary-row">
+                <span className="summary-label">Shipping</span>
+                <span className="summary-value free">FREE</span>
+              </div>
+              
+              {promoDiscount > 0 && (
+                <div className="summary-row discount">
+                  <span className="summary-label">Promo Discount</span>
+                  <span className="summary-value">-₹{promoDiscount.toFixed(2)}</span>
+                </div>
+              )}
+              
+              <div className="summary-divider"></div>
+              
+              <div className="summary-row total">
+                <span className="summary-label">Total Amount</span>
+                <span className="summary-value final-amount">₹{finalAmount.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <button 
+              className="place-order-btn" 
+              onClick={placeOrder} 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <div className="loading-spinner"></div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <span className="btn-icon">💳</span>
+                  Proceed to Payment
+                </>
+              )}
             </button>
+            
+            <p className="security-note">
+              🔒 Your payment information is secure and encrypted
+            </p>
           </div>
         </div>
       </div>
