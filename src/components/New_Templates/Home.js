@@ -247,79 +247,135 @@ function Home({ websiteData }) {
       </section>
 
       <section className="homepage-why-choose">
-        <div className="why-choose-content">
-          <h2 className="why-choose-title">Why Choose Us?</h2>
-          <p className="why-choose-desc">
-            Because reliability, innovation, and safety drive everything
-            we do.
-          </p>
-        </div>
+  <div className="why-choose-container">
+    <div className="why-choose-header">
+      <h2 className="why-choose-title">Why Choose Way4Track?</h2>
+      <p className="why-choose-subtitle">
+        Experience the difference with our cutting-edge GPS tracking solutions 
+        designed for reliability, innovation, and your peace of mind
+      </p>
+    </div>
 
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">
+    <div className="features-showcase">
+      <div className="feature-grid">
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
               <img src="/images/assistant_direction.png" alt="GPS Solutions" />
             </div>
-            <h3 className="feature-title">Wide Range of GPS Solutions</h3>
-            <p className="feature-desc">
-              From vehicles to assets, we have trackers for every need
-            </p>
+            <div className="feature-number">01</div>
           </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <img
-                src="/images/assured_workload.png"
-                alt="Government Approved"
-              />
-            </div>
-            <h3 className="feature-title">Government-Approved & Certified</h3>
+          <div className="feature-content">
+            <h3 className="feature-title">Comprehensive GPS Solutions</h3>
             <p className="feature-desc">
-              AIS-140 compliant devices for complete legal assurance.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <img src="/images/verified.png" alt="Reliable Tracking" />
-            </div>
-            <h3 className="feature-title">Reliable & Accurate Tracking</h3>
-            <p className="feature-desc">
-              High-sensitivity GPS for real-time location precision
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <img src="/images/category_search.png" alt="Safety Features" />
-            </div>
-            <h3 className="feature-title">Advanced Safety Features</h3>
-            <p className="feature-desc">
-              SOS button, immobilizer, geo-fencing, and theft alerts.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <img src="/images/desktop_cloud_stack.png" alt="Easy Platforms" />
-            </div>
-            <h3 className="feature-title">Easy to Use Platforms</h3>
-            <p className="feature-desc">
-              Track via mobile app & web portal anytime, anywhere.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">
-              <img src="/images/contact_mail.png" alt="Support" />
-            </div>
-            <h3 className="feature-title">Dedicated Support & Service</h3>
-            <p className="feature-desc">
-              24/7 customer assistance and expert guidance.
+              From personal vehicles to large fleets and valuable assets, we provide 
+              tailored tracking solutions for every requirement
             </p>
           </div>
         </div>
-      </section>
+
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
+              <img src="/images/assured_workload.png" alt="Government Approved" />
+            </div>
+            <div className="feature-number">02</div>
+          </div>
+          <div className="feature-content">
+            <h3 className="feature-title">Government Certified</h3>
+            <p className="feature-desc">
+              AIS-140 compliant devices with full legal certification for 
+              complete compliance and peace of mind
+            </p>
+          </div>
+        </div>
+
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
+              <img src="/images/verified.png" alt="Reliable Tracking" />
+            </div>
+            <div className="feature-number">03</div>
+          </div>
+          <div className="feature-content">
+            <h3 className="feature-title">Precision Tracking</h3>
+            <p className="feature-desc">
+              High-sensitivity GPS technology delivering real-time location 
+              accuracy with 99.9% reliability
+            </p>
+          </div>
+        </div>
+
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
+              <img src="/images/category_search.png" alt="Safety Features" />
+            </div>
+            <div className="feature-number">04</div>
+          </div>
+          <div className="feature-content">
+            <h3 className="feature-title">Advanced Safety Suite</h3>
+            <p className="feature-desc">
+              SOS emergency button, remote immobilizer, geo-fencing, and 
+              instant theft alerts for maximum security
+            </p>
+          </div>
+        </div>
+
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
+              <img src="/images/desktop_cloud_stack.png" alt="Easy Platforms" />
+            </div>
+            <div className="feature-number">05</div>
+          </div>
+          <div className="feature-content">
+            <h3 className="feature-title">Intuitive Platforms</h3>
+            <p className="feature-desc">
+              User-friendly mobile app and web portal for seamless tracking 
+              and management from anywhere
+            </p>
+          </div>
+        </div>
+
+        <div className="feature-item">
+          <div className="feature-icon-wrapper">
+            <div className="feature-icon-bg">
+              <img src="/images/contact_mail.png" alt="Support" />
+            </div>
+            <div className="feature-number">06</div>
+          </div>
+          <div className="feature-content">
+            <h3 className="feature-title">24/7 Expert Support</h3>
+            <p className="feature-desc">
+              Round-the-clock customer assistance with dedicated experts 
+              for instant guidance and support
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="why-choose-stats">
+      <div className="stat-item">
+        <div className="stat-number">10K+</div>
+        <div className="stat-label">Happy Customers</div>
+      </div>
+      <div className="stat-item">
+        <div className="stat-number">99.9%</div>
+        <div className="stat-label">Uptime Reliability</div>
+      </div>
+      <div className="stat-item">
+        <div className="stat-number">24/7</div>
+        <div className="stat-label">Support Available</div>
+      </div>
+      <div className="stat-item">
+        <div className="stat-number">50+</div>
+        <div className="stat-label">Cities Covered</div>
+      </div>
+    </div>
+  </div>
+</section>
       <SpecialProduct websiteData={websiteData} />
       <section className="featurees-section">
         <div className="featurees-heading-container">
