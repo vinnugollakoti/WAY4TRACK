@@ -364,13 +364,14 @@
 }
 
 .manager-app-feature-img {
-    width: 64px;
-    height: 64px;
+    width: 0px;
+    height: 0px;
     background: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 32px;
 }
 
 .manager-app-feature-title {
@@ -985,6 +986,15 @@
     }
     .manager-app-apis-fees-card:last-child {
         border-bottom: none;
+    }
+    .manager-app-feature-img{
+        width: 0px;
+        height: 0px;
+        padding: 22px;
+    }
+    .manager-app-feature-img img{
+        height: 24px;
+        width: 24px;
     }
 }
 
