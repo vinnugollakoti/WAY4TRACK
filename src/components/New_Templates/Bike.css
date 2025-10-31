@@ -714,7 +714,7 @@
 
 @media (max-width: 480px) {
     .heading {
-        font-size: 14px;
+        font-size: 18px;
         font-family: "IBM Plex Sans", sans-serif;
     }
     
@@ -725,9 +725,25 @@
     .point-card-heading,
     .three-cards-section-heading {
         font-size: 13px;
+        margin-top: 3%;
     }
     .main-cards-text{
       margin-top: 0%;
+    }
+    .six-cards-heading {
+        padding-top: 3%;
+    }
+    .main-cards-1, .main-cards-2, .main-cards-3 {
+        padding-bottom: 3%;
+    }
+    .gps-dashboard-img {
+        width: 60%;
+        margin-left: 16%;
+    }
+    .gps-tracking-img {
+        width: 60%;
+        margin-left: 18%;
+        margin-bottom: 0px;
     }
     
     .mining-truck-info-block {
@@ -739,7 +755,9 @@
         min-width: 250px;
     }
     .curios-line{
-        font-size: 14px;
+        font-size: 11px;
+        line-height: 15px;
+        letter-spacing: 0.3px;
     }
     .six-cards-icon-bg{
       width: 30px;
@@ -757,7 +775,7 @@
       height: 50px;
     }
     .point-card-text, .three-cards-section-text,.gps-dashboard-cards-main p, .six-cards-text,.mining-truck-info-p,.main-cards-text{
-      font-size: 12px;
+      font-size: 11px;
     }
     .three-cards-section-img {
       max-width: 150px;
