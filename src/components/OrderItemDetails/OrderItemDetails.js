@@ -39,10 +39,8 @@ const OrderItemDetails = () => {
   const { orderId, deviceId } = useParams();
   const [item, setItem] = useState(null);
   const [device, setDevice] = useState(null);
-
   const [order, setOrder] = useState(null);
   const [refundDevices, setRefundDevices] = useState([]);
-
   const [cancelReason, setCancelReason] = useState("");
   const [replaceReason, setReplaceReason] = useState("");
   const [replaceDescription, setReplaceDescription] = useState("");
@@ -60,11 +58,6 @@ const OrderItemDetails = () => {
   const clientId = localStorage.getItem("client_id");
   const clientDbId = localStorage.getItem("client_db_id");
 
-  console.log(order);
-
-  console.log(rating, "rating");
-  console.log(reviews, "review");
-
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -73,8 +66,6 @@ const OrderItemDetails = () => {
           "client/getClientDetailsById",
           payload
         );
-
-        console.log("Order Item Details Response: ", response);
 
         if (response.status) {
           const orders = response.data.orders;
@@ -89,19 +80,15 @@ const OrderItemDetails = () => {
               )
               : null;
 
-
-
-            console.log("CO-Device: ", currentItem)
-
             setOrder(currentOrder);
-            console.log("C-Order: ", currentOrder)
             setItem(currentItem);
             setDevice(currentDevice);
           }
-          setRefundDevices(response.data.refund);
+          setRefundDevices(response.data.refund || []);
         }
       } catch (error) {
         console.error("Error fetching order item details:", error);
+        toast.error("Failed to load order details");
       }
     };
 
@@ -125,28 +112,20 @@ const OrderItemDetails = () => {
 
       if (response.status) {
         const allReviews = response.data?.review || [];
-
         const filteredReviews = allReviews.filter(
           (item) => item.deviceId.id === value
         );
 
         setReviews(filteredReviews[0]);
-
-        if (filteredReviews.length > 0) {
-          setRating(filteredReviews[0].rating);
-        } else {
-          setRating(0);
-        }
+        setRating(filteredReviews[0]?.rating || 0);
       }
     } catch (error) {
       console.error("Reviews fetching failed:", error);
-      alert("Failed to fetch reviews.");
     }
   };
 
   const handleStarClick = async (value) => {
     setRating(value);
-
     try {
       const payload = {
         companyCode,
@@ -157,39 +136,34 @@ const OrderItemDetails = () => {
         rating: value,
       };
 
-      console.log(reviews, "reeviews")
-
       if (reviews && reviews.id) {
         payload.id = reviews.id;
       }
+      
       const response = await ApiService.post(
         "/review/handleReviewDetails",
         payload
       );
 
-      console.log("Rating submitted successfully:", response.data);
-      alert("Rating submitted successfully!");
+      toast.success("Rating submitted successfully!");
     } catch (error) {
       console.error("Rating submission failed:", error);
-      alert("Failed to submit rating.");
+      toast.error("Failed to submit rating");
     }
   };
 
   const handleDownloadInvoice = () => {
     const doc = new jsPDF();
 
-    // Add a title
     doc.setFontSize(18);
     doc.text("Invoice", 20, 20);
 
-    // Customer & Order Details
     doc.setFontSize(12);
     doc.text(`Customer: ${order?.name}`, 20, 35);
     doc.text(`Order ID: ${order?.id}`, 20, 45);
     doc.text(`Order Date: ${formatDate(order?.orderDate)}`, 20, 55);
     doc.text(`Delivery Date: ${formatDate(order?.delivaryDate)}`, 20, 65);
 
-    // Item Details
     doc.text("Item Details:", 20, 80);
     doc.text(`- Product: ${item?.name}`, 25, 90);
     doc.text(`- Network: ${item?.network}`, 25, 100);
@@ -201,17 +175,21 @@ const OrderItemDetails = () => {
     );
     doc.text(`- Amount: ₹${order?.amount}`, 25, 130);
 
-    // Footer
     doc.text("Thank you for your purchase!", 20, 150);
-
-    // Save the PDF
     doc.save(`Invoice_Order_${order?.id}.pdf`);
+    
+    toast.success("Invoice downloaded successfully!");
   };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0]; // Get the file object
+    const file = e.target.files[0];
     if (file) {
-      setUploadedImage(file); // Store the file object in state
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image size should be less than 5MB");
+        return;
+      }
+      setUploadedImage(file);
+      toast.success("Image uploaded successfully");
     }
   };
 
@@ -220,8 +198,6 @@ const OrderItemDetails = () => {
   );
 
   const refundStatus = refund?.refundStatus;
-
-  console.log(refundStatus, "ref");
 
   const getRefundStatusMessage = (status) => {
     switch (status) {
@@ -242,7 +218,7 @@ const OrderItemDetails = () => {
       case "replaced_sucess":
         return "The replacement was successful. Thank you!";
       case "returning":
-        return "The item is being returned. We’ll notify you once it’s received.";
+        return "The item is being returned. We'll notify you once it's received.";
       default:
         return "Status unknown. Please contact support.";
     }
@@ -275,10 +251,10 @@ const OrderItemDetails = () => {
         );
 
         if (cancelResponse.status) {
-          alert("Order item canceled successfully.");
-          window.location.reload();
+          toast.success("Order item canceled successfully.");
+          setTimeout(() => window.location.reload(), 1500);
         } else {
-          alert("Failed to cancel item.");
+          toast.error("Failed to cancel item.");
         }
       } else if (actionType === "replace") {
         const refundFormData = new FormData();
@@ -298,11 +274,6 @@ const OrderItemDetails = () => {
         refundFormData.append("dateOfRequest", new Date().toISOString());
         refundFormData.append("dateOfReplace", new Date().toISOString());
 
-        // if (uploadedImage instanceof File) {
-        //   refundFormData.append("photo", uploadedImage);
-        // }
-
-        // 🔁 Send refund request
         const refundResponse = await ApiService.post(
           "/Refund/handleRefundDetails",
           refundFormData,
@@ -314,9 +285,9 @@ const OrderItemDetails = () => {
         );
 
         if (refundResponse.status) {
-          alert("Replacement request submitted successfully.");
+          toast.success("Replacement request submitted successfully.");
         } else {
-          alert("Failed to submit replacement request.");
+          toast.error("Failed to submit replacement request.");
           return;
         }
 
@@ -333,24 +304,31 @@ const OrderItemDetails = () => {
         );
 
         if (createOrderResponse.status) {
-          alert("Order updated successfully for replacement.");
-          window.location.reload();
+          toast.success("Order updated successfully for replacement.");
+          setTimeout(() => window.location.reload(), 1500);
         } else {
-          alert("Failed to update the order.");
+          toast.error("Failed to update the order.");
         }
       }
     } catch (err) {
-      console.error(
-        "Error during order update:",
-        err.response?.data || err.message || err
-      );
-      alert("Something went wrong. Please try again.");
+      console.error("Error during order update:", err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (!item || !order) return <p>Loading item details...</p>;
+  if (!item || !order) {
+    return (
+      <div>
+        <Navbar />
+        <div className="order-item-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading order details...</p>
+        </div>
+      </div>
+    );
+  }
 
   const deliveryDate = new Date(order.delivaryDate);
   const today = new Date();
@@ -382,274 +360,279 @@ const OrderItemDetails = () => {
     (today - deliveryDate) / (1000 * 60 * 60 * 24) <= 7 &&
     !isReturnRequested;
 
-  const showExpectedDelivery = !isDelivered && !isCancelled;
-
-
-
-  console.log(item, "item");
-  console.log(order, "order");
-
   return (
     <div>
       <Navbar />
+      <Toaster position="top-right" />
       <div className="OrderItemDetails-container">
         <div className="OrderItemDetails-main">
           <div className="OrderItemDetails-left">
+            {/* Product Information Section */}
             <div className="OrderItemDetails-product">
               <div className="OrderItemDetails-productDetails">
-                {console.log(item)}
                 <h2 className="OrderItemDetails-title">{item.name}</h2>
-
-                {item?.network && (
-                            <p className="OrderItemDetails-subtext">
-                              <strong>Network:</strong> {item.network}
-                            </p> 
-                          )
-                        }
-                        {item?.subscriptionType && (
-                            <p className="OrderItemDetails-subtext">
-                              <strong>Subscription:</strong> {item.subscriptionType} subscription
-                            </p>
-                          )
-                        }
-                        {item?.state && item?.city && (
-                          <>
-                            <p className="OrderItemDetails-subtext"><strong>State:</strong> {item.state}</p>
-                            <p className="OrderItemDetails-subtext"><strong>City:</strong> {item.city}</p>
-                          </>
-                        )}
-                        <p className="OrderItemDetails-subtext">
-                          <strong>Accessories:</strong>{" "}{item.is_relay ? "With Relay" : "Without Relay"}
-                          
-                        </p>
+                
+                <div className="OrderItemDetails-specs">
+                  {item?.network && (
+                    <div className="spec-item">
+                      <strong>Network:</strong> {item.network}
+                    </div>
+                  )}
+                  {item?.subscriptionType && (
+                    <div className="spec-item">
+                      <strong>Subscription:</strong> {item.subscriptionType} subscription
+                    </div>
+                  )}
+                  {item?.state && (
+                    <div className="spec-item">
+                      <strong>State:</strong> {item.state}
+                    </div>
+                  )}
+                  {item?.city && (
+                    <div className="spec-item">
+                      <strong>City:</strong> {item.city}
+                    </div>
+                  )}
+                  <div className="spec-item">
+                    <strong>Accessories:</strong> {item.is_relay ? "With Relay" : "Without Relay"}
+                  </div>
+                  <div className="spec-item">
+                    <strong>Quantity:</strong> {item.qty}
+                  </div>
+                </div>
+                
                 <p className="OrderItemDetails-price">₹{order?.totalAmount}</p>
               </div>
-              <img
-                src={device?.image?.[0] || "https://via.placeholder.com/100"}
-                alt={item.name}
-                className="OrderItemDetails-image"
-              />
+              
+              <div className="OrderItemDetails-imageContainer">
+                <img
+                  src={device?.image?.[0] || "/images/placeholder-product.png"}
+                  alt={item.name}
+                  className="OrderItemDetails-image"
+                  onError={(e) => {
+                    e.target.src = "/images/placeholder-product.png";
+                  }}
+                />
+              </div>
             </div>
 
+            {/* Order Status Timeline */}
             <div className="OrderItemDetails-statusTimeline">
-              <p>
-                <strong>
+              <div className="status-header">
+                <h3>
                   {isDelivered
                     ? `Delivered on ${formatDate(order.delivaryDate)}`
-                    : `Order Status: ${status}`}
-                </strong>
-              </p>
+                    : `Order Status: ${status.replace(/_/g, " ")}`}
+                </h3>
+              </div>
+              
               <div className="OrderItemDetails-timeline">
-                {status !== OrderStatus.ABORTED &&
-                  status !== OrderStatus.CANCELED && (
-                    <div className="OrderItemDetails-timelineItem">
-                      <span className="OrderItemDetails-icon">✔</span>
-                      <span>Order Placed</span>
-                    </div>
-                  )}
-
+                <div className={`timeline-item ${status !== OrderStatus.CANCELED ? 'completed' : ''}`}>
+                  <span className="timeline-icon">✓</span>
+                  <span className="timeline-text">Order Placed</span>
+                </div>
+                
                 {isDispatched && (
-                  <div className="OrderItemDetails-timelineItem">
-                    <span className="OrderItemDetails-icon">✔</span>
-                    <span>Dispatched</span>
+                  <div className="timeline-item completed">
+                    <span className="timeline-icon">✓</span>
+                    <span className="timeline-text">Dispatched</span>
                   </div>
                 )}
+                
                 {isDelivered && (
-                  <div className="OrderItemDetails-timelineItem">
-                    <span className="OrderItemDetails-icon">✔</span>
-                    <span>Delivered</span>
+                  <div className="timeline-item completed">
+                    <span className="timeline-icon">✓</span>
+                    <span className="timeline-text">Delivered</span>
                   </div>
                 )}
               </div>
-              <p className="OrderItemDetails-returnInfo">
-                {isDelivered
-                  ? `Return policy ends on ${formatDate(
-                    new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
-                  )}`
-                  : status === OrderStatus.request_raised ||
-                    status === OrderStatus.request_approved ||
-                    status === OrderStatus.request_reject ||
-                    status === OrderStatus.request_sucess
-                    ? ""
-                    : `Expected delivery: ${formatDate(order.delivaryDate)}`}
-              </p>
 
-              {canCancel && item.status !== OrderStatus.CANCELED && (
-                <>
-                  <button
-                    className="OrderItemDetails-actionBtn"
-                    onClick={() => setShowCancelReason(true)}
-                  >
-                    Cancel Order
-                  </button>
+              <div className="delivery-info">
+                {isDelivered ? (
+                  <p className="return-policy">
+                    Return policy ends on {formatDate(
+                      new Date(deliveryDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+                    )}
+                  </p>
+                ) : (
+                  <p className="expected-delivery">
+                    Expected delivery: {formatDate(order.delivaryDate)}
+                  </p>
+                )}
+              </div>
 
-                  {showCancelReason && (
-                    <div className="OrderItemDetails-cancelReasonBox">
-                      <label>
-                        Reason for cancellation:
-                        <select
-                          value={cancelReason}
-                          onChange={(e) => setCancelReason(e.target.value)}
-                        >
-                          <option value="">-- Select a reason --</option>
-                          <option value="Changed my mind">Changed my mind</option>
-                          <option value="Found a better price">
-                            Found a better price
-                          </option>
-                          <option value="Ordered by mistake">
-                            Ordered by mistake
-                          </option>
-                          <option value="Item not required">
-                            Item not required
-                          </option>
-                          <option value="Other">Other</option>
-                        </select>
-                      </label>
-                      <button
-                        className="OrderItemDetails-actionBtn"
-                        onClick={() =>
-                          handleUpdate("cancel", {
-                            reason: cancelReason,
-                          })
-                        }
-                      >
-                        Submit Cancellation
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
+              {/* Action Buttons */}
+              <div className="action-buttons">
+                {canCancel && (
+                  <div className="action-section">
+                    <button
+                      className="action-btn cancel-btn"
+                      onClick={() => setShowCancelReason(true)}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Processing..." : "Cancel Order"}
+                    </button>
 
-              {canReturn && !isReturnRequested && (
-                <button
-                  className="OrderItemDetails-actionBtn"
-                  // onClick={() =>
-                  //   handleUpdate("replace", {
-                  //     reason: "Return requested by user",
-                  //     orderStatus: OrderStatus.request_raised,
-                  //   })
-                  // }
-                  onClick={() => setShowReplaceForm(true)}
-                >
-                  Request Replace
-                </button>
-              )}
+                    {showCancelReason && (
+                      <div className="reason-form">
+                        <label>
+                          Reason for cancellation:
+                          <select
+                            value={cancelReason}
+                            onChange={(e) => setCancelReason(e.target.value)}
+                            required
+                          >
+                            <option value="">-- Select a reason --</option>
+                            <option value="Changed my mind">Changed my mind</option>
+                            <option value="Found a better price">Found a better price</option>
+                            <option value="Ordered by mistake">Ordered by mistake</option>
+                            <option value="Item not required">Item not required</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </label>
+                        <div className="form-actions">
+                          <button
+                            className="action-btn submit-btn"
+                            onClick={() => handleUpdate("cancel", { reason: cancelReason })}
+                            disabled={!cancelReason || isLoading}
+                          >
+                            {isLoading ? "Submitting..." : "Submit Cancellation"}
+                          </button>
+                          <button
+                            className="action-btn secondary-btn"
+                            onClick={() => setShowCancelReason(false)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {showReplaceForm && (
-                <div className="OrderItemDetails-replaceForm">
-                  <label>
-                    Reason for replacement:
-                    <select onChange={(e) => setReplaceReason(e.target.value)}>
-                      <option value="">-- Select a reason --</option>
-                      <option value="Defective item">Defective item</option>
-                      <option value="Item damaged during delivery">
-                        Item damaged during delivery
-                      </option>
-                      <option value="Wrong item received">
-                        Wrong item received
-                      </option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </label>
+                {canReturn && (
+                  <div className="action-section">
+                    <button
+                      className="action-btn replace-btn"
+                      onClick={() => setShowReplaceForm(true)}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Processing..." : "Request Replace"}
+                    </button>
 
-                  <label>
-                    Additional Description (optional):
-                    <textarea
-                      onChange={(e) => setReplaceDescription(e.target.value)}
-                    />
-                  </label>
+                    {showReplaceForm && (
+                      <div className="reason-form">
+                        <label>
+                          Reason for replacement:
+                          <select
+                            value={replaceReason}
+                            onChange={(e) => setReplaceReason(e.target.value)}
+                            required
+                          >
+                            <option value="">-- Select a reason --</option>
+                            <option value="Defective item">Defective item</option>
+                            <option value="Item damaged during delivery">Item damaged during delivery</option>
+                            <option value="Wrong item received">Wrong item received</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </label>
 
-                  <label>
-                    Upload Damage Image (optional):
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                    />
-                  </label>
+                        <label>
+                          Additional Description:
+                          <textarea
+                            value={replaceDescription}
+                            onChange={(e) => setReplaceDescription(e.target.value)}
+                            placeholder="Please provide additional details..."
+                            rows="3"
+                          />
+                        </label>
 
-                  <button
-                    className="OrderItemDetails-actionBtn"
-                    onClick={() =>
-                      handleUpdate("replace", {
-                        reason: replaceReason,
-                        description: replaceDescription,
-                        damageImage: uploadedImage, // You will set this in handleImageUpload
-                      })
-                    }
-                  >
-                    Submit Replacement Request
-                  </button>
-                </div>
-              )}
+                        <label>
+                          Upload Damage Image (optional):
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="file-input"
+                          />
+                        </label>
 
+                        <div className="form-actions">
+                          <button
+                            className="action-btn submit-btn"
+                            onClick={() => handleUpdate("replace", {
+                              reason: replaceReason,
+                              description: replaceDescription,
+                              damageImage: uploadedImage,
+                            })}
+                            disabled={!replaceReason || isLoading}
+                          >
+                            {isLoading ? "Submitting..." : "Submit Replacement Request"}
+                          </button>
+                          <button
+                            className="action-btn secondary-btn"
+                            onClick={() => setShowReplaceForm(false)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Refund/Replacement Status */}
               {refundStatus && (
-                <div className="OrderItemDetails-refundStatusMessage">
-                  <strong>Replacement Status:</strong>
-                  <p>{getRefundStatusMessage(refundStatus)}</p>
-                  {refund.description && (
-                    <p>
+                <div className="refund-status">
+                  <h4>Replacement Status</h4>
+                  <div className={`status-message ${refundStatus}`}>
+                    {getRefundStatusMessage(refundStatus)}
+                  </div>
+                  {refund?.description && (
+                    <p className="refund-note">
                       <strong>Note:</strong> {refund.description}
                     </p>
                   )}
                 </div>
               )}
-
-              {isReturnRequested && !refundStatus && (
-                <p className="OrderItemDetails-statusNote">
-                  Return request is under review.
-                </p>
-              )}
-              {isReturnApproved && (
-                <p className="OrderItemDetails-statusNote">
-                  Return approved. Awaiting pickup.
-                </p>
-              )}
-              {isReturnRejected && (
-                <p className="OrderItemDetails-statusNote">
-                  Return request was rejected.
-                </p>
-              )}
-              {isReturnSuccess && (
-                <p className="OrderItemDetails-statusNote">
-                  Return completed successfully.
-                </p>
-              )}
             </div>
 
+            {/* Review Section */}
             <div className="OrderItemDetails-reviewSection">
-              <div className="OrderItemDetails-starDisplay">
-                {[...Array(5)].map((_, i) => {
-                  const starValue = i + 1;
-                  return (
-                    <span
-                      key={i}
-                      className={`OrderItemDetails-star ${starValue <= (hoverRating || rating) ? "filled" : ""
-                        }`}
-                      onClick={() => handleStarClick(starValue)}
-                      onMouseEnter={() => setHoverRating(starValue)}
+              <div className="rating-section">
+                <h4>Rate this product</h4>
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      className={`star ${star <= (hoverRating || rating) ? "filled" : ""}`}
+                      onClick={() => handleStarClick(star)}
+                      onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
+                      disabled={isLoading}
                     >
                       ★
-                    </span>
-                  );
-                })}
+                    </button>
+                  ))}
+                </div>
+                <span className="rating-text">
+                  {rating > 0 ? `You rated ${rating} star${rating > 1 ? 's' : ''}` : "Click to rate"}
+                </span>
               </div>
 
-              {!showReviewForm && (
-                <button
-                  className="OrderItemDetails-actionBtn"
-                  onClick={() => setShowReviewForm(true)}
-                >
-                  Add Review
-                </button>
-              )}
+              <button
+                className="action-btn review-btn"
+                onClick={() => setShowReviewForm(true)}
+              >
+                Write a Review
+              </button>
 
               {showReviewForm && (
-                <div className="OrderItemDetails-modalOverlay">
-                  <div className="OrderItemDetails-modalContent">
+                <div className="modal-overlay">
+                  <div className="modal-content">
                     <button
-                      className="OrderItemDetails-modalClose"
+                      className="modal-close"
                       onClick={() => setShowReviewForm(false)}
                     >
                       ×
@@ -658,63 +641,65 @@ const OrderItemDetails = () => {
                       item={item}
                       review={reviews}
                       initialRating={rating}
+                      onClose={() => setShowReviewForm(false)}
                     />
                   </div>
                 </div>
               )}
             </div>
-
-            {/* <ProductReviewForm /> */}
           </div>
 
+          {/* Right Sidebar */}
           <div className="OrderItemDetails-right">
-            <div
-              className="OrderItemDetails-invoice"
-              onClick={handleDownloadInvoice}
-            >
-              <p className="OrderItemDetails-invoice-description">
-                <LiaFileInvoiceSolid size={30} />
-                Download Invoice
-              </p>
-              <IoMdArrowDropright size={30} />
-              {/* <a href="#" download>
-              Download Invoice
-            </a> */}
-              {/* <button className="OrderItemDetails-actionBtn">
-              Download Invoice
-            </button> */}
+            <div className="sidebar-card invoice-card" onClick={handleDownloadInvoice}>
+              <div className="card-icon">
+                <LiaFileInvoiceSolid size={24} />
+              </div>
+              <div className="card-content">
+                <h4>Download Invoice</h4>
+                <p>Get your order invoice in PDF format</p>
+              </div>
+              <IoMdArrowDropright size={20} className="arrow-icon" />
             </div>
 
-            <div className="OrderItemDetails-shippingBox">
+            <div className="sidebar-card">
               <h3>Shipping Address</h3>
-              <h1>{order.deliveryAddress.name}</h1>
-
-              <p>{order.deliveryAddress.city}</p>
-              <p>{order.deliveryAddress.state}</p>
-              <p>{order.deliveryAddress.country}</p>
-              <p>
-                <span>Phone Number:</span> {order.deliveryAddress.phoneNumber}
-              </p>
+              <div className="address-details">
+                <h4>{order.deliveryAddress?.name}</h4>
+                <p>{order.deliveryAddress?.city}</p>
+                <p>{order.deliveryAddress?.state}</p>
+                <p>{order.deliveryAddress?.country}</p>
+                <p className="phone">
+                  <span>Phone:</span> {order.deliveryAddress?.phoneNumber}
+                </p>
+              </div>
             </div>
 
-            <div className="OrderItemDetails-shippingBox">
+            <div className="sidebar-card">
               <h3>Billing Address</h3>
-              <h1>{order.deliveryAddress.name}</h1>
-
-              <p>{order.addressLine1}</p>
-              <p>{order.addressLine2}</p>
-              <p>{order.deliveryAddress.city}</p>
-              <p>
-                <span>Phone Number:</span> {order.deliveryAddress.phone}
-              </p>
+              <div className="address-details">
+                <h4>{order.deliveryAddress?.name}</h4>
+                <p>{order.addressLine1}</p>
+                <p>{order.addressLine2}</p>
+                <p>{order.deliveryAddress?.city}</p>
+                <p className="phone">
+                  <span>Phone:</span> {order.deliveryAddress?.phone}
+                </p>
+              </div>
             </div>
 
-            <div className="OrderItemDetails-priceBox">
+            <div className="sidebar-card price-card">
               <h3>Price Details</h3>
-              <p>
-                Quantity: <span>{item.qty}</span>
-              </p>
-              <p>Total: ₹{order.totalAmount}</p>
+              <div className="price-details">
+                <div className="price-row">
+                  <span>Quantity:</span>
+                  <span>{item.qty}</span>
+                </div>
+                <div className="price-row total">
+                  <span>Total Amount:</span>
+                  <span>₹{order.totalAmount}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
