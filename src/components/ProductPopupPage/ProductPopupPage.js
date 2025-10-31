@@ -21,20 +21,28 @@ const ProductPopupPage = ({ device }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [isAIS, setIsAIS] = useState(false);
 
-
-  console.log("ProductPopupPage rendered with device:", device);
   useEffect(() => {
     setIsAIS(device.name.includes("AIS"));
-  }, [device.name]);
+    
+    // Set default network based on device configuration (same logic as first component)
+    const { network2gAmt, network4gAmt } = device;
+    let defaultNetwork = null;
+    if (network2gAmt === 0) defaultNetwork = "2G";
+    else if (network4gAmt === 0) defaultNetwork = "4G";
+    
+    setSelectedNetwork(defaultNetwork);
+  }, [device]);
 
   useEffect(() => {
     if (cartItem) {
-      setSelectedRelayer(cartItem.isRelay ? device.relayAmt : null);
+      setSelectedRelayer(cartItem.relayer || null);
       setSelectedNetwork(cartItem.network || null);
       setSelectedSubscription(cartItem.subscription || null);
       setQuantity(cartItem.quantity);
+      setSelectedState(cartItem.state || null);
+      setSelectedCity(cartItem.city || null);
     }
-  }, [cartItem, device.relayAmt]);
+  }, [cartItem]);
 
   const handleStateChange = (e) => {
     setSelectedState(e.target.value);
@@ -51,32 +59,25 @@ const ProductPopupPage = ({ device }) => {
     ? !selectedState || !selectedCity || !selectedCityInfo?.availability
     : false;
 
-
-
-  console.log(device)
-
   const calculateTotalAmount = () => {
-    let price = device.amount || 0;
+    let price = Math.round(
+      (device.amount || 100) * (1 - (device.discount || 0) / 100)
+    );
 
-    if (device.discount) price = price * (1 - device.discount / 100);
+    if (selectedRelayer) price += parseInt(selectedRelayer) || 0;
 
-    if (device.isRelay && selectedRelayer)
-      price += parseInt(selectedRelayer) || 0;
-
-    if (device.isNetwork && selectedNetwork) {
-      if (selectedNetwork === "2G") price += parseInt(device.network2gAmt) || 0;
-      else if (selectedNetwork === "4G")
-        price += parseInt(device.network4gAmt) || 0;
+    if (selectedNetwork === "2G") {
+      price += parseInt(device.network2gAmt) || 0;
+    } else if (selectedNetwork === "4G") {
+      price += parseInt(device.network4gAmt) || 0;
     }
 
-    if (device.isSubscription && selectedSubscription) {
-      if (selectedSubscription === "monthly")
-        price += parseInt(device.subscriptionMonthlyAmt) || 0;
-      else if (selectedSubscription === "yearly")
-        price += parseInt(device.subscriptionYearlyAmt) || 0;
+    if (selectedSubscription === "monthly") {
+      price += parseInt(device.subscriptionMonthlyAmt) || 0;
+    } else if (selectedSubscription === "yearly") {
+      price += parseInt(device.subscriptionYearlyAmt) || 0;
     }
 
-    // Add state/city price for AIS devices
     if (isAIS && selectedCityInfo?.price) {
       price += parseInt(selectedCityInfo.price) || 0;
     }
@@ -84,33 +85,27 @@ const ProductPopupPage = ({ device }) => {
     return price * quantity;
   };
 
-
   const handleAddToCart = async () => {
-    if (isAIS && !selectedState && !selectedCity) {
-      toast("Please select your state and city");
+    if (isAIS && (!selectedState || !selectedCity)) {
+      toast.error("Please select your state and city");
+      return;
     }
 
-    console.log(selectedState)
-    console.log(selectedCity)
-
-    const allNetworkZero =
-      (!device.network2gAmt || device.network2gAmt === 0) &&
-      (!device.network4gAmt || device.network4gAmt === 0);
+    // Check if network selection is required (same logic as first component)
+    const allNetworkZeroOrExcluded =
+      (device.network2gAmt === undefined || device.network2gAmt === -1) &&
+      (device.network4gAmt === undefined || device.network4gAmt === -1);
 
     const allSubscriptionZero =
       (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
       (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
 
-    if (device.isNetwork && !allNetworkZero && !selectedNetwork) {
+    if (device.isNetwork && !allNetworkZeroOrExcluded && !selectedNetwork) {
       toast.error("Please select a network option before adding to cart");
       return;
     }
 
-    if (
-      device.isSubscription &&
-      !allSubscriptionZero &&
-      !selectedSubscription
-    ) {
+    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
       toast.error("Please select a subscription option before adding to cart");
       return;
     }
@@ -119,15 +114,19 @@ const ProductPopupPage = ({ device }) => {
 
     const cartData = {
       deviceId: device.id,
-      name: device.name,
+      product: { selectedDevice: device }, // Match structure of first component
       quantity,
-      isRelay: device.isRelay && !!selectedRelayer,
-      network: device.isNetwork ? selectedNetwork : null,
-      subscription: device.isSubscription ? selectedSubscription : null,
-      totalAmount: totalAmount.toString(),
       clientId: clientDbId,
-      state: isAIS ? selectedState : null,
-      city: isAIS ? selectedCity : null,
+      totalAmount: totalAmount,
+      price: calculateTotalAmount() / quantity,
+      name: device.name,
+      model: device.model,
+      discount: device.discount || 0,
+      network: selectedNetwork,
+      relayer: selectedRelayer,
+      subscription: selectedSubscription,
+      state: selectedState,
+      city: selectedCity,
     };
 
     if (cartItem && cartItem.id) cartData.id = cartItem.id;
@@ -141,7 +140,33 @@ const ProductPopupPage = ({ device }) => {
     }
   };
 
-  const handleBuyItem = () => {
+  const handleBuyNow = () => {
+    // First validate all required selections
+    if (isAIS && (!selectedState || !selectedCity)) {
+      toast.error("Please select your state and city");
+      return;
+    }
+
+    // Check if network selection is required
+    const allNetworkZeroOrExcluded =
+      (device.network2gAmt === undefined || device.network2gAmt === -1) &&
+      (device.network4gAmt === undefined || device.network4gAmt === -1);
+
+    const allSubscriptionZero =
+      (!device.subscriptionMonthlyAmt || device.subscriptionMonthlyAmt === 0) &&
+      (!device.subscriptionYearlyAmt || device.subscriptionYearlyAmt === 0);
+
+    if (device.isNetwork && !allNetworkZeroOrExcluded && !selectedNetwork) {
+      toast.error("Please select a network option before adding to cart");
+      return;
+    }
+
+    if (device.isSubscription && !allSubscriptionZero && !selectedSubscription) {
+      toast.error("Please select a subscription option before adding to cart");
+      return;
+    }
+
+    // If all validations pass, add to cart and navigate
     handleAddToCart();
     navigate("/cart");
   };
@@ -152,9 +177,10 @@ const ProductPopupPage = ({ device }) => {
 
       <div className="ProductPopupPage-header">
         <img
-          src={device.image[0]}
+          src={device.image?.[0] || "/images/placeholder-product.png"}
           alt={device.name}
           className="ProductPopupPage-image"
+          onError={(e) => (e.target.src = "/images/placeholder-product.png")}
         />
         <div className="ProductPopupPage-details">
           <h2 className="ProductPopupPage-title">{device.name}</h2>
@@ -177,20 +203,16 @@ const ProductPopupPage = ({ device }) => {
           <label className="ProductPopupPage-label">Relayer Option:</label>
           <div className="ProductPopupPage-options">
             <button
-              className={`ProductPopupPage-button ${selectedRelayer === device.relayAmt
-                ? "ProductPopupPage-selected"
-                : ""
-                }`}
+              className={`ProductPopupPage-button ${
+                selectedRelayer === device.relayAmt ? "ProductPopupPage-selected" : ""
+              }`}
               onClick={() =>
                 setSelectedRelayer((prev) =>
                   prev === device.relayAmt ? null : device.relayAmt
                 )
               }
             >
-              {selectedRelayer === device.relayAmt
-                ? "Relayer Selected"
-                : "Select Relayer"}{" "}
-              – ₹{device.relayAmt}
+              Relayer – ₹{device.relayAmt}
             </button>
           </div>
         </div>
@@ -198,60 +220,95 @@ const ProductPopupPage = ({ device }) => {
 
       {/* === NETWORK === */}
       {device.isNetwork &&
-  !(
-    device.network2gAmt === -1 && device.network4gAmt === -1
-  ) && (
-    <div className="ProductPopupPage-section">
-      <label className="ProductPopupPage-label">Network Options:</label>
-      <div className="ProductPopupPage-options">
-        {device.network2gAmt !== -1 && (
-          <button
-            className={`ProductPopupPage-button ${
-              selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
-            }`}
-            onClick={() =>
-              setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
-            }
-            disabled={device.network2gAmt === 0}
-          >
-            2G – ₹
-            {device.network2gAmt === 0
-              ? "Included"
-              : device.network2gAmt}
-          </button>
+        !(device.network2gAmt === -1 && device.network4gAmt === -1) && (
+          <div className="ProductPopupPage-section">
+            <label className="ProductPopupPage-label">Network Options:</label>
+            <div className="ProductPopupPage-options">
+              {/* 2G Option */}
+              {device.network2gAmt !== -1 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedNetwork === "2G" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() =>
+                    device.network2gAmt > 0 &&
+                    setSelectedNetwork((prev) => (prev === "2G" ? null : "2G"))
+                  }
+                  disabled={device.network2gAmt === 0}
+                >
+                  2G – ₹
+                  {device.network2gAmt === 0 ? "Included" : device.network2gAmt}
+                </button>
+              )}
+
+              {/* 4G Option */}
+              {device.network4gAmt !== -1 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() =>
+                    device.network4gAmt > 0 &&
+                    setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
+                  }
+                  disabled={device.network4gAmt === 0}
+                >
+                  4G – ₹
+                  {device.network4gAmt === 0 ? "Included" : device.network4gAmt}
+                </button>
+              )}
+            </div>
+          </div>
         )}
 
-        {device.network4gAmt !== -1 && (
-          <button
-            className={`ProductPopupPage-button ${
-              selectedNetwork === "4G" ? "ProductPopupPage-selected" : ""
-            }`}
-            onClick={() =>
-              setSelectedNetwork((prev) => (prev === "4G" ? null : "4G"))
-            }
-            disabled={device.network4gAmt === 0}
-          >
-            4G – ₹
-            {device.network4gAmt === 0
-              ? "Included"
-              : device.network4gAmt}
-          </button>
+      {/* === SUBSCRIPTION === */}
+      {device.isSubscription &&
+        (device.subscriptionMonthlyAmt > 0 ||
+          device.subscriptionYearlyAmt > 0) && (
+          <div className="ProductPopupPage-section">
+            <label className="ProductPopupPage-label">Subscription:</label>
+            <div className="ProductPopupPage-options">
+              {device.subscriptionMonthlyAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedSubscription === "monthly" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedSubscription((prev) =>
+                      prev === "monthly" ? null : "monthly"
+                    )
+                  }
+                >
+                  Monthly – ₹{device.subscriptionMonthlyAmt}
+                </button>
+              )}
+              {device.subscriptionYearlyAmt > 0 && (
+                <button
+                  className={`ProductPopupPage-button ${
+                    selectedSubscription === "yearly" ? "ProductPopupPage-selected" : ""
+                  }`}
+                  onClick={() =>
+                    setSelectedSubscription((prev) =>
+                      prev === "yearly" ? null : "yearly"
+                    )
+                  }
+                >
+                  Yearly – ₹{device.subscriptionYearlyAmt}
+                </button>
+              )}
+            </div>
+          </div>
         )}
-      </div>
-    </div>
-  )}
-
 
       {/* === LOCATION (AIS ONLY) === */}
       {isAIS && (
         <div className="ProductPopupPage-section">
-          <label className="ProductPopupPage-label">Location:</label>
+          <label className="ProductPopupPage-label">Location (AIS Only):</label>
           <div className="ProductPopupPage-options">
             <select
               className="ProductPopupPage-select"
-              value={selectedState}
+              value={selectedState || ""}
               onChange={handleStateChange}
-              required
             >
               <option value="">Select State</option>
               {Object.keys(AIS140Availability).map((state) => (
@@ -263,10 +320,9 @@ const ProductPopupPage = ({ device }) => {
 
             <select
               className="ProductPopupPage-select"
-              value={selectedCity}
+              value={selectedCity || ""}
               onChange={handleCityChange}
               disabled={!selectedState}
-              required
             >
               <option value="">Select City</option>
               {selectedState &&
@@ -292,53 +348,24 @@ const ProductPopupPage = ({ device }) => {
         </div>
       )}
 
-      {/* === SUBSCRIPTION === */}
-      {device.isSubscription &&
-        (device.subscriptionMonthlyAmt > 0 ||
-          device.subscriptionYearlyAmt > 0) && (
-          <div className="ProductPopupPage-section">
-            <label className="ProductPopupPage-label">Subscription:</label>
-            <div className="ProductPopupPage-subscription-options">
-              {device.subscriptionMonthlyAmt > 0 && (
-                <button
-                  className={`ProductPopupPage-subscription-button ${selectedSubscription === "monthly"
-                    ? "ProductPopupPage-selected"
-                    : ""
-                    }`}
-                  onClick={() =>
-                    setSelectedSubscription((prev) => (prev === "monthly" ? null : "monthly"))
-                  }
-                >
-                  Monthly – ₹{device.subscriptionMonthlyAmt}
-                </button>
-              )}
-              {device.subscriptionYearlyAmt > 0 && (
-                <button
-                  className={`ProductPopupPage-subscription-button ${selectedSubscription === "yearly"
-                    ? "ProductPopupPage-selected"
-                    : ""
-                    }`}
-                  onClick={() =>
-                    setSelectedSubscription((prev) => (prev === "yearly" ? null : "yearly"))
-                  }
-                >
-                  Yearly – ₹{device.subscriptionYearlyAmt}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
       {/* === QUANTITY === */}
       <div className="ProductPopupPage-section">
         <label className="ProductPopupPage-label">Quantity:</label>
-        <input
-          type="number"
-          min="1"
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          className="ProductPopupPage-quantity-input"
-        />
+        <div className="ProductPopupPage-quantity-controls">
+          <button
+            onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
+            className="ProductPopupPage-quantity-btn"
+          >
+            -
+          </button>
+          <span className="ProductPopupPage-quantity-value">{quantity}</span>
+          <button
+            onClick={() => setQuantity((prev) => prev + 1)}
+            className="ProductPopupPage-quantity-btn"
+          >
+            +
+          </button>
+        </div>
       </div>
 
       {/* === ACTIONS === */}
@@ -351,7 +378,7 @@ const ProductPopupPage = ({ device }) => {
           Add to cart
         </button>
         <button
-          onClick={handleBuyItem}
+          onClick={handleBuyNow}
           className="ProductPopupPage-buy-now-button"
           disabled={isBuyDisabled}
         >

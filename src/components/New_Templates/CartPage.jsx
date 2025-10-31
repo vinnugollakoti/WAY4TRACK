@@ -157,12 +157,14 @@ function CartPage() {
 
                       <div className="cart-item-actions">
                         <div className="cart-item-buttons">
-                          <button onClick={() => updateQuantity(item.id, 1)}>
-                            <FaPlus />
-                          </button>
-                          <span>{item.quantity}</span>
+                          
+                         
                           <button onClick={() => updateQuantity(item.id, -1)}>
                             <FaMinus />
+                          </button>
+                           <span>{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, 1)}>
+                            <FaPlus />
                           </button>
                         </div>
                         <div className="trashbin-button">

@@ -701,8 +701,7 @@
   scrollbar-width: thin; /* for Firefox */
   scroll-behavior: smooth;
   scrollbar-width: none; /* Firefox */
-  width: 90%;
-  margin-left: 5%;
+  width: 100%;
 }
 
 .homepage-products-scroll::-webkit-scrollbar {

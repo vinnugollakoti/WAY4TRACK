@@ -29,7 +29,8 @@ import OrderPlaced from "./components/New_Templates/OrderPlaced";
 
 import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
 import Loader from "./components/New_Templates/Loader";
-
+import DemoSection from "./components/New_Templates/DemoSection";
+import { WebsiteDataProvider } from "./components/New_Templates/WebsiteDataContext";
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -74,6 +75,7 @@ const App = () => {
   }
 
   return (
+    <WebsiteDataProvider websiteData={websiteData}>
     <CartProvider>
       <Router>
         <Routes>
@@ -98,9 +100,11 @@ const App = () => {
           <Route path="/old-cart" element={<OldCartPage />} />
           <Route path="/order-item/:orderId/:deviceId" element={<OrderItemDetails />} />
           <Route path="/order-placed" element={<OrderPlaced />} />
+          <Route path="/demo" element={<DemoSection websiteData={websiteData} />} />
         </Routes>
       </Router>
     </CartProvider>
+    </WebsiteDataProvider>
   );
 };
 
