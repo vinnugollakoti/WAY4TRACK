@@ -124,6 +124,8 @@ const ProfilePage = () => {
     window.location.href = "/";
   };
 
+  console.log("USER DETAILS : " , user)
+
   return (
     <div className="profile-page-container">
       <Toaster position="top-center" reverseOrder={false} />
@@ -319,7 +321,7 @@ const ProfilePage = () => {
                           <div className="address-details">
                             <p className="address-line">
                               <FaMapMarkerAlt className="address-icon" />
-                              {addr.street}, {addr.locality}
+                              {addr.addressLineOne}
                             </p>
                             <p className="address-line">
                               {addr.city}, {addr.state} - {addr.pinCode}

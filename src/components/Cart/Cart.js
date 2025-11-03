@@ -1,80 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import CheckoutSteps from "../CheckoutSteps/CheckoutSteps";
 import { CartContext } from "../../contexts/CartContext";
-import AddressPage from "../AddressPage/AddressPage";
 import AddressPopupPage from "../AddressPopupPage/AddressPopupPage";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { FaMapMarkerAlt, FaHome, FaCreditCard, FaArrowRight } from "react-icons/fa";
 import "./Cart.css";
 import Navbar from "../New_Templates/Navbar";
 
 function CartPage() {
-  const { cartItems, addToCart, getTotal } = useContext(CartContext);
-
-  // console.log("LOL : ", cartItems[0].totalAmount)
-  // console.log("LOL : ", cartItems[1].totalAmount)
-  // console.log("LOL : ", cartItems[2].totalAmount)
+  const { cartItems } = useContext(CartContext);
   const [addresses, setAddresses] = useState([]);
   const [billingAddress, setBillingAddress] = useState(null);
   const [isBillingSame, setIsBillingSame] = useState(true);
   const [deliveryAddress, setDeliveryAddress] = useState(null);
   const [isChangingAddress, setIsChangingAddress] = useState(false);
   const [isBillingChanging, setIsBillingChanging] = useState(false);
-
   const [showForm, setShowForm] = useState(false);
+  
   const clientId = localStorage.getItem("client_id");
   const navigate = useNavigate();
   const companyCode = initialAuthState.companyCode;
   const unitCode = initialAuthState.unitCode;
-  console.log(cartItems, "cart");
-
+  
   const buyNowItem = JSON.parse(localStorage.getItem("buyNowItem"));
   const isBuyNow = !!buyNowItem;
 
-  console.log(buyNowItem, "localstorage item");
-
-  const calculateItemTotal = (item) => {
-    const price =
-      item?.device?.amount -
-      (item?.device?.amount * (item?.device?.discount || 0)) / 100;
-    return (price * item.quantity).toFixed(2);
-  };
-
-  // ✅ Calculate cart total dynamically
   const calculateTotal = () => {
     if (isBuyNow) {
       return buyNowItem?.totalAmount?.toFixed(2);
     }
-
-    return cartItems
-      .reduce((sum, item) => sum + Number(item.totalAmount || 0), 0)
-      .toFixed(2);
+    return cartItems.reduce((sum, item) => sum + Number(item.totalAmount || 0), 0).toFixed(2);
   };
-
-
-  const updateQuantity = async (itemId, change) => {
-    const cartItem = cartItems.find((item) => item.id === itemId);
-    if (!cartItem) return;
-
-    const updatedQuantity = (cartItem?.quantity || 1) + change;
-    if (updatedQuantity < 1) return;
-
-    const updatedCartData = {
-      ...cartItem,
-      id: itemId,
-      quantity: updatedQuantity,
-      clientId: cartItem.client.id,
-      deviceId: cartItem.device.id,
-    };
-
-    try {
-      await addToCart(updatedCartData);
-    } catch (error) {
-      console.error("Failed to update quantity:", error);
-    }
-  };
-  const totalAmount = isBuyNow ? buyNowItem.totalAmount : getTotal();
 
   useEffect(() => {
     fetchSavedAddresses();
@@ -82,23 +39,16 @@ function CartPage() {
 
   const fetchSavedAddresses = async () => {
     try {
-      const payload = {
-        companyCode,
-        unitCode,
-        clientId,
-      };
-      const response = await ApiService.post(
-        "/client/getClientDetailsById",
-        payload
-      );
+      const payload = { companyCode, unitCode, clientId };
+      const response = await ApiService.post("/client/getClientDetailsById", payload);
 
       if (response.status) {
         const data = response.data;
         setAddresses(data.customerAddress);
 
         if (data.customerAddress.length > 0) {
-          setDeliveryAddress(data.customerAddress[0]); // default delivery
-          setBillingAddress(data.customerAddress[0]);  // default billing = delivery
+          setDeliveryAddress(data.customerAddress[0]);
+          setBillingAddress(data.customerAddress[0]);
         } else {
           setShowForm(true);
         }
@@ -110,7 +60,6 @@ function CartPage() {
       setShowForm(true);
     }
   };
-
 
   const handleAddressSelect = (addr) => {
     setDeliveryAddress(addr);
@@ -124,7 +73,6 @@ function CartPage() {
 
   const handleProceed = () => {
     if (deliveryAddress) {
-      console.log(cartItems, "cart items proceeding to order details");
       navigate("/order-details", {
         state: {
           deliveryAddress,
@@ -137,315 +85,228 @@ function CartPage() {
   };
 
   return (
-    <div className="old-cart-container">
+    <div className="modern-cart-container">
       <Navbar />
       <CheckoutSteps currentStep={1} />
-      <div className="cart-address-container">
-        {/* <AddressPage /> */}
+      
+      <div className="address-only-layout">
+        {/* Main Address Section */}
+        <div className="address-main-section">
+          <div className="section-header-main">
+            <FaMapMarkerAlt className="section-icon-main" />
+            <h1>Delivery & Billing Information</h1>
+            <p className="section-subtitle">Choose where you want your order delivered</p>
+          </div>
 
-        <div className="cart-page-saved-addresses">
-          {/* <div className="cart-page-address-list"> */}
-          {deliveryAddress && !isChangingAddress ? (
-            <div className="cart-page-address-selected">
-              <h3>Delivery Address</h3>
-              <div className="cart-page-address-card cart-page-active">
-                <p className="cart-page-address-name">
-                  <strong>Name: {deliveryAddress.name}</strong>
-                </p>
-                <p className="cart-page-address-line">
-                  Address: {deliveryAddress.city}, {deliveryAddress.state} -{" "}
-                  {deliveryAddress.pin}
-                </p>
-                <p className="cart-page-address-line">
-                  {deliveryAddress.country} | Phone:{" "}
-                  {deliveryAddress.phoneNumber}
-                </p>
+          {/* Delivery Address Section */}
+          <div className="address-card-main">
+            <div className="address-section-header">
+              <div className="header-left">
+                <FaHome className="address-section-icon" />
+                <div>
+                  <h3>Delivery Address</h3>
+                  <p>Where should we deliver your order?</p>
+                </div>
               </div>
-              <center>
-                <button
-                  className="cart-page-change-button"
-                  onClick={() => setIsChangingAddress(true)}
-                >
-                  Change Address
+              {deliveryAddress && !isChangingAddress && (
+                <button className="change-address-btn-main" onClick={() => setIsChangingAddress(true)}>
+                  Change
                 </button>
-              </center>
+              )}
             </div>
-          ) : (
-            <div>
-              <h2 className="cart-page-address-title">
-                Select a Delivery Address
-              </h2>
 
-              <div className="cart-page-address-list">
-                {addresses.map((addr, index) => (
-                  <div
-                    key={index}
-                    className={`cart-page-address-card ${deliveryAddress?.id === addr.id ? "cart-page-active" : ""
-                      }`}
-                    onClick={() => {
-                      handleAddressSelect(addr);
-                      setIsChangingAddress(false);
-                    }}
-                  >
-                    <p className="cart-page-address-name">
-                      <strong>Name: {addr.name}</strong>
+            {deliveryAddress && !isChangingAddress ? (
+              <div className="selected-address-main">
+                <div className="address-display-main">
+                  <div className="address-badge">Selected</div>
+                  <div className="address-content">
+                    <strong className="address-name">{deliveryAddress.name}</strong>
+                    <p className="address-full">
+                      {deliveryAddress.city}, {deliveryAddress.state} - {deliveryAddress.pin}
                     </p>
-                    <p className="cart-page-address-line">
-                      Address: {addr.city}, {addr.state} - {addr.pin}
-                    </p>
-                    <p className="cart-page-address-line">
-                      {addr.country} | Phone: {addr.phoneNumber}
+                    <p className="address-contact">
+                      {deliveryAddress.country} | 📱 {deliveryAddress.phoneNumber}
                     </p>
                   </div>
-                ))}
+                </div>
               </div>
-              <center>
-                <button
-                  className="cart-page-change-button"
-                  onClick={() => setShowForm(true)}
-                >
+            ) : (
+              <div className="address-selection-main">
+                <h4>Select Delivery Address</h4>
+                <div className="address-grid-main">
+                  {addresses.map((addr, index) => (
+                    <div
+                      key={index}
+                      className={`address-option-card ${deliveryAddress?.id === addr.id ? "active" : ""}`}
+                      onClick={() => {
+                        handleAddressSelect(addr);
+                        setIsChangingAddress(false);
+                      }}
+                    >
+                      <div className="address-option-content">
+                        <div className="address-option-header">
+                          <FaHome className="address-option-icon" />
+                          <strong>{addr.name}</strong>
+                        </div>
+                        <p className="address-option-line">{addr.city}, {addr.state} - {addr.pin}</p>
+                        <p className="address-option-line">{addr.country} | 📱 {addr.phoneNumber}</p>
+                      </div>
+                      {deliveryAddress?.id === addr.id && (
+                        <div className="selected-indicator">✓ Selected</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <button className="add-new-address-btn" onClick={() => setShowForm(true)}>
                   + Add New Delivery Address
                 </button>
-              </center>
-            </div>
-          )}
-          {/* </div> */}
-
-          {showForm && (
-            <div
-              className="cart-page-modal-overlay"
-              onClick={() => setShowForm(false)}
-            >
-              <div
-                className="cart-page-modal-content"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <AddressPopupPage
-                  onClose={() => setShowForm(false)}
-                  onSuccess={() => {
-                    window.location.reload();
-                  }}
-                  onSave={(newAddr) => {
-                    handleAddressSelect(newAddr);
-                    setShowForm(false);
-                  }}
-                />
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-
+          {/* Billing Address Section */}
           {deliveryAddress && (
-            <div className="billing-address-section">
-              <h3>Billing Address</h3>
-              <label>
-                <input
-                  type="radio"
-                  checked={isBillingSame}
-                  onChange={() => {
-                    setIsBillingSame(true);
-                    setBillingAddress(deliveryAddress);
-                  }}
-                />
-                Billing address is same as Delivery address
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  checked={!isBillingSame}
-                  onChange={() => {
-                    setIsBillingSame(false);
-                    setBillingAddress(null);
-                    setIsBillingChanging(true); // trigger address selection
-                  }}
-                />
-                Use different billing address
-              </label>
+            <div className="address-card-main">
+              <div className="address-section-header">
+                <div className="header-left">
+                  <FaCreditCard className="address-section-icon" />
+                  <div>
+                    <h3>Billing Address</h3>
+                    <p>Where should we send the invoice?</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="billing-options-main">
+                <label className="billing-option">
+                  <input
+                    type="radio"
+                    checked={isBillingSame}
+                    onChange={() => {
+                      setIsBillingSame(true);
+                      setBillingAddress(deliveryAddress);
+                    }}
+                  />
+                  <div className="billing-option-content">
+                    <span className="billing-option-title">Same as delivery address</span>
+                    <span className="billing-option-desc">Use the delivery address for billing</span>
+                  </div>
+                </label>
+                
+                <label className="billing-option">
+                  <input
+                    type="radio"
+                    checked={!isBillingSame}
+                    onChange={() => {
+                      setIsBillingSame(false);
+                      setIsBillingChanging(true);
+                    }}
+                  />
+                  <div className="billing-option-content">
+                    <span className="billing-option-title">Use different billing address</span>
+                    <span className="billing-option-desc">Choose a different address for billing</span>
+                  </div>
+                </label>
+              </div>
 
               {!isBillingSame && billingAddress && !isBillingChanging && (
-                <div className="cart-page-address-selected">
-                  <div className="cart-page-address-card cart-page-active">
-                    <p className="cart-page-address-name">
-                      <strong>Name: {billingAddress.name}</strong>
-                    </p>
-                    <p className="cart-page-address-line">
-                      Address: {billingAddress.city}, {billingAddress.state} -{" "}
-                      {billingAddress.pin}
-                    </p>
-                    <p className="cart-page-address-line">
-                      {billingAddress.country} | Phone:{" "}
-                      {billingAddress.phoneNumber}
-                    </p>
+                <div className="selected-address-main">
+                  <div className="address-display-main">
+                    <div className="address-badge">Billing Address</div>
+                    <div className="address-content">
+                      <strong className="address-name">{billingAddress.name}</strong>
+                      <p className="address-full">
+                        {billingAddress.city}, {billingAddress.state} - {billingAddress.pin}
+                      </p>
+                      <p className="address-contact">
+                        {billingAddress.country} | 📱 {billingAddress.phoneNumber}
+                      </p>
+                    </div>
                   </div>
-                  <center>
-                    <button
-                      className="cart-page-change-button"
-                      onClick={() => setIsBillingChanging(true)}
-                    >
-                      Change Billing Address
-                    </button>
-                  </center>
+                  <button className="change-address-btn-main" onClick={() => setIsBillingChanging(true)}>
+                    Change
+                  </button>
                 </div>
               )}
 
               {!isBillingSame && isBillingChanging && (
-                <>
-                  <div className="cart-page-address-list">
-                    {addresses
-                      .filter((addr) => addr.id !== deliveryAddress.id)
-                      .map((addr, index) => (
-                        <div
-                          key={index}
-                          className={`cart-page-address-card ${billingAddress?.id === addr.id
-                            ? "cart-page-active"
-                            : ""
-                            }`}
-                          onClick={() => {
-                            setBillingAddress(addr);
-                            setIsBillingChanging(false);
-                          }}
-                        >
-                          <p className="cart-page-address-name">
-                            <strong>Name: {addr.name}</strong>
-                          </p>
-                          <p className="cart-page-address-line">
-                            Address: {addr.city}, {addr.state} - {addr.pin}
-                          </p>
-                          <p className="cart-page-address-line">
-                            {addr.country} | Phone: {addr.phoneNumber}
-                          </p>
+                <div className="address-selection-main">
+                  <h4>Select Billing Address</h4>
+                  <div className="address-grid-main">
+                    {addresses.filter((addr) => addr.id !== deliveryAddress.id).map((addr, index) => (
+                      <div
+                        key={index}
+                        className={`address-option-card ${billingAddress?.id === addr.id ? "active" : ""}`}
+                        onClick={() => {
+                          setBillingAddress(addr);
+                          setIsBillingChanging(false);
+                        }}
+                      >
+                        <div className="address-option-content">
+                          <div className="address-option-header">
+                            <FaHome className="address-option-icon" />
+                            <strong>{addr.name}</strong>
+                          </div>
+                          <p className="address-option-line">{addr.city}, {addr.state} - {addr.pin}</p>
+                          <p className="address-option-line">{addr.country} | 📱 {addr.phoneNumber}</p>
                         </div>
-                      ))}
+                        {billingAddress?.id === addr.id && (
+                          <div className="selected-indicator">✓ Selected</div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <center>
-                    <button
-                      className="cart-page-change-button"
-                      onClick={() => setShowForm(true)}
-                    >
-                      + Add New Billing Address
-                    </button>
-                  </center>
-                </>
+                  <button className="add-new-address-btn" onClick={() => setShowForm(true)}>
+                    + Add New Billing Address
+                  </button>
+                </div>
               )}
             </div>
           )}
 
-          <div className="cart-page-button-container">
-            {/* <button
-              className="cart-page-add-button"
-              onClick={() => setShowForm(true)}
-            >
-              + Add New Address
-            </button> */}
-            {/* <button
-              type="button"
-              className="cart-page-proceed-button"
-              onClick={handleProceed}
-              disabled={!deliveryAddress || (!isBillingSame && !billingAddress)}
-            >
-              Proceed
-            </button> */}
+          {/* Order Summary & Proceed Button */}
+          <div className="order-summary-main">
+            <div className="summary-card">
+              <h3>Order Summary</h3>
+              <div className="summary-content">
+                <div className="summary-row-main">
+                  <span>Total Amount</span>
+                  <span className="total-amount-main">₹{calculateTotal()}</span>
+                </div>
+                <div className="summary-note">
+                  <span className="free-shipping-main">✓ Free Shipping</span>
+                </div>
+              </div>
+              <button
+                className="proceed-btn-main"
+                onClick={handleProceed}
+                disabled={!deliveryAddress || (!isBillingSame && !billingAddress)}
+              >
+                <span>Proceed to Checkout</span>
+                <FaArrowRight className="proceed-icon" />
+              </button>
+            </div>
           </div>
         </div>
-
-
-        {/* start commenting */}
-        {/* <div className="cart-sub-main-container">
-          <h1 className="cart-title">Order Items</h1>
-
-          {!isBuyNow && cartItems.length === 0 ? (
-            <p className="empty-cart">Your cart is empty.</p>
-          ) : (
-            <div className="cart-grid"> */}
-        {/* <Link to="/" className="back-btn">
-                Continue Shopping
-              </Link> */}
-        {/* {isBuyNow ? (
-                <div className="cart-card">
-                  <div className="cart-card-inner">
-                    <div className="cart-image-wrapper">
-                      <img
-                        src={buyNowItem.image}
-                        alt={buyNowItem.name}
-                        className="cart-image"
-                      />
-                    </div>
-                    <div className="cart-info">
-                      <h2 className="cart-name">{buyNowItem.name}</h2>
-                      <p>
-                        Accessories:{" "}
-                        {buyNowItem.isRelay ? "With Relay" : "Without Relay"}
-                      </p>
-                      <p>
-                        Subscription: {buyNowItem.subscription} subscription
-                      </p>
-                      <p>Network: {buyNowItem.network}</p>
-                      <p>Rs. {calculateItemTotal(buyNowItem)}</p>
-                      <p>Quantity: {buyNowItem.quantity}</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                cartItems.map((item) => (
-                  <div key={item.id} className="cart-card">
-                    <div className="cart-card-inner">
-                      <div className="cart-image-wrapper">
-                        <img
-                          src={item?.device?.image}
-                          alt={item?.device?.name}
-                          className="cart-image"
-                        />
-                      </div>
-                      <div className="cart-info">
-                        <h2 className="cart-name">{item?.device?.name}</h2>
-                        <p>
-                          Accessories:{" "}
-                          {item.isRelay ? "With Relay" : "Without Relay"}
-                        </p>
-                        <p>Subscription: {item.subscription} subscription</p>
-                        <p>Network: {item.network}</p>
-                        <p>Rs. {calculateItemTotal(item)}</p>
-                        <div className="quantity-controls">
-                          <button
-                            className="qty-btn"
-                            onClick={() => updateQuantity(item.id, -1)}
-                          >
-                            <FaMinus />
-                          </button>
-                          <span className="qty-number">{item.quantity}</span>
-                          <button
-                            className="qty-btn"
-                            onClick={() => updateQuantity(item.id, 1)}
-                          >
-                            <FaPlus />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </div> */}
-        {/* end commenting */}
-        <div className="cart-summary">
-          <h2 className="cart-total-bill">Total: Rs.{calculateTotal()}/-</h2>
-          <button
-            type="button"
-            // className="checkout"
-            className="cart-page-proceed-button"
-            onClick={handleProceed}
-            disabled={!deliveryAddress || (!isBillingSame && !billingAddress)}
-          >
-            Proceed to Checkout
-          </button>
-        </div>
       </div>
+
+      {/* Address Modal */}
+      {showForm && (
+        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <AddressPopupPage
+              onClose={() => setShowForm(false)}
+              onSuccess={() => window.location.reload()}
+              onSave={(newAddr) => {
+                handleAddressSelect(newAddr);
+                setShowForm(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default CartPage;
-
-

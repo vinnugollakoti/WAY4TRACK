@@ -67,6 +67,7 @@ function Products({ websiteData }) {
           key={`${index}-${dIndex}`}
           className="product-card"
           onClick={() => {
+            window.scrollTo(0,0)
             navigate(`/product/${product.id}?deviceId=${device.id}`);
           }}
 

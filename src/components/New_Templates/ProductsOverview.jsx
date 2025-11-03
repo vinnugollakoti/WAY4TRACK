@@ -515,7 +515,11 @@ function ProductsOverview({ websiteData }) {
           </h1>
         </div>
         <div className="mining-view-more">
-          <button className="view-more-btn" onClick={() => navigate("/products")}>
+          <button className="view-more-btn" onClick={() => {
+              navigate("/products");
+              window.scrollTo(0, 0);
+            }}
+            >
             <span>View more</span>
             <div className="view-more-icon">
               <img src="/images/Arrow 11.png" alt="arrow" />

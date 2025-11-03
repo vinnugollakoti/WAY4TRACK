@@ -28,6 +28,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("client_id");
     setIsLoggedIn(false);
+    window.scrollTo(0,0)
     navigate("/");
   };
 
@@ -52,19 +53,19 @@ const Navbar = () => {
             <ul className="menu-list">
               <li
                 className={`menu-item ${isActive("/") ? "active" : ""}`}
-                onClick={() => navigate("/")}
+                onClick={() => {navigate("/");  window.scrollTo(0,0)}}
               >
                 Home
               </li>
               <li
                 className={`menu-item ${isActive("/Careers") ? "active" : ""}`}
-                onClick={() => navigate("/Careers")}
+                onClick={() => {navigate("/Careers");  window.scrollTo(0,0)}}
               >
                 Career
               </li>
               <li
                 className={`menu-item ${isActive("/products") ? "active" : ""}`}
-                onClick={() => navigate("/products")}
+                onClick={() => {navigate("/products");  window.scrollTo(0,0);}}
               >
                 Products
               </li>
@@ -76,6 +77,7 @@ const Navbar = () => {
                     className="menu-item"
                     onClick={() => {
                       navigate("/my-profile");
+                       window.scrollTo(0,0);
                       setIsMenuOpen(false);
                     }}
                   >
@@ -95,7 +97,7 @@ const Navbar = () => {
             </ul>
 
             <div className="actions">
-              <div className="cart" onClick={() => navigate("/cart")}>
+              <div className="cart" onClick={() => { navigate("/cart");  window.scrollTo(0,0)}}>
                 🛒 <p className="cart-quantity">{cartQuantity}</p>
               </div>
 
@@ -108,12 +110,16 @@ const Navbar = () => {
                     className="profile-icon"
                   />
                   <div className="profile-dropdown">
-                    <p onClick={() => navigate("/my-profile")}>Profile</p>
+                    <p onClick={() => {navigate("/my-profile");  window.scrollTo(0,0)}}>Profile</p>
                     <p onClick={handleLogout}>Logout</p>
                   </div>
                 </div>
               ) : (
-                <button className="login-btn" onClick={() => navigate("/login")}>
+                <button className="login-btn" onClick={() => {
+                  navigate("/login");
+                  window.scrollTo(0,0);
+                }
+                }>
                   Login
                 </button>
               )}

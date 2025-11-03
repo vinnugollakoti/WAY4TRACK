@@ -201,7 +201,7 @@ function OrderDetailsPage() {
             <strong>{address.name}</strong>
           </div>
           <div className="address-phone">{address.phoneNumber}</div>
-          <div className="address-line">{address.street}, {address.area}</div>
+          <div className="address-line">{address.addressLineOne}</div>
           <div className="address-line">{address.city}, {address.state}</div>
           <div className="address-line">{address.country} - {address.pin}</div>
           {address.landmark && (
