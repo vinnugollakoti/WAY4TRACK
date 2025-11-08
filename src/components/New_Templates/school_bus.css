@@ -180,7 +180,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 18px 18px 0px 0px;
-    background: #fff;
+    /* background: #fff; */
     box-shadow: 0 2px 12px rgba(96, 164, 66, 0.10);
     overflow: hidden;
 }
@@ -558,8 +558,8 @@
 }
 
 .manager-app-advantage-img img{
-    width: 100%;
-    height: auto;
+    width: 600px;
+    height: 380px;
 }
 
 .manager-app-product-image-section {
@@ -870,7 +870,12 @@
     .manager-app-features-adv-grid{
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
+    .manager-app-advantage-img img{
+        width: 354px;
+        height: 278px;
+    }
+        
     /* .manager-app-advantage-img{
         width: 80%;
     } */
@@ -878,6 +883,7 @@
     .manager-app-advantages-grid{
         grid-template-columns: repeat(1, 1fr);
     }
+    
 }
 
 @media (max-width: 600px) {
@@ -928,8 +934,24 @@
     .school-bus-feature-desc {
         font-size: 0.95rem;
     }
+    .manager-app-advantage-img img{
+        width: 354px;
+        height: 278px;
+    }
+}
+@media (max-width: 1440px) {
+    .manager-app-advantage-img img{
+        width: 564px;
+        height: 330px;
+    }
 }
 
+@media (max-width: 1024px) {
+    .manager-app-advantage-img img{
+        width: 380px;
+        height: 255px;
+    }
+}
 /* Responsive for Apps Section */
 @media (max-width: 1100px) {
     .school-bus-apps-grid {
@@ -940,6 +962,25 @@
         min-height: 480px;
         padding: 32px 18px 18px 18px;
     }
+    .manager-app-advantage-img img{
+        width: 380px;
+        height: 255px;
+    }
+}
+
+@media (max-width: 900px) {
+    .manager-app-apis-fees-section {
+        grid-template-columns: 1fr 1fr;
+        min-height: 180px;
+    }
+    .manager-app-apis-fees-card {
+        min-height: 180px;
+    }
+    .manager-app-advantage-img img{
+        width: 559px;
+        height: 346px;
+    }
+    
 }
 
 @media (max-width: 800px) {
@@ -963,17 +1004,9 @@
     } */
 }
 
-@media (max-width: 900px) {
-    .manager-app-apis-fees-section {
-        grid-template-columns: 1fr 1fr;
-        min-height: 180px;
-    }
-    .manager-app-apis-fees-card {
-        min-height: 180px;
-    }
-}
 
-@media (max-width: 600px) {
+
+@media (max-width: 780px) {
     .manager-app-apis-fees-section {
         grid-template-columns: 1fr;
         min-height: 120px;
@@ -996,5 +1029,29 @@
         height: 24px;
         width: 24px;
     }
+    .manager-app-advantage-img img{
+        width: 600px;
+        height: 300px;
+    }
 }
 
+@media (max-width: 425px) {
+    .manager-app-advantage-img img{
+        width: 308px;
+        height: 201px;
+    }
+}
+
+@media (max-width: 375px) {
+    .manager-app-advantage-img img{
+        width: 265px;
+        height: 201px;
+    }
+}
+
+@media (max-width: 320px) {
+    .manager-app-advantage-img img{
+        width: 215px;
+        height: 172px;
+    }
+}
