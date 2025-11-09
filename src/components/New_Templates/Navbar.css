@@ -314,3 +314,198 @@
     border-bottom: 1px solid #f0f0f0;
   }
 }
+
+.login-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.login-btn.main-login {
+  background: #60A442;
+  border: 1px solid #60A442;
+  border-radius: 24px;
+  padding: 8px 20px;
+  font-size: 17px;
+  color: white;
+  font-weight: 550;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.login-btn.main-login:hover {
+  background: #ffffff;
+  color: #60A442;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(96, 164, 66, 0.3);
+}
+
+/* External Logins Container */
+.external-logins-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* External Login Toggle Button */
+.external-login-toggle {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  padding: 8px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #60A442;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.external-login-toggle:hover {
+  background: #60A442;
+  color: white;
+  border-color: #60A442;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(96, 164, 66, 0.3);
+}
+
+/* External Logins Dropdown */
+.external-logins-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  padding: 8px;
+  margin-top: 8px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.external-logins-dropdown.active {
+  display: block;
+}
+
+.external-logins-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #fff;
+  filter: drop-shadow(0 -2px 1px rgba(0,0,0,0.1));
+}
+
+/* External Login Buttons */
+.external-login-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 550;
+  color: #282828;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 4px;
+  text-align: left;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.external-login-btn:last-child {
+  margin-bottom: 0;
+}
+
+.external-login-btn:hover {
+  background: #60A442;
+  color: white;
+  border-color: #60A442;
+  transform: translateX(4px);
+}
+
+.external-login-btn.online-login:hover {
+  background: #60A442;
+}
+
+.external-login-btn.pro-login:hover {
+  background: #60A442;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Styles for External Logins */
+@media screen and (max-width: 950px) {
+  .login-options {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  .external-logins-container {
+    width: 100%;
+  }
+  
+  .external-login-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .external-logins-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+    animation: none;
+  }
+  
+  .external-logins-dropdown::before {
+    display: none;
+  }
+  
+  .external-login-btn {
+    text-align: center;
+  }
+  
+  /* Hide external logins dropdown by default in mobile */
+  .external-logins-dropdown:not(.active) {
+    display: none;
+  }
+}
+
+/* Close dropdown when clicking outside */
+.navbar::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  display: none;
+}
+
+.navbar.dropdown-open::before {
+  display: block;
+}

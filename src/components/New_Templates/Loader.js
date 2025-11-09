@@ -54,7 +54,7 @@ const Loader = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        We are setting up <strong>WAY4track</strong> for you...
+        We are setting up <strong>way4track</strong> for you...
       </motion.p>
     </div>
   );
