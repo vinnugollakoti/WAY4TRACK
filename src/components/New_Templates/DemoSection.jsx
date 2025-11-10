@@ -2,6 +2,9 @@
 import "./DemoSection.css";
 import { useState } from "react";
 import { useWebsiteData } from "./WebsiteDataContext";
+import ApiService from "../Services/ApiServices"; // Adjust path as needed
+import { initialAuthState } from "../Services/ApiServices"; // Adjust path as needed
+import toast, { Toaster } from "react-hot-toast";
 
 function DemoSection() {
   const websiteData = useWebsiteData(); // Get data from context
@@ -31,7 +34,6 @@ function DemoSection() {
     }))
   );
 
-  // ... rest of your component logic remains the same
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -58,7 +60,7 @@ function DemoSection() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Prepare selected products details
@@ -72,34 +74,74 @@ function DemoSection() {
       };
     });
 
-    // Log all form data with product details
-    console.log("Demo Booking Form Submission:", {
-      customer: {
-        name: formData.name,
-        email: formData.email,
-        mobile: formData.mobile
-      },
+    // Prepare payload for API
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      mobile: formData.mobile,
       selectedProducts: selectedProductsDetails,
-      totalProductsSelected: formData.selectedProducts.length
-    });
+      totalProductsSelected: formData.selectedProducts.length,
+      companyCode: initialAuthState.companyCode,
+      unitCode: initialAuthState.unitCode,
+      demoDate: new Date().toISOString().split('T')[0] // Current date
+    };
 
-    // Open Google Calendar
-    window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank");
-    
-    // Close modal and reset form
-    setShowDemoModal(false);
-    setFormData({
-      name: "",
-      email: "",
-      mobile: "",
-      selectedProducts: []
-    });
+    try {
+      // Make POST request to demo endpoint
+      const response = await ApiService.post(
+        "/client/handleDemoData",
+        payload
+      );
+
+      // Log all form data with product details
+      console.log("Demo Booking Form Submission:", {
+        customer: {
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile
+        },
+        selectedProducts: selectedProductsDetails,
+        totalProductsSelected: formData.selectedProducts.length
+      });
+
+      if (response.status === 200 || response.status) {
+        toast.success('Demo booked successfully! Opening calendar...');
+        
+        // Open Google Calendar
+        window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank");
+        
+        // Close modal and reset form
+        setShowDemoModal(false);
+        setFormData({
+          name: "",
+          email: "",
+          mobile: "",
+          selectedProducts: []
+        });
+      } else {
+        toast.error('Failed to book demo. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error booking demo:', error);
+      toast.error('Failed to book demo. Please try again.');
+      
+      // Still open calendar even if API fails
+      window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank");
+      setShowDemoModal(false);
+      setFormData({
+        name: "",
+        email: "",
+        mobile: "",
+        selectedProducts: []
+      });
+    }
   };
 
   const isFormValid = formData.name && formData.email && formData.mobile;
 
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="demo">
         <div className="demo-section">
           <div className="demo-content">

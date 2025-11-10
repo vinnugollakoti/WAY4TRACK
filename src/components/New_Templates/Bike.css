@@ -462,11 +462,14 @@
 .three-cards-section-heading {
     color: #60A442;
     font-size: 1.3rem;
+    height: 30px !important;
 }
 
 .three-cards-section-text {
     color: #282828;
     font-size: 1rem;
+    height: 100px;
+
     text-align: center;
     padding: 0 5%;
 }
@@ -566,6 +569,43 @@
     to   { width: 60px; }
 }
 
+@media (min-width: 1024px) {
+    .main-cards-1,
+    .main-cards-2,
+    .main-cards-3 {
+        width: 30%;
+    }
+    
+    .six-cards-1, 
+    .six-cards-2, 
+    .six-cards-3 {
+        width: 30%;
+    }
+    
+    .mining-benefit-card {
+        width: 30%;
+    }
+    
+    .mining-truck-info-block {
+        font-size: 1.2rem;
+    }
+    
+    .main-cards-heading {
+        font-size: 1.3rem;
+    }
+    
+    .main-cards-text {
+        font-size: 0.9rem;
+    }
+    .three-cards-section-heading {
+        height: 48px;
+    }
+    .three-cards-section-text {
+        height: 140px;
+        padding-top: 3%;
+    }
+}
+
 @media (min-width: 768px) {
     .heading {
         font-size: 2rem;
@@ -622,7 +662,8 @@
     }
     
     .gps-dashboard-img {
-        width: 35%;
+        width: 300px;
+        height: 600px;
     }
     
     .gps-dashboard-cards-main {
@@ -657,8 +698,9 @@
     }
     
     .gps-tracking-img {
-        width: 40%;
+        width: 50%;
         order: 1;
+        height: 600px;
     }
     
     .points-card-points-div-1-start,
@@ -680,37 +722,16 @@
     .three-card-1 {
         width: 32%;
     }
+    .three-cards-section-heading {
+        height: 50px;
+    }
+    .three-cards-section-text {
+        height: 200px;
+        padding-top: 5%;
+    }
 }
 
-@media (min-width: 1024px) {
-    .main-cards-1,
-    .main-cards-2,
-    .main-cards-3 {
-        width: 30%;
-    }
-    
-    .six-cards-1, 
-    .six-cards-2, 
-    .six-cards-3 {
-        width: 30%;
-    }
-    
-    .mining-benefit-card {
-        width: 30%;
-    }
-    
-    .mining-truck-info-block {
-        font-size: 1.2rem;
-    }
-    
-    .main-cards-heading {
-        font-size: 1.3rem;
-    }
-    
-    .main-cards-text {
-        font-size: 0.9rem;
-    }
-}
+
 
 @media (max-width: 480px) {
     .heading {
@@ -770,6 +791,19 @@
     .logo-icon{
       width: 25px;
     }
+    .points-card-points-div {
+        width: 100%;
+        order: 2;
+    }
+    .points-card-points-div-1-start,
+    .points-card-points-div-1 {
+        flex-direction: row;
+        text-align: left;
+    }
+    .point-card-matter {
+        width: 80%;
+        padding-left: 20px;
+    }
     .icon-background {
       width: 50px;
       height: 50px;
@@ -779,8 +813,382 @@
     }
     .three-cards-section-img {
       max-width: 150px;
+      margin: 0px;
     }
     .testimonial-card{
       padding: 16px;
+      width: 50px;
+    }
+    .three-cards-section-heading {
+        height: fit-content;
+    }
+    .three-cards-section-text {
+        height: fit-content;
+    }
+}
+
+
+
+/* FINAL EXTRA CSS CHANGES */
+.gps-dashboard-div {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 5%;
+    padding: 20px 0;
+}
+
+.gps-tracking-dashboard-heading {
+    color: #60A442;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.gps-dashboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    gap: 30px;
+}
+
+.gps-dashboard-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.gps-dashboard-cards-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gps-dashboard-cards-main-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gps-tracking-card-1-start,
+.gps-tracking-card-1,
+.gps-tracking-card-2-start,
+.gps-tracking-card-2 {
+    width: 100%;
+    background-color: #F2F2F2;
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid #e8e8e8;
+}
+
+.gps-tracking-card-1-start:hover,
+.gps-tracking-card-2-start:hover,
+.gps-tracking-card-1:hover,
+.gps-tracking-card-2:hover {
+    box-shadow: 0 8px 25px rgba(96, 164, 66, 0.15);
+    transform: translateY(-5px);
+    border-color: #60A442;
+}
+
+.gps-tracking-card-1-heading {
+    color: #60A442;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.gps-tracking-card-1-text {
+    color: #282828;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Mobile First Styles (Default) */
+@media (max-width: 767px) {
+    .gps-dashboard-div {
+        width: 92%;
+        margin-left: 4%;
+        margin-top: 8%;
+        padding: 15px 0;
+    }
+
+    .gps-tracking-dashboard-heading {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .gps-dashboard-content {
+        margin-top: 5%;
+        gap: 25px;
+    }
+
+    .gps-dashboard-img {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .gps-dashboard-cards-main {
+        gap: 15px;
+    }
+
+    .gps-dashboard-cards-main-1 {
+        gap: 15px;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        padding: 20px;
+        margin-top: 0;
+    }
+
+    .gps-tracking-card-1-heading {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .gps-tracking-card-1-text {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+}
+
+/* Tablet Styles (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .gps-dashboard-div {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 6%;
+        padding: 25px 0;
+    }
+
+    .gps-tracking-dashboard-heading {
+        font-size: 2rem;
+        margin-bottom: 35px;
+    }
+
+    .gps-dashboard-content {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 40px;
+        margin-top: 4%;
+    }
+
+    .gps-dashboard-img {
+        width: 45%;
+        height: auto;
+        max-height: 500px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    .gps-dashboard-cards-main {
+        width: 55%;
+        gap: 25px;
+    }
+
+    .gps-dashboard-cards-main-1 {
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        width: 48%;
+        padding: 25px;
+        margin-top: 0;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .gps-tracking-card-1-heading {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .gps-tracking-card-1-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+}
+
+/* Desktop Styles (1024px and above) */
+@media (min-width: 1024px) {
+    .gps-dashboard-div {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 5%;
+        padding: 30px 0;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gps-tracking-dashboard-heading {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+
+    .gps-dashboard-content {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 50px;
+        margin-top: 3%;
+    }
+
+    .gps-dashboard-img {
+        width: 40%;
+        height: 600px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .gps-dashboard-cards-main {
+        width: 60%;
+        gap: 30px;
+    }
+
+    .gps-dashboard-cards-main-1 {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        width: 48%;
+        padding: 30px;
+        margin-top: 0;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .gps-tracking-card-1-heading {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .gps-tracking-card-1-text {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+}
+
+/* Large Desktop Styles */
+@media (min-width: 1440px) {
+    .gps-dashboard-div {
+        max-width: 1400px;
+    }
+
+    .gps-dashboard-content {
+        gap: 60px;
+    }
+
+    .gps-dashboard-img {
+        width: 35%;
+        height: 650px;
+    }
+
+    .gps-dashboard-cards-main {
+        width: 65%;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        min-height: 240px;
+        padding: 35px;
+    }
+}
+
+/* Small Mobile Optimization */
+@media (max-width: 480px) {
+    .gps-dashboard-div {
+        width: 94%;
+        margin-left: 3%;
+        margin-top: 10%;
+        padding: 10px 0;
+    }
+
+    .gps-tracking-dashboard-heading {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+
+    .gps-dashboard-content {
+        margin-top: 8%;
+        gap: 20px;
+    }
+
+    .gps-dashboard-img {
+        width: 90%;
+        max-width: 280px;
+    }
+
+    .gps-dashboard-cards-main {
+        gap: 12px;
+    }
+
+    .gps-dashboard-cards-main-1 {
+        gap: 12px;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        padding: 18px;
+        border-radius: 10px;
+    }
+
+    .gps-tracking-card-1-heading {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+
+    .gps-tracking-card-1-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+    .gps-dashboard-div {
+        width: 96%;
+        margin-left: 2%;
+    }
+
+    .gps-tracking-card-1-start,
+    .gps-tracking-card-1,
+    .gps-tracking-card-2-start,
+    .gps-tracking-card-2 {
+        padding: 15px;
+    }
+
+    .gps-tracking-card-1-heading {
+        font-size: 0.95rem;
+    }
+
+    .gps-tracking-card-1-text {
+        font-size: 0.8rem;
     }
 }
