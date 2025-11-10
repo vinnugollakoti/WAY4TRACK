@@ -356,7 +356,7 @@
   }
   
   .footer-links {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
     gap: 20px;
   }
   
@@ -429,7 +429,7 @@
   
   .footer-bottom {
     width: 100%;
-    
+    grid-template-columns: 1fr;
     padding: 15px 10px;
   }
 }

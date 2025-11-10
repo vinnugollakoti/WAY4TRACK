@@ -3,6 +3,7 @@ import ApiService from '../../components/Services/ApiServices';
 import { useNavigate } from 'react-router';
 import { initialAuthState } from '../../components/Services/ApiServices';
 import { motion } from 'framer-motion';
+import toast, { Toaster } from "react-hot-toast";
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
 const AddHiring = () => {
@@ -13,13 +14,11 @@ const AddHiring = () => {
   ]);
 
   const [formData, setFormData] = useState({
-    id: null,
     candidateName: '',
     phoneNumber: '',
     email: '',
     address: '',
     resume: null,
-    file: '',
     dateOfUpload: new Date().toISOString().split('T')[0],
     status: 'INTERVIEWED',
     companyCode: initialAuthState.companyCode,
@@ -27,12 +26,6 @@ const AddHiring = () => {
   });
 
   const [fileUploadedMessage, setFileUploadedMessage] = useState('');
-
-  // Log form data to console as JSON
-  React.useEffect(() => {
-    console.log('Form Data:', JSON.stringify(formData, null, 2));
-    console.log('Qualifications:', JSON.stringify(qualifications, null, 2));
-  }, [formData, qualifications]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,48 +61,49 @@ const AddHiring = () => {
   };
 
   const handleSubmit = async () => {
-    // Log final data before submission
-    const submissionData = {
-      formData,
-      qualifications,
-      file: formData.resume ? formData.resume.name : 'No file'
-    };
-    console.log('Submission Data:', JSON.stringify(submissionData, null, 2));
-
-    const payload = new FormData();
-    payload.append('candidateName', formData.candidateName);
-    payload.append('phoneNumber', formData.phoneNumber);
-    payload.append('email', formData.email);
-    payload.append('address', formData.address);
-    payload.append('dateOfUpload', formData.dateOfUpload);
-    payload.append('status', formData.status);
-    payload.append('companyCode', formData.companyCode);
-    payload.append('unitCode', formData.unitCode);
-
-    qualifications.forEach((q, index) => {
-      payload.append(`qualifications[${index}][qualificationName]`, q.name);
-      payload.append(`qualifications[${index}][marks]`, q.marks);
-      payload.append(`qualifications[${index}][yearOfPass]`, q.year);
-    });
-
-    if (formData.resume) {
-      payload.append('file', formData.resume);
-    }
-
     try {
-      const endpoint = `/hiring/saveHiringDetailsWithResume`;
-      const response = await ApiService.post(endpoint, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const payload = new FormData();
+      
+      // Append all form data
+      payload.append('candidateName', formData.candidateName);
+      payload.append('phoneNumber', formData.phoneNumber);
+      payload.append('email', formData.email);
+      payload.append('address', formData.address);
+      payload.append('dateOfUpload', formData.dateOfUpload);
+      payload.append('status', formData.status);
+      payload.append('companyCode', formData.companyCode);
+      payload.append('unitCode', formData.unitCode);
+
+      // Append qualifications
+      qualifications.forEach((q, index) => {
+        payload.append(`qualifications[${index}][qualificationName]`, q.name);
+        payload.append(`qualifications[${index}][marks]`, q.marks);
+        payload.append(`qualifications[${index}][yearOfPass]`, q.year);
       });
-      if (response.data) {
-        alert('Application submitted successfully!');
+
+      // Append resume file
+      if (formData.resume) {
+        payload.append('file', formData.resume);
+      }
+
+      // Make POST request to careers endpoint
+      const response = await ApiService.post(
+        "/client/handleCareersDetails",
+        payload,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+
+      if (response.status === 200 || response.status) {
+        toast.success('Application submitted successfully!');
         navigate('/hiring');
       } else {
-        alert('Failed to submit application. Please try again.');
+        toast.error('Failed to submit application. Please try again.');
       }
     } catch (error) {
-      console.error('Error saving hiring details:', error);
-      alert('Failed to submit application. Please try again.');
+      console.error('Error saving career details:', error);
+      toast.error('Failed to submit application. Please try again.');
     }
   };
 
@@ -125,6 +119,7 @@ const AddHiring = () => {
 
   return (
     <Container className="my-5">
+      <Toaster position="top-center" reverseOrder={false} />
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
