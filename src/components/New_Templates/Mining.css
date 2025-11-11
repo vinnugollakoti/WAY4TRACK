@@ -541,7 +541,7 @@ body, html {
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   padding: 2% 3% 2% 3%;
   min-width: 30%;
-  height: 35vh;
+  height: 35vh ;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -762,6 +762,9 @@ body, html {
   .mining-product-features li {
     font-size: 15px;
   }
+  .mining-benefit-card {
+    height: 46vh;
+  }
 }
 
 @media (max-width: 992px) {
@@ -832,7 +835,7 @@ body, html {
   }
   
   .mining-truck-info-section {
-    flex-direction: column;
+    flex-direction: row;
   }
   
   .mining-truck-info-left {
@@ -1055,6 +1058,7 @@ body, html {
   
   .mining-truck-info-section {
     padding: 0 3%;
+    flex-direction: column;
     margin-top: 3rem;
   }
   
