@@ -246,7 +246,7 @@ const OrderItemDetails = () => {
         };
 
         const cancelResponse = await ApiService.post(
-          "/order/handleCreateOrder",
+          "/order/UpdateOrder",
           payload
         );
 

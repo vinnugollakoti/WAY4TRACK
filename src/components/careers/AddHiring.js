@@ -26,6 +26,7 @@ const AddHiring = () => {
   });
 
   const [fileUploadedMessage, setFileUploadedMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,6 +51,20 @@ const AddHiring = () => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size too large. Please upload a file smaller than 5MB.');
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = ['.pdf', '.doc', '.docx'];
+      const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+      if (!allowedTypes.includes(fileExtension)) {
+        toast.error('Invalid file type. Please upload PDF, DOC, or DOCX files only.');
+        return;
+      }
+
       const fileName = file.name;
       setFileUploadedMessage(fileName);
       setFormData((prev) => ({
@@ -57,10 +72,53 @@ const AddHiring = () => {
         resumePath: fileName,
         resume: file,
       }));
+      toast.success('Resume uploaded successfully!');
     }
   };
 
+  const validateForm = () => {
+    if (!formData.candidateName.trim()) {
+      toast.error('Please enter your full name');
+      return false;
+    }
+    if (!formData.phoneNumber.trim()) {
+      toast.error('Please enter your phone number');
+      return false;
+    }
+    if (!formData.email.trim()) {
+      toast.error('Please enter your email address');
+      return false;
+    }
+    if (!formData.address.trim()) {
+      toast.error('Please enter your address');
+      return false;
+    }
+    if (!formData.resume) {
+      toast.error('Please upload your resume');
+      return false;
+    }
+
+    // Validate qualifications
+    for (let i = 0; i < qualifications.length; i++) {
+      const qual = qualifications[i];
+      if (!qual.name.trim() || !qual.marks.trim() || !qual.year.trim()) {
+        toast.error('Please fill all qualification fields or remove empty ones');
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handleSubmit = async () => {
+    // Validate form before submission
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    const submitToast = toast.loading('Submitting your application...');
+
     try {
       const payload = new FormData();
       
@@ -88,7 +146,7 @@ const AddHiring = () => {
 
       // Make POST request to careers endpoint
       const response = await ApiService.post(
-        "/client/handleCareersDetails",
+        "/hiring/saveHiringDetailsWithResume",
         payload,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -96,15 +154,46 @@ const AddHiring = () => {
       );
 
       if (response.status === 200 || response.status) {
-        toast.success('Application submitted successfully!');
-        navigate('/hiring');
+        toast.dismiss(submitToast);
+        toast.success('🎉 Application submitted successfully!', {
+          duration: 5000,
+        });
+        
+        // Show success message and reset form
+        setTimeout(() => {
+          resetForm();
+          toast.success('📧 We have received your application! Our HR team will contact you soon.', {
+            duration: 6000,
+          });
+        }, 1000);
+
       } else {
-        toast.error('Failed to submit application. Please try again.');
+        toast.dismiss(submitToast);
+        toast.error('❌ Failed to submit application. Please try again.');
       }
     } catch (error) {
       console.error('Error saving career details:', error);
-      toast.error('Failed to submit application. Please try again.');
+      toast.dismiss(submitToast);
+      toast.error('❌ Failed to submit application. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      candidateName: '',
+      phoneNumber: '',
+      email: '',
+      address: '',
+      resume: null,
+      dateOfUpload: new Date().toISOString().split('T')[0],
+      status: 'INTERVIEWED',
+      companyCode: initialAuthState.companyCode,
+      unitCode: initialAuthState.unitCode,
+    });
+    setQualifications([{ name: '', marks: '', year: '' }]);
+    setFileUploadedMessage('');
   };
 
   // Handle phone call
@@ -114,12 +203,41 @@ const AddHiring = () => {
 
   // Handle email
   const handleEmailClick = () => {
-    window.open('mailto:way4track@gmail.com');
+    window.open('mailto:hr@sharontelematics.com');
   };
 
   return (
     <Container className="my-5">
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster 
+        position="top-center" 
+        reverseOrder={false}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+            fontSize: '14px',
+          },
+          success: {
+            duration: 5000,
+            iconTheme: {
+              primary: '#60A442',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 5000,
+            iconTheme: {
+              primary: '#ff4d4f',
+              secondary: '#fff',
+            },
+          },
+          loading: {
+            duration: Infinity,
+          },
+        }}
+      />
+      
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -175,6 +293,7 @@ const AddHiring = () => {
                             className="border-2 py-2"
                             placeholder="Enter your full name"
                             required
+                            disabled={isSubmitting}
                           />
                         </Form.Group>
                       </Col>
@@ -189,6 +308,7 @@ const AddHiring = () => {
                             className="border-2 py-2"
                             placeholder="Enter phone number"
                             required
+                            disabled={isSubmitting}
                           />
                         </Form.Group>
                       </Col>
@@ -203,6 +323,7 @@ const AddHiring = () => {
                             className="border-2 py-2"
                             placeholder="Enter email address"
                             required
+                            disabled={isSubmitting}
                           />
                         </Form.Group>
                       </Col>
@@ -218,6 +339,7 @@ const AddHiring = () => {
                             className="border-2 py-2"
                             placeholder="Enter your complete address"
                             required
+                            disabled={isSubmitting}
                           />
                         </Form.Group>
                       </Col>
@@ -245,6 +367,7 @@ const AddHiring = () => {
                             e.target.style.backgroundColor = 'transparent';
                             e.target.style.color = '#60A442';
                           }}
+                          disabled={isSubmitting}
                         >
                           <i className="bi bi-plus-circle me-2"></i>
                           Add Qualification
@@ -262,6 +385,7 @@ const AddHiring = () => {
                                 handleQualificationChange(index, 'name', e.target.value)
                               }
                               className="border-1"
+                              disabled={isSubmitting}
                             />
                           </Col>
                           <Col md={3}>
@@ -273,6 +397,7 @@ const AddHiring = () => {
                                 handleQualificationChange(index, 'marks', e.target.value)
                               }
                               className="border-1"
+                              disabled={isSubmitting}
                             />
                           </Col>
                           <Col md={3}>
@@ -284,6 +409,7 @@ const AddHiring = () => {
                                 handleQualificationChange(index, 'year', e.target.value)
                               }
                               className="border-1"
+                              disabled={isSubmitting}
                             />
                           </Col>
                           <Col md={1}>
@@ -293,6 +419,7 @@ const AddHiring = () => {
                               onClick={() => handleRemoveQualification(index)}
                               className="border-0"
                               title="Remove qualification"
+                              disabled={isSubmitting || qualifications.length === 1}
                             >
                               <i className="bi bi-trash"></i>
                             </Button>
@@ -309,6 +436,7 @@ const AddHiring = () => {
                         accept=".pdf,.doc,.docx"
                         onChange={handleFileUpload}
                         className="border-2 py-2"
+                        disabled={isSubmitting}
                       />
                       {fileUploadedMessage && (
                         <Form.Text className="text-success d-block mt-2">
@@ -327,20 +455,32 @@ const AddHiring = () => {
                         onClick={handleSubmit}
                         className="px-5 py-2 rounded-pill fw-semibold"
                         style={{
-                          backgroundColor: '#60A442',
-                          borderColor: '#60A442',
+                          backgroundColor: isSubmitting ? '#6c757d' : '#60A442',
+                          borderColor: isSubmitting ? '#6c757d' : '#60A442',
                           color: 'white'
                         }}
                         onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = '#4a8234';
-                          e.target.style.borderColor = '#4a8234';
+                          if (!isSubmitting) {
+                            e.target.style.backgroundColor = '#4a8234';
+                            e.target.style.borderColor = '#4a8234';
+                          }
                         }}
                         onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = '#60A442';
-                          e.target.style.borderColor = '#60A442';
+                          if (!isSubmitting) {
+                            e.target.style.backgroundColor = '#60A442';
+                            e.target.style.borderColor = '#60A442';
+                          }
                         }}
+                        disabled={isSubmitting}
                       >
-                        Submit Application
+                        {isSubmitting ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Submitting...
+                          </>
+                        ) : (
+                          'Submit Application'
+                        )}
                       </Button>
                     </div>
                   </Card.Body>
@@ -409,7 +549,7 @@ const AddHiring = () => {
                         onClick={handleEmailClick}
                       >
                         <i className="bi bi-envelope me-2"></i>
-                        way4track@gmail.com
+                        hr@sharontelematics.com
                       </Button>
                       <Button 
                         variant="outline-primary" 
@@ -431,7 +571,7 @@ const AddHiring = () => {
                         onClick={handlePhoneClick}
                       >
                         <i className="bi bi-telephone me-2"></i>
-                        +91 9110 72 9757
+                        +91 7995512053
                       </Button>
                     </div>
                   </Card.Body>

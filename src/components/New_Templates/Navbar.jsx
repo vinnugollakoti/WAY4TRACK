@@ -46,7 +46,7 @@ const Navbar = () => {
         <div className="nav-container">
           {/* Logo */}
           <div className="nav-logo" onClick={() => window.location.href = "/"}>
-            <span className="logo">way4track</span>
+            <span className="logo">WAY4TRACK</span>
           </div>
 
           {/* Hamburger Menu */}
@@ -70,6 +70,12 @@ const Navbar = () => {
                 onClick={() => {navigate("/Careers");  window.scrollTo(0,0)}}
               >
                 Career
+              </li>
+              <li
+                className={`menu-item ${isActive("/blogs") ? "active" : ""}`}
+                onClick={() => {navigate("/blogs");  window.scrollTo(0,0);}}
+              >
+                Blogs
               </li>
               <li
                 className={`menu-item ${isActive("/products") ? "active" : ""}`}
@@ -133,7 +139,11 @@ const Navbar = () => {
                   >
                     Login
                   </button>
-                  <div className="external-logins-container">
+                  
+                </div>
+              )}
+            </div>
+            <div className="external-logins-container">
                     <button 
                       className="external-login-toggle"
                       onClick={() => setShowLoginDropdown(!showLoginDropdown)}
@@ -153,11 +163,14 @@ const Navbar = () => {
                       >
                         Way4Track Pro
                       </button>
+                      <button 
+                        className="external-login-btn pro-login"
+                        onClick={() => handleExternalLogin("https://way4tracksmartbus.com/jsp/sharontelematics_login.jsp")}
+                      >
+                        Way4Track Smartbus
+                      </button>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </nav>

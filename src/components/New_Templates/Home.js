@@ -249,7 +249,7 @@ function Home({ websiteData }) {
       <section className="homepage-why-choose">
   <div className="why-choose-container">
     <div className="why-choose-header">
-      <h2 className="why-choose-title">Why Choose Way4Track?</h2>
+      <h2 className="why-choose-title">Why Choose WAY4TRACK?</h2>
       <p className="why-choose-subtitle">
         Experience the difference with our cutting-edge GPS tracking solutions 
         designed for reliability, innovation, and your peace of mind
@@ -379,7 +379,7 @@ function Home({ websiteData }) {
       <SpecialProduct websiteData={websiteData} />
       <section className="featurees-section">
         <div className="featurees-heading-container">
-          <h2 className="featurees-heading">What's New With Way4track</h2>
+          <h2 className="featurees-heading">What's New With WAY4TRACK</h2>
         </div>
 
         <div className="featurees-container">

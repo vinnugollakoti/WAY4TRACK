@@ -76,9 +76,9 @@ function DemoSection() {
 
     // Prepare payload for API
     const payload = {
-      name: formData.name,
-      email: formData.email,
-      mobile: formData.mobile,
+      clientName: formData.name,
+      clientEmail: formData.email,
+      clientPhoneNumber: formData.mobile,
       selectedProducts: selectedProductsDetails,
       totalProductsSelected: formData.selectedProducts.length,
       companyCode: initialAuthState.companyCode,
@@ -89,7 +89,7 @@ function DemoSection() {
     try {
       // Make POST request to demo endpoint
       const response = await ApiService.post(
-        "/client/handleDemoData",
+        "/demoLead/handleDemoLeadDetails",
         payload
       );
 
@@ -108,7 +108,7 @@ function DemoSection() {
         toast.success('Demo booked successfully! Opening calendar...');
         
         // Open Google Calendar
-        window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank");
+        window.open("https://calendar.app.google/tgGno7Nm5j7JXxZEA", "_blank");
         
         // Close modal and reset form
         setShowDemoModal(false);
@@ -126,7 +126,7 @@ function DemoSection() {
       toast.error('Failed to book demo. Please try again.');
       
       // Still open calendar even if API fails
-      window.open("https://calendar.app.google/6k18hRkuftv7XwGp8", "_blank");
+      window.open("https://calendar.app.google/tgGno7Nm5j7JXxZEA", "_blank");
       setShowDemoModal(false);
       setFormData({
         name: "",
@@ -152,7 +152,7 @@ function DemoSection() {
               <p>
                 Still unsure if GPS tracking fits your business or personal
                 needs? <br />
-                Join a 15-min live demo call and discover how Way4Track <br />{" "}
+                Join a 15-min live demo call and discover how WAY4TRACK <br />{" "}
                 can save you time, money, and stress.
               </p>
             </div>

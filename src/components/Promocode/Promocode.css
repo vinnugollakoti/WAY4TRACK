@@ -1,6 +1,6 @@
 .PromoCode-container {
   padding: 16px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 10px;
   /* margin-top: 20px; */
   font-family: "Roboto", sans-serif;
@@ -168,4 +168,62 @@
   background-color: #f0f0f0;
   color: #999;
   pointer-events: none;
+}
+
+.PromoCode-applied {
+  background: #e8f5e8;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.PromoCode-appliedInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.PromoCode-appliedText {
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.PromoCode-removeBtn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.PromoCode-removeBtn:hover {
+  background: #cc0000;
+}
+
+.PromoCode-discountInfo {
+  color: #666;
+  font-size: 14px;
+}
+
+.PromoCode-message.success {
+  color: #4caf50;
+  background: #e8f5e8;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.PromoCode-message.error {
+  color: #f44336;
+  background: #ffebee;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.PromoCode-applyBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
