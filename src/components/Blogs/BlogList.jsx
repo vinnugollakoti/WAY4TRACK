@@ -1,141 +1,149 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import BlogCard from './BlogCard';
-import ApiService from '../Services/ApiServices';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ApiService from "../Services/ApiServices";
+import BlogCard from "./BlogCard";
+import "./BlogList.css";
+import Navbar from "../New_Templates/Navbar";
 
 const BlogList = () => {
-  const { category } = useParams();
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState(category || 'all');
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [blogData, setBlogData] = useState([]);
+
+  const categories = [
+    "all",
+    "gps technology",
+    "vehicle tracking", 
+    "fleet management",
+    "iot devices",
+    "security",
+    "installation guides"
+  ];
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const load = async () => {
       try {
-        const productPayload = {
-          companyCode: "WAY4TRACK",
-          unitCode: "WAY4",
-        };
-        const response = await ApiService.post(
-          "website-product/getWebsiteProductDetails",
-          productPayload
-        );
-        console.log("respose", response);
-        setBlogData(response?.data || []);
-      } catch (error) {
-        console.error("Failed to fetch product data:", error);
+        const response = await ApiService.post("blog/getBlogDetails", {});
+        setBlogs(response?.data || []);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchProducts();
+    load();
   }, []);
 
-  const mainProducts = blogData.filter(blog => blog.isMainProduct);
-  const categories = [...new Set(mainProducts.map(blog => blog.category))];
+  const filteredBlogs = blogs.filter(blog => {
+    const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || 
+      blog.title.toLowerCase().includes(selectedCategory) ||
+      (blog.description && blog.description.toLowerCase().includes(selectedCategory));
+    
+    return matchesSearch && matchesCategory;
+  });
 
-  const filteredProducts = activeCategory === 'all'
-    ? mainProducts
-    : mainProducts.filter(blog => blog.category === activeCategory);
-
-  const subProducts = selectedProduct
-    ? blogData.filter(blog => blog.parentCategory === selectedProduct.category)
-    : [];
-
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    navigate("/blogs", { state: { blogs: product.Blog } });
+  const handleBlogClick = (blog) => {
+    navigate("/blogdetails", { state: { blog } });
   };
 
-  const handleBackClick = () => {
-    setSelectedProduct(null);
-  };
-
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category);
-    setSelectedProduct(null);
-  };
-
-  const formatCategory = (cat) => {
-    return cat
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
+  if (loading) {
+    return (
+      <div className="blog-list-container">
+        <div className="blog-list-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading WAY4TRACK Blogs...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container py-5">
-      <h1 className="page-title text-center mb-5">Way4Track - GPS Tracking Solutions</h1>
-
-      {/* Uncomment this block if you want category filters */}
-      {/* {!selectedProduct && (
-        <div className="d-flex flex-wrap justify-content-center mb-4 gap-2">
-          <button
-            className={`btn btn-outline-primary ${activeCategory === 'all' ? 'active' : ''}`}
-            onClick={() => handleCategoryChange('all')}
-            style={{ minWidth: '120px' }}
-          >
-            All Products
-          </button>
-          {categories.map(cat => (
-            <button
-              key={cat}
-              className={`btn btn-outline-primary ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => handleCategoryChange(cat)}
-              style={{ minWidth: '120px' }}
-            >
-              {formatCategory(cat)}
-            </button>
-          ))}
+    <div className="blog-body">
+      <Navbar />
+    <div className="blog-list-container">
+      <div className="blog-list-header">
+        <div className="blog-hero-section">
+          <h1 className="blog-main-title">WAY4TRACK BLOGS</h1>
+          <p className="blog-subtitle">
+            Expert insights on GPS tracking, vehicle security, and fleet management technology
+          </p>
         </div>
-      )} */}
+        
+        <div className="blog-controls">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search blogs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+            <span className="search-icon">🔍</span>
+          </div>
 
-      {/* Uncomment to show filtered products grid */}
-      {/* {!selectedProduct ? (
-        <div className="row row-cols-1 row-cols-md-4 g-4">
-          {filteredProducts.map(product => (
-            <div
-              key={product.id}
-              className="col"
-              onClick={() => handleProductClick(product)}
-              style={{ cursor: 'pointer' }}
+          <div className="category-filter">
+            <select 
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="category-select"
             >
-              <BlogCard blog={product} />
-            </div>
-          ))}
+              {categories.map(category => (
+                <option key={category} value={category}>
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="blog-stats">
+        <div className="stat-item">
+          <span className="stat-number">{blogs.length}</span>
+          <span className="stat-label">Articles</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-number">{categories.length - 1}</span>
+          <span className="stat-label">Categories</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-number">5 min</span>
+          <span className="stat-label">Avg. Read</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-number">24/7</span>
+          <span className="stat-label">Support</span>
+        </div>
+      </div>
+
+      {filteredBlogs.length === 0 ? (
+        <div className="no-blogs-found">
+          <div className="no-blogs-icon">📡</div>
+          <h3>No blogs found</h3>
+          <p>Try adjusting your search terms or category filter</p>
         </div>
       ) : (
-        <div>
-          <button onClick={handleBackClick} className="btn btn-secondary mb-4">
-            ← Back to Products
-          </button>
-          <h2 className="category-title mb-4 text-center">{selectedProduct.title} Solutions</h2>
-          <div className="row row-cols-1 row-cols-md-4 g-4">
-            {subProducts.map(product => (
-              <Link to={`/blog/${product.id}`} key={product.id} className="text-decoration-none">
-                <div className="col">
-                  <BlogCard blog={product} />
-                </div>
-              </Link>
+        <>
+          <div className="results-info">
+            <span className="results-count">
+              Showing {filteredBlogs.length} of {blogs.length} articles
+              {selectedCategory !== 'all' && ` in "${selectedCategory}"`}
+            </span>
+          </div>
+          
+          <div className="blog-grid">
+            {filteredBlogs.map(blog => (
+              <BlogCard
+                key={blog.id}
+                blog={blog}
+                onClick={() => handleBlogClick(blog)}
+              />
             ))}
           </div>
-        </div>
-      )} */}
-
-      <div className="row row-cols-1 row-cols-md-4 g-4">
-        {blogData.map(product => (
-          <div key={product.id} className="col">
-            <div
-              onClick={() => handleProductClick(product)}
-              style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <BlogCard blog={product} />
-            </div>
-          </div>
-        ))}
-      </div>
+        </>
+      )}
+    </div>
     </div>
   );
 };

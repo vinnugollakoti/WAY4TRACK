@@ -86,10 +86,13 @@ const ProductPopupPage = ({ device }) => {
   };
 
   const handleAddToCart = async () => {
+    console.log("AIS : ",isAIS)
     if (isAIS && (!selectedState || !selectedCity)) {
       toast.error("Please select your state and city");
+      console.log("NOT FILLED")
       return;
     }
+
 
     // Check if network selection is required (same logic as first component)
     const allNetworkZeroOrExcluded =
@@ -129,6 +132,7 @@ const ProductPopupPage = ({ device }) => {
       city: selectedCity,
     };
 
+    console.log("CART DATA : ", cartData)
     if (cartItem && cartItem.id) cartData.id = cartItem.id;
 
     try {
@@ -173,7 +177,7 @@ const ProductPopupPage = ({ device }) => {
 
   return (
     <div className="ProductPopupPage-container">
-      <Toaster position="top-left" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
 
       <div className="ProductPopupPage-header">
         <img

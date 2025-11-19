@@ -217,7 +217,7 @@ function CartPage() {
                         )}
 
                         <div className="detail-item">
-                          <span className="detail-label">Unit Price:</span>
+                          <span className="detail-label">Base Unit Price:</span>
                           <span className="detail-value">₹{itemPrice.toFixed(2)}</span>
                         </div>
                         

@@ -38,7 +38,7 @@ function Footer() {
           <div className="footer-left">
             <div className="footer-brand">
               <div className="footer-logo">
-                <h1>way4track</h1>
+                <h1>WAY4TRACK</h1>
               </div>
               
             </div>
@@ -158,7 +158,7 @@ function Footer() {
               </div>
               <div>
         <p className="copyright">
-          © 2025 Way4Track. All Rights Reserved. 
+          © 2025 WAY4TRACK. All Rights Reserved. 
           <span className="legal-links">
             <a href="#">Terms Of Use</a> • 
             <a href="#">Privacy Policy</a> • 

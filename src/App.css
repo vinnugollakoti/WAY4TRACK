@@ -106,13 +106,13 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   color: white;
   transition: background-color 0.3s ease;
 }
 
 .blog-card:hover .blog-card-content {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #F0F0F0;
 }
 
 .blog-card-title {
@@ -121,7 +121,7 @@
   margin-bottom: 0.5rem;
   text-align: center;
   transition: transform 0.3s ease;
-  color: white !important;
+  color: #60A442 !important;
 }
 
 .blog-card:hover .blog-card-title {

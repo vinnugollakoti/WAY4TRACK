@@ -31,6 +31,7 @@ import OrderItemDetails from "./components/OrderItemDetails/OrderItemDetails";
 import Loader from "./components/New_Templates/Loader";
 import DemoSection from "./components/New_Templates/DemoSection";
 import { WebsiteDataProvider } from "./components/New_Templates/WebsiteDataContext";
+import BlogList from "./components/Blogs/BlogList";
 
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
@@ -89,7 +90,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contactus" element={<Contact />} />
           <Route path="/Careers" element={<Hero />} />
-          <Route path="/blogs" element={<RelatedBlogs />} />
+          <Route path="/blogs" element={<BlogList />} />
           <Route path="/blogdetails" element={<BlogDetail />} />
           <Route path="/product-theme-2" element={<ProductTheme2 />} />
           <Route path="/cart" element={<CartPage />} />

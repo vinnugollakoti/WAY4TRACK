@@ -80,6 +80,17 @@ const SpecialProduct = ({ websiteData }) => {
       else if (device.network4gAmt === 0) resolvedNetwork = "4G";
     }
 
+    if (isAIS) {
+      if (!selectedState) {
+        toast.error("Please select a state");
+        return;
+      }
+      if (!selectedCity) {
+        toast.error("Please select a city");
+        return;
+      }
+    }
+
     const allNetworkZeroOrExcluded =
       (device.network2gAmt === undefined || device.network2gAmt === -1) &&
       (device.network4gAmt === undefined || device.network4gAmt === -1);

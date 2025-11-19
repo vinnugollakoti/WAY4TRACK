@@ -13,6 +13,7 @@ function OrderDetailsPage() {
   const location = useLocation();
   const { cartItems, setCartItems, removeFromCart, addToCart } = useContext(CartContext);
   const [promoDiscount, setPromoDiscount] = useState(0);
+  console.log("PROMOCODE DISCOUNT : ", promoDiscount)
   const [selectedPromoDetails, setSelectedPromoDetails] = useState(null);
 
   const { deliveryAddress, billingAddress, isBuyNow, orderItems } = location.state || {};
@@ -33,11 +34,16 @@ function OrderDetailsPage() {
           model: item.model,
           id: item.deviceId,
           image: item.image,
+          amount: item.amount,
+          discount: item.discount,
           relayAmt: item.relayAmt,
+          isRelay: item.isRelay,
           network2gAmt: item.network2gAmt,
           network4gAmt: item.network4gAmt,
           subscriptionMonthlyAmt: item.subscriptionMonthlyAmt,
           subscriptionYearlyAmt: item.subscriptionYearlyAmt,
+          isNetwork: item.isNetwork,
+          isSubscription: item.isSubscription,
         },
       };
     }
@@ -45,6 +51,66 @@ function OrderDetailsPage() {
   });
 
   const toNumber = (val) => Number(val) || 0;
+
+  // Calculate base item price (same logic as CartPage)
+  const calculateBaseItemPrice = (item) => {
+    if (!item || !item.device) return 0;
+
+    const baseAmount = toNumber(item.device.amount);
+    const discount = toNumber(item.device.discount);
+    const network2gAmt = toNumber(item.device.network2gAmt);
+    const network4gAmt = toNumber(item.device.network4gAmt);
+    const subscriptionMonthlyAmt = toNumber(item.device.subscriptionMonthlyAmt);
+    const subscriptionYearlyAmt = toNumber(item.device.subscriptionYearlyAmt);
+
+    // Calculate base price with discount
+    let price = baseAmount;
+    if (discount > 0) {
+      price -= (baseAmount * discount) / 100;
+    }
+
+    // Add network amount
+    if (item.network === "2G") {
+      price += network2gAmt;
+    } else if (item.network === "4G") {
+      price += network4gAmt;
+    }
+
+    // Add subscription amount
+    if (item.subscription === "monthly") {
+      price += subscriptionMonthlyAmt;
+    } else if (item.subscription === "yearly") {
+      price += subscriptionYearlyAmt;
+    }
+
+    return price;
+  };
+
+  // Check if relay is selected (same logic as CartPage)
+  const isRelaySelected = (item) => {
+    if (!item || !item.device) return false;
+
+    const basePrice = calculateBaseItemPrice(item);
+    const quantity = toNumber(item.quantity);
+    const totalAmount = toNumber(item.totalAmount);
+    const baseTotal = basePrice * quantity;
+
+    return totalAmount > baseTotal;
+  };
+
+  // Calculate final item price including relay (same logic as CartPage)
+  const calculateFinalItemPrice = (item) => {
+    const basePrice = calculateBaseItemPrice(item);
+    const relayAmt = toNumber(item.device.relayAmt);
+    
+    const relaySelected = isRelaySelected(item);
+    
+    if (relaySelected && item.device.isRelay && relayAmt > 0) {
+      return basePrice + relayAmt;
+    }
+    
+    return basePrice;
+  };
 
   useEffect(() => {
     fetchOrders();
@@ -68,26 +134,25 @@ function OrderDetailsPage() {
     }
   };
 
-  const calculateItemTotal = (item) => {
-    if (!item) return 0;
-    const price =
-      (item?.device?.amount || 0) -
-      ((item?.device?.amount || 0) * (item?.device?.discount || 0)) / 100;
-    return (price * (item?.quantity || 1)).toFixed(2);
-  };
-
   const total = displayedItems.reduce(
-    (sum, item) => sum + Number(item.totalAmount),
+    (sum, item) => sum + toNumber(item.totalAmount),
     0
   );
 
   const totalOrdersAmount = orders.reduce(
-    (sum, item) => sum + Number(item.totalAmount),
+    (sum, item) => sum + toNumber(item.totalAmount),
     0
   );
-  const finalAmount = total - promoDiscount;
 
-  const createOrderPayload = (razorpayResponse = {}) => {
+  
+
+  
+  const finalAmount = Math.max(0, total - promoDiscount);
+
+  console.log("FINAL AMOUTN : ", finalAmount)
+
+  const createOrderPayload = (razorpayResponse ) => {
+    console.log("RAZORPAY RESPONSE : ", razorpayResponse)
     if (!deliveryAddress || !billingAddress) {
       alert("Please provide both delivery and billing addresses.");
       return;
@@ -97,7 +162,7 @@ function OrderDetailsPage() {
       qty: item.quantity,
       amount: item.totalAmount,
       deviceId: item.device.id,
-      is_relay: item.isRelay,
+      is_relay: isRelaySelected(item), // Use the correct relay detection
       network: item.network,
       state: item.state,
       city: item.city,
@@ -108,10 +173,10 @@ function OrderDetailsPage() {
     const orderDate = new Date();
     const deliveryDate = new Date(orderDate);
     deliveryDate.setDate(orderDate.getDate() + 4);
-
+    console.log("DELIVERY ADDRESS", deliveryAddress)
     return {
       name: "Mahesh",
-      totalAmount: total,
+      totalAmount: finalAmount, // Use final amount including promo discount
       paymentStatus: "pending",
       orderDate: orderDate.toISOString(),
       deliveryAddressId: JSON.stringify(deliveryAddress.id),
@@ -125,6 +190,8 @@ function OrderDetailsPage() {
       razorpay_payment_id: razorpayResponse.razorpay_payment_id,
       razorpay_signature: razorpayResponse.razorpay_signature,
       delivaryDate: deliveryDate.toISOString(),
+      promoDiscount: promoDiscount, // Include promo discount in payload
+      promoCode: selectedPromoDetails?.code || null, // Include promo code if applied
     };
   };
 
@@ -134,19 +201,25 @@ function OrderDetailsPage() {
       return;
     }
     setIsLoading(true);
-    const payload = { totalAmount: finalAmount };
+    const payload = { totalAmount: finalAmount }; // Razorpay expects amount in paise
+    console.log("CREATE ORDER PAYLOAD : ", payload)
     try {
       const response = await ApiService.post("/order/CreateOrder", payload);
+      console.log("CREATE ORDER RESPONSE : ", response.data)
       if (response.status) handlePaymentVerify(response.data);
       else throw new Error("Failed to place order");
     } catch (err) {
       console.error("Error placing order:", err);
+      toast.error("Failed to place order");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handlePaymentVerify = async (data) => {
+    console.log("PAYLOAD FOR VERIFY : ", JSON.stringify(data))
+     const ORDER_ID = data?.razorpayOrder?.id; 
+    console.log("ORDER ID : ", ORDER_ID)
     const options = {
       key: process.env.KEY_ID || "rzp_test_NPT4UOaHTgxvZj",
       amount: data.amount,
@@ -154,13 +227,17 @@ function OrderDetailsPage() {
       name: "Mahesh",
       description: "Test Mode",
       image: "/images/logo.png",
-      order_id: data.id,
+      order_id: ORDER_ID,
+
+      
       handler: async (response) => {
+        console.log("DATA : ", ORDER_ID)
         const finalPayload = createOrderPayload({
-          razorpay_order_id: response.razorpay_order_id,
+          razorpay_order_id: ORDER_ID,
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
         });
+        console.log("FINAL PAYLOAD : ", finalPayload)
         if (!finalPayload) return;
 
         try {
@@ -185,7 +262,9 @@ function OrderDetailsPage() {
       },
       theme: { color: "#5f63b8" },
     };
+    console.log("USING KEY:", options.key);
     const rzp1 = new window.Razorpay(options);
+    console.log("RZP@@@@@@ : ", rzp1)
     rzp1.open();
   };
 
@@ -238,8 +317,9 @@ function OrderDetailsPage() {
           {displayedItemsNormalized.length > 0 ? (
             <div className="items-list">
               {displayedItemsNormalized.map((item) => {
-                const relaySelected = item.isRelay || false;
-                const totalPrice = toNumber(item.totalAmount) || calculateItemTotal(item);
+                const relaySelected = isRelaySelected(item);
+                const itemPrice = calculateFinalItemPrice(item);
+                const totalPrice = toNumber(item.totalAmount);
 
                 return (
                   <div key={item.id} className="cart-item">
@@ -257,7 +337,7 @@ function OrderDetailsPage() {
                       </div>
                       
                       <div className="cart-item-details">
-                        {item.device.relayAmt > 0 && (
+                        {item.device.isRelay && item.device.relayAmt > 0 && (
                           <div className="detail-row">
                             <span className="detail-label">Accessories:</span>
                             <span className="detail-value">
@@ -266,19 +346,23 @@ function OrderDetailsPage() {
                           </div>
                         )}
                         
-                        {(item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
-                          <div className="detail-row">
-                            <span className="detail-label">Network:</span>
-                            <span className="detail-value">{item.network || "N/A"}</span>
-                          </div>
-                        )}
+                        {item.device.isNetwork &&
+                          (item.device.network2gAmt > 0 || item.device.network4gAmt > 0) && (
+                            <div className="detail-row">
+                              <span className="detail-label">Network:</span>
+                              <span className="detail-value">{item.network || "Not selected"}</span>
+                            </div>
+                          )}
                         
-                        {(item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
-                          <div className="detail-row">
-                            <span className="detail-label">Subscription:</span>
-                            <span className="detail-value">{item.subscription || "N/A"}</span>
-                          </div>
-                        )}
+                        {item.device.isSubscription &&
+                          (item.device.subscriptionMonthlyAmt > 0 || item.device.subscriptionYearlyAmt > 0) && (
+                            <div className="detail-row">
+                              <span className="detail-label">Subscription:</span>
+                              <span className="detail-value">
+                                {item.subscription ? `${item.subscription} subscription` : "Not selected"}
+                              </span>
+                            </div>
+                          )}
                         
                         {item?.state && item?.city && (
                           <>
@@ -290,13 +374,18 @@ function OrderDetailsPage() {
                         )}
                         
                         <div className="detail-row">
+                          <span className="detail-label">Base Unit Price:</span>
+                          <span className="detail-value">₹{itemPrice.toFixed(2)}</span>
+                        </div>
+                        
+                        <div className="detail-row">
                           <span className="detail-label">Quantity:</span>
                           <span className="detail-value">{item.quantity}</span>
                         </div>
                       </div>
                       
                       <div className="item-total">
-                        <span className="cart-price">₹{totalPrice}</span>
+                        <span className="cart-price">₹{totalPrice.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -314,13 +403,19 @@ function OrderDetailsPage() {
         {/* Right: Address + Summary */}
         <div className="order-right">
           <div className="promo-section">
-            <PromoCode
-              totalAmount={totalOrdersAmount}
+            <PromoCode 
+              totalAmount={total}
               onApply={(discount, promoDetails) => {
-                setPromoDiscount(discount);
+                const num = Number(discount) || 0;
+                setPromoDiscount(num);
                 setSelectedPromoDetails(promoDetails);
               }}
+              onRemove={() => {
+                setPromoDiscount(0);
+                setSelectedPromoDetails(null);
+              }}
             />
+
           </div>
 
           <div className="addresses-section">
@@ -346,18 +441,18 @@ function OrderDetailsPage() {
                 <span className="summary-value">₹{total.toFixed(2)}</span>
               </div>
               
+              
+              
+              {promoDiscount > 0 && (
+                <div className="summary-row discount">
+                  <span className="summary-label">Promo Code Discount</span>
+                  <span className="summary-value">-₹{promoDiscount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="summary-row">
                 <span className="summary-label">Shipping</span>
                 <span className="summary-value free">FREE</span>
               </div>
-              
-              {promoDiscount > 0 && (
-                <div className="summary-row discount">
-                  <span className="summary-label">Promo Discount</span>
-                  <span className="summary-value">-₹{promoDiscount.toFixed(2)}</span>
-                </div>
-              )}
-              
               <div className="summary-divider"></div>
               
               <div className="summary-row total">
@@ -366,10 +461,17 @@ function OrderDetailsPage() {
               </div>
             </div>
 
+            {selectedPromoDetails && (
+              <div className="promo-applied-message">
+                <span className="promo-success">✓</span>
+                Promo code <strong>{selectedPromoDetails.code}</strong> applied successfully!
+              </div>
+            )}
+
             <button 
               className="place-order-btn" 
               onClick={placeOrder} 
-              disabled={isLoading}
+              disabled={isLoading || finalAmount <= 0}
             >
               {isLoading ? (
                 <>
@@ -379,7 +481,7 @@ function OrderDetailsPage() {
               ) : (
                 <>
                   <span className="btn-icon">💳</span>
-                  Proceed to Payment
+                  Proceed to Payment - ₹{finalAmount.toFixed(2)}
                 </>
               )}
             </button>
