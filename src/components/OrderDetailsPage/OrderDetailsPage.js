@@ -173,9 +173,10 @@ function OrderDetailsPage() {
     const orderDate = new Date();
     const deliveryDate = new Date(orderDate);
     deliveryDate.setDate(orderDate.getDate() + 4);
-    console.log("DELIVERY ADDRESS", deliveryAddress)
+    console.log("DELIVERY ADDRESS", JSON.stringify(deliveryAddress))
+    console.log("DELIVERY NAME :  ", deliveryAddress.name)
     return {
-      name: "Mahesh",
+      name: (deliveryAddress.name),
       totalAmount: finalAmount, // Use final amount including promo discount
       paymentStatus: "pending",
       orderDate: orderDate.toISOString(),
@@ -224,7 +225,7 @@ function OrderDetailsPage() {
       key: process.env.KEY_ID || "rzp_test_NPT4UOaHTgxvZj",
       amount: data.amount,
       currency: data.currency,
-      name: "Mahesh",
+      name: "WAY4TRACK",
       description: "Test Mode",
       image: "/images/logo.png",
       order_id: ORDER_ID,

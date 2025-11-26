@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Bike.css";
 import Navbar from "./Navbar";
@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import HomepageProducts from "./HomepageProducts";
 
 const Bike = ({ websiteData }) => {
+  const scrollContainerRef = useRef(null);
   const { id } = useParams();
   const [selectedTruckInfo, setSelectedTruckInfo] = useState(null);
   const [stateData, setData] = useState(null);
@@ -16,6 +17,31 @@ const Bike = ({ websiteData }) => {
     console.log(product);
   }, [id, websiteData]);
 
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let scrollSpeed = 0.5; // Adjust this value to control scroll speed
+    let animationId;
+
+    const autoScroll = () => {
+      if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContainer.scrollWidth) {
+        // Reset to start when reaching the end
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += scrollSpeed;
+      }
+      animationId = requestAnimationFrame(autoScroll);
+    };
+    animationId = requestAnimationFrame(autoScroll);
+
+    // Cleanup function
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, []);
   const testimonials = [
     {
       name: "S E",
@@ -297,7 +323,11 @@ const Bike = ({ websiteData }) => {
         <h2 className="mining-benefits-header">
           Benefits of {`${stateData?.name || ''}`}
         </h2>
-        <div className="mining-benefits-grid">
+        <div 
+          className="mining-benefits-grid" 
+          ref={scrollContainerRef}
+          style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
+        >
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div className="mining-benefit-card" key={i}>
               <div className="mining-benefit-icon">
@@ -312,7 +342,7 @@ const Bike = ({ websiteData }) => {
             </div>
           ))}
         </div>
-      </div>
+    </div>
 
       <div className="points-card-main">
         <img

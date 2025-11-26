@@ -155,19 +155,25 @@ const Navbar = () => {
                         className="external-login-btn online-login"
                         onClick={() => handleExternalLogin("https://way4trackonline.com/jsp/sharon_login.jsp")}
                       >
-                        Way4Track Online
+                        WAY4TRACK Online
                       </button>
                       <button 
                         className="external-login-btn pro-login"
                         onClick={() => handleExternalLogin("https://way4trackpro.com/jsp/way4trackPro_login.jsp")}
                       >
-                        Way4Track Pro
+                        WAY4TRACK Pro
                       </button>
                       <button 
                         className="external-login-btn pro-login"
                         onClick={() => handleExternalLogin("https://way4tracksmartbus.com/jsp/sharontelematics_login.jsp")}
                       >
-                        Way4Track Smartbus
+                        WAY4TRACK Smartbus
+                      </button>
+                      <button 
+                        className="external-login-btn pro-login"
+                        onClick={() => handleExternalLogin("http://35.154.134.64/jsp/login.jsp")}
+                      >
+                        WAY4TRACK Prime
                       </button>
                     </div>
                   </div>
