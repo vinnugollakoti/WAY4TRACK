@@ -541,7 +541,7 @@ body, html {
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   padding: 2% 3% 2% 3%;
   min-width: 30%;
-  height: 35vh ;
+  height: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
