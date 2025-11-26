@@ -13,7 +13,7 @@ import About from "./components/New_Templates/About";
 import AddressPage from "./components/AddressPage/AddressPage";
 import OrderDetailsPage from "./components/OrderDetailsPage/OrderDetailsPage";
 import LoginPage from "./components/Login/Login";
-import Contact from "./components/contact/ContactPage";
+import Contact from "./components/New_Templates/Contact"
 import Hero from "./components/careers/Hero";
 import RelatedBlogs from "./components/Blogs/RelatedBlogs";
 import BlogDetail from "./components/Blogs/BlogDetail";
