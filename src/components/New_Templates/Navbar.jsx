@@ -66,6 +66,12 @@ const Navbar = () => {
                 Home
               </li>
               <li
+                className={`menu-item ${isActive("/about") ? "active" : ""}`}
+                onClick={() => {navigate("/about");  window.scrollTo(0,0)}}
+              >
+                About Us
+              </li>
+              <li
                 className={`menu-item ${isActive("/Careers") ? "active" : ""}`}
                 onClick={() => {navigate("/Careers");  window.scrollTo(0,0)}}
               >
@@ -76,6 +82,12 @@ const Navbar = () => {
                 onClick={() => {navigate("/blogs");  window.scrollTo(0,0);}}
               >
                 Blogs
+              </li>
+              <li
+                className={`menu-item ${isActive("/contactus") ? "active" : ""}`}
+                onClick={() => {navigate("/contactus");  window.scrollTo(0,0)}}
+              >
+                Contact Us
               </li>
               <li
                 className={`menu-item ${isActive("/products") ? "active" : ""}`}
