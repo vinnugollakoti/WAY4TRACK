@@ -61,7 +61,7 @@ const ContactUs = () => {
 
       <div className="contact-main-content">
         {/* Contact Form Section */}
-        <section className="contact-form-section">
+        {/* <section className="contact-form-section">
           <div className="form-container">
             <div className="form-header">
               <h2>Contact Our Sales Team</h2>
@@ -181,7 +181,7 @@ const ContactUs = () => {
               </button>
             </form>
           </div>
-        </section>
+        </section> */}
 
         {/* Company Locations Section */}
         <section className="locations-section">

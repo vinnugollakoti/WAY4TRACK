@@ -233,6 +233,8 @@ const BlogDetail = () => {
             <span className="blog-read-time">5 min read</span>
           </div>
           <h1 className="blog-detail-title">{blog.title}</h1>
+          
+          
           <div className="blog-author">
             <div className="author-avatar">🛰️</div>
             <div className="author-info">
@@ -242,12 +244,7 @@ const BlogDetail = () => {
           </div>
         </header>
 
-        <div className="blog-hero-image">
-          <img 
-            src={blog.image} 
-            alt={blog.title} 
-          />
-        </div>
+        
 
         <div className="blog-content">
           {loading ? (
@@ -259,6 +256,19 @@ const BlogDetail = () => {
             formatContent(html)
           )}
         </div>
+
+        <div className="blog-hero-image">
+          <img 
+            src={blog.image} 
+            alt={blog.title} 
+          />
+        </div>
+
+        {blog.description && (
+            <div className="blog-description">
+              <p>{blog.description}</p>
+            </div>
+          )}
 
         <footer className="blog-detail-footer">
           <div className="blog-actions">
