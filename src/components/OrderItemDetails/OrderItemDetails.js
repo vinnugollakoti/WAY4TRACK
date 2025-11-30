@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ApiService, { initialAuthState } from "../Services/ApiServices";
 import { useParams } from "react-router-dom";
 import { IoMdArrowDropright } from "react-icons/io";
@@ -8,6 +8,8 @@ import jsPDF from "jspdf";
 import "./OrderItemDetails.css";
 import Navbar from "../New_Templates/Navbar";
 import toast, { Toaster } from "react-hot-toast";
+import html2canvas from "html2canvas";
+import InvoicePrintable from "./InvoicePrintable";
 
 const OrderStatus = {
   PENDING: "pending",
@@ -57,6 +59,38 @@ const OrderItemDetails = () => {
   const unitCode = initialAuthState.unitCode;
   const clientId = localStorage.getItem("client_id");
   const clientDbId = localStorage.getItem("client_db_id");
+
+  const invoiceRef = useRef();
+
+  const items = [
+  {
+    name: item?.name || "Product",
+    description: item?.deviceId || "",
+    qty: Number(item?.qty ?? 1),
+    rate: Number(item?.rate ?? item?.price ?? Math.round((order?.totalAmount||0) / (item?.qty||1))),
+    hsn: item?.hsn || "85269190",
+    cgstPercent: 9,
+    sgstPercent: 9,
+  }
+];
+
+const subtotal = items.reduce((s,it)=> s + (it.rate * it.qty), 0);
+const totalCgst = items.reduce((s,it)=> s + (it.rate * it.qty * (it.cgstPercent/100)), 0);
+const totalSgst = items.reduce((s,it)=> s + (it.rate * it.qty * (it.sgstPercent/100)), 0);
+const totalAmount = subtotal + totalCgst + totalSgst;
+const totals = { subtotal, totalCgst, totalSgst, totalAmount, amountInWords: "" };
+
+const company = {
+  name: "SHARON TELEMATICS PRIVATE LIMITED",
+  addressLines: [
+    "Company ID: CIN3333333333",
+    "21-27, Double road",
+    "Viman Nagar, Kakani Nagar",
+    "Visakhapatnam",
+    "Andhra Pradesh  Pincode : 530009"
+  ],
+  gstin: "37ABACS4415R1ZV"
+};
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -152,34 +186,52 @@ const OrderItemDetails = () => {
     }
   };
 
-  const handleDownloadInvoice = () => {
-    const doc = new jsPDF();
+  const handleDownloadInvoice = async () => {
+  const invoiceEl = invoiceRef.current;
+  if (!invoiceEl) return;
 
-    doc.setFontSize(18);
-    doc.text("Invoice", 20, 20);
+  // WAIT FOR ALL IMAGES INSIDE INVOICE TO LOAD
+  const imgs = invoiceEl.getElementsByTagName("img");
+  await Promise.all(
+    Array.from(imgs).map((img) => {
+      return new Promise((resolve) => {
+        if (img.complete) {
+          resolve();
+        } else {
+          img.onload = resolve;
+          img.onerror = () => resolve(); // fail-safe
+        }
+      });
+    })
+  );
 
-    doc.setFontSize(12);
-    doc.text(`Customer: ${order?.name}`, 20, 35);
-    doc.text(`Order ID: ${order?.id}`, 20, 45);
-    doc.text(`Order Date: ${formatDate(order?.orderDate)}`, 20, 55);
-    doc.text(`Delivery Date: ${formatDate(order?.delivaryDate)}`, 20, 65);
+  // WAIT FOR BROWSER TO RENDER LAYOUT
+  await new Promise((r) => setTimeout(r, 150));
 
-    doc.text("Item Details:", 20, 80);
-    doc.text(`- Product: ${item?.name}`, 25, 90);
-    doc.text(`- Network: ${item?.network}`, 25, 100);
-    doc.text(`- Subscription: ${item?.subscriptionType}`, 25, 110);
-    doc.text(
-      `- Accessories: ${item?.is_relay ? "With Relay" : "Without Relay"}`,
-      25,
-      120
-    );
-    doc.text(`- Amount: ₹${order?.amount}`, 25, 130);
+  // CAPTURE WITH html2canvas
+  const canvas = await html2canvas(invoiceEl, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+  });
 
-    doc.text("Thank you for your purchase!", 20, 150);
-    doc.save(`Invoice_Order_${order?.id}.pdf`);
-    
-    toast.success("Invoice downloaded successfully!");
-  };
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF("p", "mm", "a4");
+  const imgProps = pdf.getImageProperties(imgData);
+
+  const pdfWidth = 210;
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save(`Invoice_${order?.id || Date.now()}.pdf`);
+
+  toast.success("Invoice downloaded!");
+};
+
+
+
+
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -364,6 +416,31 @@ const OrderItemDetails = () => {
     <div>
       <Navbar />
       <Toaster position="top-right" />
+        <div
+        style={{
+          position: "absolute",
+          top: "-2000px",      // completely off-screen
+          left: "0",
+          opacity: 0,          // completely invisible but STILL renders
+          pointerEvents: "none",
+        }}
+      >
+        <InvoicePrintable
+          ref={invoiceRef}
+          order={{
+            id: order?.id,
+            orderDateStr: formatDate(order?.orderDate),
+            placeOfSupply: "Andhra Pradesh",
+            deliveryAddress: order?.deliveryAddress,
+          }}
+          items={items}
+          company={company}
+          totals={totals}
+        />
+      </div>
+
+
+
       <div className="OrderItemDetails-container">
         <div className="OrderItemDetails-main">
           <div className="OrderItemDetails-left">

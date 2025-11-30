@@ -32,7 +32,7 @@ import Loader from "./components/New_Templates/Loader";
 import DemoSection from "./components/New_Templates/DemoSection";
 import { WebsiteDataProvider } from "./components/New_Templates/WebsiteDataContext";
 import BlogList from "./components/Blogs/BlogList";
-
+import invoice from "./components/OrderItemDetails/InvoicePrintable"
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -101,6 +101,7 @@ const App = () => {
           <Route path="/old-cart" element={<OldCartPage />} />
           <Route path="/order-item/:orderId/:deviceId" element={<OrderItemDetails />} />
           <Route path="/order-placed" element={<OrderPlaced />} />
+          <Route path="/invoice" element={<invoice />} />
           <Route path="/demo" element={<DemoSection websiteData={websiteData} />} />
         </Routes>
       </Router>
