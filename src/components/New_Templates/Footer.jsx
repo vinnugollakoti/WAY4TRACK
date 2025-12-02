@@ -1,8 +1,10 @@
 import './Footer.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import locations from './locations';
 
 function Footer() {
+  const navigate = useNavigate();
   const [currentMapIndex, setCurrentMapIndex] = useState(0);
 
   const nextMap = () => {
@@ -29,6 +31,10 @@ function Footer() {
     const cleanPhone = phone.replace(/[^\d+]/g, '');
     window.open(`tel:${cleanPhone}`, '_blank');
   };
+
+  const handleTerms = () => {
+    navigate("/termsandconditions");
+  }
 
   return (
     <footer className="footer">
@@ -160,9 +166,9 @@ function Footer() {
         <p className="copyright">
           © 2025 WAY4TRACK. All Rights Reserved. 
           <span className="legal-links">
-            <a href="#">Terms Of Use</a> • 
-            <a href="#">Privacy Policy</a> • 
-            <a href="#">Legal Policies</a>
+            <a onClick={handleTerms}>Terms Of Use</a> • 
+            <a onClick={handleTerms}>Privacy Policy</a> • 
+            <a onClick={handleTerms}>Legal Policies</a>
           </span>
         
           
