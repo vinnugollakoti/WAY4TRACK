@@ -33,6 +33,7 @@ import DemoSection from "./components/New_Templates/DemoSection";
 import { WebsiteDataProvider } from "./components/New_Templates/WebsiteDataContext";
 import BlogList from "./components/Blogs/BlogList";
 import invoice from "./components/OrderItemDetails/InvoicePrintable"
+import TermsAndConditions from "./components/New_Templates/terms";
 const App = () => {
   const [websiteData, setWebsiteData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -103,6 +104,7 @@ const App = () => {
           <Route path="/order-placed" element={<OrderPlaced />} />
           <Route path="/invoice" element={<invoice />} />
           <Route path="/demo" element={<DemoSection websiteData={websiteData} />} />
+          <Route path="/termsandconditions" element={<TermsAndConditions />} />
         </Routes>
       </Router>
     </CartProvider>
