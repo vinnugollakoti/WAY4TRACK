@@ -93,6 +93,8 @@ function DemoSection() {
         payload
       );
 
+
+
       // Log all form data with product details
       console.log("Demo Booking Form Submission:", {
         customer: {
@@ -104,11 +106,14 @@ function DemoSection() {
         totalProductsSelected: formData.selectedProducts.length
       });
 
+      const calResponse = await ApiService.get("/google-meet-links/editGoogleMeetLink")
+
+
       if (response.status === 200 || response.status) {
         toast.success('Demo booked successfully! Opening calendar...');
         
         // Open Google Calendar
-        window.open("https://calendar.app.google/tgGno7Nm5j7JXxZEA", "_blank");
+        window.open(calResponse[0]["meetLink"], "_blank");
         
         // Close modal and reset form
         setShowDemoModal(false);
