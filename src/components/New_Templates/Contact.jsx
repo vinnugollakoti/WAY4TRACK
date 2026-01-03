@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane, FaStar } from "react-icons/fa";
 import Navbar from "../New_Templates/Navbar";
 import Footer from "../New_Templates/Footer";
 import locations from './locations';
@@ -14,8 +14,17 @@ const ContactUs = () => {
     message: "",
     branch: "Head Quarters Visakhapatnam"
   });
+  
+  const [reviewData, setReviewData] = useState({
+    review: "",
+    rating: 0,
+    hoverRating: 0
+  });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewSubmitStatus, setReviewSubmitStatus] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,6 +56,72 @@ const ContactUs = () => {
     }, 2000);
   };
 
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (reviewData.rating === 0) {
+      alert("Please select a rating");
+      return;
+    }
+    
+    if (!reviewData.review.trim()) {
+      alert("Please enter your review");
+      return;
+    }
+    
+    setIsSubmittingReview(true);
+    
+    try {
+      const response = await fetch("https://sharontelematics.org/api/review/handleReviewDetails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          review: reviewData.review,
+          rating: reviewData.rating
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (response.ok) {
+        setReviewSubmitStatus("success");
+        setReviewData({
+          review: "",
+          rating: 0,
+          hoverRating: 0
+        });
+      } else {
+        setReviewSubmitStatus("error");
+        console.error("Review submission failed:", result);
+      }
+    } catch (error) {
+      setReviewSubmitStatus("error");
+      console.error("Error submitting review:", error);
+    } finally {
+      setIsSubmittingReview(false);
+      // Reset status after 5 seconds
+      setTimeout(() => setReviewSubmitStatus(null), 5000);
+    }
+  };
+
+  const handleStarClick = (rating) => {
+    setReviewData(prev => ({ ...prev, rating }));
+  };
+
+  const handleStarHover = (rating) => {
+    setReviewData(prev => ({ ...prev, hoverRating: rating }));
+  };
+
+  const handleStarLeave = () => {
+    setReviewData(prev => ({ ...prev, hoverRating: 0 }));
+  };
+
+  const handleReviewChange = (e) => {
+    setReviewData(prev => ({ ...prev, review: e.target.value }));
+  };
+
   return (
     <div className="contact-us-container">
       <Navbar />
@@ -60,128 +135,98 @@ const ContactUs = () => {
       </section>
 
       <div className="contact-main-content">
-        {/* Contact Form Section */}
-        {/* <section className="contact-form-section">
-          <div className="form-container">
-            <div className="form-header">
-              <h2>Contact Our Sales Team</h2>
-              <p>Fill out the form below and we'll get back to you within 24 hours</p>
+        {/* New Review Section */}
+        <section className="review-section">
+          <div className="review-container">
+            <div className="review-header">
+              <h2>Share Your Experience</h2>
+              <p>Tell us about your experience with Way4Track GPS solutions</p>
             </div>
 
-            {submitStatus === "success" && (
-              <div className="success-message">
+            {reviewSubmitStatus === "success" && (
+              <div className="review-success-message">
                 <FaPaperPlane className="success-icon" />
                 <div>
-                  <h3>Thank You!</h3>
-                  <p>Your message has been sent successfully. Our team will contact you shortly.</p>
+                  <h3>Thank You for Your Feedback!</h3>
+                  <p>Your review has been submitted successfully.</p>
                 </div>
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="contact-form">
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="name">Full Name *</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your full name"
-                  />
+            {reviewSubmitStatus === "error" && (
+              <div className="review-error-message">
+                <div>
+                  <h3>Submission Failed</h3>
+                  <p>There was an error submitting your review. Please try again.</p>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email Address *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your email address"
-                  />
+              </div>
+            )}
+
+            <form onSubmit={handleReviewSubmit} className="review-form">
+              <div className="review-form-group">
+                <label htmlFor="rating">Your Rating *</label>
+                <div className="star-rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      type="button"
+                      key={star}
+                      className="star-btn"
+                      onClick={() => handleStarClick(star)}
+                      onMouseEnter={() => handleStarHover(star)}
+                      onMouseLeave={handleStarLeave}
+                    >
+                      <FaStar
+                        className={`star-icon ${
+                          star <= (reviewData.hoverRating || reviewData.rating)
+                            ? "star-filled"
+                            : "star-empty"
+                        }`}
+                      />
+                    </button>
+                  ))}
+                  <span className="rating-text">
+                    {reviewData.rating > 0 ? `${reviewData.rating} out of 5` : "Select a rating"}
+                  </span>
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="phone">Phone Number *</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your phone number"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="branch">Preferred Branch</label>
-                  <select
-                    id="branch"
-                    name="branch"
-                    value={formData.branch}
-                    onChange={handleInputChange}
-                  >
-                    {locations.map((location, index) => (
-                      <option key={index} value={location.title}>
-                        {location.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="subject">Subject *</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="What is this regarding?"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Message *</label>
+              <div className="review-form-group">
+                <label htmlFor="review">Your Review *</label>
                 <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
+                  id="review"
+                  name="review"
+                  value={reviewData.review}
+                  onChange={handleReviewChange}
                   required
-                  rows="6"
-                  placeholder="Tell us about your GPS tracking requirements..."
+                  rows="5"
+                  placeholder="Share your experience with Way4Track's GPS tracking services and website..."
+                  maxLength="500"
                 ></textarea>
+                <div className="char-count">
+                  {reviewData.review.length}/500 characters
+                </div>
               </div>
 
               <button 
                 type="submit" 
-                className="submit-btn"
-                disabled={isSubmitting}
+                className="submit-review-btn"
+                disabled={isSubmittingReview}
               >
-                {isSubmitting ? (
+                {isSubmittingReview ? (
                   <>
                     <div className="loading-spinner"></div>
-                    Sending...
+                    Submitting...
                   </>
                 ) : (
                   <>
                     <FaPaperPlane className="btn-icon" />
-                    Send Message
+                    Submit Review
                   </>
                 )}
               </button>
             </form>
           </div>
-        </section> */}
+        </section>
 
         {/* Company Locations Section */}
         <section className="locations-section">
