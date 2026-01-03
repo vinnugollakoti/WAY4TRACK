@@ -25,6 +25,10 @@ const ContactUs = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [reviewSubmitStatus, setReviewSubmitStatus] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({
+    rating: false,
+    review: false
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,16 +60,35 @@ const ContactUs = () => {
     }, 2000);
   };
 
+  const validateReviewForm = () => {
+    const errors = {
+      rating: reviewData.rating === 0,
+      review: reviewData.review.trim() === ""
+    };
+    
+    setValidationErrors(errors);
+    return !errors.rating && !errors.review;
+  };
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     
-    if (reviewData.rating === 0) {
-      alert("Please select a rating");
-      return;
-    }
-    
-    if (!reviewData.review.trim()) {
-      alert("Please enter your review");
+    // Validate form before submission
+    if (!validateReviewForm()) {
+      // Scroll to error
+      setTimeout(() => {
+        if (reviewData.rating === 0) {
+          document.querySelector('.star-rating')?.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        } else if (reviewData.review.trim() === "") {
+          document.querySelector('#review')?.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }
+      }, 100);
       return;
     }
     
@@ -92,6 +115,10 @@ const ContactUs = () => {
           rating: 0,
           hoverRating: 0
         });
+        setValidationErrors({
+          rating: false,
+          review: false
+        });
       } else {
         setReviewSubmitStatus("error");
         console.error("Review submission failed:", result);
@@ -108,6 +135,7 @@ const ContactUs = () => {
 
   const handleStarClick = (rating) => {
     setReviewData(prev => ({ ...prev, rating }));
+    setValidationErrors(prev => ({ ...prev, rating: false }));
   };
 
   const handleStarHover = (rating) => {
@@ -120,6 +148,7 @@ const ContactUs = () => {
 
   const handleReviewChange = (e) => {
     setReviewData(prev => ({ ...prev, review: e.target.value }));
+    setValidationErrors(prev => ({ ...prev, review: false }));
   };
 
   return (
@@ -188,6 +217,11 @@ const ContactUs = () => {
                     {reviewData.rating > 0 ? `${reviewData.rating} out of 5` : "Select a rating"}
                   </span>
                 </div>
+                {validationErrors.rating && (
+                  <div className="error-message">
+                    Please select a star rating
+                  </div>
+                )}
               </div>
 
               <div className="review-form-group">
@@ -201,10 +235,16 @@ const ContactUs = () => {
                   rows="5"
                   placeholder="Share your experience with Way4Track's GPS tracking services and website..."
                   maxLength="500"
+                  className={validationErrors.review ? 'error-input' : ''}
                 ></textarea>
                 <div className="char-count">
                   {reviewData.review.length}/500 characters
                 </div>
+                {validationErrors.review && (
+                  <div className="error-message">
+                    Please enter your review
+                  </div>
+                )}
               </div>
 
               <button 
